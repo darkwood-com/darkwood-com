@@ -1,0 +1,59 @@
+{% set navbarActive = 'site' %}
+{% extends "admin/base.html.twig" %}
+
+{% block mainTitle '' %}
+{% block subTitle "" %}
+
+{% block content %}
+<div class="row">
+
+
+    <div class="col-md-12">
+
+
+        <div style="clear: both; margin-bottom: 35px;">
+            <p>
+                <a class="btn btn-success" href="{{ path('admin_site_create') }}" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+                    <i class="fa fa-plus" style="margin-right: 15px;"></i> Créer un site
+                </a>
+            </p>
+        </div>
+
+        {% for site in entities %}
+            <div class="panel panel-inverse">
+                <div class="panel-body">
+                    <h4 style="margin-top: 0;display: inline-block; height: 60px; width: 100%;">
+                        <span style="font-size: 12px;margin-right:20px;" class="alert alert-{% if site.active %}success{% else %}danger{% endif %} pull-left">{% if site.active %}<i class="fa fa-check"></i> <b>En ligne</b>{% else %}<i class="fa fa-times"></i> <b>Hors ligne</b>{% endif %}</span>
+                        {{ site.name }}
+                        <span class="text text-default" style="color:darkgray; font-size: 12px;">{{ site.host }}</span>
+
+                        {%  if site.pages|length <= 0 %}
+                            <a href="{{ path('admin_site_delete', {'id': site.id}) }}" style="height:43px;font-size: 12px;margin-left: 10px;line-height: 30px;" onclick="return confirm('Êtes-vous sûr(e)? la suppression est definitive.')" class="btn btn-danger pull-right"><i class="fa fa-times"></i> <b>Supprimer</b></a>
+                        {% endif %}
+                        <a href="{{ path('admin_site_edit', {'id': site.id}) }}" style="height:43px;font-size: 12px;margin-left: 10px;line-height: 30px;" class="btn btn-info pull-right"><i class="fa fa-pencil"></i> <b>Éditer</b></a>
+                    </h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-sites">
+                            <tr>
+                                <td width="300px;">Nombre de pages</td>
+                                <td>{{ site.pages|length }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p style="color:darkgray; font-size: 12px; text-align: right">Date de création : {{ site.created|date("d/m/Y", "Europe/Paris") }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        <div style="clear: both">
+            <p>
+                <a class="btn btn-success" href="{{ path('admin_site_create') }}" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+                    <i class="fa fa-plus" style="margin-right: 15px;"></i> Créer un site
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

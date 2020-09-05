@@ -1,0 +1,49 @@
+{% if app.user %}
+<div class="user_icon">
+    <a href="{{ url('darkwood_play', {'display': display, 'state':'profile'}) }}">
+        <img src="{{ asset(vich_uploader_asset(app.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ app.user.username }}">
+    </a>
+</div>
+<div class="user_info">
+    <h3>{{ 'common.menu.login_welcome'|trans }}</h3>
+    <h3><a href="{{ url('darkwood_play', {'display': display, 'state':'profile'}) }}">{{ app.user.username }}</a></h3>
+</div>
+<div class="user_logout">
+    <div class="user_logout">
+        <form id="login_form" action="{{ url('darkwood_play', {'display': display, 'state':'login', 'mode': 'logout'}) }}" method="POST">
+            <ul>
+                <li><input type="submit" value="{{ 'common.menu.logout_btn'|trans }}"></li>
+            </ul>
+        </form>
+        <div class="clearfix"></div>
+    </div>
+</div>
+{% else %}
+<form id="login_form" action="{{ url('darkwood_play', {'display': display, 'state':'login', 'mode':'login'}) }}" method="POST" novalidate="novalidate">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <ul>
+        <li>
+            <label for="username">{{ 'common.menu.login_username'|trans }}</label>
+            <input type="text" id="username" name="username" title="{{ 'common.menu.login_username'|trans }}" class="validate['required']" value="{{ last_username }}">
+        </li>
+        <li>
+            <label for="password">{{ 'common.menu.login_password'|trans }}</label>
+            <input type="password" id="password" name="password" title="{{ 'common.menu.login_password'|trans }}" class="validate['required']" value="">
+        </li>
+    </ul>
+    <ul>
+        <li><input type="submit" id="login_login" name="login_login" class="validate[]" value="{{ 'common.menu.login_btn'|trans }}"></li>
+    </ul>
+</form>
+<div class="clearfix"></div>
+{#<div class="facebook_connect">
+    <a href="#">{{ 'common.menu.login_btn'|trans }}</a>
+</div>
+{#<a href="{{ url('common_register') }}">{{ 'common.menu.register'|trans }}</a>#}
+{% endif %}
+
+{% if not app.user %}
+<p id="actions">
+    <a id="action_info" href="{{ url('darkwood_play', {'display': display, 'state':'eula'}) }}" class="icon info">{{ 'darkwood.play.label.eula'|trans }}</a>
+</p>
+{% endif %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="utf-8">
+    <title>Kool diapo (Par Mathieu LEDRU)</title>
+    <script type="text/javascript" src="{{ asset('/photos/js/flashdetection.js') }}"></script>
+    <style type="text/css">html, body, #kooldiapo_content {height: 100%; margin: 0; overflow:hidden; background: #000000; color:#FFFFFF;}</style>
+</head>
+<body>
+    <div id="kooldiapo_content">
+        Si vous voyez ce texte, c'est que vous n'avez pas installé le plugin de Flash sur votre navigateur (version 8 ou suppérieure) ou bien que vous avez désactivé Javascript.
+    </div>
+
+    <script type="text/javascript">
+        var flashVersionTooOld = 'Vous ne possédez pas la version 8 (ou supérieure) de Flash qui est nécessaire pour afficher correctement ce diaporama.<br />Mettez à jour Flash Player<br /><a href="http://www.adobe.com/go/getflashplayer"></a>';
+        var swfPath = '{{ asset('/photos/swf/kooldiapo.swf') }}';
+        var httpHost = '{{ app.request.schemeAndHttpHost }}';
+        var xmlDataFile = '/photos/images/kooldiapo/demo/demo.xml';
+        var interfaceImageFolder = '/photos/images/kooldiapo';
+    </script>
+
+    <script type='text/javascript'>
+        var version = deconcept.SWFObjectUtil.getPlayerVersion();
+        if (document.getElementById && (version['major'] > 0) && (version['major'] < 8))
+        {
+            document.getElementById('kooldiapo_content').innerHTML = flashVersionTooOld;
+        }
+        else
+        {
+            var so = new SWFObject(swfPath, 'Diaporama (Par Mathieu LEDRU)', '100%', '100%', '8', '#000000', true);
+            so.addVariable('httpHost', httpHost);
+            so.addVariable('xmlDataFile', xmlDataFile);
+            so.addVariable('interfaceImageFolder', interfaceImageFolder);
+            so.write('kooldiapo_content');
+        }
+    </script>
+</body>
+</html>

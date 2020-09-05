@@ -1,0 +1,175 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+{% if mode == 'chooseClass' %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.player_class'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody id="classinfos">
+    {% for classe in data.classes.list %}
+        <tr>
+            <td rowspan="3"><a class="go" data-state="info" data-action-choose-classe="{{ classe.id }}"><img src="{{ asset(vich_uploader_asset(classe, 'image')) }}" /><br />{{ classe.title }}</a></td>
+            <td>{{ 'darkwood.play.label.strength'|trans|upper }}</td>
+            <td>+ {{ classe.strength }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'darkwood.play.label.dexterity'|trans|upper }}</td>
+            <td>+ {{ classe.dexterity }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'darkwood.play.label.vitality'|trans|upper }}</td>
+            <td>+ {{ classe.vitality }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ data.info.user.username }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="9"><img src="{{ asset(vich_uploader_asset(data.info.user, 'image')|default('/common/images/profile/default.jpg')) }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.level'|trans|upper }}</td>
+        <td>{{ data.info.level.level }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.info.player.lifeMin }} {{ 'darkwood.play.label.on'|trans }} {{ data.info.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.damage.min }} + {{ data.info.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.info.damage.max }} + {{ data.info.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.hit_luck'|trans|upper }}</td>
+        <td>{{ data.info.hitLuck }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.info.armor }} + {{ data.info.armorDefence }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.potion'|trans|upper }}</td>
+        <td>{{ data.info.player.potion.life }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.gold'|trans|upper }}</td>
+        <td>{{ data.info.player.gold }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.xp'|trans|upper }}</td>
+        <td>{{ data.info.player.xp }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.xp_up'|trans|upper }}</td>
+        <td>{{ data.info.level.xp }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="actions">
+    <table>
+        <colgroup>
+            <col class="col-3" />
+            <col class="col-3" />
+            <col class="col-3" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th colspan="3">{{ 'darkwood.play.label.player_class'|trans }}</th>
+        </tr>
+        </thead>
+        {% if data.info.player.classe.id == data.classes.default.id %}
+            <tbody id="classinfos">
+            <tr>
+                <td><img src="{{ asset(vich_uploader_asset(data.info.player.classe, 'image')) }}" /><br />{{ data.info.player.classe.title }}</td>
+                <td colspan="2"><a id="action_select_class" class="go icon" data-state="info" data-mode="chooseClass">{{ 'darkwood.play.label.select_class'|trans }}</a></td>
+            </tr>
+            </tbody>
+        {% else %}
+            <tbody id="classinfos">
+            <tr>
+                <td rowspan="3"><img src="{{ asset(vich_uploader_asset(data.info.player.classe, 'image')) }}" /><br />{{ data.info.player.classe.title }}</td>
+                <td>{{ 'darkwood.play.label.strength'|trans|upper }}</td>
+                <td>+ {{ data.info.player.classe.strength }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'darkwood.play.label.dexterity'|trans|upper }}</td>
+                <td>+ {{ data.info.player.classe.dexterity }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'darkwood.play.label.vitality'|trans|upper }}</td>
+                <td>+ {{ data.info.player.classe.vitality }} {{ 'darkwood.play.label.by_level'|trans|upper }}</td>
+            </tr>
+            </tbody>
+        {% endif %}
+    </table>
+
+    <table>
+        <colgroup>
+            <col class="col-3" />
+            <col class="col-3" />
+            {% if data.info.points.diff > 0 %}
+                <col class="col-3" />
+            {% endif %}
+        </colgroup>
+        <thead>
+        <tr>
+            {% if data.info.points.diff > 0 %}
+                <th colspan="3">{{ 'darkwood.play.label.abilities'|trans }} {{ data.info.points.diff }} {{ 'darkwood.play.label.abilities_to_set'|trans }}</th>
+            {% else %}
+                <th colspan="2">{{ 'darkwood.play.label.abilities'|trans }}</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ 'darkwood.play.label.strength'|trans|upper }}</td>
+            <td>{{ data.info.player.strength }}</td>
+            {% if data.info.points.diff > 0 %}
+                <td>
+                    <a id="action_strength" class="go icon" data-state="info" data-action-add-point="strength">{{ 'darkwood.play.label.add_strength'|trans }}</a>
+                </td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>{{ 'darkwood.play.label.dexterity'|trans|upper }}</td>
+            <td>{{ data.info.player.dexterity }}</td>
+            {% if data.info.points.diff > 0 %}
+                <td>
+                    <a id="action_dexterity" class="go icon" data-state="info" data-action-add-point="dexterity">{{ 'darkwood.play.label.add_dexterity'|trans }}</a>
+                </td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>{{ 'darkwood.play.label.vitality'|trans|upper }}</td>
+            <td>{{ data.info.player.vitality }}</td>
+            {% if data.info.points.diff > 0 %}
+                <td>
+                    <a id="action_vitality" class="go icon" data-state="info" data-action-add-point="vitality">{{ 'darkwood.play.label.add_vitality'|trans }}</a>
+                </td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+    </p>
+</div>
+{% endif %}

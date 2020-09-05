@@ -1,0 +1,9 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block content %}
+    
+<h1>{{ page.title }}</h1>
+<div class="alert_success">{{ 'registration.check_email'|trans({'%email%': user.email}) }}</div>
+
+{% endblock %}

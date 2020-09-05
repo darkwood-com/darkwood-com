@@ -1,0 +1,54 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ page.title }}</h1>
+{% for flashError in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+
+<form id="register_form" action="{{ path('common_register') }}" method="post" novalidate="novalidate">
+    {{ form_errors(form._token) }}
+    {{ form_widget(form._token) }}
+    <ul>
+        {% if form.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form) }}</div></li>{% endif %}
+        {% if form.username.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.username) }}</div></li>{% endif %}
+        <li>
+            {{ form_label(form.username, 'common.register.username') }}
+            {{ form_widget(form.username) }}
+        </li>
+        {% if form.email.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.email) }}</div></li>{% endif %}
+        <li>
+            {{ form_label(form.email, 'common.register.email') }}
+            {{ form_widget(form.email) }}
+        </li>
+        {% if form.plainPassword.first.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.plainPassword.first) }}</div></li>{% endif %}
+        <li>
+            {{ form_label(form.plainPassword.first, 'common.register.plain_password_first') }}
+            {{ form_widget(form.plainPassword.first) }}
+        </li>
+        {% if form.plainPassword.second.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.plainPassword.second) }}</div></li>{% endif %}
+        <li>
+            {{ form_label(form.plainPassword.second, 'common.register.plain_password_second') }}
+            {{ form_widget(form.plainPassword.second) }}
+        </li>
+        {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
+        {% if form.recaptcha.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></li>{% endif %}
+        <li>
+            <label class="required">{{ 'common.register.recaptcha'|trans }}</label>
+            <div class="g-recaptcha" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+        </li>
+        {% endif %}
+    </ul>
+    <ul>
+        <li><input type="submit" id="register_register" name="register_register" value="{{ 'common.register.submit'|trans }}"></li>
+    </ul>
+</form>
+<div class="clearfix"></div>
+
+{% endblock %}

@@ -1,0 +1,213 @@
+{{ form_start(form, {'attr':{'id':'form_comment'}}) }}
+    <h1 class="comment-header">
+        {% if edit is defined %}
+            Éditer le commentaire
+        {% else %}
+            Créer un commentaire
+        {% endif %}
+    </h1>
+
+    {# include "admin/comment/partials/form/script.html.twig" with {'entity' : 'comment'} #}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+
+                            <div class="panel-heading-btn">
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>#}
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>#}
+                            </div>
+                            <h4 class="panel-title">
+                                <i class="fa fa-cog"></i> Propriétés du commentaire
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <p>
+                                <i class="fa fa-question-circle fa-3x pull-left"></i>
+                                Remplissez les propriétés de votre comment.<br />
+                                Ces informations servent notamment au référencement naturel et aux partages dans les réseaux sociaux.<br />
+                                Attention, certaines données sont <strong>obligatoires</strong> (*).
+                            </p>
+
+                            {% if form.page.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.page) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.page.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.page, 'Page *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.page, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+                            
+                            {% if form.content.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.content) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.content.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.content, 'Contenu *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;">
+                        {{ form_errors(form._token) }}
+                        {{ form_widget(form._token) }}
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function(){
+                    $('.dropdown-toggle').click(function(){
+                       $(this).stop().parent('.btn-group').parent('.panel-heading').next('.alert').slideToggle();
+                    });
+                });
+            </script>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title">
+                        <i class="fa fa-cog"></i> Publication
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    {% if edit is defined %}
+
+                        <div class="col-md-4 text-right"><strong>ID</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].id }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Créé le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].created | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Mis à jour le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].updated | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Site</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].page.site.name }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Mettre à jour le commentaire <i class="fa fa-refresh pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                        <hr/>
+
+                    {% else %}
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Créer le commentaire <i class="fa fa-save  pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                    {% endif %}
+
+
+
+
+                    {# if form.vars['value'].slug is not empty and edit is defined %}
+                        <a href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette comment, confirmer?')" class="btn btn-success btn-block">Publier <i class="fa fa-send pull-right"></i></a>
+                    {% endif #}
+
+                    {# if edit is defined %}
+                        <a href="{{ path('admin_comment_delete', {'id': form.vars['value'].comment.id}) }}" class="btn btn-danger btn-block" role="button" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer cette comment ? la suppression est definitive.')">Supprimer le commentaire <i class="fa fa-times pull-right" ></i></a>
+                    {% endif #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#
+
+    <div style="clear: both">
+        <button class="btn btn-info" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+            <i class="fa fa-save" style="margin-right: 15px;"></i> {% if edit is defined %}Mettre à jour{% else %}Ajouter{% endif %}
+        </button>
+
+        {% if form.vars['value'].slug is not empty %}
+            {% if form.vars['value'].state == 'draft' %}
+                <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'pending'}) }}" onclick="return confirm('Attention vous êtes sur le point de soumettre cette comment à validation, si vous n\'êtes pas webmaster, vous ne pourrez plus la modifier, confirmer?')" class="btn btn-danger">
+                    <i class="fa fa-send" style="margin-right: 15px;"></i> Soumettre à validation
+                </a>
+            {% elseif form.vars['value'].state == 'pending' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette comment, confirmer?')" class="btn btn-success"><i class="fa fa-send" style="margin-right: 15px;"></i> Publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" onclick="return confirm('Attention vous êtes sur le point de re-passer cette comment en mode brouillon, confirmer?')" class="btn btn-warning"><i class="fa fa-reply" style="margin-right: 15px;"></i> Retour en mode brouillon</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'published' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'archived'}) }}" onclick="return confirm('Attention vous êtes sur le point d\'archiver cette comment, confirmer?')" class="btn btn-info"><i class="fa fa-archive" style="margin-right: 15px;"></i> Archiver</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'archived' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" class="btn btn-success"><i class="fa fa-archive" style="margin-right: 15px;"></i> Re-publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_comment_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" class="btn btn-warning"><i class="fa fa-send" style="margin-right: 15px;"></i> Passer en mode brouillon</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    #}
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+
+    $('.preview-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', true);
+        $('#form_comment').attr('target', '_blank').submit();
+    });
+
+    $('.save-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', false);
+        $('#form_comment').attr('target', '_self').submit();
+    });
+
+</script>

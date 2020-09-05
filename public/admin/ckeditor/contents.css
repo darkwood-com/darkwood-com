@@ -1,0 +1,289 @@
+/*
+RESET CSS
+    http://meyerweb.com/eric/tools/css/reset/
+    v2.0 | 20110126
+    License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+caption,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+html {
+  font-size: 100%;
+}
+body {
+  font-size: 62.5%;
+  background-repeat: repeat-y;
+  font-family: 'open sans', sans-serif;
+}
+section,
+aside {
+  font-size: 1.2em;
+}
+ol,
+ul {
+  list-style: none;
+}
+p {
+  margin: 0 0 4px;
+  line-height: 20px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+img {
+  border: 0;
+  max-width: 100%;
+  display: block;
+}
+legend {
+  display: none;
+}
+input {
+  font-family: 'open sans', sans-serif;
+}
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+a img {
+  display: block;
+}
+p a {
+  display: inline;
+}
+.clearfix {
+  height: 1%;
+}
+.clearfix:after {
+  content: ".";
+  height: 0;
+  line-height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.clear {
+  clear: both;
+}
+a.pictos {
+  display: block;
+}
+/***** end reset ****/
+body {
+  padding: 1em;
+  color: #2b2b2b;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+  margin: 0 0 1em 0;
+}
+body p + h1,
+body p + h2,
+body p + h3,
+body p + h3,
+body p + h4,
+body p + h5 {
+  margin-top: 1em;
+}
+body h1 {
+  font-size: 1.7em;
+  text-transform: uppercase;
+  color: #2b2b2b;
+  font-weight: bold;
+}
+body h2 {
+  font-size: 1.6em;
+  text-transform: uppercase;
+  color: #2b2b2b;
+  font-weight: bold;
+}
+body h3 {
+  font-size: 1.5em;
+  color: #2b2b2b;
+  font-weight: bold;
+}
+body h4 {
+  font-size: 1.4em;
+  color: #4c4c4c;
+  font-weight: bold;
+}
+body h5 {
+  font-size: 1.4em;
+  color: #4c4c4c;
+}
+body p {
+  font-size: 12px;
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+
+}
+
+
+span{
+    font-size: auto !important;
+}
+body blockquote {
+  position: relative;
+  margin: 1em 0;
+  padding: 1em 2em;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 20px;
+  color: #4c4c4c;
+}
+body blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 2.3em;
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: #373737;
+}
+body blockquote cite {
+  color: #999999;
+  font-size: 1.0em;
+  display: block;
+  margin-top: 1em;
+}
+body blockquote cite:before {
+  content: "\2014 \2009";
+}
+body a {
+  color: #74bee3;
+  font-weight: bold;
+}
+body a:hover {
+  text-decoration: underline;
+}
+body ul,
+body ol {
+  line-height: 20px;
+  font-size: 12px;
+  margin: 1em 0 1em 4em;
+}
+body ul:first-child,
+body ol:first-child {
+  margin-top: 0;
+}
+body ol {
+  list-style-type: decimal;
+}
+body ul {
+  list-style-type: inherit;
+}
+body strong {
+  font-weight: bold;
+}
+body em {
+  font-style: italic;
+}

@@ -1,0 +1,22 @@
+<p id="actions">
+{% if mode in ['by_class_human','by_class_lucky_lucke','by_class_panoramix','by_class_popeye'] %}
+    <a id="action_sort_by_human" class="icon left{% if mode == 'by_class_human' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'by_class_human'}) }}">Humain</a>
+    <a id="action_sort_by_lucky_lucke" class="icon left{% if mode == 'by_class_lucky_lucke' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'by_class_lucky_lucke'}) }}">Lucky Lucke</a>
+    <a id="action_sort_by_panoramix" class="icon left{% if mode == 'by_class_panoramix' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'by_class_panoramix'}) }}">Panoramix</a>
+    <a id="action_sort_by_popeye" class="icon left{% if mode == 'by_class_popeye' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'by_class_popeye'}) }}">Popeye</a>
+{% elseif mode in ['daily_fight_by_defeats','daily_fight_by_victories'] %}
+    <a id="action_sort_by_defeats" class="icon left{% if mode == 'daily_fight_by_defeats' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'daily_fight_by_defeats'}) }}">Défaites</a>
+    <a id="action_sort_by_victories" class="icon left{% if mode == 'daily_fight_by_victories' %} selected{% endif %}" href="{{ url('darkwood_play', {'display': display, 'state':'rank', 'mode': 'daily_fight_by_victories'}) }}">Victoires</a>
+{% endif %}
+</p>
+
+{{ knp_pagination_render(players, 'common/partials/sliding.html.twig') }}
+{% for player in players %}
+<div class="user-box">
+    <a href="{{ url('darkwood_play', {'display': display, 'state':'profile', 'username': player.user.username}) }}">
+        <img src="{{ asset(vich_uploader_asset(player.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+        {{ player.user.username }}
+    </a>
+</div>
+{% endfor %}
+{{ knp_pagination_render(players, 'common/partials/sliding.html.twig') }}

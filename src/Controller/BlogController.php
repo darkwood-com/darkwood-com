@@ -1,0 +1,186 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\CommentPage;
+use App\Form\CommentType;
+use App\Services\ArticleService;
+use App\Services\CommentService;
+use App\Services\PageService;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+/**
+ * @Route("/", name="blog_", host="%blog_host%")
+ */
+class BlogController extends AbstractController
+{
+    /**
+     * @var CommonController
+     */
+    private $commonController;
+
+    /**
+     * @var AuthenticationUtils
+     */
+    private $authenticationUtils;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    /**
+     * @var PageService
+     */
+    private $pageService;
+
+    /**
+     * @var ArticleService
+     */
+    private $articleService;
+
+    /**
+     * @var CommentService
+     */
+    private $commentService;
+
+    public function __construct(
+        CommonController $commonController,
+        AuthenticationUtils $authenticationUtils,
+        TranslatorInterface $translator,
+        PaginatorInterface $paginator,
+        PageService $pageService,
+        ArticleService $articleService,
+        CommentService $commentService
+    )
+    {
+        $this->commonController = $commonController;
+        $this->authenticationUtils = $authenticationUtils;
+        $this->translator = $translator;
+        $this->paginator = $paginator;
+        $this->pageService = $pageService;
+        $this->articleService = $articleService;
+        $this->commentService = $commentService;
+    }
+
+    public function menu(Request $request, $ref)
+    {
+        $lastUsername = $this->authenticationUtils->getLastUsername();
+        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+
+        $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
+
+        return $this->render('blog/partials/menu.html.twig', array(
+            'last_username' => $lastUsername,
+            'csrf_token' => $csrfToken,
+            'pageLinks' => $pageLinks,
+        ));
+    }
+
+    /**
+     * @Route({ "fr": "/", "en": "/en", "de": "/de" }, name="home", defaults={"ref": "home"})
+     */
+    public function home(Request $request, $ref)
+    {
+        $page = $this->commonController->getPage($request, $ref);
+        $articles = $this->articleService->findActives($request->getLocale(), 5);
+
+        return $this->render('blog/pages/home.html.twig', array(
+            'page' => $page,
+            'articles' => $articles,
+            'showLinks' => true,
+        ));
+    }
+
+    /**
+     * @Route({ "fr": "/plan-du-site", "en": "/en/sitemap", "de": "/de/sitemap" }, name="sitemap", defaults={"ref": "sitemap"})
+     */
+    public function sitemap(Request $request, $ref)
+    {
+        return $this->commonController->sitemap($request, $ref);
+    }
+
+    /**
+     * @Route({ "fr": "/sitemap.xml", "en": "/en/sitemap.xml", "de": "/de/sitemap.xml" }, name="sitemap_xml")
+     */
+    public function sitemapXml(Request $request)
+    {
+        return $this->commonController->sitemapXml($request);
+    }
+
+    /**
+     * @Route({ "fr": "/rss", "en": "/en/rss", "de": "/de/rss" }, name="rss")
+     */
+    public function rss(Request $request)
+    {
+        return $this->commonController->rss($request);
+    }
+
+    /**
+     * @Route({ "fr": "/contact", "en": "/en/contact", "de": "/de/kontakt" }, name="contact", defaults={"ref": "contact"})
+     */
+    public function contact(Request $request, $ref)
+    {
+        return $this->commonController->contact($request, $ref);
+    }
+
+    /**
+     * @Route({ "fr": "/article/{slug}", "en": "/en/article/{slug}", "de": "/de/article/{slug}" }, name="article", defaults={"ref": "article", "slug": null})
+     */
+    public function article(Request $request, $ref, $slug)
+    {
+        $page = $this->commonController->getPage($request, $ref);
+
+        $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found !');
+        }
+
+        $comment = new CommentPage();
+        $comment->setUser($this->getUser());
+        $comment->setPage($page->getPage());
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        if ('POST' === $request->getMethod()) {
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->commentService->save($comment);
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    $this->translator->trans('common.comment.submited')
+                );
+
+                return $this->redirect($this->generateUrl('blog_article', array('slug' => $article->getOneTranslation($request->getLocale())->getSlug())));
+            }
+        }
+
+        $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
+
+        $comments = $this->paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            10
+        );
+
+        return $this->render('blog/pages/article.html.twig', array(
+            'page' => $page,
+            'article' => $article,
+            'showLinks' => true,
+            'form' => $form->createView(),
+            'comments' => $comments,
+        ));
+    }
+}

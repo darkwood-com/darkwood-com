@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+    {% if mode == 'login' %}
+    <key>contentNavigation</key>
+    <dict>
+        <key>title</key>
+        <string>{{ 'darkwood.play.main.login'|trans }}</string>
+        <key>link</key>
+        <string>{{ url('darkwood_play', {'display':display, 'state':'login'}) }}</string>
+    </dict>
+    {% elseif mode == 'users' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.users'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'users'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_general'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'plist', 'mode':'rank'}) }}</string>
+        </dict>
+    {% elseif mode == 'rank' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_general'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'rank'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_by_class'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'rank', 'mode':'by_class_human'}) }}</string>
+        </dict>
+    {% elseif mode == 'rank_by_class' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_by_class'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'rank', 'mode':'by_class_human'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_daily_fight'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'rank', 'mode':'daily_fight_by_defeats'}) }}</string>
+        </dict>
+    {% elseif mode == 'rank_daily_battle' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.rank_daily_fight'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'rank', 'mode':'daily_fight_by_defeats'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.users'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'users'}) }}</string>
+        </dict>
+    {% elseif mode == 'chat' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.chat'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'chat'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.guestbook'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'plist', 'mode':'guestbook'}) }}</string>
+        </dict>
+    {% elseif mode == 'guestbook' %}
+        <key>contentNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.guestbook'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'guestbook'}) }}</string>
+        </dict>
+        <key>rightNavigation</key>
+        <dict>
+            <key>title</key>
+            <string>{{ 'darkwood.play.main.chat'|trans }}</string>
+            <key>link</key>
+            <string>{{ url('darkwood_play', {'display':display, 'state':'plist', 'mode':'chat'}) }}</string>
+        </dict>
+    {% else %}
+        <key>version</key>
+        <string>1.0</string>
+        <key>isMaintenance</key>
+        <false></false>
+        <key>labelMaintenance</key>
+        <string>L'application Darkwood est actuellement en maintenance. Son accès est provisoirement impossible. Nous vous prions de bien vouloir nous excuser de la gêne occasionnée. Nous vous invitons à renouveler prochainement votre tentative d'accès.</string>
+        <key>links</key>
+        <dict>
+        </dict>
+    {% endif %}
+    </dict>
+</plist>

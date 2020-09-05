@@ -1,0 +1,15 @@
+{% extends "darkwood/base.html.twig" %}
+
+{% block content %}
+
+<h1>{{ page.title }}</h1>
+<h2>{{ 'darkwood.home.news'|trans }}</h2>
+<ul class="itemlist">
+    {% set nTranslation = news.getOneTranslation(app.request.locale) %}
+    <li>
+        <h3>{{ nTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ nTranslation.created|date('d/m/Y') }}</em></h3>
+        {{ nTranslation.content|markdown|raw }}
+    </li>
+</ul>
+
+{% endblock %}

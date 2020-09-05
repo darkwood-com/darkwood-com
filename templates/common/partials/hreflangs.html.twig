@@ -1,0 +1,11 @@
+{% for locale, url in pageLinks %}
+{% if locale == 'fr' %}
+<link rel="alternate" href="{{ url }}" hreflang="x-default">
+{% elseif locale == 'en' %}
+<link rel="alternate" href="{{ url }}" hreflang="en">
+{% elseif locale == 'de' %}
+<link rel="alternate" href="{{ url }}" hreflang="de">
+{% else %}
+<link rel="alternate" href="{{ url }}" hreflang="{{ locale }}">
+{% endif %}
+{% endfor %}

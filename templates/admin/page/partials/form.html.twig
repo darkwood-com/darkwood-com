@@ -1,0 +1,466 @@
+{{ form_start(form, {'attr':{'id':'form_page'}}) }}
+    <h1 class="page-header">
+        {% if edit is defined %}
+            {{ form.title.vars['value'] }} <small>
+            Éditer la page
+
+            <br />
+            <strong>
+                <a href="{{ url }}" target="_blank">{{ url }}</a>
+            </strong>
+        </small>
+        {% else %}
+            Créer une page
+        {% endif %}
+    </h1>
+
+    {# include "admin/page/partials/form/script.html.twig" with {'entity' : 'page'} #}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+
+                            <div class="panel-heading-btn">
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>#}
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>#}
+                            </div>
+                            <h4 class="panel-title">
+                                <i class="fa fa-cog"></i> Propriétés de la page
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <p>
+                                <i class="fa fa-question-circle fa-3x pull-left"></i>
+                                Remplissez les propriétés de votre page.<br />
+                                Ces informations servent notamment au référencement naturel et aux partages dans les réseaux sociaux.<br />
+                                Attention, certaines données sont <strong>obligatoires</strong> (*).
+                            </p>
+
+                            <div class="panel panel-default" style="margin-bottom: 2px;">
+                                <div class="panel-heading panel-heading-drag"  data-click="panel-collapse" style="background:#d9e0e7;cursor:pointer;" >
+                                    <div class="panel-heading-btn">
+                                        <span class="form-group-master"></span>
+                                    </div>
+                                    <i class="fa fa-plus-circle pull-right"></i>
+                                    <h4 class="panel-title"><i class="fa fa-info"></i> Informations générales (*)</h4>
+
+                                </div>
+                                <div class="panel-body collapse out" style="border:solid 1px #d9e0e7;">
+
+                                    {% if form.page.ref.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.page.ref) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.page.ref.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.page.ref, 'Réference *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.page.ref, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.title.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.title) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.title.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.title, 'Titre *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.description.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.description) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.description.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.description, 'Description', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.image.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.image) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.image.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.image, 'Image principale', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.thumbnailImage.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.thumbnailImage) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.thumbnailImage.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.thumbnailImage, 'Thumbnail', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.thumbnailImage, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.imgAlt.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.imgAlt) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.imgAlt.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.imgAlt, 'Alt image', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.imgAlt, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.imgTitle.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.imgTitle) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.imgTitle.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.imgTitle, 'Titre image', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.imgTitle, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default" style="margin-bottom: 2px;">
+                                <div class="panel-heading panel-heading-drag"  data-click="panel-collapse" style="background:#d9e0e7;cursor:pointer;" >
+                                    <div class="panel-heading-btn">
+                                        <span class="form-group-master"></span>
+                                    </div>
+                                    <i class="fa fa-plus-circle pull-right"></i>
+                                    <h4 class="panel-title"><i class="fa fa-google"></i> Métadonnées / Référencement naturel</h4>
+                                </div>
+                                <div class="panel-body collapse out" style="border:solid 1px #d9e0e7;">
+
+                                    {% if form.seoTitle.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.seoTitle) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.seoTitle.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.seoTitle, 'Titre', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.seoTitle, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.seoDescription.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.seoDescription) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.seoDescription.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.seoDescription, 'Description', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.seoDescription, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.seoKeywords.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.seoKeywords) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.seoKeywords.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.seoKeywords, 'Mot(s) clé(s)', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.seoKeywords, { 'attr': {'class': 'form-control primary tagit ui-widget ui-widget-content ui-corner-all jquery-tagit'} }) }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default" style="margin-bottom: 2px;">
+                                <div class="panel-heading panel-heading-drag"  data-click="panel-collapse" style="background:#d9e0e7;cursor:pointer;" >
+                                    <div class="panel-heading-btn">
+                                        <span class="form-group-master"></span>
+                                    </div>
+                                    <i class="fa fa-plus-circle pull-right"></i>
+                                    <h4 class="panel-title"><i class="fa fa-twitter"></i> Twitter</h4>
+                                </div>
+                                <div class="panel-body collapse out" style="border:solid 1px #d9e0e7;">
+
+                                    {% if form.twitterTitle.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.twitterTitle) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.twitterTitle.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.twitterTitle, 'Titre', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.twitterTitle, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.twitterDescription.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.twitterDescription) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.twitterDescription.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.twitterDescription, 'Description', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                            {{ form_widget(form.twitterDescription, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.twitterSite.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.twitterSite) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.twitterSite.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.twitterSite, 'Site', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.twitterSite, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.twitterImage.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.twitterImage) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.twitterImage.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.twitterImage, 'Image', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.twitterImage, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.twitterCard.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.twitterCard) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.twitterCard.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.twitterCard, 'Card', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.twitterCard, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default" style="margin-bottom: 2px;">
+                                <div class="panel-heading panel-heading-drag"  data-click="panel-collapse" style="background:#d9e0e7;cursor:pointer;" >
+                                    <div class="panel-heading-btn">
+                                        <span class="form-group-master"></span>
+                                    </div>
+                                    <i class="fa fa-plus-circle pull-right"></i>
+                                    <h4 class="panel-title"><i class="fa fa-facebook"></i> Facebook / Open Graph</h4>
+                                </div>
+                                <div class="panel-body collapse out" style="border:solid 1px #d9e0e7;">
+
+                                    {% if form.ogTitle.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.ogTitle) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.ogTitle.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.ogTitle, 'Titre', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.ogTitle, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.ogDescription.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.ogDescription) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.ogDescription.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.ogDescription, 'Description', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.ogDescription, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.ogType.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.ogType) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.ogType.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.ogType, 'Type', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                            {{ form_widget(form.ogType, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                    {% if form.ogImage.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.ogImage) }}</div></div>{% endif %}
+                                    <div class="form-group {% if form.ogImage.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                        {{ form_label(form.ogImage, 'Image', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                        <div class="col-md-10">
+                                            {{ form_widget(form.ogImage, { 'attr': {'class': 'form-control'} }) }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;">
+                        {{ form_errors(form._token) }}
+                        {{ form_widget(form._token) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 zones zone-0" style="margin: 0px">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <div class="panel-heading-btn">
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            </div>
+                            <h4 class="panel-title">
+                                <i class="fa fa-th"></i> Données de la page
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <i class="fa fa-question-circle fa-3x pull-left"></i>
+                                Composer votre page en modifiant des blocs.<br /><br />{#<br />
+                                Vous pouvez modifier leur ordre en les déplaçant directement.#}
+                            </p>
+
+                            {% if form.content.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.content) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.content.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.content, 'Contenu', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.content, { 'attr': {'class': 'form-control meditor'} }) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    $('.dropdown-toggle').click(function(){
+                       $(this).stop().parent('.btn-group').parent('.panel-heading').next('.alert').slideToggle();
+                    });
+                });
+            </script>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title">
+                        <i class="fa fa-cog"></i> Publication
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    {% if edit is defined %}
+
+                        <div class="col-md-4 text-right"><strong>ID</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].id }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Créé le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].created | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Mis à jour le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].updated | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        {% if form.page.site.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.page.site) }}</div></div>{% endif %}
+                        <div class="form-group {% if form.page.site.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                            {{ form_label(form.page.site, 'Site *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                            <div class="col-md-10">
+                                {{ form_widget(form.page.site, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Langue</strong></div>
+                        <div class="col-md-8">
+                            <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Mettre à jour la page <i class="fa fa-refresh pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                        <hr/>
+
+                    {% else %}
+
+                        {% if form.page.site.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.page.site) }}</div></div>{% endif %}
+                        <div class="form-group {% if form.page.site.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                            {{ form_label(form.page.site, 'Site *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                            <div class="col-md-10">
+                                {{ form_widget(form.page.site, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Langue</strong></div>
+                        <div class="col-md-8">
+                            <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Créer la page <i class="fa fa-save  pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                    {% endif %}
+
+
+
+
+                    {# if form.vars['value'].slug is not empty and edit is defined %}
+                        <a href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette page, confirmer?')" class="btn btn-success btn-block">Publier <i class="fa fa-send pull-right"></i></a>
+                    {% endif #}
+
+                    {# if edit is defined %}
+                        <a href="{{ path('admin_page_delete', {'id': form.vars['value'].page.id}) }}" class="btn btn-danger btn-block" role="button" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer cette page ? la suppression est definitive.')">Supprimer la page <i class="fa fa-times pull-right" ></i></a>
+                    {% endif #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#
+
+    <div style="clear: both">
+        <button class="btn btn-info" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+            <i class="fa fa-save" style="margin-right: 15px;"></i> {% if edit is defined %}Mettre à jour{% else %}Ajouter{% endif %}
+        </button>
+
+        {% if form.vars['value'].slug is not empty %}
+            {% if form.vars['value'].state == 'draft' %}
+                <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'pending'}) }}" onclick="return confirm('Attention vous êtes sur le point de soumettre cette page à validation, si vous n\'êtes pas webmaster, vous ne pourrez plus la modifier, confirmer?')" class="btn btn-danger">
+                    <i class="fa fa-send" style="margin-right: 15px;"></i> Soumettre à validation
+                </a>
+            {% elseif form.vars['value'].state == 'pending' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette page, confirmer?')" class="btn btn-success"><i class="fa fa-send" style="margin-right: 15px;"></i> Publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" onclick="return confirm('Attention vous êtes sur le point de re-passer cette page en mode brouillon, confirmer?')" class="btn btn-warning"><i class="fa fa-reply" style="margin-right: 15px;"></i> Retour en mode brouillon</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'published' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'archived'}) }}" onclick="return confirm('Attention vous êtes sur le point d\'archiver cette page, confirmer?')" class="btn btn-info"><i class="fa fa-archive" style="margin-right: 15px;"></i> Archiver</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'archived' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" class="btn btn-success"><i class="fa fa-archive" style="margin-right: 15px;"></i> Re-publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_page_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" class="btn btn-warning"><i class="fa fa-send" style="margin-right: 15px;"></i> Passer en mode brouillon</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    #}
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+
+    $('.preview-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', true);
+        $('#form_page').attr('target', '_blank').submit();
+    });
+
+    $('.save-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', false);
+        $('#form_page').attr('target', '_self').submit();
+    });
+
+</script>

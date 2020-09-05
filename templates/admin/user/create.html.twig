@@ -1,0 +1,30 @@
+{% set navbarActive = 'user' %}
+{% extends "admin/base.html.twig" %}
+
+{% block mainTitle 'Créer' %}
+{% block subTitle "" %}
+
+{% block content %}
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading"  style="cursor:default;">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" data-tooltip="panel-collapse" data-original-title="" title=""><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title"><i class="fa fa-table" style="margin-right: 8px"></i> Utilisateur</h4>
+            </div>
+            <div class="panel-body">
+                {% include "admin/user/partials/form.html.twig" %}
+            </div>
+        </div>
+
+        <button class="btn btn-info" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+            <i class="fa fa-save" style="margin-right: 15px;"></i> Ajouter
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}

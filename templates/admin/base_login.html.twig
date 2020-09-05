@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=1280px">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+    {% block css %}
+        <link type="text/css" rel="stylesheet" href="{{ asset('/admin/plugins/bootstrap-3.1.1/css/bootstrap.css') }}" media="screen" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/admin/plugins/jquery-ui-1.10.4/themes/base/jquery-ui.css') }}" media="screen" />
+    {% endblock %}
+
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('/admin/plugins/jquery-1.8.2/jquery-1.8.2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/admin/plugins/bootstrap-3.1.1/js/bootstrap.js') }}"></script>
+    {% endblock %}
+
+    <!-- google analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-2319330-3']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body{% block identifier %}{% endblock %}>
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\AppContent;
+use App\Entity\Site;
+use App\Repository\BaseRepository;
+use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * Class SiteRepository.
+ */
+class SiteRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Site::class);
+    }
+
+    /**
+     * Get all user query, using for pagination.
+     *
+     * @param array $filters
+     *
+     * @return mixed
+     */
+    public function queryForSearch($filters = array())
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.id', 'asc')
+        ;
+
+        if (count($filters) > 0) {
+            foreach ($filters as $key => $filter) {
+                $qb->andWhere('s.'.$key.' LIKE :'.$key);
+                $qb->setParameter($key, '%'.$filter.'%');
+            }
+        }
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * Find one for edit profile.
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function findOneToEdit($id)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.id = :id')
+            ->setParameter('id', $id);
+
+        $query = $qb->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * Find one by host.
+     *
+     * @param $host
+     *
+     * @return mixed
+     */
+    public function findOneByHost($host)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.host = :host')
+            ->setParameter('host', $host);
+
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 120, 'SiteRepository::findOneByHost'.$host);
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function findAll($parameters = array())
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.position', 'asc')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findActives()
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.active = true')
+            ->orderBy('s.position', 'asc')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+}

@@ -1,0 +1,66 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <tbody>
+    <tr>
+        <td class="spaced">
+            <a class="go" data-state="combat">
+                <img src="{{ asset('/darkwood/images/apps/ipad/combat.png') }}" title="{{ 'darkwood.play.main.combat'|trans }}">
+                <br />{{ 'darkwood.play.main.combat'|trans }}
+            </a>
+        </td>
+        <td class="spaced">
+            <a class="go" data-state="sword">
+                <img src="{{ asset('/darkwood/images/apps/ipad/sword.png') }}" title="{{ 'darkwood.play.main.sword'|trans }}">
+                <br />{{ 'darkwood.play.main.sword'|trans }}
+            </a>
+        </td>
+        <td class="spaced">
+            <a class="go" data-state="potion">
+                <img src="{{ asset('/darkwood/images/apps/ipad/potion.png') }}" title="{{ 'darkwood.play.main.potion'|trans }}">
+                <br />{{ 'darkwood.play.main.potion'|trans }}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td class="spaced">
+            <a class="go" data-state="daily-battle">
+                <img src="{{ asset('/darkwood/images/apps/ipad/dailyBattle.png') }}" title="{{ 'darkwood.play.main.dailyBattle'|trans }}">
+                <br />{{ 'darkwood.play.main.dailyBattle'|trans }}
+            </a>
+        </td>
+        <td class="spaced">
+            <a class="go" data-state="armor">
+                <img src="{{ asset('/darkwood/images/apps/ipad/armor.png') }}" title="{{ 'darkwood.play.main.armor'|trans }}">
+                <br />{{ 'darkwood.play.main.armor'|trans }}
+            </a>
+        </td>
+        <td class="spaced">
+            <a class="go" data-state="hostel">
+                <img src="{{ asset('/darkwood/images/apps/ipad/hostel.png') }}" title="{{ 'darkwood.play.main.hostel'|trans }}">
+                <br />{{ 'darkwood.play.main.hostel'|trans }}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" class="spaced">
+            <div class="spaced" style="float:left;padding-left:37px;">
+                <a class="go" data-state="equipment">
+                    <img src="{{ asset('/darkwood/images/apps/ipad/equipment.png') }}" title="{{ 'darkwood.play.main.equipment'|trans }}">
+                    <br />{{ 'darkwood.play.main.equipment'|trans }}
+                </a>
+            </div>
+            <div class="spaced" style="float:right;padding-right:37px;">
+                <a class="go" data-state="info">
+                    <img src="{{ asset('/darkwood/images/apps/ipad/info.png') }}" title="{{ 'darkwood.play.main.info'|trans }}">
+                    <br />{{ 'darkwood.play.main.info'|trans }}
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

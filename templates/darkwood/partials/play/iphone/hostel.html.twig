@@ -1,0 +1,59 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_settings'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="3"><img src="{{ asset(vich_uploader_asset(data.info.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.info.player.lifeMin }} {{ 'darkwood.play.label.on'|trans }} {{ data.info.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life_to_regenerate'|trans|upper }}</td>
+        <td>{{ data.info.life.diff }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.your_gold'|trans|upper }}</td>
+        <td>{{ data.info.player.gold }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="actions">
+    <table id="hostelinfos">
+        <colgroup>
+            <col class="col-3" />
+            <col class="col-3" />
+            <col class="col-3" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th colspan="3">{{ 'darkwood.play.label.regeneration'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, regeneration in data.regenerations %}
+            <tr>
+                {% if loop.index == 1 %}
+                    <td rowspan="4"><img src="{{ asset('/darkwood/images/apps/web/hostel.jpg') }}"></td>
+                {% endif %}
+                <td><a id="action_buy" class="go icon" data-state="hostel" data-action-regeneration="{{ key }}">{{ ('darkwood.play.label.regeneration'~loop.index)|trans }}</a></td>
+                <td>{{ regeneration.life }} {{ 'darkwood.play.label.for'|trans }} {{ regeneration.price }} {{ 'darkwood.play.label.gold'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+    </p>
+</div>

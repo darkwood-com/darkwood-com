@@ -1,0 +1,48 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ page.title }}</h1>
+<p>{{ 'common.contact.intro'|trans }}</p>
+<form id="contact_form" action="{{ path(site_ref ~ '_contact') }}" method="post" novalidate="novalidate">
+    {{ form_errors(form._token) }}
+    {{ form_widget(form._token) }}
+    {% for flashMessage in app.session.flashbag.get('success') %}<div class="alert_success">{{ flashMessage }}</div>{% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}<div class="alert_error">{{ flashMessage }}</div>{% endfor %}
+    {% if form.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form) }}</div>{% endif %}
+    <ul>
+        {% if form.email.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.email) }}</div></li>{% endif %}
+        <li class="centered">
+            {{ form_label(form.email, 'common.contact.email', {'label_attr':{'class': 'centered'}}) }}
+            {{ form_widget(form.email, {'attr':{'class': 'centered'} }) }}
+        </li>
+        {% if form.website.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.website) }}</div></li>{% endif %}
+        <li class="centered">
+            {{ form_label(form.website, 'common.contact.website', {'label_attr':{'class': 'centered'}}) }}
+            {{ form_widget(form.website, {'attr':{'class': 'centered'} }) }}
+        </li>
+        {% if form.content.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.content) }}</div></li>{% endif %}
+        <li class="centered">
+            {{ form_label(form.content, 'common.contact.message', {'label_attr':{'class': 'centered'}}) }}
+            {{ form_widget(form.content, {'attr':{'class': 'centered', 'rows': '5', 'cols': '35'} }) }}
+        </li>
+        {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
+        {% if form.recaptcha.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></li>{% endif %}
+        <li class="centered">
+            <label class="required centered">{{ 'common.contact.recaptcha'|trans }}</label>
+            <div class="g-recaptcha centered" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+        </li>
+        {% endif %}
+    </ul>
+    <ul>
+        <li class="centered"><input type="submit" id="contact_contact" name="contact_contact" class="centered" value="{{ 'common.contact.submit'|trans }}"></li>
+    </ul>
+</form>
+<div class="clearfix"></div>
+
+{% endblock %}

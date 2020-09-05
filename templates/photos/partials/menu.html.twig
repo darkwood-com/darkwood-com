@@ -1,0 +1,74 @@
+{% embed 'common/components/navbar.html.twig' %}
+    {% block link %}{{ path('photos_home') }}{% endblock %}
+    {% block title %}Photos{% endblock %}
+    {% block theme %}navbar-light navbar-menu-brown{% endblock %}
+    {% block content %}
+        <ul class="nav nav-menu-box-brown">
+            <li><h2>{{ 'common.menu.login'|trans }}</h2></li>
+            {% if app.user %}
+                <li>
+                    <div class="user_icon">
+                        <a href="{{ path('common_profile') }}">
+                            <img src="{{ asset(vich_uploader_asset(app.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ app.user.username }}">
+                        </a>
+                    </div>
+                    <div class="user_info">
+                        <h3>{{ 'common.menu.login_welcome'|trans }}</h3>
+                        <h3><a href="{{ path('common_profile') }}">{{ app.user.username }}</a></h3>
+                    </div>
+                    <div class="user_logout">
+                        <form id="login_form" action="{{ path('security_logout') }}" method="get">
+                            <ul>
+                                <li><input type="submit" value="{{ 'common.menu.logout_btn'|trans }}"></li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            {% else %}
+                <li>
+                    <form id="login_form" action="{{ path('security_login') }}" method="post" novalidate="novalidate">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        <ul>
+                            <li>
+                                <label for="username">{{ 'common.menu.login_username'|trans }}</label>
+                                <input type="text" id="username" name="username" title="{{ 'common.menu.login_username'|trans }}" class="validate['required']" value="{{ last_username }}">
+                            </li>
+                            <li>
+                                <label for="password">{{ 'common.menu.login_password'|trans }}</label>
+                                <input type="password" id="password" name="password" title="{{ 'common.menu.login_password'|trans }}" class="validate['required']" value="">
+                            </li>
+                        </ul>
+                        <ul>
+                            <li><input type="submit" id="login_login" name="login_login" class="validate[]" value="{{ 'common.menu.login_btn'|trans }}"></li>
+                        </ul>
+                    </form>
+                    <div class="clearfix"></div>
+                </li>
+                <li>
+                    <div class="facebook_connect">
+                        <a href="{{ path('connect_facebook_start') }}">{{ 'common.menu.login_btn'|trans }}</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <li><a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans }}</a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav nav-menu-box-brown">
+            <li><h2>{{ 'photos.menu.gallery'|trans }}</h2></li>
+            <li><a href="{{ path('photos_show') }}">{{ 'photos.menu.show'|trans }}</a></li>
+            <li><a href="{{ path('photos_demo') }}">{{ 'photos.menu.demo'|trans }}</a></li>
+            <li><a href="{{ path('photos_help') }}">{{ 'photos.menu.help'|trans }}</a></li>
+        </ul>
+
+        <ul class="nav nav-menu-links-brown">
+            {% for locale, pageLink in pageLinks %}
+                <li>
+                    <a href="{{ pageLink }}">
+                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" />
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
+{% endembed %}

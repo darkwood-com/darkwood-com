@@ -1,0 +1,11 @@
+{% extends "common/mails/base.html.twig" %}
+{% block subject %}[Darkwood] Contact{% endblock %}
+
+{% block content %}
+<span style="color:#EEEEEE; font-size:20px; font-weight: 300;">Bonjour Mathieu !</span><br /><br />
+
+Une nouvelle demande de contact sur le site :<br /><br />
+email : {{ contact.email }}<br />
+site web : {{ contact.website }}<br />
+contenu : {{ contact.content }}<br />
+{% endblock %}

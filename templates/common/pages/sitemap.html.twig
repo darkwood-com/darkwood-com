@@ -1,0 +1,32 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% macro tree(item, level) %}
+{% if level == 0 %}
+<fieldset class="tree" style="width: 230px;">
+<legend>
+    <a href="{% if item.link %}{{ item.link }}{% endif %}"{% if item.children|length > 0 %} class="folder"{% endif %}>{{ item.label }}</a>
+</legend>
+{% else %}
+    <a href="{% if item.link %}{{ item.link }}{% endif %}"{% if item.children|length > 0 %} class="folder"{% endif %}>{{ item.label }}</a>
+{% endif %}
+{% if item.children|length > 0 %}
+<ul{% if level == 0 %} class="root"{% endif %}>
+    {% for child in item.children %}
+    <li>
+        <span></span>
+        {{ _self.tree(child, level + 1) }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% if level == 0 %}
+</fieldset>
+{% endif %}
+{% endmacro %}
+
+{% block content %}
+<h1>{{ page.title }}</h1>
+{% for item in sitemap %}
+{{ _self.tree(item, 0) }}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin/base_login.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block identifier %} id="login"{% endblock %}
+{% block title %}Connexion{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style type="text/css">
+        #login {
+            background-color: #000000;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row" style="padding-top: 15%">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <img src="{{ asset('/admin/images/logo.png') }}" alt="logo" style="width: 130px">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-body">
+                        <form role="form" action="{{ path("security_login") }}" method="post" novalidate>
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                            <fieldset>
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="username" type="text" value="{{ last_username }}" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="_remember_me" value="on">Remember Me
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 text-center">
+            <a href="{{ path('common_resetting_request') }}" class="center">
+                Mot de passe oublié
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+<nav class="navbar navbar-expand-md {% block theme %}{% endblock %}">
+    <a class="navbar-brand d-md-none" href="{% block link %}#{% endblock %}">{% block title %}{% endblock %}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="{{ 'common.components.navbar.toggle'|trans }}">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse flex-column" id="navbar-menu">
+        {% block content %}{% endblock %}
+    </div>
+</nav>

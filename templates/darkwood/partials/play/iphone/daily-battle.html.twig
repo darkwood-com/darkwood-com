@@ -1,0 +1,223 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+{% if mode == 'combat' %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.daily_battle'|trans }} {{ data.info.user.username }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="4"><img src="{{ asset(vich_uploader_asset(data.info.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.session.player_current_life }} {{ 'darkwood.play.label.on'|trans|upper }} {{ data.info.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.damage.min }} + {{ data.info.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.info.damage.max }} + {{ data.info.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.info.player.armor.armor }} + {{ data.info.armorDefence }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life_lose'|trans|upper }}</td>
+        {% if data.session.player_life_lose >= 0 %}
+            <td>{{ data.session.player_life_lose }}</td>
+        {% else %}
+            <td>{{ 'darkwood.play.label.attack_miss'|trans|upper }}</td>
+        {% endif %}
+    </tr>
+    </tbody>
+</table>
+
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.daily_battle'|trans }} {{ data.dailyEnemyInfo.user.username }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="4"><img src="{{ asset(vich_uploader_asset(data.dailyEnemyInfo.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.session.enemy_current_life }} {{ 'darkwood.play.label.on'|trans|upper }} {{ data.dailyEnemyInfo.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.damage.min }} + {{ data.dailyEnemyInfo.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.dailyEnemyInfo.damage.max }} + {{ data.dailyEnemyInfo.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.player.armor.armor }} + {{ data.dailyEnemyInfo.armorDefence }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life_lose'|trans|upper }}</td>
+        {% if data.session.enemy_life_lose >= 0 %}
+            <td>{{ data.session.enemy_life_lose }}</td>
+        {% else %}
+            <td>{{ 'darkwood.play.label.attack_miss'|trans|upper }}</td>
+        {% endif %}
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    {% if data.session.player_current_life >= 0 and data.session.enemy_current_life >= 0 %}
+        <a id="action_fight" class="go icon right" data-state="daily-battle" data-mode="combat" data-action-fight="true">{{ 'darkwood.play.label.attack'|trans }}</a>
+    {% else %}
+        <a id="action_end_fight" class="go icon right" data-state="daily-battle" data-mode="combat" data-action-end-fight="true">{{ 'darkwood.play.label.end_fight'|trans }}</a>
+    {% endif %}
+</p>
+{% elseif mode == 'player_death' %}
+<table>
+    <colgroup>
+        <col class="col-4" />
+        <col class="col-2" />
+        <col class="col-4" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_are_dead'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/death.gif') }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.daily_combat_you_lose'|trans }}<br/>
+            {{ 'darkwood.play.label.daily_combat_player_lose'|trans }} {{ data.result.lose_xp }} {{ 'darkwood.play.label.daily_combat_xp_point'|trans }}<br/>
+            {{ 'darkwood.play.label.daily_combat_player_enemy_win'|trans }} {{ data.result.win_xp }} {{ 'darkwood.play.label.daily_combat_xp_point'|trans }}<br/>
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/death.gif') }}" /></td>
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_return" class="go icon left" data-state="daily-battle">{{ 'darkwood.play.label.return'|trans|upper }}</a>
+</p>
+{% elseif mode == 'player_win' %}
+<table>
+    <colgroup>
+        <col class="col-4" />
+        <col class="col-2" />
+        <col class="col-4" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.you_win'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/xp.gif') }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.daily_combat_you_win'|trans }}<br/>
+            {{ 'darkwood.play.label.daily_combat_player_win'|trans }} {{ data.result.win_xp }} {{ 'darkwood.play.label.daily_combat_xp_point'|trans }}<br/>
+            {{ 'darkwood.play.label.daily_combat_player_enemy_lose'|trans }} {{ data.result.lose_xp }} {{ 'darkwood.play.label.daily_combat_xp_point'|trans }}<br/>
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/xp.gif') }}" /></td>
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_return" class="go icon left" data-state="daily-battle">{{ 'darkwood.play.label.return'|trans }}</a>
+</p>
+{% else %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.daily_battle'|trans }} {{ data.dailyEnemyInfo.user.username }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="5"><img src="{{ asset(vich_uploader_asset(data.dailyEnemyInfo.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.level'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.level.level }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.xp'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.player.xp }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.player.lifeMin }} {{ 'darkwood.play.label.on'|trans }} {{ data.dailyEnemyInfo.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.damage.min }} + {{ data.dailyEnemyInfo.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.dailyEnemyInfo.damage.max }} + {{ data.dailyEnemyInfo.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.dailyEnemyInfo.player.armor.armor }} + {{ data.dailyEnemyInfo.armorDefence }}%</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>{{ 'darkwood.play.label.daily_battle_modality'|trans|raw }}</p>
+
+{% if data.dailyBattles|length > 0 %}
+<p>
+    {{ 'darkwood.play.label.daily_combat_today'|trans }}
+</p>
+
+{% for dailyBattle in data.dailyBattles %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ dailyBattle.info.user.username }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="3"><img src="{{ asset(vich_uploader_asset(dailyBattle.info.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.level'|trans|upper }}</td>
+        <td>{{ dailyBattle.info.level.level }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.xp'|trans|upper }}</td>
+        <td>{{ dailyBattle.info.player.xp }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.daily_combat_result'|trans|upper }}</td>
+        <td>
+            {% if dailyBattle.dailyBattle.status == 1 %}
+                {{ 'darkwood.play.label.daily_combat_victory'|trans|upper }}
+            {% elseif dailyBattle.dailyBattle.status == 2 %}
+                {{ 'darkwood.play.label.daily_combat_defeat'|trans|upper }}
+            {% endif %}
+        </td>
+    </tr>
+    </tbody>
+</table>
+{% endfor %}
+{% endif %}
+
+<p id="actions">
+    <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+    <a id="action_fight" class="go icon right" data-state="daily-battle" data-action-begin-fight="true">{{ 'darkwood.play.label.fight'|trans }}</a>
+</p>
+{% endif %}

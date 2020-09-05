@@ -1,0 +1,12 @@
+{% apply spaceless %}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for url in urls %}
+    <url>
+        <loc>{{ url.loc }}</loc>
+        <lastmod>{{ url.date | date('Y-m-d') }}</lastmod>
+        <priority>0.8</priority>
+    </url>
+{% endfor %}
+</urlset>
+{% endapply %}

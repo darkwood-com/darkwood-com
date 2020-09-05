@@ -1,0 +1,9 @@
+{% extends "admin/base.html.twig" %}
+{% set navbarActive = 'comment' %}
+
+{% block title "Edit a comment" %}
+
+{% block content %}
+    {% include "admin/comment/partials/form.html.twig" with {'edit' : 'true', 'notform': true} %}
+{% endblock %}
+

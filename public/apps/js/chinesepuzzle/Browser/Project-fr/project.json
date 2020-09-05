@@ -1,0 +1,38 @@
+{
+    "debugMode" : 2,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 1,
+    "engineDir":"../../apps/js/chinesepuzzle/Common/Src/Externals/Cocos2D-js/frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "extensions"],
+
+    "jsList" : [
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Background/Background.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Cocos2D/Config.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Cocos2D/DecoratedBox.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Cocos2D/Lang.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/Card.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/CardBoard.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/CardPlay.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/Game.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/GameControl.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/GameControlChipmunk.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/GameControlNode.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Game/GameLayout.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Libs/base64.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Libs/json2.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/Menu.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuBox.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuGrid.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuGridContainer.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuLabel.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuLabelContainer.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Menu/MenuLayout.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/GameConfig.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/GameScene.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/GameStruct.js",
+        "../../apps/js/chinesepuzzle/Common/Bin/Data/js/Resource.js"
+    ]
+}

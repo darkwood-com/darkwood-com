@@ -1,0 +1,68 @@
+Actions: Actions
+List: Liste
+Create: Créer
+Update: Mettre à jour
+Delete: Supprimer
+ID: ID n°%id%
+Import: Importer
+Previous: Précédent
+Next: Suivant
+Search: Recherche
+Search...: Recherche...
+
+header:
+  locale:
+    english:      Anglais
+    french:       Français
+  logout:         Déconnexion
+
+notice:
+  form:
+    enable:       Objet activé
+    disable:      Objet désactivé
+    deleted:      Objet supprimé
+    updated:      Objet mis à jour
+    edit:         Objet mis à jour
+    created:      Objet créé
+    create:       Objet créé
+    new:          Objet créé
+    error:        Le formulaire contient des erreurs
+    nothing:      Rien  n'a été trouvé
+
+index: Administration
+
+users:
+  breadcrumb:
+    list:           Liste des utilisateurs
+    create:         Creation d'un utilisateur
+    edit:           Modification de l'utilisateur
+
+sites:
+  breadcrumb:
+    list:           Liste des sites
+    create:         Creation d'un site
+    edit:           Modification d'un site
+
+pages:
+  breadcrumb:
+    list:           Liste des pages
+    create:         Creation d'une page
+    edit:           Modification d'une page
+
+comments:
+  breadcrumb:
+    list:           Liste des commentaires
+    create:         Creation d'un commentaire
+    edit:           Modification d'un commentaire
+
+contacts:
+  breadcrumb:
+    list:           Liste des contacts
+    create:         Creation d'un contact
+    edit:           Modification d'un contact
+
+news:
+  breadcrumb:
+    list:           Liste des news
+    create:         Creation d'une news
+    edit:           Modification d'une news

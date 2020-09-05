@@ -1,0 +1,23 @@
+{% extends "darkwood/base.html.twig" %}
+
+{% block content %}
+<h1>{{ page.title }}</h1>
+<p id="actions">
+    {{ knp_pagination_sortable(users, 'common.users.sort_by_register_day'|trans, 'u.created', {'id': 'action_sort_by_register_day', 'class': 'icon left' ~ (users.isSorted('u.created') ? ' selected':'')}, {}, 'common/partials/sortable_link.html.twig') }}
+    {{ knp_pagination_sortable(users, 'common.users.sort_by_names'|trans, 'u.username', {'id': 'action_sort_by_names', 'class': 'icon left' ~ (users.isSorted('u.username') ? ' selected':'')}, {}, 'common/partials/sortable_link.html.twig') }}
+</p>
+
+{{ knp_pagination_render(users, 'common/partials/sliding.html.twig') }}
+{% for user in users %}
+<div class="user-box">
+    <a href="{{ path('common_profile', {'username': user.username}) }}">
+        <img src="{{ asset(vich_uploader_asset(user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+        {{ user.username }}
+    </a>
+</div>
+{% endfor %}
+{{ knp_pagination_render(users, 'common/partials/sliding.html.twig') }}
+
+{% endblock %}
+
+

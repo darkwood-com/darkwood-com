@@ -1,0 +1,38 @@
+<p id="actions">
+    <a id="action_return" href="{{ url('darkwood_play', {'display': display, 'state':'profile', 'username': user.username}) }}" class="icon left">{{ 'darkwood.play.label.back'|trans }}</a>
+</p>
+
+<table>
+    <colgroup>
+        <col class="col-2" />
+        <col class="col-2" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="2">{{ 'common.profile.infos.title'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="2"><img src="{{ asset(vich_uploader_asset(user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}"></td>
+    </tr>
+    <tr>
+        <td>{{ 'common.profile.infos.firstname'|trans|upper }}</td>
+        <td>{{ user.firstname }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'common.profile.infos.lastname'|trans|upper }}</td>
+        <td>{{ user.lastname }}</td>
+    </tr>
+    </tbody>
+</table>
+
+{% if confirm %}
+    <div class="alert_success">{{ 'darkwood.play.label.report_confirmed'|trans }}</div>
+{% else %}
+    <p>{{ 'darkwood.play.label.report_confirm'|trans }}</p>
+    <p id="actions">
+        <a id="action_yes" href="{{ url('darkwood_play', {'display': display, 'state':'report', 'username': user.username, 'confirm': 'true'}) }}" class="icon left">{{ 'darkwood.play.label.yes'|trans }}</a>
+        <a id="action_no" href="{{ url('darkwood_play', {'display': display, 'state':'profile', 'username': user.username}) }}" class="icon left">{{ 'darkwood.play.label.no'|trans }}</a>
+    </p>
+{% endif %}

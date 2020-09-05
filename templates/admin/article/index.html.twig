@@ -1,0 +1,182 @@
+{% extends "admin/base.html.twig" %}
+{% set navbarActive = 'article' %}
+
+{% block content %}
+<h1 class="article-header article-header-2">
+    Toutes les articles <small>Créer, modifier, supprimer une article.</small>
+</h1>
+<div class="row">
+    <div class="col-md-9">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="panel-group" id="accordion">
+
+                    <div class="panel panel-inverse overflow-hidden">
+                        <div class="panel-heading">
+                            <div class="panel-heading-btn">
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" data-tooltip="panel-collapse" data-original-title="" title=""><i class="fa fa-minus"></i></a>
+                            </div>
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion" href="#all">
+                                    <i class="fa fa-list-ul" style="margin-right: 8px"></i>
+                                    {#{{ label }}#}Liste des article
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="all" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                {% if entities | length > 0 %}
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            {# sorting of properties based on query components #}
+
+                                            <th style="width: 50px; text-align:center;"{% if entities.isSorted('p.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'ID', 'p.id') }}</th>
+                                            <th style="width: 100px; text-align:center;">Cover</th>
+                                            <th>Title</th>
+                                            <th style="width: 100px; text-align:center;"  {% if entities.isSorted('p.active') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Activé', 'p.active') }}</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for article in entities %}
+                                            <tr {% if loop.index is odd %}class="color"{% endif %} id="article-{{ article.id }}">
+                                                <td style="vertical-align: middle">{{ article.id }}</td>
+                                                <td style="vertical-align: middle"><img src="{{ asset(vich_uploader_asset(article.getOneTranslation(app.request.locale), 'image')|default('/common/images/site/cover.png'))|imagine_filter('admin_list') }}" /></td>
+                                                <td style="vertical-align: middle"><a href="{{ path('admin_article_edit', {'id': article.id}) }}">{{ article.getOneTranslation(app.request.locale).title }}</a></td>
+                                                <td style="vertical-align: middle;text-align:center;">{% if article.getOneTranslation(app.request.locale).active %}<span class="text text-success"><i class="fa fa-check text-success"></i>{# <b>Activé</b>#}</span>{% else %}<span class="text text-danger"><i class="fa fa-times text-danger"></i>{# <b>Désactivé</b> #}</span>{% endif %}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {# display navigation #}
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(entities) }}
+                                    </div>
+                                {% else %}
+                                    <p>Aucun article trouvé.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title">
+                            <i class="fa fa-file-text-o"></i> Nouvel article
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <i class="fa fa-question-circle fa-3x pull-left"></i>
+                            Pour créer une nouvelle article, sélectionner le type de article puis le template correspondant.
+                        </p>
+                        <dl>
+                            <form action="{{ path('admin_article_create') }}" method="get" style="font-size: 13px;">
+
+                                {#<dt>Créer l'article</dt>#}
+                                {#<input type="submit" class="btn btn-success btn-block" value="Créer l'article"/>#}
+                                <hr />
+                                <button type="submit" class="btn btn-success btn-block">Créer l'article <i class="fa fa-file-text-o  pull-right"></i></button>
+
+                                {#
+                                <span {% if not is_granted('ROLE_ADMIN') %}style="display: none;"{% endif %} > puis choisisser votre template </span>
+                                <select {% if not is_granted('ROLE_ADMIN') %}style="display: none;"{% endif %} id="createArticleTemplate" name="templateSlug" class="selectpicker" data-style="btn-success" data-size="30" data-live-search="true" >
+                                    {% for template in templates %}
+                                        <option id="template-{{ template.id }}" value="{{ template.slug }}">{{ template.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                #}
+
+                                {#Puis cliquer sur ce bouton pour créer votre article #}
+
+                                <script type="text/javascript">
+                                    var templateDefault = $('#createArticleBreed option:selected').data('td');
+                                    $('#' + templateDefault).prop('selected', true);
+                                    $('.selectpicker').selectpicker('refresh');
+                                    $('#createArticleBreed ').change(function(e){
+                                        var templateDefault = $('#createArticleBreed option:selected').data('td');
+                                        $('#' + templateDefault).prop('selected', true);
+                                        $('.selectpicker').selectpicker('refresh');
+                                    });
+                                </script>
+                            </form>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            <div class="col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title">
+                            <i class="fa fa-search"></i> Recherche
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <i class="fa fa-question-circle fa-3x pull-left"></i>
+                            Pour rechercher un article, remplissez un des critères ci-dessous et lancez la recherche.
+                        </p>
+
+                        {% include "admin/article/partials/searchList.html.twig" with {'form': search_form} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function(){
+                $('.delete-article').click(function(e){
+                    e.preventDefault();
+
+                    var id = $(this).data('id');
+                    var url = $(this).data('href');
+                    $parent = $('.table-striped');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        async : false,
+                        always: function(){
+                            $(this).find('.fa').removeClass('fa-trash-o').addClass('fa-refresh').css({'transform' : 'rotate(20000deg)'});
+                        },
+                        success: function(data){
+                            $('.article-header-2').before('<div class="alert alert-success" style="margin-top: 40px;margin-right: 8px;"><i class="fa fa-check"></i>'+ data +'</div>');
+                            $('#article-'+id).remove();
+                            $parent.find('tr').removeClass('color');
+                            $parent.find('tr:odd').addClass('color');
+                        },
+                        error: function(xhr){
+                            $('.article-header-2').before('<div class="alert alert-danger" style="margin-top: 40px;margin-right: 8px;"><i class="fa fa-bomb"></i> Une erreur est survenue !</div>');
+                        }
+                    });
+                });
+            });
+        </script>
+
+    </div>
+</div>
+{% endblock %}

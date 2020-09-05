@@ -1,0 +1,13 @@
+<dl>
+    {{ form_start(form) }}
+
+        {{ form_errors(form.id) }}
+        <dt>ID</dt>
+        <dd>{{ form_widget(form.id, { 'attr': {'class': 'form-control'} }) }}</dd>
+
+        <hr>
+
+        {{ form_widget(form.submit) }}
+    {{ form_end(form) }}
+</dl>
+

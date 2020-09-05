@@ -1,0 +1,165 @@
+{% set navbarActive = 'user' %}
+{% extends "admin/base.html.twig" %}
+
+{% block mainTitle 'Utilisateurs' %}
+{% block subTitle "" %}
+
+{% block content %}
+<h1 class="page-header page-header-2">
+    Tous les utilisateurs <small>Ajouter des utilisateurs.</small>
+</h1>
+<div class="row">
+
+    <div class="col-md-9">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="panel panel-inverse">
+                    <div class="panel-heading"  style="cursor:default;">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" data-tooltip="panel-collapse" data-original-title="" title=""><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title"><i class="fa fa-book" style="margin-right: 8px"></i> Liste</h4>
+                    </div>
+                    <div class="panel-body">
+                        {% if entities | length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        {# sorting of properties based on query components #}
+                                        <th style="width: 100px; text-align:center;"  {% if entities.isSorted('u.isVerified') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Actif', 'u.isVerified') }}</th>
+                                        <th style="width: 50px; text-align:center;"{% if entities.isSorted('u.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Id', 'u.id') }}</th>
+                                        <th style="width: 100px; text-align:center;">Avatar</th>
+                                        <th{% if entities.isSorted('u.firstname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Prénom', 'u.firstname') }}</th>
+                                        <th{% if entities.isSorted('u.lastname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Nom', 'u.lastname') }}</th>
+                                        <th{% if entities.isSorted('u.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Email', 'u.email') }}</th>
+                                        <th>Roles</th>
+                                        <th{% if entities.isSorted('u.created') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Création', 'u.created') }}</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for user in entities %}
+                                        <tr {% if loop.index is odd %}class="color"{% endif %} id="user-{{ user.id }}">
+                                            <td style="text-align:center;vertical-align:middle;">{% if user.isVerified %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-danger"></i>{% endif %}</td>
+                                            <td style="vertical-align:middle;">{{ user.id }}</td>
+                                            <td style="vertical-align: middle"><img src="{{ asset(vich_uploader_asset(user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('admin_list') }}" /></td>
+                                            <td style="vertical-align:middle;"><a href="{{ path('admin_user_edit', {'id': user.id}) }}">{{ user.firstname }}</a></td>
+                                            <td style="vertical-align:middle;">{{ user.lastname }}</td>
+                                            <td style="vertical-align:middle;">{{ user.email }}</td>
+                                            <td style="vertical-align:middle;">
+                                                <span class="label label-warning">
+                                                {{ user.roles | json_encode }}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle;">{{ user.created|date("m/d/Y", "Europe/Paris") }}</td>
+                                            <td style="width: 100px;text-align:right;vertical-align:middle;">
+                                                <a href="#" data-href="{{ path('admin_user_delete', {'id': user.id}) }}" data-id="{{ user.id }}" class="btn-lg btn-icon delete-user"><i class="fa fa-trash-o" style="color:red;transition: all 30s linear;"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(entities) }}
+                            </div>
+                        {% else %}
+                            <p>Aucun</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function(){
+                        $('.delete-user').click(function(e){
+                            e.preventDefault();
+
+                            var id = $(this).data('id');
+                            var url = $(this).data('href');
+                            $parent = $('.table-striped');
+
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                async : false,
+                                always: function(){
+                                    $(this).find('.fa').removeClass('fa-trash-o').addClass('fa-refresh').css({'transform' : 'rotate(20000deg)'});
+                                },
+                                success: function(data){
+                                    $('.page-header-2').before('<div class="alert alert-success" style="margin-top: 40px;margin-right: 8px;"><i class="fa fa-check"></i>'+ data +'</div>');
+                                    $('#user-'+id).remove();
+                                    $parent.find('tr').removeClass('color');
+                                    $parent.find('tr:odd').addClass('color');
+                                },
+                                error: function(xhr){
+                                    $('.page-header-2').before('<div class="alert alert-danger" style="margin-top: 40px;margin-right: 8px;"><i class="fa fa-bomb"></i>' + xhr.responseText + '</div>');
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="row">
+
+
+            <div class="col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title">
+                            <i class="fa fa-file-text-o"></i> Nouvel utilisateur
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <i class="fa fa-question-circle fa-3x pull-left"></i>
+                            Pour créer un nouvel utilisateur, cliquez sur le lien ci-dessous.
+                        </p>
+                        <hr />
+                        <a class="btn btn-success btn-block" href="{{ path('admin_user_create') }}">
+                            Nouvel utilisateur <i class="fa fa-file-text-o pull-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title">
+                            <i class="fa fa-search"></i> Recherche
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <i class="fa fa-question-circle fa-3x pull-left"></i>
+                            Pour rechercher un utlisateur, remplissez un des critères ci-dessous et lancez la recherche.
+                        </p>
+
+                        {% include "admin/user/partials/searchList.html.twig" with {'form': search_form} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

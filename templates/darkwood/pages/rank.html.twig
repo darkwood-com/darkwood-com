@@ -1,0 +1,34 @@
+{% extends "darkwood/base.html.twig" %}
+
+{% block content %}
+{% if mode in ['by_class_human','by_class_lucky_lucke','by_class_panoramix','by_class_popeye'] %}
+<h1>{{ 'darkwood.menu.rank_by_class'|trans }}</h1>
+{% elseif mode in ['daily_fight_by_defeats','daily_fight_by_victories'] %}
+<h1>{{ 'darkwood.menu.rank_daily_fight'|trans }}</h1>
+{% else %}
+<h1>{{ 'darkwood.menu.rank_general'|trans }}</h1>
+{% endif %}
+<p id="actions">
+{% if mode in ['by_class_human','by_class_lucky_lucke','by_class_panoramix','by_class_popeye'] %}
+    <a id="action_sort_by_human" class="icon left{% if mode == 'by_class_human' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_human'}) }}">Humain</a>
+    <a id="action_sort_by_lucky_lucke" class="icon left{% if mode == 'by_class_lucky_lucke' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_lucky_lucke'}) }}">Lucky Lucke</a>
+    <a id="action_sort_by_panoramix" class="icon left{% if mode == 'by_class_panoramix' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_panoramix'}) }}">Panoramix</a>
+    <a id="action_sort_by_popeye" class="icon left{% if mode == 'by_class_popeye' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_popeye'}) }}">Popeye</a>
+{% elseif mode in ['daily_fight_by_defeats','daily_fight_by_victories'] %}
+    <a id="action_sort_by_defeats" class="icon left{% if mode == 'daily_fight_by_defeats' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'daily_fight_by_defeats'}) }}">Défaites</a>
+    <a id="action_sort_by_victories" class="icon left{% if mode == 'daily_fight_by_victories' %} selected{% endif %}" href="{{ path('darkwood_rank', {'mode': 'daily_fight_by_victories'}) }}">Victoires</a>
+{% endif %}
+</p>
+
+{{ knp_pagination_render(players, 'common/partials/sliding.html.twig') }}
+{% for player in players %}
+<div class="user-box">
+    <a href="{{ path('common_profile', {'username': player.user.username}) }}">
+        <img src="{{ asset(vich_uploader_asset(player.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+        {{ player.user.username }}
+    </a>
+</div>
+{% endfor %}
+{{ knp_pagination_render(players, 'common/partials/sliding.html.twig') }}
+
+{% endblock %}

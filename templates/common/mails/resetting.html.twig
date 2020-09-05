@@ -1,0 +1,10 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "common/mails/base.html.twig" %}
+{% block subject %}[Darkwood] Réinitialisation de votre mot de passe{% endblock %}
+
+{% block content %}
+<span style="color:#EEEEEE; font-size:20px; font-weight: 300;">Bonjour {{ user.username }} !</span><br /><br />
+
+Pour réinitialiser votre mot de passe, merci de vous rendre sur :<br /><br />
+<a href="{{ confirmationUrl }}">{{ confirmationUrl }}</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+<div class="form-group collection-item">
+    {% if form.slug.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.slug) }}</div></div>{% endif %}
+    <div class="form-group {% if form.slug.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+        {{ form_label(form.slug, 'Slug', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+        <div class="col-md-10">
+            {{ form_widget(form.slug, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+    </div>
+
+    {% if form.title.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.title) }}</div></div>{% endif %}
+    <div class="form-group {% if form.title.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+        {{ form_label(form.title, 'Titre', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+        <div class="col-md-10">
+            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+    </div>
+
+    {% if form.content.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.content) }}</div></div>{% endif %}
+    <div class="form-group {% if form.content.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+        {{ form_label(form.content, 'Contenu', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+        <div class="col-md-10">
+            {{ form_widget(form.content, { 'attr': {'class': 'form-control meditor'} }) }}
+        </div>
+    </div>
+
+    <div class="col-lg-1">
+        <a href="#" class="btn btn-danger collection-remove"><i class="glyphicon glyphicon-trash"></i></a>
+    </div>
+</div>

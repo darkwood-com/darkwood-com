@@ -1,0 +1,162 @@
+
+    <!-- Nav tabs -->
+    <ul class="nav bwizard-steps clearfix">
+        <li class="active">
+            <a href="#general" data-toggle="tab">
+                <i class="fa fa-user"></i>
+
+                {% if
+                form.civility.vars['errors'] |length > 0 or
+                form.firstname.vars['errors'] |length > 0 or
+                form.lastname.vars['errors'] |length > 0 or
+                form.birthday.vars['errors'] |length > 0 or
+                form.username.vars['errors'] |length > 0 or
+                form.email.vars['errors'] |length > 0 or
+                form.plainPassword.vars['errors'] |length > 0 or
+                form.isVerified.vars['errors'] |length > 0
+                %}
+                    <span class="badge badge-danger" style="background: #f8b2b2 !important; color: red !important;position: absolute; left: 5px; top: 5px;width: 19px;"><i class="fa fa-flash"></i></span>
+                {% endif %}
+                Utilisateur
+                <small>Gestion de l'utilisateur</small>
+            </a>
+        </li>
+        <li>
+            <a href="#auth" data-toggle="tab">
+                <i class="fa fa-unlock-alt"></i>
+                Autorisations
+                <small>Gestion des droits de l'utilisateur</small>
+            </a>
+        </li>
+    </ul>
+
+
+    <br/><br/>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="general">
+
+
+            <div class="form-group {% if form.civility.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.civility.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.civility) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.civility, 'Civilité', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.civility, { 'attr': {'class': 'form-control selectpicker', 'data-style': "btn-primary", 'data-size': 10, 'data-live-search': 'true'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group {% if form.firstname.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.firstname.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.firstname) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.firstname, 'Prénom', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.firstname, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group {% if form.lastname.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.lastname.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.lastname) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.lastname, 'Nom', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.lastname, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group {% if form.birthday.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.birthday.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.birthday) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.birthday, 'Date de naissance', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        <div class='input-group date'>
+                            {{ form_widget(form.birthday, { 'attr': {'class': 'form-control'} }) }}
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group {% if form.username.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.username.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.username) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.username, 'Pseudo', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group {% if form.email.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.email.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.email) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.email, 'Email', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            {% if form.plainPassword.first.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.plainPassword.first) }}</div></div>{% endif %}
+            <div class="form-group {% if form.plainPassword.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {% if form.plainPassword.vars['errors'] |length > 0 %}<div class="row"><div class="col-md-2 control-label"></div><div class="col-md-8"><div class="alert alert-danger alert-form">{{ form_errors(form.plainPassword) }}</div></div></div>{% endif %}
+                <div class="row">
+                    {{ form_label(form.plainPassword.first, 'Mot de passe', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group {% if form.isVerified.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                <div class="row">
+                    {{ form_label(form.plainPassword.second, 'Répeter le mot de passe', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-8">
+                        {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="form-group {% if form.isVerified.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                {{ form_label(form.isVerified, 'Activé', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                    {{ form_widget(form.isVerified, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="auth">
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h4>Roles</h4>
+                    <table  style="margin-bottom: 0;" class="table table-hover table-striped">
+                        <tbody>
+                        <tr>
+                            <td style="width:150px;">{{ form_widget(form.hasRoleAdmin, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button-site'} }) }}</td>
+                            <td><b>{{ form_label(form.hasRoleAdmin, 'Est Admin', { 'label_attr': { 'class': 'col-md-12 control-label' }}) }}</b></td>
+                        </tr>
+                        <tr>
+                            <td style="width:150px;">{{ form_widget(form.hasRoleSuperAdmin, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button-site'} }) }}</td>
+                            <td><b>{{ form_label(form.hasRoleSuperAdmin, 'Est Super Admin', { 'label_attr': { 'class': 'col-md-12 control-label' }}) }}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="text-align:center;position: relative;left: 6%;">
+        {{ form_errors(form._token) }}
+        {{ form_widget(form._token) }}
+    </div>

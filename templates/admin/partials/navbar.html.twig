@@ -1,0 +1,83 @@
+<div id="sidebar" class="sidebar">
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+
+            <li class="nav-header">
+                Admin
+            </li>
+            <li class="{% if navbarActive is not defined or  navbarActive is empty %}active{% endif %}">
+                <a href="{{ path('admin_home') }}"><i class="fa fa-laptop"></i> <span>Dashboard</span></a>
+            </li>
+
+            <li class="nav-header">
+                Apps
+            </li>
+            <li class="{% if navbarActive == 'app' %}active{% endif %}">
+                <a href="{{ path("admin_app_list") }}"><i class="fa fa-cubes"></i> <span>Apps</span></a>
+            </li>
+
+            <li class="nav-header">
+                Blog
+            </li>
+            <li class="{% if navbarActive == 'article' %}active{% endif %}">
+                <a href="{{ path("admin_article_list") }}"><i class="fa fa-align-justify"></i> <span>Articles</span></a>
+            </li>
+
+
+            <li class="nav-header">
+                Common
+            </li>
+            <li class="{% if navbarActive == 'page' %}active{% endif %}">
+                <a href="{{ path("admin_page_list") }}"><i class="fa fa-file-text-o"></i> <span>Pages</span></a>
+            </li>
+
+            <li class="{% if navbarActive == 'comment' %}active{% endif %}">
+                <a href="{{ path("admin_comment_list") }}"><i class="fa fa-comments-o"></i> <span>Commentaires</span></a>
+            </li>
+
+            <li class="{% if navbarActive == 'contact' %}active{% endif %}">
+                <a href="{{ path("admin_contact_list") }}"><i class="fa fa-send-o"></i> <span>Contacts</span></a>
+            </li>
+
+            <li class="{% if navbarActive == 'site' %}active{% endif %}">
+                <a href="{{ path("admin_site_list") }}"><i class="fa fa-gear"></i> <span>Sites</span></a>
+            </li>
+
+            <li class="{% if navbarActive == 'user' %}active{% endif %}">
+                <a href="{{ path("admin_user_list") }}"><i class="fa fa-users"></i> <span>Utilisateurs</span></a>
+            </li>
+
+            <li style="padding-top: 20px;">
+                <a href="{{ path('admin_imagine_generate') }}" class="action-button"title="Génération du cache Imagine" style="text-align:left; font-size: 11px;margin:0 0 0 0; width: 100%;  padding: 4px 8px;display: inline-block; background: #cc4946;color: white;"><i class="fa fa-file-picture-o" style="margin:0 10px 0 0"></i> Regénérer Imagine</a>
+                <a href="{{ path('admin_imagine_flush') }}" class="action-button"title="Flush du cache Imagine" style="text-align:left; font-size: 11px;margin:0 0 0 0; width: 100%;  padding: 4px 8px;display: inline-block; background: #008a8a;color: white;"><i class="fa fa-picture-o" style="margin:0 10px 0 0"></i> Flusher Imagine</a>
+            </li>
+
+       </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+<script>
+    $(document).ready(function(){
+        $('.action-button').click(function(e){
+            e.preventDefault();
+
+            url = $(this).attr('href');
+            title = $(this).attr('title');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                async : false,
+                success: function(data){
+                    $.gritter.add({
+                        title: ""+title+"",
+                        text: ""+data+""
+                    });
+                }
+            });
+        });
+    });
+</script>

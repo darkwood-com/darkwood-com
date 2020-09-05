@@ -1,0 +1,33 @@
+<dl>
+    {{ form_start(form) }}
+
+        {{ form_errors(form.id) }}
+        <div class="form-group">
+            {{ form_label(form.id, 'ID', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+            <div class="col-md-10">
+                {{ form_widget(form.id, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        {{ form_errors(form.name) }}
+        <div class="form-group">
+            {{ form_label(form.name, 'Nom', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+            <div class="col-md-10">
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        {{ form_errors(form.host) }}
+        <div class="form-group">
+            {{ form_label(form.host, 'Nom de hoste', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+            <div class="col-md-10">
+                {{ form_widget(form.host, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        <hr>
+
+        {{ form_widget(form.submit) }}
+    {{ form_end(form) }}
+</dl>
+

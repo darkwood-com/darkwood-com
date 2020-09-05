@@ -1,0 +1,10 @@
+{{ knp_pagination_render(users, 'common/partials/sliding.html.twig') }}
+{% for user in users %}
+    <div class="user-box">
+        <a href="{{ url('darkwood_play', {'display': display, 'state':'profile', 'username': user.username}) }}">
+            <img src="{{ asset(vich_uploader_asset(user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+            {{ user.username }}
+        </a>
+    </div>
+{% endfor %}
+{{ knp_pagination_render(users, 'common/partials/sliding.html.twig') }}

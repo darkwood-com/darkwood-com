@@ -1,0 +1,64 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        users:
+            uri_prefix:         /media/users
+            upload_destination: '%kernel.project_dir%/public/media/users'
+            namer:              vich_uploader.namer_uniqid
+        sites:
+            uri_prefix:         /media/sites
+            upload_destination: '%kernel.project_dir%/public/media/sites'
+            namer:              vich_uploader.namer_uniqid
+        pages:
+            uri_prefix:         /media/pages/images
+            upload_destination: '%kernel.project_dir%/public/media/pages/images'
+            namer:              vich_uploader.namer_uniqid
+        thumbnailPages:
+            uri_prefix:         /media/pages/thumbnails
+            upload_destination: '%kernel.project_dir%/public/media/pages/thumbnails'
+            namer:              vich_uploader.namer_uniqid
+        twitterPages:
+            uri_prefix:         /media/pages/twitters
+            upload_destination: '%kernel.project_dir%/public/media/pages/twitters'
+            namer:              vich_uploader.namer_uniqid
+        ogPages:
+            uri_prefix:         /media/pages/ogs
+            upload_destination: '%kernel.project_dir%/public/media/pages/ogs'
+            namer:              vich_uploader.namer_uniqid
+        news:
+            uri_prefix:         /media/news
+            upload_destination: '%kernel.project_dir%/public/media/news'
+            namer:              vich_uploader.namer_uniqid
+        articles:
+            uri_prefix:         /media/articles
+            upload_destination: '%kernel.project_dir%/public/media/articles'
+            namer:              vich_uploader.namer_uniqid
+        armors:
+            uri_prefix:         /media/armors
+            upload_destination: '%kernel.project_dir%/public/media/armors'
+            namer:              vich_uploader.namer_uniqid
+        classes:
+            uri_prefix:         /media/classes
+            upload_destination: '%kernel.project_dir%/public/media/classes'
+            namer:              vich_uploader.namer_uniqid
+        enemies:
+            uri_prefix:         /media/enemies
+            upload_destination: '%kernel.project_dir%/public/media/enemies'
+            namer:              vich_uploader.namer_uniqid
+        gems:
+            uri_prefix:         /media/gems
+            upload_destination: '%kernel.project_dir%/public/media/gems'
+            namer:              vich_uploader.namer_uniqid
+        potions:
+            uri_prefix:         /media/potions
+            upload_destination: '%kernel.project_dir%/public/media/potions'
+            namer:              vich_uploader.namer_uniqid
+        swords:
+            uri_prefix:         /media/swords
+            upload_destination: '%kernel.project_dir%/public/media/swords'
+            namer:              vich_uploader.namer_uniqid
+        bannerApps:
+            uri_prefix:         /media/apps/banners
+            upload_destination: '%kernel.project_dir%/public/media/apps/banners'
+            namer:              vich_uploader.namer_uniqid

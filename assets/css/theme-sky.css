@@ -1,0 +1,957 @@
+/* -> layout */
+.theme-sky
+{
+    color: #888888;
+    background: #CDEEFF url('../../public/common/images/components/theme-sky/site/sky_pattern.jpg') repeat-x;
+}
+
+@media(max-width:767px) {
+    .theme-sky
+    {
+        background-size: 1px 415px;
+    }
+}
+
+.theme-sky .theme-header
+{
+    height: 250px;
+}
+
+@media(max-width:767px) {
+    .theme-sky .theme-header
+    {
+        height: 125px;
+    }
+}
+
+	.theme-sky .theme-header-logo
+	{
+        height: 450px;
+        width: 100%;
+        background: transparent url('../../public/common/images/components/theme-sky/site/header/sky.jpg') no-repeat center top;
+        background-size: auto 100%;
+	}
+
+	@media(max-width:767px) {
+		.theme-sky .theme-header-logo
+        {
+			height: 225px;
+		}
+	}
+
+
+.theme-sky .theme-body
+{
+    background: transparent url('../../public/common/images/components/theme-sky/site/body/content_pattern.jpg') repeat-y center top;
+}
+
+.theme-sky .theme-body > * {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+/*@media(max-width:767px) {
+    .theme-sky .theme-body
+    {
+        background-size: 500px auto;
+    }
+}*/
+    .theme-sky .theme-body-top
+    {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px 20px 20px 20px;
+        background: transparent url('../../public/common/images/components/theme-sky/site/body/content_top.jpg') no-repeat top;
+    }
+
+    @media(max-width:767px) {
+        .theme-sky .theme-body-top
+        {
+            padding: 20px 0px 0px 0px;
+            /*max-width: 500px;
+            background-size: 500px auto;*/
+        }
+    }
+
+.theme-sky .theme-footer
+{
+    padding: 0;
+    background-color: #FFFFFF;
+    text-align: center;
+}
+
+    .theme-sky .theme-footer-top
+    {
+        margin: 0px auto 0px auto;
+        padding: 0;
+        width: 1000px;
+    }
+
+    .theme-sky .theme-footer ul
+        {
+            margin: 0;
+            padding: 10px 0px 10px 0px;
+        }
+
+.theme-sky h1
+{
+    margin: 20px 0px 20px 0px;
+    font-size: 32px;
+    text-align: center;
+    color: #888888;
+}
+
+.theme-sky h2
+{
+    margin: 18px 0px 18px 0px;
+    font-size: 24px;
+    text-align: left;
+    color: #888888;
+}
+
+.theme-sky h3
+{
+    margin: 16px 0px 10px 0px;
+    font-size: 20px;
+    text-align: center;
+    color: #888888;
+}
+
+.theme-sky h4
+{
+    margin: 5px 0px 5px 0px;
+    font-size: 16px;
+    color: #888888;
+}
+
+.theme-sky a
+{
+    color: #888888;
+    text-decoration: none;
+}
+
+.theme-sky a:hover
+{
+    color: #0099FF;
+    cursor: pointer;
+}
+
+.theme-sky a:active
+{
+    cursor: pointer;
+}
+
+.theme-sky p
+{
+    margin: 10px 0px 10px 0px;
+}
+
+/* -> user-box */
+.theme-sky div.user-box
+{
+    margin: 15px;
+    width: 60px;
+    height: 70px;
+    text-align: center;
+    float: left;
+}
+
+/* -> links */
+.theme-sky ul.links li
+{
+    padding: 5px 0px 5px 0px;
+    clear: both;
+    overflow: auto;
+}
+
+.theme-sky ul.links a
+{
+    float: left;
+}
+
+.theme-sky ul.links p
+{
+    margin: 0px 0px 0px 250px;
+}
+
+/* -> pagination */
+.theme-sky div.paginate
+{
+    padding: 3px;
+    margin: 3px;
+    text-align: center;
+    font-size: 80%;
+    clear: both;
+}
+
+.theme-sky div.paginate a
+{
+    margin-right: 3px;
+    padding: 2px 5px;
+    background: #2FB8EF url('../../public/common/images/components/theme-sky/pagination/normal.jpg');
+    border: 1px solid #88E8FD;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.theme-sky div.paginate a:hover
+{
+    background: #2FB8EF url('../../public/common/images/components/theme-sky/pagination/hover.jpg');
+    border: 1px solid #88E8FD;
+    color: #FFFFFF;
+}
+
+.theme-sky div.paginate a.current, .theme-sky div.paginate a:active
+{
+    margin-right: 3px;
+    padding: 2px 5px;
+    border: 1px solid #EEFFFF;
+    font-weight: bold;
+    background: #69D3FF none;
+    color: #FFFFFF;
+}
+
+.theme-sky div.paginate .disabled
+{
+    margin-right: 3px;
+    padding: 2px 5px;
+    border: 1px solid #929292;
+    color: #929292;
+}
+
+/* -> comments */
+.theme-sky ul.comments
+{
+    list-style-type: none;
+    padding: 0;
+}
+
+.theme-sky ul.comments li
+{
+    margin: 10px 0px 10px 0px;
+    overflow: auto;
+    clear: both;
+}
+
+.theme-sky ul.comments a.author
+{
+    float: left;
+    text-align: center;
+}
+
+.theme-sky ul.comments div.content
+{
+    margin: 0px 0px 0px 100px;
+    padding: 10px;
+    background: #D8F1FE;
+    border: 1px solid #66B8E2;
+}
+
+.theme-sky ul.comments div.content div.arrow
+{
+    background: transparent url('../../public/common/images/components/theme-sky/comment/arrow.png') no-repeat;
+    width: 21px;
+    height: 18px;
+    position: relative;
+    left: -32px;
+}
+
+.theme-sky ul.comments div.content div.date
+{
+    margin: 20px 0px 0px 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* -> forms */
+.theme-sky form
+{
+    margin: 0px auto 0px auto;
+}
+
+.theme-sky form fieldset
+{
+    margin: 10px;
+    padding: 10px;
+    border: #66B8E2 1px solid;
+}
+
+.theme-sky form fieldset legend
+{
+    margin: 0px 10px 0px 10px;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    border-top: none;
+    border-bottom: none;
+    border-left: #66B8E2 1px solid;
+    border-right: #66B8E2 1px solid;
+    color: #66B8E2;
+}
+
+.theme-sky form fieldset li
+{
+    list-style-type: none;
+}
+
+.theme-sky form ul, .theme-sky form li
+{
+    padding: 0px;
+    list-style-type: none;
+    clear: both;
+}
+
+.theme-sky form li.centered
+{
+    text-align: center;
+}
+
+.theme-sky form label
+{
+    margin: 2px 0px 2px 0px;
+    width: 45%;
+    float: left;
+}
+
+.theme-sky form label.centered
+{
+    display: block;
+    width: 100%;
+    float: none;
+}
+
+.theme-sky form input, .theme-sky form textarea
+{
+    margin: 2px 0px 2px 0px;
+    border: 0px solid #FFFFFF;
+    color: #FFFFFF;
+    background-color: #00AAFF;
+    width: 50%;
+    float: right;
+    clear: right;
+}
+
+.theme-sky form .g-recaptcha {
+    margin: 2px 0px 2px 0px;
+    border: 0px solid #FFFFFF;
+    color: #FFFFFF;
+    width: 50%;
+    float: right;
+    clear: right;
+}
+
+.theme-sky form .g-recaptcha.centered {
+    margin: auto;
+    border: 0px solid #FFFFFF;
+    width: 50%;
+    float: none;
+    clear: both;
+}
+
+.theme-sky form input.centered, .theme-sky form textarea.centered, .theme-sky form img.centered
+{
+    float: none;
+}
+
+.theme-sky form img
+{
+    float: right;
+    clear: right;
+}
+
+.theme-sky form input:focus, .theme-sky form textarea:focus
+{
+    background-color: #00DDFF;
+}
+
+.theme-sky form input[type=submit]
+{
+    font-weight:bold;
+    width: auto;
+}
+
+.theme-sky form input[type=submit]:hover
+{
+    background-color: #00DDFF;
+    cursor:pointer;
+}
+
+.theme-sky form input[type=submit]:active
+{
+    background-color:#0088FF;
+}
+
+/* -> list */
+.theme-sky ul.itemlist
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.theme-sky ul.itemlist > li
+{
+    margin: 15px 0px 15px 0px;
+    padding: 0;
+    background:  #BBE7FE none;
+    border: 2px solid #8ED7FE;
+}
+
+.theme-sky ul.itemlist li h3
+{
+    margin: 0;
+    padding: 2px;
+    background: #8ED7FE none;
+}
+
+.theme-sky ul.itemlist li p
+{
+    padding: 10px;
+}
+
+/* -> trees */
+.theme-sky fieldset.tree
+{
+    float: left;
+    border-top: 2px solid #66B8E2;
+    border-left: 2px solid #66B8E2;
+}
+
+.theme-sky .tree legend
+{
+    margin: 10px;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    border-top: none;
+    border-bottom: none;
+    border-left: #66B8E2 2px solid;
+    border-right: #66B8E2 2px solid;
+    color: #66B8E2;
+}
+
+.theme-sky .tree ul.root
+{
+    margin:  0px;
+    padding: 0px;
+    border: 0px none;
+}
+
+.theme-sky .tree ul
+{
+    margin:  0px 0px 0px 24px;
+    padding: 0px;
+    border-left: 2px solid #66B8E2;
+}
+
+.theme-sky .tree li
+{
+    margin:  0px;
+    padding: 15px 0px 0px 0px;
+    list-style:none;
+}
+
+.theme-sky .tree li .folder
+{
+    background-color: #66B8E2;
+}
+
+.theme-sky .tree li span
+{
+    margin:  0px 5px 0px 0px;
+    padding: 0px 8px 0px 8px;
+    border-top: 2px solid #66B8E2;
+}
+
+.theme-sky .tree li a
+{
+    position: relative;
+    top: -8px;
+    padding: 2px;
+    border: 2px solid #66B8E2;
+    color: #FFFFFF;
+    background-color: #5ccefd;
+}
+
+.theme-sky .tree li a:hover
+{
+    color: #FFFFFF;
+    background-color: #22CCFF;
+    border: 2px solid #00A2FF;
+}
+
+/*** css specific to the site ***/
+
+/* -> links */
+.theme-sky .theme-content a.no_link
+{
+    color: #888888;
+    cursor: default;
+}
+
+.theme-sky .theme-content.show_links a
+{
+    text-decoration: underline;
+}
+
+/* -> tables */
+.theme-sky .theme-content table
+{
+    margin: 10px 0px 10px 0px;
+    background: #BBE7FE;
+    width: 100%;
+    text-align: center;
+}
+
+.theme-sky .theme-content table thead
+{
+    font-size: 18px;
+    background: #8ED7FE;
+    border: 1px solid #8ED7FE;
+}
+
+.theme-sky .theme-content table tbody
+{
+    border: 1px solid #8ED7FE;
+}
+
+.theme-sky .theme-content table th
+{
+    padding: 2px;
+    text-align: center;
+}
+
+.theme-sky .theme-content table th, .theme-sky .theme-content table td
+{
+    vertical-align: middle;
+}
+
+.theme-sky .theme-content table td.spaced
+{
+    padding: 10px;
+}
+
+/* -> actions */
+.theme-sky .theme-content p#actions, .theme-sky .theme-content #actions p
+{
+    margin: 10px;
+    overflow: auto;
+}
+
+.theme-sky .theme-content #actions a
+{
+    padding:1px;
+}
+
+.theme-sky .theme-content #actions a:hover
+{
+    background-color:#ADE4FE;
+    border:1px solid #66B8E2;
+}
+
+.theme-sky .theme-content #actions a.left
+{
+    float: left;
+}
+
+.theme-sky .theme-content #actions a.right
+{
+    float: right;
+}
+
+.theme-sky .theme-content #actions a.icon
+{
+    margin:0px 0px 0px 5px;
+    padding:2px 5px 1px 25px;
+    background-position:4px 3px;
+    background-repeat:no-repeat;
+    display:block;
+    line-height: 20px;
+}
+
+.theme-sky .theme-content #actions a.icon:hover
+{
+    padding:1px 4px 0px 24px;
+    background-position:3px 2px;
+}
+
+.theme-sky .theme-content #actions a.selected
+{
+    background-color:#ADE4FE;
+    border:1px solid #66B8E2;
+}
+
+.theme-sky .theme-content #actions a.selected.icon
+{
+    padding:1px 4px 0px 24px;
+    background-position:3px 2px;
+}
+
+.theme-sky .theme-content #actions #action_sort_by_names
+{
+    background-image:url('../../public/common/images/components/theme-sky/site/icons/16x16/sort_by_names.png');
+}
+
+.theme-sky .theme-content #actions #action_sort_by_register_day
+{
+    background-image:url('../../public/common/images/components/theme-sky/site/icons/16x16/sort_by_register_day.png');
+}
+
+/* -> cvs */
+
+.theme-sky .theme-content .cv
+{
+    padding: 50px 50px 25px 50px;
+}
+
+@media(max-width:767px) {
+    .theme-sky .theme-content .cv
+    {
+        padding: 0px;
+    }
+}
+
+.theme-sky .theme-content .cv img.image_cv
+{
+    float:right;
+}
+
+.theme-sky .theme-content .cv a.download_cv
+{
+    margin: 25px 0px 35px 0px;
+    display: block;
+    color: #66B8E2;
+}
+
+.theme-sky .theme-content .cv ul
+{
+    list-style-type: none;
+    padding: 0;
+}
+
+.theme-sky .theme-content .cv li
+{
+    margin: 25px 0px 25px 0px;
+}
+
+.theme-sky .theme-content .cv fieldset
+{
+    margin: 10px;
+    padding: 10px;
+    border: #66B8E2 1px solid;
+}
+
+.theme-sky .theme-content .cv fieldset legend
+{
+    margin: 0px 10px 0px 10px;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    border-top: none;
+    border-bottom: none;
+    border-left: #66B8E2 1px solid;
+    border-right: #66B8E2 1px solid;
+    color: #66B8E2;
+}
+
+.theme-sky .theme-content .cv fieldset b
+{
+    float: left;
+}
+
+.theme-sky .theme-content .cv fieldset em
+{
+    margin: 10px 0px 10px 150px;
+    display: block;
+}
+
+.theme-sky .theme-content .cv fieldset i
+{
+    float: right;
+}
+
+.theme-sky .theme-content .cv .social a
+{
+    margin-bottom: 4px;
+}
+
+/* -> projects */
+.theme-sky .theme-content .project table a
+{
+    text-decoration: none;
+}
+
+.theme-sky .theme-content .project tr.links td
+{
+    padding: 2px;
+}
+
+.theme-sky .theme-content .project p.image
+{
+    text-align: center;
+}
+
+.theme-sky .theme-content .project p.underline
+{
+    text-decoration:underline;
+}
+
+.theme-sky .theme-content .project p img.left
+{
+    margin: 0px 10px 0px 0px;
+    float:left;
+}
+
+.theme-sky .theme-content .project p img.right
+{
+    margin: 0px 0px 0px 10px;
+    float:right;
+}
+
+/* project::galleries */
+.theme-sky .theme-content .project div.gallery a
+{
+    margin: 10px;
+    display: block;
+    float: left;
+    text-align: center;
+    text-decoration: none;
+}
+
+.theme-sky .theme-content .project div.gallery img
+{
+    width: 340px;
+}
+
+.theme-sky .theme-content .project div.gallery label
+{
+    display: block;
+}
+
+/* project::yellow */
+.theme-sky .theme-content .project table.yellow a
+{
+    color: #B37622;
+}
+
+.theme-sky .theme-content .project table.yellow a:hover
+{
+    color: #FFB54D;
+}
+
+.theme-sky .theme-content .project table.yellow
+{
+    border: 2px solid #FF9500;
+}
+
+.theme-sky .theme-content .project table.yellow tr.banner td
+{
+    background-color: #FFAA30;
+}
+
+.theme-sky .theme-content .project table.yellow tr.links td
+{
+    background-color: #FF9500;
+}
+
+/* project::blue */
+.theme-sky .theme-content .project table.blue a
+{
+    color: #25D2FE;
+}
+
+.theme-sky .theme-content .project table.blue a:hover
+{
+    color: #C2F2FF;
+}
+
+.theme-sky .theme-content .project table.blue
+{
+    border: 2px solid #0055FF;
+}
+
+.theme-sky .theme-content .project table.blue tr.banner td
+{
+    background-color: #6699CC;
+}
+
+.theme-sky .theme-content .project table.blue tr.links td
+{
+    background-color: #0055FF;
+}
+
+/* project::brown */
+.theme-sky .theme-content .project table.brown a
+{
+    color: #532800;
+}
+
+.theme-sky .theme-content .project table.brown a:hover
+{
+    color: #AD5200;
+}
+
+.theme-sky .theme-content .project table.brown
+{
+    border: 2px solid #8A3D37;
+}
+
+.theme-sky .theme-content .project table.brown tr.banner td
+{
+    background-color: #A34E3A;
+}
+
+.theme-sky .theme-content .project table.brown tr.links td
+{
+    background-color: #8A3D37;
+}
+
+/* project::yellow_light */
+.theme-sky .theme-content .project table.yellow_light a
+{
+    color: #808000;
+}
+
+.theme-sky .theme-content .project table.yellow_light a:hover
+{
+    color: #404000;
+}
+
+.theme-sky .theme-content .project table.yellow_light
+{
+    border: 2px solid #B6B600;
+}
+
+.theme-sky .theme-content .project table.yellow_light tr.banner td
+{
+    background-color: #E6E6CC;
+}
+
+.theme-sky .theme-content .project table.yellow_light tr.links td
+{
+    background-color: #B6B600;
+}
+
+/* project::yellow_sun */
+.theme-sky .theme-content .project table.yellow_sun a
+{
+    color: #B37622;
+}
+
+.theme-sky .theme-content .project table.yellow_sun a:hover
+{
+    color: #FFFFFF;
+}
+
+.theme-sky .theme-content .project table.yellow_sun
+{
+    border: 2px solid #FFBC1A;
+}
+
+.theme-sky .theme-content .project table.yellow_sun tr.banner td
+{
+    background-color: #F7D46B;
+}
+
+.theme-sky .theme-content .project table.yellow_sun tr.links td
+{
+    background-color: #FFBC1A;
+}
+
+/* project::black_white */
+.theme-sky .theme-content .project table.black_white a
+{
+    color: #AAAAAA;
+}
+
+.theme-sky .theme-content .project table.black_white a:hover
+{
+    color: #FFFFFF;
+}
+
+.theme-sky .theme-content .project table.black_white
+{
+    border: 2px solid #000000;
+}
+
+.theme-sky .theme-content .project table.black_white tr.banner td
+{
+    background-color: #FFFFFF;
+}
+
+.theme-sky .theme-content .project table.black_white tr.links td
+{
+    background-color: #000000;
+}
+
+/* project::black */
+.theme-sky .theme-content .project table.black a
+{
+    color: #AAAAAA;
+}
+
+.theme-sky .theme-content .project table.black a:hover
+{
+    color: #FFFFFF;
+}
+
+.theme-sky .theme-content .project table.black
+{
+    border: 2px solid #000000;
+}
+
+.theme-sky .theme-content .project table.black tr.banner td
+{
+    background-color: #000000;
+}
+
+.theme-sky .theme-content .project table.black tr.links td
+{
+    background-color: #000000;
+}
+
+/* project::wheat */
+.theme-sky .theme-content .project table.wheat a
+{
+    color: #9C875B;
+}
+
+.theme-sky .theme-content .project table.wheat a:hover
+{
+    color: #FFFFFF;
+}
+
+.theme-sky .theme-content .project table.wheat
+{
+    border: 2px solid #E4BC87;
+}
+
+.theme-sky .theme-content .project table.wheat tr.banner td
+{
+    background-color: #F5DEB3;
+}
+
+.theme-sky .theme-content .project table.wheat tr.links td
+{
+    background-color: #E4BC87;
+}
+
+/* -> ti89.p */
+.theme-sky .theme-content table.ti89p th a:hover
+{
+    color: #0000FF;
+}
+
+.theme-sky .theme-content table.ti89p td
+{
+    padding: 10px;
+    border-bottom: 1px dashed #FFFFFF;
+}
+
+.theme-sky .theme-content table.ti89p td.left
+{
+    text-align: left;
+}
+
+.theme-sky .theme-content table.ti89p a
+{
+    text-decoration: underline;
+}

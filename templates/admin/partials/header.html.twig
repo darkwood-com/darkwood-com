@@ -1,0 +1,44 @@
+<div id="header" class="header navbar navbar-default navbar-fixed-top">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin mobile sidebar expand / collapse button -->
+        <div class="navbar-header">
+            <a href="{{ path('admin_home') }}" class="navbar-brand"><img src="{{ asset('/admin/images/logo.png') }}" style="height: 32px;" /></a>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- end mobile sidebar expand / collapse button -->
+
+
+        <!-- begin header navigation right -->
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{ asset('/admin/images/locales/') }}{{ app.request.locale }}.png" style="width: 20px; height: 12px;margin-right: 5px;margin-top: -2px;" /> <span class="flag-locale" style="font-size: 11px;">{{ app.request.locale|upper }}</span> <b class="caret"></b></a>
+                <ul class="dropdown-menu animated fadeInLeft" style="min-width: 200px;">
+                    <li><a style="white-space: inherit;" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({ '_locale': 'fr' })) }}"><img src="{{ asset('/admin/images/locales/') }}fr.png" style="width: 20px; height: 12px; margin-top: -2px;" /> <span style="margin-left: 10px;">Français <span class="flag-locale flag-locale-r"><span style="float: right">{{ 'fr'|upper }}</span></span></span></a></li>
+                    <li><a style="white-space: inherit;" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({ '_locale': 'en' })) }}"><img src="{{ asset('/admin/images/locales/') }}en.png" style="width: 20px; height: 12px; margin-top: -2px;" /> <span style="margin-left: 10px;">Anglais <span class="flag-locale flag-locale-r"><span style="float: right">{{ 'en'|upper }}</span></span></span></a></li>
+                    <li><a style="white-space: inherit;" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({ '_locale': 'de' })) }}"><img src="{{ asset('/admin/images/locales/') }}de.png" style="width: 20px; height: 12px; margin-top: -2px;" /> <span style="margin-left: 10px;">Allemand <span class="flag-locale flag-locale-r"><span style="float: right">{{ 'de'|upper }}</span></span></span></a></li>
+                </ul>
+            </li>
+
+
+            <li class="dropdown navbar-user">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user" ></i>  <span class="hidden-xs" style="margin-left: 5px;">{{ app.user.username }}</span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu animated fadeInLeft">
+                    <li class="arrow"></li>
+                    <li><a href="{{ path('security_logout') }}" style="color: red;"><i class="fa fa-power-off" style="margin:0 5px 0 0;"></i> Déconnexion</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- end header navigation right -->
+
+        {# render(controller('App\\Controller\\Admin\\SiteController::listNavBar', {route: app.request.attributes.get('_route'), params:  app.request.attributes.get('_route_params')|merge(app.request.query.all)})) #}
+
+    </div>
+    <!-- end container-fluid -->
+</div>

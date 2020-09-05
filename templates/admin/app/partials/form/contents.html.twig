@@ -1,0 +1,18 @@
+<div class="form-group">
+    {{ form_label(form.contents) }}
+
+    <div class="col-lg-10">
+        <div id="form-contents" class="row collection-list" data-prototype="{# autoescape %}{% include 'admin/app/partials/prototype/contents.html.twig' with { 'form': form.contents.vars.prototype } %}{% endautoescape #}">
+            {% for photo in form.contents %}
+                {% include 'admin/app/partials/prototype/contents.html.twig' with { 'form': photo } %}
+            {% endfor %}
+            {{ form_widget(form.contents) }}
+        </div>
+
+        <div class="row">
+            <div class="col-lg-offset-10 col-lg-2">
+                <a href="#form-contents" class="btn btn-success collection-add">Ajouter</a>
+            </div>
+        </div>
+    </div>
+</div>

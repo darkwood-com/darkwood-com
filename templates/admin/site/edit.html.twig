@@ -1,0 +1,9 @@
+{% extends "admin/base.html.twig" %}
+{% set navbarActive = 'site' %}
+
+{% block title "Editer un site" %}
+
+{% block content %}
+    {% include "admin/site/partials/form.html.twig" with {'edit' : 'true'} %}
+{% endblock %}
+

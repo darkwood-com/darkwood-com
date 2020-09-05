@@ -1,0 +1,50 @@
+<form id="chat_form" action="{{ url('darkwood_play', {'display': display, 'state':'guestbook'}) }}" method="post" novalidate="novalidate">
+    {{ form_errors(form._token) }}
+    {{ form_widget(form._token) }}
+    {% for flashMessage in app.session.flashbag.get('success') %}<div class="alert_success">{{ flashMessage }}</div>{% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}<div class="alert_error">{{ flashMessage }}</div>{% endfor %}
+    {% if form.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form) }}</div>{% endif %}
+    {% if form.content.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form.content) }}</div>{% endif %}
+    <ul>
+        <li class="centered">
+            {{ form_label(form.content, 'common.comment.message', {'label_attr':{'class': 'centered'}}) }}
+            {{ form_widget(form.content, {'attr':{'class': 'centered', 'rows': '5', 'cols': '35'} }) }}
+        </li>
+    </ul>
+    <ul>
+        <li class="centered">
+            <input type="submit" class="centered" value="{{ 'common.comment.send'|trans }}">
+        </li>
+    </ul>
+</form>
+<ul class="comments">
+    <li>
+        {{ knp_pagination_render(comments, 'common/partials/sliding.html.twig') }}
+    </li>
+    {% for comment in comments %}
+    <li>
+        {% if comment.user %}
+        <a href="{{ url('darkwood_play', {'display': display, 'state':'profile', 'username': comment.user.username}) }}" class="author">
+            <img src="{{ asset(vich_uploader_asset(comment.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+            {{ comment.user.username }}
+        </a>
+        {% else %}
+        <a class="author no_link">
+            <img src="{{ asset('/common/images/say/visitor.jpg')|imagine_filter('user') }}" alt="{{ 'common.profile.infos.avatar'|trans }}"><br />
+            {{ 'common.comment.visitor'|trans }}
+        </a>
+        {% endif %}
+        <div class="content">
+            <div class="arrow"></div>
+            {{ comment.content|nl2br }}
+            <div class="date">
+                {{ 'common.comment.on'|trans }} {{ comment.created|format_datetime('long', 'short') }}
+            </div><br />
+            <a href="{{ url('darkwood_play', {'display': display, 'state':'report', 'username': comment.user.username}) }}" class="report">{{ 'darkwood.play.label.report'|trans }}</a>
+        </div>
+    </li>
+    {% endfor %}
+    <li>
+        {{ knp_pagination_render(comments, 'common/partials/sliding.html.twig') }}
+    </li>
+</ul>

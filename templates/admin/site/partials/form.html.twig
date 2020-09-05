@@ -1,0 +1,40 @@
+{{ form_start(form) }}
+    <div class="row" style="margin-top: 30px">
+
+    <br/> <br/> <br/>
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class="fa fa-wrench"></i> Paramètres
+                </h4>
+            </div>
+            <div class="panel-body" style="padding: 35px 15px 15px 15px;">
+
+
+                {{ form_row(form.name) }}
+                {{ form_row(form.image) }}
+                {{ form_row(form.host) }}
+                {{ form_row(form.position) }}
+                {{ form_row(form.gaId) }}
+
+                {% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                    {{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                    <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                        {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ form_errors(form._token) }}
+        {{ form_widget(form._token) }}
+        <div style="clear: both">
+            <p>
+                <button class="btn btn-info" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+                    <i class="fa fa-save" style="margin-right: 15px;"></i> Mettre à jour
+                </button>
+            </p>
+        </div>
+    </div>
+{{ form_end(form) }}

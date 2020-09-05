@@ -1,0 +1,238 @@
+{{ form_start(form, {'attr':{'id':'form_article'}}) }}
+    <h1 class="article-header">
+        {% if edit is defined %}
+            {{ form.title.vars['value'] }} <small>
+            Éditer l'article
+        </small>
+        {% else %}
+            Créer une article
+        {% endif %}
+    </h1>
+
+    {# include "admin/article/partials/form/script.html.twig" with {'entity' : 'article'} #}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+
+                            <div class="panel-heading-btn">
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>#}
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                                {#<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>#}
+                            </div>
+                            <h4 class="panel-title">
+                                <i class="fa fa-cog"></i> Propriétés de l'article
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <p>
+                                <i class="fa fa-question-circle fa-3x pull-left"></i>
+                                Remplissez les propriétés de votre article.<br />
+                                Ces informations servent notamment au référencement naturel et aux partages dans les réseaux sociaux.<br />
+                                Attention, certaines données sont <strong>obligatoires</strong> (*).
+                            </p>
+
+                            {% if form.title.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.title) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.title.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.title, 'Titre *', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+
+                            {% if form.article.tags.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.article.tags) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.article.tags.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.article.tags, 'Tags', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.article.tags) }}
+                                </div>
+                            </div>
+                            <script>
+                                $("#{{ form.article.tags.vars['id'] }}").tagit({
+                                    allowSpaces: true,
+                                    availableTags: [{% for tag in tags %}'{{ tag['title'] }}'{% if not loop.last %}, {% endif %}{% endfor %}]
+                                });
+                            </script>
+
+                            {% if form.content.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.content) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.content.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_label(form.content, 'Contenu', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.content, { 'attr': {'class': 'form-control meditor'} }) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;">
+                        {{ form_errors(form._token) }}
+                        {{ form_widget(form._token) }}
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function(){
+                    $('.dropdown-toggle').click(function(){
+                       $(this).stop().parent('.btn-group').parent('.panel-heading').next('.alert').slideToggle();
+                    });
+                });
+            </script>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title">
+                        <i class="fa fa-cog"></i> Publication
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    {% if edit is defined %}
+
+                        <div class="col-md-4 text-right"><strong>ID</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].id }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Créé le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].created | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Mis à jour le</strong></div>
+                        <div class="col-md-8">{{ form.vars['value'].updated | date("d/m/Y à H:i", "Europe/Paris") }}</div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Langue</strong></div>
+                        <div class="col-md-8">
+                            <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Mettre à jour l'article <i class="fa fa-refresh pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                        <hr/>
+
+                    {% else %}
+
+                        <div class="col-md-4 text-right"><strong>Langue</strong></div>
+                        <div class="col-md-8">
+                            <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Activé</strong></div>
+                        <div class="col-md-8">{% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.active, 'Active', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.active, { 'attr': {'style': 'border:none; box-shadow: none;margin-top: 0px;', 'class': 'form-control switch-button'} }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <button class="save-button btn btn-info btn-block">
+                            Créer l'article <i class="fa fa-save  pull-right"></i>
+                        </button>
+                        <input type="hidden" value="false" name="preview"/>
+
+                    {% endif %}
+
+
+
+
+                    {# if form.vars['value'].slug is not empty and edit is defined %}
+                        <a href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette article, confirmer?')" class="btn btn-success btn-block">Publier <i class="fa fa-send pull-right"></i></a>
+                    {% endif #}
+
+                    {# if edit is defined %}
+                        <a href="{{ path('admin_article_delete', {'id': form.vars['value'].article.id}) }}" class="btn btn-danger btn-block" role="button" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer cette article ? la suppression est definitive.')">Supprimer l'article <i class="fa fa-times pull-right" ></i></a>
+                    {% endif #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#
+
+    <div style="clear: both">
+        <button class="btn btn-info" style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 15px;">
+            <i class="fa fa-save" style="margin-right: 15px;"></i> {% if edit is defined %}Mettre à jour{% else %}Ajouter{% endif %}
+        </button>
+
+        {% if form.vars['value'].slug is not empty %}
+            {% if form.vars['value'].state == 'draft' %}
+                <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'pending'}) }}" onclick="return confirm('Attention vous êtes sur le point de soumettre cette article à validation, si vous n\'êtes pas webmaster, vous ne pourrez plus la modifier, confirmer?')" class="btn btn-danger">
+                    <i class="fa fa-send" style="margin-right: 15px;"></i> Soumettre à validation
+                </a>
+            {% elseif form.vars['value'].state == 'pending' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" onclick="return confirm('Attention vous êtes sur le point de publier cette article, confirmer?')" class="btn btn-success"><i class="fa fa-send" style="margin-right: 15px;"></i> Publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" onclick="return confirm('Attention vous êtes sur le point de re-passer cette article en mode brouillon, confirmer?')" class="btn btn-warning"><i class="fa fa-reply" style="margin-right: 15px;"></i> Retour en mode brouillon</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'published' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'archived'}) }}" onclick="return confirm('Attention vous êtes sur le point d\'archiver cette article, confirmer?')" class="btn btn-info"><i class="fa fa-archive" style="margin-right: 15px;"></i> Archiver</a>
+                {% endif %}
+            {% elseif form.vars['value'].state == 'archived' %}
+                {% if is_granted('ROLE_WEBMASTER') %}
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'published'}) }}" class="btn btn-success"><i class="fa fa-archive" style="margin-right: 15px;"></i> Re-publier</a>
+                    <a style="width: 100%; font-weight: bold;  padding: 25px 0;  font-size: 18px; margin-top: 5px;" href="{{ path('admin_article_changeState', {'slug': form.vars['value'].slug, 'state': 'draft'}) }}" class="btn btn-warning"><i class="fa fa-send" style="margin-right: 15px;"></i> Passer en mode brouillon</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    #}
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+
+    $('.preview-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', true);
+        $('#form_article').attr('target', '_blank').submit();
+    });
+
+    $('.save-button').click(function(e){
+        e.preventDefault();
+
+        $('input[name="preview"]').attr('value', false);
+        $('#form_article').attr('target', '_self').submit();
+    });
+
+</script>

@@ -1,0 +1,33 @@
+{% apply spaceless %}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Darkwood : Toutes les news</title>
+        <link>http://{{ host }}</link>
+        <description>Venez affronter le monde et devenez celebre sur le site</description>
+        <copyright>Copyright 2005, tous droits reserves</copyright>
+        <language>{{ locale }}</language>
+        <pubDate>Mon, 09 Nov 2015 08:50:06 +0000</pubDate>
+
+        {% for item in feed %}
+        {% if item.type == 'article' %}
+        {% set articleTranslation = item.item.getOneTranslation(locale) %}
+        <item>
+            <title>{{ articleTranslation.title }}</title>
+            <pubDate>{{ item.date|date('r') }}</pubDate>
+            <description>{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}</description>
+            <guid>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
+        </item>
+        {% elseif item.type == 'news' %}
+        {% set newsTranslation = item.item.getOneTranslation(locale) %}
+        <item>
+            <title>{{ newsTranslation.title }}</title>
+            <pubDate>{{ item.date|date('r') }}</pubDate>
+            <description>{{ newsTranslation.content }}</description>
+            <guid>{{ url('darkwood_news', {'slug': newsTranslation.slug}) }}</guid>
+        </item>
+        {% endif %}
+        {% endfor %}
+    </channel>
+</rss>
+{% endapply %}

@@ -1,0 +1,12 @@
+{
+	"menu.newgame.title": "Neues Spiel",
+	"menu.newgame.content": "Möchten Sie ein neues Spiel zu erstellen?",
+	"menu.retrygame.title": "Neu starten",
+	"menu.retrygame.content": "Möchten Sie das Spiel neu zu starten?",
+	"menu.hintgame.title": "Hilfe",
+	"menu.hintgame.content": "Chinese Puzzle ist ein Solitär-Spiel besteht aus zwei Kartendecks. Das Spiel ist in 8 Zeilen und 14 Spalten angeordnet. Das Ziel ist es, Karten in den leeren Räumen zu bewegen, so dass alle Zeilen in einer ähnlichen Farbe Familie gefunden und sortiert von As bis König. Da die Karten nicht auf die erste Spalte verschoben werden, können Sie füllen den Raum, indem Sie eine von zwei Karten der gleichen Farbe Familie und unteren Seite der Karte auf der linken Seite geräumt. Es ist nicht klar? Just do einige Bewegungen und das Spiel spielen, aber seien Sie vorsichtig mit den Königen!",
+	"menu.themegame.title": "Themes",
+    "menu.themegame.cardlayout.on": "Second render On",
+    "menu.themegame.cardlayout.off": "Second render Off"	
+}
+

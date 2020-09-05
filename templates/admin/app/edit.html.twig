@@ -1,0 +1,9 @@
+{% extends "admin/base.html.twig" %}
+{% set navbarActive = 'app' %}
+
+{% block title "Edit a app" %}
+
+{% block content %}
+    {% include "admin/app/partials/form.html.twig" with {'edit' : 'true', 'notform': true} %}
+{% endblock %}
+

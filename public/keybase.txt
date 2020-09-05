@@ -1,0 +1,73 @@
+==================================================================
+https://keybase.io/matyo91
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://darkwood.fr
+  * I am matyo91 (https://keybase.io/matyo91) on keybase.
+  * I have a public key with fingerprint 0F5E AE9F 03EB B05E 80C2  BA3D 7AA9 37FF A40E 8051
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "010169103db272a9be04ea77b309548e2b71a552458f04da96ef951fb5254deb565b0a",
+            "fingerprint": "0f5eae9f03ebb05e80c2ba3d7aa937ffa40e8051",
+            "host": "keybase.io",
+            "key_id": "7aa937ffa40e8051",
+            "kid": "010169103db272a9be04ea77b309548e2b71a552458f04da96ef951fb5254deb565b0a",
+            "uid": "a0d648323087bfdba25d046179f03419",
+            "username": "matyo91"
+        },
+        "service": {
+            "hostname": "darkwood.fr",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1468600192,
+    "expire_in": 157680000,
+    "prev": "db3f8f52bdd060a844836da56370f9dc66154c6665df766b5292c4588d0241c2",
+    "seqno": 5,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owGtUmtMFFcYZZeygAg0FK0kYO1oLFZc5/1YXiJgVQiP0gpIcJ27c2cZgZ1ld1mg
+CN3KQ2hRQcUYbdEaoZUQsdKqAUobIL5KQIKkKTbVQknqA1tiiUpBOkPsv/7s/XFv
+7nfPOfc7J1+9r7ubVvPBOWbhrJ8rVfPDfeCWXutfWYoAWShBDKVILlw8YJ4A7Q5j
+riQgBgTFUIzmMJQQAM7gPAcgSkKeYQCBchTJQhwwGE9ROEmxIkoKPEdDkaMwEVA4
+RQoQUDQFUB4JQ0TJYoY2q02yOFRZkYI85ESUgACgFGRREw54QmB4niMYUeRJVKlR
+mELMke0qQ2kO8Haol2SlplyMi+39B/5/7rtwUY5HBZpkCZxAWQaIAuBxSkBJGmNU
+CyTGqUA7tFn4fKig83lHicxhSFkYohSdkgmquapGXgKKior0Am/LLZJlQS/aFLbV
+Jjtkk5ynPOY4HFa7QSU7SqyLaAiML3WMQLIISpIKwwltdkm2IAZMQZockiqMkTRL
+oyjG4WEILLZKNmiUVATF0CyqLPUf6FQkBUCI7E6RwoEgoDTKs6TijhZ4iiYYVOQE
+E01jFKnsNCWIDE0rsXC4SQmLFVCcxEw4olorsMiIgVL65M2Kpl0yW3hHoQ0iZUtq
+tcGvuGm0bjoPrTpjbku8X/138Jg2//kQ7uK8q6yi4NakT5p/+C+d5vm68srCqMze
+O4Olm00Fz3xywEbPP7ybk57r9oiG5bNJUTfnInUNoR51fmTrsdg3v++IfXx0V9WY
+O/CTonzKG2fLZ+gUz2qY8Vtz9fi3v3/ufdo5NDJ8o31V3wg1k9y4Zlf9/qF3Pd4Z
+aTgweydwYsPusA9XfbEn5+7bdBdZfUW6nhek122O2ZCp23jEuOxQsddpTS6Rllg/
+qg2Y7XL60k0R/dXj7dP9yfE7t72+vOHL1Jj8zAjzXHHsYXPQwStjL1Jq9naByz2+
+1NkVC/m9/ks3nYmKTZvKvlVan+wceNqeG97k23FzOI6IttU+vEaDta6jz31CvRJj
+ssGE19U/6z5ruder3bfvegDY/mggIaMkuJNoeqsgLupcRXw3e36hPKNjizXUdejT
+SfeRbwJd3ZcuIYzD/NqvtxfWnjoxOr/lxye6r05u+27HivcixiuxRt+LfTMT+uyG
+dTrxSGnS0IX1upXvP/16dPXhR4HXmr1r1msuNJT1rfwp8eoa646Q1pLIttGfozOy
+lvpdTn1x8uPph20jHm8cyHTPinmytfW4/7qDc/rUqbtsXuv24DN/VwWcSJgwRj4Y
+IwLiQ27jNf0tw/Xn27rTo7v/utGW0LJ3qmrwk92TnnEps01bg7J6ah+svjc/vCz5
+ceypzmnpo/Bn6c7BnoH7+Zsq4v4B
+=ZByE
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/matyo91
+
+==================================================================

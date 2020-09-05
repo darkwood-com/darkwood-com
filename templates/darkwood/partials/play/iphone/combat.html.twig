@@ -1,0 +1,302 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+{% if mode == 'combat' %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_settings'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="5"><img src="{{ asset(vich_uploader_asset(data.info.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.info.player.lifeMin }} {{ 'darkwood.play.label.on'|trans }} {{ data.info.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.damage.min }} + {{ data.info.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.info.damage.max }} + {{ data.info.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.info.player.armor.armor }} + {{ data.info.armorDefence }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.potion'|trans|upper }}</td>
+        <td>{{ data.info.player.potion.life }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life_lose'|trans|upper }}</td>
+        {% if data.session.player_life_lose >= 0 %}
+            <td>{{ data.session.player_life_lose }}</td>
+        {% else %}
+            <td>{{ 'darkwood.play.label.attack_miss'|trans|upper }}</td>
+        {% endif %}
+    </tr>
+    </tbody>
+</table>
+
+<table id="enemyinfos">
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ data.info.player.lastFight.title }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="4"><img src="{{ asset(vich_uploader_asset(data.info.player.lastFight, 'image')) }}" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.session.enemy_current_life }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.player.lastFight.damageMin }} {{ 'darkwood.play.label.to'|trans }} {{ data.info.player.lastFight.damageMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.info.player.lastFight.armor }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life_lose'|trans|upper }}</td>
+        <td>{{ data.session.enemy_life_lose }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    {% if data.info.player.lifeMin >= 0 and data.session.enemy_current_life >= 0 %}
+        <a id="action_fight" class="go icon right" data-state="combat" data-mode="combat" data-action-fight="true">{{ 'darkwood.play.label.attack'|trans }}</a>
+        <a id="action_use_potion" class="go icon right" data-state="combat" data-mode="combat" data-action-use-potion="true">{{ 'darkwood.play.label.use_potion'|trans }}</a>
+    {% else %}
+        <a id="action_end_fight" class="go icon right" data-state="combat" data-mode="combat" data-action-end-fight="true">{{ 'darkwood.play.label.end_fight'|trans }}</a>
+    {% endif %}
+</p>
+{% elseif mode == 'player_death' %}
+<table>
+    <colgroup>
+        <col class="col-4" />
+        <col class="col-2" />
+        <col class="col-4" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_are_dead'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/death.gif') }}" /></td>
+        <td>
+            <p>
+                {{ 'darkwood.play.label.enemy_earn'|trans }}<br/>
+                {{ data.result.enemy.xp }} {{ 'darkwood.play.label.experience_points'|trans }}<br/>
+                {{ data.result.enemy.gold }} {{ 'darkwood.play.label.of_gold'|trans }}<br/>
+            </p>
+            <p>
+                {{ 'darkwood.play.label.player_lose'|trans }}<br/>
+                {{ data.result.lose_stats }} * {{ data.result.enemy.xp }} = {{ data.result.lose_xp }} {{ 'darkwood.play.label.experience_points'|trans }}<br/>
+                {{ data.result.lose_stats }} * {{ data.result.enemy.gold }} = {{ data.result.lose_gold }} {{ 'darkwood.play.label.of_gold'|trans }}<br/>
+            </p>
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/death.gif') }}" /></td>
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+</p>
+{% elseif mode == 'player_win' %}
+<table>
+    <colgroup>
+        <col class="col-4" />
+        <col class="col-2" />
+        <col class="col-4" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.you_win'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {# xp #}
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/xp.gif') }}" /></td>
+        <td>
+            <p>
+                {{ 'darkwood.play.label.player_earn'|trans }} {{ data.result.enemy.xp }} {{ 'darkwood.play.label.experience_points'|trans }}
+            </p>
+            <p>
+                {{ 'darkwood.play.label.player_earn'|trans }} {{ data.result.enemy.gold }} {{ 'darkwood.play.label.of_gold'|trans }}
+            </p>
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/xp.gif') }}" /></td>
+    </tr>
+
+    {# gem #}
+    {% if data.result.gem == 'not_found' %}
+    {% elseif data.result.gem == 'no_place' %}
+    <tr>
+        <td><img src="{{ asset(vich_uploader_asset(data.result.gem_item, 'image')) }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.no_gem_place'|trans|raw }}
+        </td>
+        <td><img src="{{ asset(vich_uploader_asset(data.result.gem_item, 'image')) }}" /></td>
+    </tr>
+    {% else %}
+    <tr>
+        <td><img src="{{ asset(vich_uploader_asset(data.result.gem_item, 'image')) }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.found_gem_place'|trans|raw }}
+        </td>
+        <td><img src="{{ asset(vich_uploader_asset(data.result.gem_item, 'image')) }}" /></td>
+    </tr>
+    {% endif %}
+
+    {#  level up #}
+    {% if data.result.level_up %}
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/levelup.gif') }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.player_level_up'|trans|raw }}
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/levelup.gif') }}" /></td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+</p>
+{% elseif mode == 'fight_not_ended' %}
+<table>
+    <colgroup>
+        <col class="col-4" />
+        <col class="col-2" />
+        <col class="col-4" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.automatic_save'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><img src="{{ asset('/darkwood/images/play/alert/error.gif') }}" /></td>
+        <td>
+            {{ 'darkwood.play.label.fight_not_ended'|trans }}
+        </td>
+        <td><img src="{{ asset('/darkwood/images/play/alert/error.gif') }}" /></td>
+    </tr>
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_fight" class="go icon right" data-state="combat" data-mode="combat">{{ 'darkwood.play.label.resume_fight'|trans }}</a>
+</p>
+{% else %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_settings'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="4"><img src="{{ asset(vich_uploader_asset(data.info.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}" class="user" /></td>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.info.player.lifeMin }} {{ 'darkwood.play.label.on'|trans }} {{ data.info.player.lifeMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.damage.min }} + {{ data.info.swordDamage }}% {{ 'darkwood.play.label.to'|trans }} {{ data.info.damage.max }} + {{ data.info.swordDamage }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.info.player.armor.armor }} + {{ data.info.armorDefence }}%</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.potion'|trans|upper }}</td>
+        <td>{{ data.info.player.potion.life }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<table id="enemyinfos">
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ data.currentEnemy.enemy.title }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if data.currentEnemy.next %}
+        <tr>
+            <td colspan="3" class="spaced">
+                <a class="go" data-state="combat" data-action-enemy-next="true">
+                    <img src="{{ asset('/common/images/components/theme-dark/site/icons/16x16/arrow_up.png') }}" />
+                </a>
+            </td>
+        </tr>
+    {% endif %}
+    <tr>
+        <td rowspan="6"><img src="{{ asset(vich_uploader_asset(data.currentEnemy.enemy, 'image')) }}" /></td>
+        <td>{{ 'darkwood.play.label.gold'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.gold }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.xp'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.xp }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.life'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.life }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.damageMin }} {{ 'darkwood.play.label.to'|trans }} {{ data.currentEnemy.enemy.damageMax }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.armor'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.armor }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.hit_luck'|trans|upper }}</td>
+        <td>{{ data.currentEnemy.enemy.hitLuck }}% + {{ data.info.hitLuck }}%</td>
+    </tr>
+    {% if data.currentEnemy.previous %}
+        <tr>
+            <td colspan="3" class="spaced">
+                <a class="go" data-state="combat" data-action-enemy-previous="true">
+                    <img src="{{ asset('/common/images/components/theme-dark/site/icons/16x16/arrow_down.png') }}" />
+                </a>
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<p id="actions">
+    <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+    <a id="action_fight" class="go icon right" data-state="combat" data-action-begin-fight="true">{{ 'darkwood.play.label.fight'|trans }}</a>
+</p>
+{% endif %}

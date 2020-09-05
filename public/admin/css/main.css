@@ -1,0 +1,103 @@
+/**
+* Other css
+**/
+
+.form-group {
+    position: relative;
+}
+
+span.intl{
+    position: absolute;
+    right: 24px;
+    z-index: 100;
+    bottom: 7px;
+}
+
+.alert-form{
+    position: relative;
+    bottom: -22px;
+}
+
+.alert-form ul{
+    text-indent: 0px;
+    margin: 0;
+    padding: 0;
+}
+.alert-form li{
+    list-style: none;
+}
+
+.bwizard-steps{
+    display: inline-block !important;
+    border-bottom: 1px solid #eee;
+}
+
+.tab-content-bwizard-steps
+{
+    border: 1px solid #eee;
+    margin-top: -3px;
+}
+
+.bwizard-steps li{
+    padding: 0px !important;
+}
+.bwizard-steps li a{
+    margin-left: 0px!important;
+    padding: 25px !important;
+
+}
+.bwizard-steps li a i{
+    margin-right: 8px;
+}
+
+.bwizard-steps li.active a{
+    color: white;
+}
+
+.bwizard-steps a:focus, .bwizard-steps a:hover{
+    background: none !important;
+}
+
+.tab-error a, .tab-error li{
+    color: black !important;
+}
+/**
+* Edit the admin personnal css here
+**/
+
+.danger{
+    background-color: #d9534f !important;
+    border-color: #d43f3a !important;
+    color: white !important;
+}
+
+.table-sites td{
+    height: 43px !important;
+    line-height: 20px !important;
+
+}
+
+.brick-name-info{
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.alert-info-bis {
+    background-color: #a9ddf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+
+.link-gold {
+    color: #f2de00;
+}
+
+.link-black {
+    color: #024bbc;
+}
+
+.meditor {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 10px;
+}

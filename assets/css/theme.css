@@ -1,0 +1,95 @@
+.theme
+{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.theme > .row
+{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+	.theme-content img.center
+	{
+		max-width: 100%;
+		height: auto;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+/* -> alert */
+.alert_info, .alert_success, .alert_warning, .alert_error, .alert_validation
+{
+	border: 1px solid;
+	margin: 10px 0px 10px 0px;
+	padding:15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.alert_info
+{
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('../../public/common/images/site/icons/32x32/message.png');
+}
+
+.alert_success
+{
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image:url('../../public/common/images/site/icons/32x32/valid_green.png');
+}
+
+.alert_warning
+{
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('../../public/common/images/site/icons/32x32/attention.png');
+}
+
+.alert_error
+{
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('../../public/common/images/site/icons/32x32/cancel.png');
+}
+
+/* -> colgroup */
+colgroup col.col-1 {
+	width: 100%;
+}
+colgroup col.col-2 {
+	width: 50%;
+}
+colgroup col.col-3 {
+	width: 33%;
+}
+colgroup col.col-4 {
+	width: 25%;
+}
+colgroup col.col-5 {
+	width: 20%;
+}
+colgroup col.col-6 {
+	width: 16.6%;
+}
+
+/* -> social */
+.social a.btn {
+	color: #FFFFFF;
+}
+
+.social a.btn:hover {
+	color: #FFFFFF;
+}
+
+/* -> bootstrap-social */
+.btn-youtube{color:#fff;background-color:#cb2027;border-color:rgba(0,0,0,0.2)}.btn-youtube:focus,.btn-youtube.focus{color:#fff;background-color:#9f191f;border-color:rgba(0,0,0,0.2)}
+.btn-youtube:hover{color:#fff;background-color:#9f191f;border-color:rgba(0,0,0,0.2)}
+.btn-youtube:active,.btn-youtube.active,.open>.dropdown-toggle.btn-youtube{color:#fff;background-color:#9f191f;border-color:rgba(0,0,0,0.2)}.btn-youtube:active:hover,.btn-youtube.active:hover,.open>.dropdown-toggle.btn-youtube:hover,.btn-youtube:active:focus,.btn-youtube.active:focus,.open>.dropdown-toggle.btn-youtube:focus,.btn-youtube:active.focus,.btn-youtube.active.focus,.open>.dropdown-toggle.btn-youtube.focus{color:#fff;background-color:#801419;border-color:rgba(0,0,0,0.2)}
+.btn-youtube:active,.btn-youtube.active,.open>.dropdown-toggle.btn-youtube{background-image:none}
+.btn-youtube.disabled,.btn-youtube[disabled],fieldset[disabled] .btn-youtube,.btn-youtube.disabled:hover,.btn-youtube[disabled]:hover,fieldset[disabled] .btn-youtube:hover,.btn-youtube.disabled:focus,.btn-youtube[disabled]:focus,fieldset[disabled] .btn-youtube:focus,.btn-youtube.disabled.focus,.btn-youtube[disabled].focus,fieldset[disabled] .btn-youtube.focus,.btn-youtube.disabled:active,.btn-youtube[disabled]:active,fieldset[disabled] .btn-youtube:active,.btn-youtube.disabled.active,.btn-youtube[disabled].active,fieldset[disabled] .btn-youtube.active{background-color:#cb2027;border-color:rgba(0,0,0,0.2)}
+.btn-youtube .badge{color:#cb2027;background-color:#fff}

@@ -1,0 +1,23 @@
+
+<ul class="nav navbar-nav navbar-right" style="margin-right: 20px;">
+
+    <li class="dropdown navbar-user">
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="hidden-xs" style="margin-left: 5px;">
+                {% if  app.session.get('sitePath') is not empty %}<img src="{{ asset(app.session.get('sitePath')) }}" style="margin: -2px 0px 0 0; height: 20px; width: auto;"/>{% endif %}
+                {{ app.session.get('siteName') }}
+            </span> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu animated fadeInLeft">
+            {% for site in sites %}
+                <li>
+                    <a href="{{ path(route, params|merge(app.request.query.all)|merge({ 'changeSite': site.host })) }}">
+                        {% if site.image is not empty %}<img src="{{ vich_uploader_asset(site, 'image') }}" style="margin: -2px 10px 0 0; height: 20px; width: auto;"/>{% endif %}
+                        {{ site.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+
+</ul>

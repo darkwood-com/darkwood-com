@@ -1,0 +1,12 @@
+.navbar-menu-blue {
+	margin-right: -15px;
+	margin-left: -15px;
+	padding: .5rem 0;
+}
+.navbar-menu-blue .navbar-brand {
+	margin-left: 15px;
+	color: #777;
+}
+.navbar-menu-blue .navbar-toggler {
+	margin-right: 15px;
+}

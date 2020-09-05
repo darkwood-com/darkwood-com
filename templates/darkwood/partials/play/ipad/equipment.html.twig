@@ -1,0 +1,86 @@
+{% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
+<table>
+    <colgroup>
+        <col class="col-3" />
+        <col class="col-3" />
+        <col class="col-3" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th colspan="3">{{ 'darkwood.play.label.your_settings'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="2"><img src="{{ asset(vich_uploader_asset(data.info.player.sword, 'image')) }}" /></td>
+        <td>{{ 'darkwood.play.label.your_sword'|trans|upper }}</td>
+        <td>{{ data.info.player.sword.title }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'darkwood.play.label.damages'|trans|upper }}</td>
+        <td>{{ data.info.player.sword.damageMin }} + (+ {{ data.info.equipmentDamage }}) {{ 'darkwood.play.label.to'|trans }} {{ data.info.player.sword.damageMax }} (+ {{ data.info.equipmentDamage }})</td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="actions">
+    <table id="equipmentinfos">
+        <colgroup>
+            <col class="col-3" />
+            <col class="col-3" />
+            <col class="col-3" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th colspan="3">{{ 'darkwood.play.label.equip_sword'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {% if data.info.player.equipment1 and data.info.player.equipment1IsUse %}
+                <img src="{{ asset(vich_uploader_asset(data.info.player.equipment1, 'image')) }}"><br />
+                + {{ data.info.player.equipment1.power }}
+                {% elseif data.info.player.equipment1 and not data.info.player.equipment1IsUse %}
+                <img src="{{ asset(vich_uploader_asset(data.info.player.equipment1, 'image')) }}"><br />
+                + {{ data.info.player.equipment1.power }}
+                <a id="action_set_gem" class="go icon" data-state="equipment" data-action-equip-gem="1">{{ 'darkwood.play.label.set_gem'|trans }}</a>
+                <a id="action_throw_gem" class="go icon" data-state="equipment" data-action-throw-gem="1">{{ 'darkwood.play.label.throw_gem'|trans }}</a>
+                {% else %}
+                {{ 'darkwood.play.label.equip_empty'|trans }}
+                {% endif %}
+            </td>
+            <td>
+                {% if data.info.player.equipment2 and data.info.player.equipment2IsUse %}
+                    <img src="{{ asset(vich_uploader_asset(data.info.player.equipment2, 'image')) }}"><br />
+                    + {{ data.info.player.equipment2.power }}
+                {% elseif data.info.player.equipment2 and not data.info.player.equipment2IsUse %}
+                    <img src="{{ asset(vich_uploader_asset(data.info.player.equipment2, 'image')) }}"><br />
+                    + {{ data.info.player.equipment2.power }}
+                    <a id="action_set_gem" class="go icon" data-state="equipment" data-action-equip-gem="2">{{ 'darkwood.play.label.set_gem'|trans }}</a>
+                    <a id="action_throw_gem" class="go icon" data-state="equipment" data-action-throw-gem="2">{{ 'darkwood.play.label.throw_gem'|trans }}</a>
+                {% else %}
+                    {{ 'darkwood.play.label.equip_empty'|trans }}
+                {% endif %}
+            </td>
+            <td>
+                {% if data.info.player.equipment3 and data.info.player.equipment3IsUse %}
+                    <img src="{{ asset(vich_uploader_asset(data.info.player.equipment3, 'image')) }}"><br />
+                    + {{ data.info.player.equipment3.power }}
+                {% elseif data.info.player.equipment3 and not data.info.player.equipment3IsUse %}
+                    <img src="{{ asset(vich_uploader_asset(data.info.player.equipment3, 'image')) }}"><br />
+                    + {{ data.info.player.equipment3.power }}
+                    <a id="action_set_gem" class="go icon" data-state="equipment" data-action-equip-gem="3">{{ 'darkwood.play.label.set_gem'|trans }}</a>
+                    <a id="action_throw_gem" class="go icon" data-state="equipment" data-action-throw-gem="3">{{ 'darkwood.play.label.throw_gem'|trans }}</a>
+                {% else %}
+                    {{ 'darkwood.play.label.equip_empty'|trans }}
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <a id="action_return" class="go icon left">{{ 'darkwood.play.label.return'|trans }}</a>
+    </p>
+</div>

@@ -1,0 +1,85 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block content %}
+
+<h1>{{ page.title }} {{ form.vars['value'].username }}</h1>
+
+{{ form_start(form) }}
+    {{ form_errors(form._token) }}
+    {{ form_widget(form._token) }}
+    {% for flashMessage in app.session.flashbag.get('success') %}<div class="alert_success">{{ flashMessage }}</div>{% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}<div class="alert_error">{{ flashMessage }}</div>{% endfor %}
+    {% if form.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form) }}</div>{% endif %}
+    {% if form.firstname.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form.firstname) }}</div>{% endif %}
+    <fieldset>
+        <legend>{{ 'common.profile.infos.title'|trans }}</legend>
+        <ul>
+            <li>
+                {{ form_label(form.firstname, 'common.profile.infos.firstname') }}
+                {{ form_widget(form.firstname) }}
+            </li>
+            {% if form.lastname.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.lastname) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.lastname, 'common.profile.infos.lastname') }}
+                {{ form_widget(form.lastname) }}
+            </li>
+            {% if form.birthday.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.birthday) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.birthday, 'common.profile.infos.birthday') }}
+                {{ form_widget(form.birthday, {'attr':{'class': 'DatePicker'} }) }}
+            </li>
+            {% if form.city.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.city) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.city, 'common.profile.infos.city') }}
+                {{ form_widget(form.city) }}
+            </li>
+            {% if form.comment.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.comment) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.comment, 'common.profile.infos.comment') }}
+                {{ form_widget(form.comment, {'attr':{'rows': '5'} }) }}
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>{{ 'common.profile.image.title'|trans }}</legend>
+        <ul>
+            {% if form.image.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.image) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.image, 'common.profile.image.image') }}
+                <img src="{{ asset(vich_uploader_asset(form.vars['value'], 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user_profile') }}">
+                {{ form_widget(form.image) }}
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>{{ 'common.profile.password.title'|trans }}</legend>
+        <ul>
+            {% if form.current_password.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.current_password) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.current_password, 'common.profile.password.old_password') }}
+                {{ form_widget(form.current_password) }}
+            </li>
+            {% if form.plainPassword.first.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.plainPassword.first) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.plainPassword.first, 'common.profile.password.new_password_first') }}
+                {{ form_widget(form.plainPassword.first) }}
+            </li>
+            {% if form.plainPassword.second.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.plainPassword.second) }}</div></li>{% endif %}
+            <li>
+                {{ form_label(form.plainPassword.second, 'common.profile.password.new_password_second') }}
+                {{ form_widget(form.plainPassword.second) }}
+            </li>
+        </ul>
+    </fieldset>
+    <ul>
+        <li><input type="submit" id="profile_update" name="profile_update" value="{{ 'common.profile.submit'|trans }}"></li>
+    </ul>
+{{ form_end(form) }}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $("#{{ form.birthday.vars.id }}").datepicker({dateFormat: "dd-mm-yy"});
+    </script>
+{% endblock %}
