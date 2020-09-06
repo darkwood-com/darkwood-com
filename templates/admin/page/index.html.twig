@@ -36,6 +36,7 @@
                                             <th{% if entities.isSorted('p.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'ID', 'p.id') }}</th>
                                             <th>Title</th>
                                             <th{% if entities.isSorted('p.ref') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Référence', 'p.ref') }}</th>
+                                            <th{% if entities.isSorted('p.site') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Host', 'p.site') }}</th>
                                             <th style="width: 100px; text-align:center;"  {% if entities.isSorted('p.active') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Activé', 'p.active') }}</th>
                                         </tr>
                                         </thead>
@@ -46,6 +47,7 @@
                                                 <td style="vertical-align: middle">{{ page.id }}</td>
                                                 <td style="vertical-align: middle"><a href="{{ path('admin_page_edit', {'id': page.id}) }}">{{ page.getOneTranslation(app.request.locale).title }}</a></td>
                                                 <td style="vertical-align: middle">{% if page.ref is not empty %}{{ page.ref }}{% endif %}</td>
+                                                <td style="vertical-align: middle">{{ page.site.name }}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{% if page.getOneTranslation(app.request.locale).active %}<span class="text text-success"><i class="fa fa-check text-success"></i>{# <b>Activé</b>#}</span>{% else %}<span class="text text-danger"><i class="fa fa-times text-danger"></i>{# <b>Désactivé</b> #}</span>{% endif %}</td>
                                             </tr>
                                         {% endfor %}

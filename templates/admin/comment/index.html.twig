@@ -37,6 +37,7 @@
                                             <th>Date</th>
                                             <th>Utilisateur</th>
                                             <th>Commentaire</th>
+                                            <th>Page</th>
                                             <th style="width: 100px; text-align:center;"  {% if entities.isSorted('p.active') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Activé', 'p.active') }}</th>
                                         </tr>
                                         </thead>
@@ -48,6 +49,7 @@
                                                 <td style="vertical-align: middle"><a href="{{ path('admin_comment_edit', {'id': comment.id}) }}">{{ comment.created|date('d/m/Y') }}</a></td>
                                                 <td style="vertical-align: middle">{% if comment.user %}{{ comment.user.username }}{% endif %}</td>
                                                 <td style="vertical-align: middle">{{ comment.content|u.truncate(100) }}</td>
+                                                <td style="vertical-align: middle">{{ comment.page }}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{% if comment.active %}<span class="text text-success"><i class="fa fa-check text-success"></i>{# <b>Activé</b>#}</span>{% else %}<span class="text text-danger"><i class="fa fa-times text-danger"></i>{# <b>Désactivé</b> #}</span>{% endif %}</td>
                                             </tr>
                                         {% endfor %}

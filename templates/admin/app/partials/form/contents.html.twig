@@ -1,12 +1,12 @@
 <div class="form-group">
-    {{ form_label(form.contents) }}
+    {{ form_label(form.contents, null, { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
 
     <div class="col-lg-10">
-        <div id="form-contents" class="row collection-list" data-prototype="{# autoescape %}{% include 'admin/app/partials/prototype/contents.html.twig' with { 'form': form.contents.vars.prototype } %}{% endautoescape #}">
+        <div id="form-contents" class="row collection-list" data-prototype="{{ include('admin/app/partials/prototype/contents.html.twig', { 'form': form.contents.vars.prototype }) | e('html_attr') }}">
             {% for photo in form.contents %}
                 {% include 'admin/app/partials/prototype/contents.html.twig' with { 'form': photo } %}
             {% endfor %}
-            {{ form_widget(form.contents) }}
+            {% do form.contents.setRendered() %}
         </div>
 
         <div class="row">
