@@ -176,46 +176,26 @@
 }
 
 /* -> pagination */
-.theme-photos div.paginate
+.theme-photos ul.pagination a
 {
-	padding: 3px;
-	margin: 3px;
-	text-align: center;
-	font-size: 80%;
-	clear: both;
-}
-
-.theme-photos div.paginate a
-{
-	margin-right: 3px;
-	padding: 2px 5px;
-	background: #FFC794 url('../../public/common/images/components/theme-photos/pagination/normal.jpg') repeat-x bottom;
-	border: 1px solid #FF9600;
+	background-color: #DCBD8D;
+	border: 1px solid #E4D8B9;
 	text-decoration: none !important;
-	color: #FF6500;
+	color: #888888;
 }
 
-.theme-photos div.paginate a:hover
+.theme-photos ul.pagination a.current,
+.theme-photos ul.pagination a:active,
+.theme-photos ul.pagination a:hover
 {
-	background: #FFC794 url('../../public/common/images/components/theme-photos/pagination/hover.jpg') repeat-x bottom;
-	border: 1px solid #FF9600;
-	color: #FF6500;
-}
-
-.theme-photos div.paginate a.current, .theme-photos div.paginate a:active
-{
-	margin-right: 3px;
-	padding: 2px 5px;
-	border: 1px solid #FF6500;
+	border-color: #BB9966;
 	font-weight: bold;
-	background: #FFBE94 none;
-	color: #FF6500;
+	background: #BB9966 none;
+	color: #555555;
 }
 
-.theme-photos div.paginate .disabled
+.theme-photos ul.pagination .disabled
 {
-	margin-right: 3px;
-	padding: 2px 5px;
 	border: 1px solid #FFE3C6;
 	color: #FFE3C6;
 }

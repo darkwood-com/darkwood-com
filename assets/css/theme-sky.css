@@ -177,46 +177,26 @@
 }
 
 /* -> pagination */
-.theme-sky div.paginate
+.theme-sky ul.pagination a
 {
-    padding: 3px;
-    margin: 3px;
-    text-align: center;
-    font-size: 80%;
-    clear: both;
-}
-
-.theme-sky div.paginate a
-{
-    margin-right: 3px;
-    padding: 2px 5px;
-    background: #2FB8EF url('../../public/common/images/components/theme-sky/pagination/normal.jpg');
+    background-color: #BBE7FE;
     border: 1px solid #88E8FD;
     text-decoration: none !important;
     color: #FFFFFF;
 }
 
-.theme-sky div.paginate a:hover
+.theme-sky ul.pagination a.current,
+.theme-sky ul.pagination a:active,
+.theme-sky ul.pagination a:hover
 {
-    background: #2FB8EF url('../../public/common/images/components/theme-sky/pagination/hover.jpg');
-    border: 1px solid #88E8FD;
-    color: #FFFFFF;
-}
-
-.theme-sky div.paginate a.current, .theme-sky div.paginate a:active
-{
-    margin-right: 3px;
-    padding: 2px 5px;
-    border: 1px solid #EEFFFF;
+    border-color: #88E8FD;
     font-weight: bold;
-    background: #69D3FF none;
+    background: #8ED7FE none;
     color: #FFFFFF;
 }
 
-.theme-sky div.paginate .disabled
+.theme-sky ul.pagination .disabled
 {
-    margin-right: 3px;
-    padding: 2px 5px;
     border: 1px solid #929292;
     color: #929292;
 }
