@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>{{ page.title }}</title>
-    <meta name="description" content="{{ page.seoDescription }}">
-    <meta name="keywords" content="{{ page.seoKeywords }}">
+    {{ render(controller('App\\Controller\\CommonController::seo', { 'context': _context })) }}
 
     <link rel="author" href="{{ asset('/humans.txt') }}" />
     <meta name="Owner" content="Mathieu Ledru"/>
@@ -20,22 +18,6 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ path(page.page.site.ref ~ '_sitemap_xml') }}" />
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ path(page.page.site.ref ~ '_rss') }}" />
-
-    {# social share facebook -#}
-    <meta property="og:site_name" content="{{ data.site.ref|default('') }}">
-    <meta property="og:title" content="{{ data.meta.facebook.title|default('') }}">
-    <meta property="og:description" content="{{ data.meta.facebook.description|default('') }}">
-    <meta property="og:url" content="{{ data.meta.facebook.url|default('') }}">
-    <meta property="og:type" content="{{ data.meta.facebook.type|default('') }}">
-    <meta property="og:image" content="{{ absolute_url(data.meta.facebook.src.desktop|default('/common/images/site/cover.png')) }}">
-    <meta property="og:locale" content="{{ app.request.locale }}">
-
-    {# social share twitter -#}
-    <meta name="twitter:card" content="{{ data.meta.twitter.card|default('') }}">
-    <meta name="twitter:site" content="{{ data.meta.twitter.site|default('') }}">
-    <meta name="twitter:title" content="{{ data.meta.twitter.title|default('') }}">
-    <meta name="twitter:description" content="{{ data.meta.twitter.description|default('') }}">
-    <meta name="twitter:image:src" content="{{ absolute_url(data.meta.twitter.src.desktop|default('/common/images/site/cover.png')) }}">
 
     {{ render(controller('App\\Controller\\CommonController::hreflangs', { 'ref': page.page.ref })) }}
 

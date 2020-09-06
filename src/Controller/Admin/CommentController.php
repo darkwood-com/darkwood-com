@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @Route("/{_locale}/comments", name="admin_comment_", host="%admin_host%")
+ * @Route("/{_locale}/comments", name="admin_comment_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
  */
 class CommentController extends AbstractController
 {

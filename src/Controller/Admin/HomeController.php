@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/{_locale}", name="admin_", host="%admin_host%")
+ * @Route("/{_locale}", name="admin_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
  */
 class HomeController extends AbstractController
 {

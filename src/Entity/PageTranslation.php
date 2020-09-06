@@ -186,6 +186,11 @@ class PageTranslation
     {
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     /**
      * Set locale.
      *
@@ -650,10 +655,5 @@ class PageTranslation
     public function getPage()
     {
         return $this->page;
-    }
-
-    public function __toString()
-    {
-        return $this->getTitle();
     }
 }

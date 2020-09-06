@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Entity\App;
+use App\Entity\Article;
 use App\Entity\PageTranslation;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
@@ -39,46 +42,66 @@ class SeoService
         $this->uploaderHelper = $uploaderHelper;
     }
 
-    /**
-     * @param PageTranslation $entity
-     * @param bool            $force
-     *
-     * @return mixed
-     */
-    public function getSeo($entity, $force = false)
+    public function getSeo($context, $force = false)
     {
-        $ttl     = $this->cacheService->data('router');
-        $cacheId = 'seo-' . get_class($entity) . '-' . $entity->getId();
+        /** @var PageTranslation $pageTranslation */
+        $pageTranslation = $context['page'];
+        $cacheId = 'seo-' . $pageTranslation->getId();
 
-        $data = $this->cache->fetch($cacheId);
-        if ($force || false === $data) {
-            $data = null;
+        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($context) {
+            $item->expiresAfter(43200); // 12 hours
 
-            if ($entity instanceof PageTranslation) {
-                $data = [
-                    'title'       => $entity->getTitle(),
-                    'description' => $entity->getDescription(),
-                    'keywords'    => $entity->getSeoKeywords(),
-                    'twitter'     => [
-                        'card'        => ($entity->getTwitterCard() ? $entity->getTwitterCard() : 'summary'),
-                        'title'       => ($entity->getTwitterTitle() != '') ? $entity->getTwitterTitle() : $entity->getTitle(),
-                        'description' => ($entity->getTwitterDescription() != '') ? $entity->getTwitterDescription() : $entity->getDescription(),
-                        'site'        => $entity->getTwitterSite(),
-                        'src'         => $this->uploaderHelper->asset($entity, 'twitterImage'),
-                    ],
+            /** @var PageTranslation $pageTranslation */
+            $pageTranslation = $context['page'];
+            $data = [
+                'title'       => $pageTranslation->getTitle(),
+                'description' => $pageTranslation->getDescription(),
+                'keywords'    => $pageTranslation->getSeoKeywords(),
+                'facebook' => [
+                    'title'       => ($pageTranslation->getOgTitle() != '') ? $pageTranslation->getOgTitle() : $pageTranslation->getTitle(),
+                    'description' => ($pageTranslation->getOgDescription() != '') ? $pageTranslation->getOgDescription() : $pageTranslation->getDescription(),
+                    'type'        => ($pageTranslation->getOgType() ? $pageTranslation->getOgType() : 'article'),
+                    'url'         => '',
+                    'site_name'   => $pageTranslation->getPage()->getSite()->getName(),
+                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'ogImage'),
+                ],
+                'twitter'     => [
+                    'card'        => ($pageTranslation->getTwitterCard() ? $pageTranslation->getTwitterCard() : 'summary'),
+                    'title'       => ($pageTranslation->getTwitterTitle() != '') ? $pageTranslation->getTwitterTitle() : $pageTranslation->getTitle(),
+                    'description' => ($pageTranslation->getTwitterDescription() != '') ? $pageTranslation->getTwitterDescription() : $pageTranslation->getDescription(),
+                    'site'        => $pageTranslation->getTwitterSite(),
+                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'twitterImage'),
+                ]
+            ];
+
+            $page = $pageTranslation->getPage();
+            if($page instanceof App) {
+                $data = array_replace_recursive($data, [
                     'facebook' => [
-                        'title'       => ($entity->getOgTitle() != '') ? $entity->getOgTitle() : $entity->getTitle(),
-                        'description' => ($entity->getOgDescription() != '') ? $entity->getOgDescription() : $entity->getDescription(),
-                        'type'        => ($entity->getOgType() ? $entity->getOgType() : 'article'),
-                        'src'         => $this->uploaderHelper->asset($entity, 'ogImage'),
-                        'url'         => '',
+                        'src'         => $this->uploaderHelper->asset($page, 'banner'),
+                    ],
+                    'twitter'  => [
+                        'src'         => $this->uploaderHelper->asset($page, 'banner'),
                     ]
-                ];
+                ]);
             }
 
-            $this->cache->save($cacheId, $data, $ttl);
-        }
+            if(isset($context['article']) && $context['article'] instanceof Article) {
+                $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
+                $data = array_replace_recursive($data, [
+                    'title'    => $articleTranslation->getTitle(),
+                    'facebook' => [
+                        'src'         => $this->uploaderHelper->asset($articleTranslation, 'image'),
+                        'title'    => $articleTranslation->getTitle(),
+                    ],
+                    'twitter'  => [
+                        'src'         => $this->uploaderHelper->asset($articleTranslation, 'image'),
+                        'title'    => $articleTranslation->getTitle(),
+                    ]
+                ]);
+            }
 
-        return $data;
+            return $data;
+        }, $force ? INF : null);
     }
 }

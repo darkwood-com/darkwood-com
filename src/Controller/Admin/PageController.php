@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @Route("/{_locale}/pages", name="admin_page_", host="%admin_host%")
+ * @Route("/{_locale}/pages", name="admin_page_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
  */
 class PageController extends AbstractController
 {

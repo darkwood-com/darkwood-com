@@ -8,6 +8,7 @@ use App\Entity\PageTranslation;
 use App\Form\ContactType;
 use App\Services\ContactService;
 use App\Services\PageService;
+use App\Services\SeoService;
 use App\Services\SiteService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
@@ -52,13 +53,19 @@ class CommonController extends AbstractController
      */
     private $contactService;
 
+    /**
+     * @var SeoService
+     */
+    private SeoService $seoService;
+
     public function __construct(
         Environment $twig,
         MailerInterface $mailer,
         TranslatorInterface $translator,
         PageService $pageService,
         SiteService $siteService,
-        ContactService $contactService
+        ContactService $contactService,
+        SeoService $seoService
     ) {
         $this->twig           = $twig;
         $this->mailer         = $mailer;
@@ -66,6 +73,7 @@ class CommonController extends AbstractController
         $this->pageService    = $pageService;
         $this->siteService    = $siteService;
         $this->contactService = $contactService;
+        $this->seoService = $seoService;
     }
 
     /**
@@ -120,6 +128,13 @@ class CommonController extends AbstractController
         $response->setStatusCode(404);
 
         return $response;
+    }
+
+    public function seo($context)
+    {
+        return $this->render('common/partials/seo.html.twig', [
+            'data' => $this->seoService->getSeo($context),
+        ]);
     }
 
     public function hreflangs(Request $request, $ref)

@@ -1,7 +1,7 @@
 {# default Sliding pagination control implementation #}
 
 {% if pageCount > 1 %}
-<nav aria-label="Pagination">
+<nav aria-label="Pagination" style="clear: both">
     <ul class="pagination justify-content-center">
     {% if first is defined and current != first %}
         <li class="page-item"><a class="page-link first" href="{{ path(route, query|merge({(pageParameterName): first})) }}"><span aria-hidden="true">&laquo;</span></a></li>

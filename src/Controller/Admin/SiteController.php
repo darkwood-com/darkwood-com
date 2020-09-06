@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @Route("/{_locale}/sites", name="admin_site_", host="%admin_host%")
+ * @Route("/{_locale}/sites", name="admin_site_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
  */
 class SiteController extends AbstractController
 {
