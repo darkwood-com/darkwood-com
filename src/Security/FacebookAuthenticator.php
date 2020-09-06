@@ -3,15 +3,18 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Services\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\FacebookUser;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -23,11 +26,36 @@ class FacebookAuthenticator extends SocialAuthenticator
     private $em;
     private $router;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private UrlGeneratorInterface $urlGenerator;
+
+    /**
+     * @var ParameterBagInterface
+     */
+    private ParameterBagInterface $parameterBag;
+
+    /**
+     * @var SiteService
+     */
+    private SiteService $siteService;
+
+    public function __construct(
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $em,
+        RouterInterface $router,
+        UrlGeneratorInterface $urlGenerator,
+        ParameterBagInterface $parameterBag,
+        SiteService $siteService
+    )
     {
         $this->clientRegistry = $clientRegistry;
         $this->em             = $em;
         $this->router         = $router;
+        $this->urlGenerator = $urlGenerator;
+        $this->parameterBag = $parameterBag;
+        $this->siteService = $siteService;
     }
 
     public function supports(Request $request)
@@ -65,16 +93,21 @@ class FacebookAuthenticator extends SocialAuthenticator
 
         $username = $facebookUser->getName();
 
-        // 2) create new user
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUsername($username);
+        // 2) find or create new user
+        $user = $this->em->getRepository(User::class)
+            ->findOneBy(['email' => $facebookUser->getEmail()]);
+        if (!$user) {
+            $user = new User();
+            $user->setEmail($email);
+            $user->setUsername($username);
+            $user->setFirstname($facebookUser->getFirstName());
+            $user->setLastname($facebookUser->getLastName());
+        }
+
         $user->setFacebookId($facebookUser->getId());
-        $user->setFirstname($facebookUser->getFirstName());
-        $user->setLastname($facebookUser->getLastName());
 
         $imageUrl = $facebookUser->getPictureUrl();
-        if ($imageUrl) {
+        if ($imageUrl && !$user->getImageName()) {
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
@@ -104,10 +137,20 @@ class FacebookAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('security_login');
+        $redirectUrl = $request->headers->get('Referer');
+        if (strpos($redirectUrl, 'login') !== false) {
+            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        return new RedirectResponse($targetUrl);
+            $host = $request->getHost();
+            $site = $this->siteService->findOneByHost($host);
+            if ($host == $this->parameterBag->get('admin_host')) {
+                $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            } elseif ($site) {
+                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            }
+        }
+
+        return new RedirectResponse($redirectUrl);
 
         // or, on success, let the request continue to be handled by the controller
         //return null;
