@@ -152,6 +152,11 @@ class ArticleService
         return $this->articleRepository->findAll();
     }
 
+    public function findActivesQueryBuilder($locale = null, $limit = null)
+    {
+        return $this->articleRepository->findActivesQueryBuilder($locale, $limit);
+    }
+
     /**
      * @param null $locale
      * @param null $limit

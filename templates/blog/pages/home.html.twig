@@ -8,11 +8,13 @@
     {% for article in articles %}
         {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
         <li>
-            <h3>{{ articleTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|date('d/m/Y') }}</em></h3>
+            <h3>{{ articleTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
             <p>{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}</p>
             <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a></p>
         </li>
     {% endfor %}
 </ul>
+
+{{ knp_pagination_render(articles, 'common/partials/sliding.html.twig') }}
 
 {% endblock %}

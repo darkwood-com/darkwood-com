@@ -89,10 +89,11 @@
     }
 
     .theme-sky .theme-footer ul
-        {
-            margin: 0;
-            padding: 10px 0px 10px 0px;
-        }
+    {
+        list-style-type: none;
+        margin: 0;
+        padding: 10px 0px 10px 0px;
+    }
 
 .theme-sky h1
 {
@@ -191,7 +192,7 @@
     padding: 2px 5px;
     background: #2FB8EF url('../../public/common/images/components/theme-sky/pagination/normal.jpg');
     border: 1px solid #88E8FD;
-    text-decoration: none;
+    text-decoration: none !important;
     color: #FFFFFF;
 }
 

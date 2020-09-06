@@ -4,6 +4,7 @@
 
 {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
 <h1>{{ articleTranslation.title }}</h1>
+<p class="text-right py-2"><em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></p>
 {{ include(template_from_string(articleTranslation.content))|markdown }}
 
 <ul class="comments">

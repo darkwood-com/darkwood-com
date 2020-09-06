@@ -177,7 +177,7 @@
 	padding: 2px 5px;
 	background: #404040 url('../../public/common/images/components/theme-dark/pagination/normal.jpg') repeat-x bottom;
 	border: 1px solid #909090;
-	text-decoration: none;
+	text-decoration: none !important;
 	color: #C0C0C0;
 }
 

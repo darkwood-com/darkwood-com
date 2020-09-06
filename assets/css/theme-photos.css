@@ -87,6 +87,7 @@
 	
 	.theme-photos .theme-footer ul
 	{
+		list-style-type: none;
 		margin: 0;
 		padding: 10px 0px 10px 0px;
 	}
@@ -190,7 +191,7 @@
 	padding: 2px 5px;
 	background: #FFC794 url('../../public/common/images/components/theme-photos/pagination/normal.jpg') repeat-x bottom;
 	border: 1px solid #FF9600;
-	text-decoration: none;
+	text-decoration: none !important;
 	color: #FF6500;
 }
 

@@ -125,6 +125,26 @@ class ArticleRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findActivesQueryBuilder($locale = null, $limit = null)
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->addOrderBy('n.created', 'desc')
+            ->andWhere('nts.active = true')
+        ;
+
+        if ($locale) {
+            $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
+    }
+
     public function findActives($locale = null, $limit = null)
     {
         $qb = $this->createQueryBuilder('n')

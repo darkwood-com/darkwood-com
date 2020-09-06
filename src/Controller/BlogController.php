@@ -92,7 +92,13 @@ class BlogController extends AbstractController
     public function home(Request $request, $ref)
     {
         $page     = $this->commonController->getPage($request, $ref);
-        $articles = $this->articleService->findActives($request->getLocale(), 5);
+        $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
+
+        $articles = $this->paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            10
+        );
 
         return $this->render('blog/pages/home.html.twig', [
             'page'      => $page,

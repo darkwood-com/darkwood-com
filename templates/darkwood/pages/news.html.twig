@@ -7,7 +7,7 @@
 <ul class="itemlist">
     {% set nTranslation = news.getOneTranslation(app.request.locale) %}
     <li>
-        <h3>{{ nTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ nTranslation.created|date('d/m/Y') }}</em></h3>
+        <h3>{{ nTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ nTranslation.created|format_date('long') }}</em></h3>
         {{ nTranslation.content|markdown|raw }}
     </li>
 </ul>
