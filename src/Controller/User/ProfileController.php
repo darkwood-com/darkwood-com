@@ -5,6 +5,7 @@ namespace App\Controller\User;
 use App\Controller\CommonController;
 use App\Entity\User;
 use App\Form\ProfileType;
+use App\Services\GameService;
 use App\Services\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -40,16 +41,23 @@ class ProfileController extends AbstractController
      */
     private $userService;
 
+    /**
+     * @var GameService
+     */
+    private GameService $gameService;
+
     public function __construct(
         UserPasswordEncoderInterface $userPasswordEncoder,
         TranslatorInterface $translator,
         CommonController $commonController,
-        UserService $userService
+        UserService $userService,
+        GameService $gameService
     ) {
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->translator          = $translator;
         $this->commonController    = $commonController;
         $this->userService         = $userService;
+        $this->gameService         = $gameService;
     }
 
     /**
@@ -68,7 +76,7 @@ class ProfileController extends AbstractController
 
             $playerInfo = null;
             if ($page->getPage()->getSite()->getRef() === 'darkwood' && $user->getPlayer()) {
-                $playerInfo = $this->get('dw.play')->getInfo($user);
+                $playerInfo = $this->gameService->getInfo($user);
             }
 
             return $this->render('common/pages/profileShow.html.twig', [
