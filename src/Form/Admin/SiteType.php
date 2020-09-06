@@ -18,28 +18,25 @@ class SiteType extends AbstractType
 {
     /**
      * Build Form.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class, array('label' => 'Nom'));
-        $builder->add('host', TextType::class, array('label' => 'Host'));
-        $builder->add('active', CheckboxType::class, array('label' => 'Activé', 'required' => false));
-        $builder->add('position', IntegerType::class, array('label' => 'Position'));
-        $builder->add('image', VichImageType::class, array(
-            'label' => 'Image',
+        $builder->add('name', TextType::class, ['label' => 'Nom']);
+        $builder->add('host', TextType::class, ['label' => 'Host']);
+        $builder->add('active', CheckboxType::class, ['label' => 'Activé', 'required' => false]);
+        $builder->add('position', IntegerType::class, ['label' => 'Position']);
+        $builder->add('image', VichImageType::class, [
+            'label'    => 'Image',
             'required' => false,
-        ));
-        $builder->add('gaId', TextType::class, array('label' => 'Google Analytics'));
+        ]);
+        $builder->add('gaId', TextType::class, ['label' => 'Google Analytics']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Site::class,
-        ));
+        ]);
     }
 
     /**

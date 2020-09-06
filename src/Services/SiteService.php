@@ -2,16 +2,9 @@
 
 namespace App\Services;
 
-use App\Entity\Page;
-use App\Services\ArticleService;
-use App\Services\BaseService;
-use App\Services\NewsService;
 use App\Entity\Site;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Form\TwigRendererEngine;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -59,18 +52,16 @@ class SiteService
         TranslatorInterface $translator,
         Environment $templating
     ) {
-        $this->em = $em;
+        $this->em             = $em;
         $this->siteRepository = $em->getRepository(Site::class);
-        $this->pageService = $pageService;
+        $this->pageService    = $pageService;
         $this->articleService = $articleService;
-        $this->translator = $translator;
-        $this->templating = $templating;
+        $this->translator     = $translator;
+        $this->templating     = $templating;
     }
 
     /**
      * Update a site.
-     *
-     * @param Site $site
      *
      * @return Site
      */
@@ -85,8 +76,6 @@ class SiteService
 
     /**
      * Remove one site.
-     *
-     * @param Site $site
      */
     public function remove(Site $site)
     {
@@ -94,9 +83,9 @@ class SiteService
         $this->em->flush();
     }
 
-    public function searchQuery($filters = array())
+    public function searchQuery($filters = [])
     {
-        return $this->siteRepository->createQueryBuilder( 's');
+        return $this->siteRepository->createQueryBuilder('s');
     }
 
     /**
@@ -106,7 +95,7 @@ class SiteService
      *
      * @return mixed
      */
-    public function getQueryForSearch($filters = array(), $state = null)
+    public function getQueryForSearch($filters = [], $state = null)
     {
         return $this->siteRepository->queryForSearch($filters, $state);
     }
@@ -157,78 +146,78 @@ class SiteService
     {
         $sites = $this->findActives();
 
-        $sitemap = array();
+        $sitemap = [];
         foreach ($sites as $site) {
-            $ref = $site->getRef();
+            $ref  = $site->getRef();
             $host = $site->getHost();
 
-            if (in_array($ref, array('me', 'blog'))) {
+            if (in_array($ref, ['me', 'blog'])) {
                 continue;
             }
 
-            $sitemap[$ref] = array(
-                'item' => array('host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_'.$ref),
-                'children' => array(
-                    array(
-                        'item' => array('label' => 'common.sitemap.login'),
-                        'children' => array(
-                            array('item' => array('host' => $host, 'ref' => 'register')),
-                            array('item' => array('host' => $host, 'ref' => 'profile')),
-                        ),
-                    ),
-                ),
-            );
+            $sitemap[$ref] = [
+                'item'     => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref],
+                'children' => [
+                    [
+                        'item'     => ['label' => 'common.sitemap.login'],
+                        'children' => [
+                            ['item' => ['host' => $host, 'ref' => 'register']],
+                            ['item' => ['host' => $host, 'ref' => 'profile']],
+                        ],
+                    ],
+                ],
+            ];
 
             if ($ref == 'darkwood') {
-                $sitemap[$ref]['children'][] = array(
-                    'item' => array('label' => 'common.sitemap.player'),
-                    'children' => array(
-                        array('item' => array('host' => $host, 'ref' => 'play')),
-                        array('item' => array('host' => $host, 'ref' => 'chat')),
-                        array('item' => array('host' => $host, 'ref' => 'users')),
-                        array('item' => array('host' => $host, 'ref' => 'rules')),
-                        array('item' => array('host' => $host, 'ref' => 'guestbook')),
-                        array('item' => array('host' => $host, 'ref' => 'extra')),
-                    ),
-                );
-                $sitemap[$ref]['children'][] = array(
-                    'item' => array('label' => 'common.sitemap.rank'),
-                    'children' => array(
-                        array('item' => array('host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_general')),
-                        array('item' => array('host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_by_class')),
-                        array('item' => array('host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_daily_fight')),
-                    ),
-                );
+                $sitemap[$ref]['children'][] = [
+                    'item'     => ['label' => 'common.sitemap.player'],
+                    'children' => [
+                        ['item' => ['host' => $host, 'ref' => 'play']],
+                        ['item' => ['host' => $host, 'ref' => 'chat']],
+                        ['item' => ['host' => $host, 'ref' => 'users']],
+                        ['item' => ['host' => $host, 'ref' => 'rules']],
+                        ['item' => ['host' => $host, 'ref' => 'guestbook']],
+                        ['item' => ['host' => $host, 'ref' => 'extra']],
+                    ],
+                ];
+                $sitemap[$ref]['children'][] = [
+                    'item'     => ['label' => 'common.sitemap.rank'],
+                    'children' => [
+                        ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_general']],
+                        ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_by_class']],
+                        ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_daily_fight']],
+                    ],
+                ];
             } elseif ($ref == 'apps') {
-                $children = array();
-                $apps = $this->pageService->findActives($locale, 'app');
+                $children = [];
+                $apps     = $this->pageService->findActives($locale, 'app');
                 foreach ($apps as $app) {
-                    $children[] = array('item' => array('host' => $host, 'ref' => $app->getRef()));
+                    $children[] = ['item' => ['host' => $host, 'ref' => $app->getRef()]];
                 }
 
-                $sitemap[$ref]['children'][] = array(
-                    'item' => array('label' => 'common.sitemap.apps'),
+                $sitemap[$ref]['children'][] = [
+                    'item'     => ['label' => 'common.sitemap.apps'],
                     'children' => $children,
-                );
+                ];
             } elseif ($ref == 'photos') {
-                $sitemap[$ref]['children'][] = array(
-                    'item' => array('label' => 'common.sitemap.gallery'),
-                    'children' => array(
-                        array('item' => array('host' => $host, 'ref' => 'show')),
-                        array('item' => array('host' => $host, 'ref' => 'demo')),
-                        array('item' => array('host' => $host, 'ref' => 'help')),
-                    ),
-                );
+                $sitemap[$ref]['children'][] = [
+                    'item'     => ['label' => 'common.sitemap.gallery'],
+                    'children' => [
+                        ['item' => ['host' => $host, 'ref' => 'show']],
+                        ['item' => ['host' => $host, 'ref' => 'demo']],
+                        ['item' => ['host' => $host, 'ref' => 'help']],
+                    ],
+                ];
             }
         }
 
         $formatSitemap = function ($items) use (&$formatSitemap, $locale) {
             foreach ($items as $key => $child) {
                 if (!isset($child['children'])) {
-                    $child['children'] = array();
+                    $child['children'] = [];
                 }
                 $child['label'] = null;
-                $child['link'] = null;
+                $child['link']  = null;
                 if (isset($child['item']['host'], $child['item']['ref'])) {
                     $page = $this->pageService
                         ->findOneActiveByRefAndHost($child['item']['ref'], $child['item']['host']);
@@ -236,7 +225,7 @@ class SiteService
                         $pageTranslation = $page->getOneTranslation($locale);
                         if ($pageTranslation) {
                             $child['label'] = $pageTranslation->getTitle();
-                            $child['link'] = $this->pageService->getUrl($pageTranslation, true);
+                            $child['link']  = $this->pageService->getUrl($pageTranslation, true);
                         }
                     }
                 }
@@ -259,36 +248,35 @@ class SiteService
     {
         $pages = $this->pageService->findActives($locale, null, $host);
 
-        $urls = array();
+        $urls = [];
         foreach ($pages as $page) {
             $pageTranslation = $page->getOneTranslation();
 
-            $urls[] = array(
-                'loc' => $this->pageService->getUrl($pageTranslation),
+            $urls[] = [
+                'loc'  => $this->pageService->getUrl($pageTranslation),
                 'date' => $pageTranslation->getUpdated(),
-            );
+            ];
         }
 
-        return $this->templating->render('common/partials/sitemapXml.html.twig', array(
+        return $this->templating->render('common/partials/sitemapXml.html.twig', [
             'urls' => $urls,
-        ));
+        ]);
     }
 
     public function getFeed($host, $locale)
     {
-        $feed = array();
+        $feed = [];
 
         $articles = $this->articleService->findActives($locale);
-        foreach($articles as $article)
-        {
-            $feed[] = array(
+        foreach ($articles as $article) {
+            $feed[] = [
                 'type' => 'article',
                 'date' => $article->getCreated(),
                 'item' => $article
-            );
+            ];
         }
 
-        usort($feed, function($item1, $item2) {
+        usort($feed, function ($item1, $item2) {
             return $item1['date'] < $item2['date'];
         });
 
@@ -299,10 +287,10 @@ class SiteService
     {
         $feed = $this->getFeed($host, $locale);
 
-        return $this->templating->render('common/partials/rssXml.html.twig', array(
-            'feed' => $feed,
+        return $this->templating->render('common/partials/rssXml.html.twig', [
+            'feed'   => $feed,
             'locale' => $locale,
-            'host' => $host,
-        ));
+            'host'   => $host,
+        ]);
     }
 }

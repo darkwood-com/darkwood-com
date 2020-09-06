@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Services\BaseService;
 use App\Entity\PageTranslation;
-use Doctrine\Common\Cache\Cache;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -36,45 +34,46 @@ class SeoService
         RouterInterface $router,
         UploaderHelper $uploaderHelper
     ) {
-        $this->appCache = $appCache;
-        $this->router = $router;
+        $this->appCache       = $appCache;
+        $this->router         = $router;
         $this->uploaderHelper = $uploaderHelper;
     }
 
     /**
      * @param PageTranslation $entity
-     * @param bool $force
+     * @param bool            $force
+     *
      * @return mixed
      */
     public function getSeo($entity, $force = false)
     {
-        $ttl = $this->cacheService->data('router');
+        $ttl     = $this->cacheService->data('router');
         $cacheId = 'seo-' . get_class($entity) . '-' . $entity->getId();
 
         $data = $this->cache->fetch($cacheId);
         if ($force || false === $data) {
             $data = null;
 
-            if($entity instanceof PageTranslation) {
-                $data = array(
-                    'title' => $entity->getTitle(),
+            if ($entity instanceof PageTranslation) {
+                $data = [
+                    'title'       => $entity->getTitle(),
                     'description' => $entity->getDescription(),
-                    'keywords' => $entity->getSeoKeywords(),
-                    'twitter' => array(
-                        'card' => ($entity->getTwitterCard() ? $entity->getTwitterCard() : 'summary'),
-                        'title' => ($entity->getTwitterTitle() != '') ? $entity->getTwitterTitle() : $entity->getTitle(),
+                    'keywords'    => $entity->getSeoKeywords(),
+                    'twitter'     => [
+                        'card'        => ($entity->getTwitterCard() ? $entity->getTwitterCard() : 'summary'),
+                        'title'       => ($entity->getTwitterTitle() != '') ? $entity->getTwitterTitle() : $entity->getTitle(),
                         'description' => ($entity->getTwitterDescription() != '') ? $entity->getTwitterDescription() : $entity->getDescription(),
-                        'site' => $entity->getTwitterSite(),
-                        'src' => $this->uploaderHelper->asset($entity, 'twitterImage'),
-                    ),
-                    'facebook' => array(
-                        'title' => ($entity->getOgTitle() != '') ? $entity->getOgTitle() : $entity->getTitle(),
+                        'site'        => $entity->getTwitterSite(),
+                        'src'         => $this->uploaderHelper->asset($entity, 'twitterImage'),
+                    ],
+                    'facebook' => [
+                        'title'       => ($entity->getOgTitle() != '') ? $entity->getOgTitle() : $entity->getTitle(),
                         'description' => ($entity->getOgDescription() != '') ? $entity->getOgDescription() : $entity->getDescription(),
-                        'type' => ($entity->getOgType() ? $entity->getOgType() : 'article'),
-                        'src' => $this->uploaderHelper->asset($entity, 'ogImage'),
-                        'url' => '',
-                    )
-                );
+                        'type'        => ($entity->getOgType() ? $entity->getOgType() : 'article'),
+                        'src'         => $this->uploaderHelper->asset($entity, 'ogImage'),
+                        'url'         => '',
+                    ]
+                ];
             }
 
             $this->cache->save($cacheId, $data, $ttl);

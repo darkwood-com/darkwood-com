@@ -2,8 +2,6 @@
 
 namespace App\Repository\Game;
 
-use App\Entity\AppContent;
-use App\Repository\BaseRepository;
 use App\Entity\Game\DailyBattle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,7 +61,7 @@ class DailyBattleRepository extends ServiceEntityRepository
             ->andWhere('db.created <= :end')->setParameter('end', $endDate)
         ;
 
-        $qb->andWhere($qb->expr()->in('db.status', array(DailyBattle::STATUS_NEW_WIN, DailyBattle::STATUS_NEW_LOSE)));
+        $qb->andWhere($qb->expr()->in('db.status', [DailyBattle::STATUS_NEW_WIN, DailyBattle::STATUS_NEW_LOSE]));
 
         return $qb->getQuery()->getResult();
     }

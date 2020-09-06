@@ -77,31 +77,30 @@ class DarkwoodController extends AbstractController
         CommentService $commentService,
         UserService $userService,
         GameService $gameService
-    )
-    {
-        $this->commonController = $commonController;
-        $this->articleService = $articleService;
+    ) {
+        $this->commonController    = $commonController;
+        $this->articleService      = $articleService;
         $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->commentService = $commentService;
-        $this->userService = $userService;
-        $this->gameService = $gameService;
+        $this->translator          = $translator;
+        $this->paginator           = $paginator;
+        $this->pageService         = $pageService;
+        $this->commentService      = $commentService;
+        $this->userService         = $userService;
+        $this->gameService         = $gameService;
     }
 
     public function menu(Request $request, $ref)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
         $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
 
-        return $this->render('darkwood/partials/menu.html.twig', array(
+        return $this->render('darkwood/partials/menu.html.twig', [
             'last_username' => $lastUsername,
-            'csrf_token' => $csrfToken,
-            'pageLinks' => $pageLinks,
-        ));
+            'csrf_token'    => $csrfToken,
+            'pageLinks'     => $pageLinks,
+        ]);
     }
 
     /**
@@ -109,12 +108,12 @@ class DarkwoodController extends AbstractController
      */
     public function home(Request $request, $ref)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page     = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findActives($request->getLocale(), 5);
 
         return $this->render('darkwood/pages/home.html.twig', [
-            'page' => $page,
-            'news' => $articles,
+            'page'      => $page,
+            'news'      => $articles,
             'showLinks' => true,
         ]);
     }
@@ -163,11 +162,11 @@ class DarkwoodController extends AbstractController
             throw $this->createNotFoundException('News not found !');
         }
 
-        return $this->render('darkwood/pages/news.html.twig', array(
-            'page' => $page,
-            'news' => $news,
+        return $this->render('darkwood/pages/news.html.twig', [
+            'page'      => $page,
+            'news'      => $news,
             'showLinks' => true,
-        ));
+        ]);
     }
 
     /**
@@ -175,7 +174,7 @@ class DarkwoodController extends AbstractController
      */
     public function play(Request $request, $ref = 'play', $display = null)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page       = $this->commonController->getPage($request, $ref);
         $parameters = $this->gameService->play($request, $this->getUser(), $display);
 
         if ($parameters instanceof Response) {
@@ -185,7 +184,7 @@ class DarkwoodController extends AbstractController
         $parameters['page'] = $page;
 
         if ($request->isXmlHttpRequest()) {
-            return $this->render('darkwood/partials/play/'.$parameters['display'].'/'.$parameters['state'].'.html.twig', $parameters);
+            return $this->render('darkwood/partials/play/' . $parameters['display'] . '/' . $parameters['state'] . '.html.twig', $parameters);
         }
 
         return $this->render('darkwood/pages/play.html.twig', $parameters);
@@ -215,7 +214,7 @@ class DarkwoodController extends AbstractController
                     $this->translator->trans('common.comment.submited')
                 );
 
-                return $this->redirect($this->generateUrl('darkwood_chat', array('ref' => $ref)));
+                return $this->redirect($this->generateUrl('darkwood_chat', ['ref' => $ref]));
             }
         }
 
@@ -227,11 +226,11 @@ class DarkwoodController extends AbstractController
             10
         );
 
-        return $this->render('darkwood/pages/chat.html.twig', array(
-            'form' => $form->createView(),
-            'page' => $page,
+        return $this->render('darkwood/pages/chat.html.twig', [
+            'form'     => $form->createView(),
+            'page'     => $page,
             'comments' => $comments,
-        ));
+        ]);
     }
 
     /**
@@ -249,10 +248,10 @@ class DarkwoodController extends AbstractController
             56
         );
 
-        return $this->render('darkwood/pages/users.html.twig', array(
-            'page' => $page,
+        return $this->render('darkwood/pages/users.html.twig', [
+            'page'  => $page,
             'users' => $users,
-        ));
+        ]);
     }
 
     /**
@@ -262,9 +261,9 @@ class DarkwoodController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('darkwood/pages/rules.html.twig', array(
+        return $this->render('darkwood/pages/rules.html.twig', [
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -291,7 +290,7 @@ class DarkwoodController extends AbstractController
                     $this->translator->trans('common.comment.submited')
                 );
 
-                return $this->redirect($this->generateUrl('darkwood_guestbook', array('ref' => $ref)));
+                return $this->redirect($this->generateUrl('darkwood_guestbook', ['ref' => $ref]));
             }
         }
 
@@ -303,11 +302,11 @@ class DarkwoodController extends AbstractController
             10
         );
 
-        return $this->render('darkwood/pages/guestbook.html.twig', array(
-            'form' => $form->createView(),
-            'page' => $page,
+        return $this->render('darkwood/pages/guestbook.html.twig', [
+            'form'     => $form->createView(),
+            'page'     => $page,
             'comments' => $comments,
-        ));
+        ]);
     }
 
     /**
@@ -317,10 +316,10 @@ class DarkwoodController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('darkwood/pages/extra.html.twig', array(
-            'page' => $page,
+        return $this->render('darkwood/pages/extra.html.twig', [
+            'page'      => $page,
             'showLinks' => true,
-        ));
+        ]);
     }
 
     /**
@@ -339,10 +338,10 @@ class DarkwoodController extends AbstractController
             56
         );
 
-        return $this->render('darkwood/pages/rank.html.twig', array(
-            'page' => $page,
+        return $this->render('darkwood/pages/rank.html.twig', [
+            'page'    => $page,
             'players' => $players,
-            'mode' => $mode,
-        ));
+            'mode'    => $mode,
+        ]);
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Repository\Game;
 
-use App\Entity\AppContent;
 use App\Entity\Game\Player;
-use App\Repository\BaseRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,7 +35,7 @@ class PlayerRepository extends ServiceEntityRepository
             ->andWhere('p.user IS NOT NULL')
         ;
 
-        if (in_array($mode, array('by_class_human', 'by_class_lucky_lucke', 'by_class_panoramix', 'by_class_popeye'))) {
+        if (in_array($mode, ['by_class_human', 'by_class_lucky_lucke', 'by_class_panoramix', 'by_class_popeye'])) {
             $qb->addOrderBy('p.xp', 'desc');
             $qb->leftJoin('p.classe', 'c');
             if ($mode == 'by_class_human') {
@@ -49,7 +47,7 @@ class PlayerRepository extends ServiceEntityRepository
             } elseif ($mode == 'by_class_panoramix') {
                 $qb->andWhere('c.title = :title')->setParameter('title', 'Panoramix');
             }
-        } elseif (in_array($mode, array('daily_fight_by_defeats', 'daily_fight_by_victories'))) {
+        } elseif (in_array($mode, ['daily_fight_by_defeats', 'daily_fight_by_victories'])) {
             if ($mode == 'daily_fight_by_defeats') {
                 $qb->addOrderBy('p.dailyBattleDefeats', 'desc');
             } elseif ($mode == 'daily_fight_by_victories') {

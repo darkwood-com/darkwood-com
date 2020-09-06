@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="tag_translation", indexes={@ORM\Index(name="index_search", columns={"title"})}, uniqueConstraints={
@@ -15,8 +14,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class TagTranslation
 {
     use TimestampTrait;
-
-    /*********** Translation parts *********/
 
     /**
      * Locale.
@@ -30,8 +27,6 @@ class TagTranslation
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $tag;
-
-    /**************************************/
 
     /**
      * @ORM\Id

@@ -2,11 +2,6 @@
 
 namespace App\Services;
 
-use App\Entity\Comment;
-use App\Entity\CommentPage;
-use App\Repository\CommentPageRepository;
-use App\Repository\CommentRepository;
-use App\Services\BaseService;
 use App\Entity\Contact;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,14 +27,12 @@ class ContactService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
+        $this->em                = $em;
         $this->contactRepository = $em->getRepository(Contact::class);
     }
 
     /**
      * Update a contactTranslation.
-     *
-     * @param Contact $contact
      *
      * @return Contact
      */
@@ -71,7 +64,7 @@ class ContactService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal')
     {
         return $this->contactRepository->queryForSearch($filters, $order);
     }

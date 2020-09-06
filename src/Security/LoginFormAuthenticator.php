@@ -50,14 +50,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         UserPasswordEncoderInterface $passwordEncoder,
         SiteService $siteService,
         ParameterBagInterface $parameterBag
-    )
-    {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
+    ) {
+        $this->entityManager    = $entityManager;
+        $this->urlGenerator     = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->siteService = $siteService;
-        $this->parameterBag = $parameterBag;
+        $this->passwordEncoder  = $passwordEncoder;
+        $this->siteService      = $siteService;
+        $this->parameterBag     = $parameterBag;
     }
 
     public function supports(Request $request)
@@ -69,8 +68,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
+            'username'   => $request->request->get('username'),
+            'password'   => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -125,8 +124,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             $site = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } else if ($site) {
-                $redirectUrl = $this->urlGenerator->generate($site->getRef().'_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            } elseif ($site) {
+                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
 

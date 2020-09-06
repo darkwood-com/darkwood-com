@@ -10,35 +10,35 @@ class SiteFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $this->createSite(array(
-            'name' => 'Darkwood',
-            'host' => 'darkwood.localhost',
+        $this->createSite([
+            'name'     => 'Darkwood',
+            'host'     => 'darkwood.localhost',
             'position' => 1,
-        ), $manager);
+        ], $manager);
 
-        $this->createSite(array(
-            'name' => 'Apps',
-            'host' => 'apps.darkwood.localhost',
+        $this->createSite([
+            'name'     => 'Apps',
+            'host'     => 'apps.darkwood.localhost',
             'position' => 2,
-        ), $manager);
+        ], $manager);
 
-        $this->createSite(array(
-            'name' => 'Photos',
-            'host' => 'photos.darkwood.localhost',
+        $this->createSite([
+            'name'     => 'Photos',
+            'host'     => 'photos.darkwood.localhost',
             'position' => 3,
-        ), $manager);
+        ], $manager);
 
-        $this->createSite(array(
-            'name' => 'Blog',
-            'host' => 'blog.darkwood.localhost',
+        $this->createSite([
+            'name'     => 'Blog',
+            'host'     => 'blog.darkwood.localhost',
             'position' => 4,
-        ), $manager);
+        ], $manager);
 
-        $this->createSite(array(
-            'name' => 'Me',
-            'host' => 'me.darkwood.localhost',
+        $this->createSite([
+            'name'     => 'Me',
+            'host'     => 'me.darkwood.localhost',
             'position' => 5,
-        ), $manager);
+        ], $manager);
 
         $manager->flush();
     }
@@ -51,7 +51,7 @@ class SiteFixtures extends Fixture
         $site->setPosition($params['position']);
         $site->setActive(true);
 
-        $this->addReference('site-'.$params['name'], $site);
+        $this->addReference('site-' . $params['name'], $site);
         $manager->persist($site);
 
         return $site;

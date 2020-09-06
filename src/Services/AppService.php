@@ -3,14 +3,10 @@
 namespace App\Services;
 
 use App\Entity\App;
-use App\Entity\AppContent;
 use App\Entity\AppTranslation;
-use App\Repository\AppContentRepository;
 use App\Repository\AppRepository;
-use App\Services\BaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Class AppService
@@ -32,14 +28,12 @@ class AppService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
+        $this->em            = $em;
         $this->appRepository = $em->getRepository(App::class);
     }
 
     /**
      * Update a appTranslation.
-     *
-     * @param App $app
      *
      * @return App
      */
@@ -69,9 +63,9 @@ class AppService
      *
      * @param array $filters
      *
-     * @return null|object
+     * @return object|null
      */
-    public function findOneBy($filters = array())
+    public function findOneBy($filters = [])
     {
         return $this->appRepository->findOneBy($filters);
     }
@@ -83,7 +77,7 @@ class AppService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal')
     {
         return $this->appRepository->queryForSearch($filters, $order);
     }
@@ -103,7 +97,7 @@ class AppService
     /**
      * @param $id
      *
-     * @return null|AppTranslation
+     * @return AppTranslation|null
      */
     public function find($id)
     {

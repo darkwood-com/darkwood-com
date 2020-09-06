@@ -79,7 +79,7 @@ class Potion
      */
     public function __construct()
     {
-        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->players              = new \Doctrine\Common\Collections\ArrayCollection();
         $this->currentPotionPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -192,8 +192,6 @@ class Potion
 
     /**
      * Add player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function addPlayer(\App\Entity\Game\Player $player): void
     {
@@ -202,8 +200,6 @@ class Potion
 
     /**
      * Remove player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function removePlayer(\App\Entity\Game\Player $player)
     {
@@ -222,8 +218,6 @@ class Potion
 
     /**
      * Add currentPotionPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentPotionPlayer
      */
     public function addCurrentPotionPlayer(\App\Entity\Game\Player $currentPotionPlayer): void
     {
@@ -232,8 +226,6 @@ class Potion
 
     /**
      * Remove currentPotionPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentPotionPlayer
      */
     public function removeCurrentPotionPlayer(\App\Entity\Game\Player $currentPotionPlayer)
     {

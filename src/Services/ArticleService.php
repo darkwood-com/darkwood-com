@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Entity\App;
 use App\Entity\Article;
 use App\Entity\ArticleTranslation;
-use App\Repository\AppRepository;
 use App\Repository\ArticleRepository;
-use App\Services\BaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
@@ -31,14 +28,12 @@ class ArticleService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
+        $this->em                = $em;
         $this->articleRepository = $em->getRepository(Article::class);
     }
 
     /**
      * Update a articleTranslation.
-     *
-     * @param Article $article
      *
      * @return Article
      */
@@ -67,8 +62,6 @@ class ArticleService
 
     /**
      * Update a articleTranslation.
-     *
-     * @param ArticleTranslation $articleTranslation
      *
      * @return ArticleTranslation
      */
@@ -99,9 +92,9 @@ class ArticleService
      *
      * @param array $filters
      *
-     * @return null|object
+     * @return object|null
      */
-    public function findOneBy($filters = array())
+    public function findOneBy($filters = [])
     {
         return $this->articleRepository->findOneBy($filters);
     }
@@ -124,7 +117,7 @@ class ArticleService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $locale, $order = 'normal')
+    public function getQueryForSearch($filters = [], $locale, $order = 'normal')
     {
         return $this->articleRepository->queryForSearch($filters, $locale, $order);
     }
@@ -144,7 +137,7 @@ class ArticleService
     /**
      * @param $id
      *
-     * @return null|ArticleTranslation
+     * @return ArticleTranslation|null
      */
     public function find($id)
     {
@@ -162,6 +155,7 @@ class ArticleService
     /**
      * @param null $locale
      * @param null $limit
+     *
      * @return Article[]
      */
     public function findActives($locale = null, $limit = null)

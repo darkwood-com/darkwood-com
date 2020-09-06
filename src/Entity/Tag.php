@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -41,7 +40,7 @@ class Tag
      */
     public function __construct()
     {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->articles     = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -57,8 +56,6 @@ class Tag
 
     /**
      * Add translations.
-     *
-     * @param \App\Entity\TagTranslation $translations
      */
     public function addTranslation(\App\Entity\TagTranslation $translations): void
     {
@@ -68,8 +65,6 @@ class Tag
 
     /**
      * Remove translations.
-     *
-     * @param \App\Entity\TagTranslation $translations
      */
     public function removeTranslation(\App\Entity\TagTranslation $translations)
     {
@@ -114,10 +109,9 @@ class Tag
     }
 
     // ARTICLES
+
     /**
      * Add articles.
-     *
-     * @param \App\Entity\Article $article
      */
     public function addArticle(\App\Entity\Article $article): void
     {
@@ -126,8 +120,6 @@ class Tag
 
     /**
      * Remove articles.
-     *
-     * @param \App\Entity\Article $article
      */
     public function removeArticle(\App\Entity\Article $article)
     {

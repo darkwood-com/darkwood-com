@@ -5,11 +5,11 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class User.
@@ -182,7 +182,7 @@ class User implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return $this->firstname.' '.$this->lastname;
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     public function getId(): ?int
@@ -416,8 +416,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Add comment.
-     *
-     * @param \App\Entity\Comment $comment
      */
     public function addComment(\App\Entity\Comment $comment): void
     {
@@ -427,8 +425,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Remove comment.
-     *
-     * @param \App\Entity\Comment $comment
      */
     public function removeComment(\App\Entity\Comment $comment)
     {
@@ -448,8 +444,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Add contact.
-     *
-     * @param \App\Entity\Contact $contact
      */
     public function addContact(\App\Entity\Contact $contact): void
     {
@@ -459,8 +453,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Remove contact.
-     *
-     * @param \App\Entity\Contact $contact
      */
     public function removeContact(\App\Entity\Contact $contact)
     {
@@ -515,33 +507,38 @@ class User implements UserInterface, \Serializable
         // $this->plainPassword = null;
     }
 
-
-
     /**
      * String representation of object
-     * @link http://php.net/manual/en/serializable.serialize.php
+     *
+     * @see http://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
+     *
      * @since 5.1.0
      */
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->username,
             $this->email,
             $this->password,
             // see section on salt below
             // $this->salt,
-        ));
+        ]);
     }
 
     /**
      * Constructs the object
-     * @link http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @see http://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
      * @return void
+     *
      * @since 5.1.0
      */
     public function unserialize($serialized)

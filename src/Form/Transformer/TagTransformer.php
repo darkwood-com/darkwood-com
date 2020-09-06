@@ -6,7 +6,6 @@ use App\Entity\Tag;
 use App\Entity\TagTranslation;
 use App\Services\TagService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class TagTransformer implements DataTransformerInterface
@@ -19,7 +18,6 @@ class TagTransformer implements DataTransformerInterface
     public function __construct(
         TagService $tagService
     ) {
-
         $this->tagService = $tagService;
     }
 
@@ -40,7 +38,7 @@ class TagTransformer implements DataTransformerInterface
      */
     public function transform($tags)
     {
-        $arrayTags = array();
+        $arrayTags = [];
 
         if (!$tags) {
             return implode(', ', $arrayTags);
@@ -71,7 +69,7 @@ class TagTransformer implements DataTransformerInterface
             $tagPersisited = $this->tagService->findOneByTitle($tag);
 
             if (!$tagPersisited) {
-                $newTag = new Tag();
+                $newTag            = new Tag();
                 $newTagTranslation = new TagTranslation();
                 $newTagTranslation->setTitle($tag);
                 $newTagTranslation->setLocale($this->locale);

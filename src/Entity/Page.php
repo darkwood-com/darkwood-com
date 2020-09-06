@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -67,7 +66,7 @@ class Page
     public function __construct()
     {
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments     = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -82,8 +81,6 @@ class Page
 
     /**
      * Add translations.
-     *
-     * @param \App\Entity\PageTranslation $translations
      */
     public function addTranslation(\App\Entity\PageTranslation $translations): void
     {
@@ -93,8 +90,6 @@ class Page
 
     /**
      * Remove translations.
-     *
-     * @param \App\Entity\PageTranslation $translations
      */
     public function removeTranslation(\App\Entity\PageTranslation $translations)
     {
@@ -155,6 +150,7 @@ class Page
     }
 
     /* SITE */
+
     /**
      * Set site.
      *
@@ -177,8 +173,6 @@ class Page
 
     /**
      * Add comment.
-     *
-     * @param \App\Entity\Comment $comment
      */
     public function addComment(\App\Entity\Comment $comment): void
     {
@@ -188,8 +182,6 @@ class Page
 
     /**
      * Remove comment.
-     *
-     * @param \App\Entity\Comment $comment
      */
     public function removeComment(\App\Entity\Comment $comment)
     {

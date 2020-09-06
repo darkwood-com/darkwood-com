@@ -13,10 +13,9 @@ class UserFixtures extends Fixture
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+
     /**
      * AppFixtures constructor.
-     *
-     * @param UserPasswordEncoderInterface $passwordEncoder
      */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -31,7 +30,7 @@ class UserFixtures extends Fixture
         $user->setLastName('Ledru');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
         $user->setEmail('matyo@darkwood.fr');
-        $user->setRoles(array('ROLE_SUPER_ADMIN'));
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
 
         $manager->persist($user);
         $manager->flush();

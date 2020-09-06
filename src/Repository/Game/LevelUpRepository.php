@@ -2,9 +2,7 @@
 
 namespace App\Repository\Game;
 
-use App\Entity\AppContent;
 use App\Entity\Game\LevelUp;
-use App\Repository\BaseRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

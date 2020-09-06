@@ -86,7 +86,7 @@ class Armor
      */
     public function __construct()
     {
-        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->players             = new \Doctrine\Common\Collections\ArrayCollection();
         $this->currentArmorPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -219,8 +219,6 @@ class Armor
 
     /**
      * Add player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function addPlayer(\App\Entity\Game\Player $player): void
     {
@@ -229,8 +227,6 @@ class Armor
 
     /**
      * Remove player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function removePlayer(\App\Entity\Game\Player $player)
     {
@@ -249,8 +245,6 @@ class Armor
 
     /**
      * Add currentArmorPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentArmorPlayer
      */
     public function addCurrentArmorPlayer(\App\Entity\Game\Player $currentArmorPlayer): void
     {
@@ -259,8 +253,6 @@ class Armor
 
     /**
      * Remove currentArmorPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentArmorPlayer
      */
     public function removeCurrentArmorPlayer(\App\Entity\Game\Player $currentArmorPlayer)
     {

@@ -17,35 +17,35 @@ class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname', TextType::class, array(
+        $builder->add('firstname', TextType::class, [
             'required' => false,
-        ));
-        $builder->add('lastname', TextType::class, array(
+        ]);
+        $builder->add('lastname', TextType::class, [
             'required' => false,
-        ));
-        $builder->add('birthday', DateType::class, array(
+        ]);
+        $builder->add('birthday', DateType::class, [
             'required' => false,
-            'widget' => 'single_text',
-        ));
-        $builder->add('city', TextType::class, array(
+            'widget'   => 'single_text',
+        ]);
+        $builder->add('city', TextType::class, [
             'required' => false,
-        ));
-        $builder->add('comment', TextareaType::class, array(
+        ]);
+        $builder->add('comment', TextareaType::class, [
             'required' => false,
-        ));
-        $builder->add('image', FileType::class, array(
+        ]);
+        $builder->add('image', FileType::class, [
             'required' => false,
-        ));
-        $builder->add('current_password', PasswordType::class, array(
-            'mapped' => false,
+        ]);
+        $builder->add('current_password', PasswordType::class, [
+            'mapped'   => false,
             'required' => false,
-        ));
-        $builder->add('plainPassword', RepeatedType::class, array(
-            'type' => PasswordType::class,
+        ]);
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type'            => PasswordType::class,
             'invalid_message' => 'fos_user.password.mismatch',
-            'required' => false,
-            'mapped' => false,
-        ));
+            'required'        => false,
+            'mapped'          => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

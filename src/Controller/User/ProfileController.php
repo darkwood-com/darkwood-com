@@ -5,22 +5,17 @@ namespace App\Controller\User;
 use App\Controller\CommonController;
 use App\Entity\User;
 use App\Form\ProfileType;
-use App\Services\ArticleService;
-use App\Services\CommentService;
-use App\Services\GameService;
-use App\Services\PageService;
 use App\Services\UserService;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ProfileController.
+ *
  * @Route("/", name="common_profile")
  */
 class ProfileController extends AbstractController
@@ -39,7 +34,7 @@ class ProfileController extends AbstractController
      * @var CommonController
      */
     private $commonController;
-    
+
     /**
      * @var UserService
      */
@@ -50,20 +45,19 @@ class ProfileController extends AbstractController
         TranslatorInterface $translator,
         CommonController $commonController,
         UserService $userService
-    )
-    {
+    ) {
         $this->userPasswordEncoder = $userPasswordEncoder;
-        $this->translator = $translator;
-        $this->commonController = $commonController;
-        $this->userService = $userService;
+        $this->translator          = $translator;
+        $this->commonController    = $commonController;
+        $this->userService         = $userService;
     }
-    
+
     /**
      * @Route({ "fr": "/profil/{username}", "en": "/en/profile/{username}", "de": "/de/profil/{username}" }, name="", defaults={"ref": "profile"})
      */
     public function profile(Request $request, $ref, $username = null)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         if ($username) {
@@ -77,12 +71,12 @@ class ProfileController extends AbstractController
                 $playerInfo = $this->get('dw.play')->getInfo($user);
             }
 
-            return $this->render('common/pages/profileShow.html.twig', array(
-                'page' => $page,
-                'user' => $user,
+            return $this->render('common/pages/profileShow.html.twig', [
+                'page'       => $page,
+                'user'       => $user,
                 'playerInfo' => $playerInfo,
-                'site_ref' => $page->getPage()->getSite()->getRef(),
-            ));
+                'site_ref'   => $page->getPage()->getSite()->getRef(),
+            ]);
         }
 
         $user = $this->getUser();
@@ -90,9 +84,9 @@ class ProfileController extends AbstractController
             throw $this->createNotFoundException('User not found !');
         }
 
-        $form = $this->createForm(ProfileType::class, $user, array(
-            'validation_groups' => array('Profile', 'Default'),
-        ));
+        $form = $this->createForm(ProfileType::class, $user, [
+            'validation_groups' => ['Profile', 'Default'],
+        ]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -116,10 +110,10 @@ class ProfileController extends AbstractController
             }
         }
 
-        return $this->render('common/pages/profile.html.twig', array(
-            'page' => $page,
-            'form' => $form->createView(),
+        return $this->render('common/pages/profile.html.twig', [
+            'page'     => $page,
+            'form'     => $form->createView(),
             'site_ref' => $siteRef,
-        ));
+        ]);
     }
 }

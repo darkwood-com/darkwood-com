@@ -4,12 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\Admin\UserType;
-use App\Services\ContactService;
 use App\Services\UserService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -38,13 +37,12 @@ class UserController extends AbstractController
         TranslatorInterface $translator,
         PaginatorInterface $paginator,
         UserService $userService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator  = $translator;
+        $this->paginator   = $paginator;
         $this->userService = $userService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -61,24 +59,24 @@ class UserController extends AbstractController
             20
         );
 
-        return $this->render('admin/user/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/user/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_user_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('firstname', TextType::class, array('required' => false, 'label' => 'Prénom'))
-            ->add('lastname',  TextType::class, array('required' => false, 'label' => 'Nom'))
-            ->add('email',     TextType::class, array('required' => false, 'label' => 'Email'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('firstname', TextType::class, ['required' => false, 'label' => 'Prénom'])
+            ->add('lastname', TextType::class, ['required' => false, 'label' => 'Nom'])
+            ->add('email', TextType::class, ['required' => false, 'label' => 'Email'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -101,7 +99,7 @@ class UserController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $entity->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -110,10 +108,10 @@ class UserController extends AbstractController
             );
         }
 
-        return $this->render('admin/user/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/user/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entity,
-        ));
+        ]);
     }
 
     /**

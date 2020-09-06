@@ -4,9 +4,9 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
-use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,8 +26,8 @@ class FacebookAuthenticator extends SocialAuthenticator
     public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->router = $router;
+        $this->em             = $em;
+        $this->router         = $router;
     }
 
     public function supports(Request $request)
@@ -78,7 +78,7 @@ class FacebookAuthenticator extends SocialAuthenticator
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile = sys_get_temp_dir().'/fb-'.$imageName;
+                $tmpFile   = sys_get_temp_dir() . '/fb-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
 
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);

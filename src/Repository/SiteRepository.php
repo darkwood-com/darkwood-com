@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\AppContent;
 use App\Entity\Site;
-use App\Repository\BaseRepository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,7 +24,7 @@ class SiteRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function queryForSearch($filters = array())
+    public function queryForSearch($filters = [])
     {
         $qb = $this->createQueryBuilder('s')
             ->select('s')
@@ -35,8 +33,8 @@ class SiteRepository extends ServiceEntityRepository
 
         if (count($filters) > 0) {
             foreach ($filters as $key => $filter) {
-                $qb->andWhere('s.'.$key.' LIKE :'.$key);
-                $qb->setParameter($key, '%'.$filter.'%');
+                $qb->andWhere('s.' . $key . ' LIKE :' . $key);
+                $qb->setParameter($key, '%' . $filter . '%');
             }
         }
 
@@ -77,12 +75,12 @@ class SiteRepository extends ServiceEntityRepository
             ->setParameter('host', $host);
 
         $query = $qb->getQuery();
-        $query->useResultCache(true, 120, 'SiteRepository::findOneByHost'.$host);
+        //$query->useResultCache(true, 120, 'SiteRepository::findOneByHost' . $host);
 
         return $query->getOneOrNullResult();
     }
 
-    public function findAll($parameters = array())
+    public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('s')
             ->select('s')

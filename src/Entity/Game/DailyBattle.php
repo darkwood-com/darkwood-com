@@ -4,7 +4,6 @@ namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -20,8 +19,8 @@ class DailyBattle
     use TimestampTrait;
 
     const STATUS_DAILY_USER = 0;    //user of the day
-    const STATUS_NEW_WIN = 1;        //user that win the fight
-    const STATUS_NEW_LOSE = 2;        //user that lose the fight
+    const STATUS_NEW_WIN    = 1;        //user that win the fight
+    const STATUS_NEW_LOSE   = 2;        //user that lose the fight
 
     /**
      * @var int

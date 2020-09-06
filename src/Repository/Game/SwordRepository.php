@@ -2,8 +2,6 @@
 
 namespace App\Repository\Game;
 
-use App\Entity\AppContent;
-use App\Repository\BaseRepository;
 use App\Entity\Game\Sword;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

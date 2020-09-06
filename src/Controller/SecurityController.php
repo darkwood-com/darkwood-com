@@ -18,8 +18,7 @@ class SecurityController extends AbstractController
 
     public function __construct(
         CommonController $commonController
-    )
-    {
+    ) {
         $this->commonController = $commonController;
     }
 
@@ -28,7 +27,7 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
     {
-        if($request->getHost() === $parameterBag->get('admin_host')) {
+        if ($request->getHost() === $parameterBag->get('admin_host')) {
             // get the login error if there is one
             $error = $authenticationUtils->getLastAuthenticationError();
             // last username entered by the user
@@ -36,11 +35,11 @@ class SecurityController extends AbstractController
 
             return $this->render('admin/login.html.twig', [
                 'last_username' => $lastUsername,
-                'error' => $error
+                'error'         => $error
             ]);
         }
 
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         // if ($this->getUser()) {
@@ -53,10 +52,10 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('common/pages/login.html.twig', [
-            'page' => $page,
-            'site_ref' => $siteRef,
+            'page'          => $page,
+            'site_ref'      => $siteRef,
             'last_username' => $lastUsername,
-            'error' => $error
+            'error'         => $error
         ]);
     }
 

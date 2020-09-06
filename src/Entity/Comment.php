@@ -3,9 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
-use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

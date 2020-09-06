@@ -33,33 +33,34 @@ class ResettingController extends AbstractController
 
     public function __construct(
         CommonController $commonController
-    )
-    {
+    ) {
         $this->commonController = $commonController;
     }
 
     /**
      * Request reset user password: show form.
+     *
      * @Route({ "fr": "/resetting/request", "en": "/en/resetting/request", "de": "/de/resetting/request" }, name="_request", defaults={"ref": "resetting"})
      */
     public function request(Request $request, $ref)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
-        return $this->render('common/pages/resettingRequest.html.twig', array(
-            'page' => $page,
+        return $this->render('common/pages/resettingRequest.html.twig', [
+            'page'     => $page,
             'site_ref' => $siteRef,
-        ));
+        ]);
     }
 
     /**
      * Request reset user password: submit form and send email.
+     *
      * @Route({ "fr": "/resetting/send-email", "en": "/en/resetting/send-email", "de": "/de/resetting/send-email" }, name="_send_email", defaults={"ref": "resetting"})
      */
     public function sendEmail(Request $request, $ref)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $username = $request->request->get('username');
@@ -68,18 +69,18 @@ class ResettingController extends AbstractController
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
-            return $this->render('common/pages/resettingRequest.html.twig', array(
-                'page' => $page,
-                'site_ref' => $siteRef,
+            return $this->render('common/pages/resettingRequest.html.twig', [
+                'page'             => $page,
+                'site_ref'         => $siteRef,
                 'invalid_username' => $username,
-            ));
+            ]);
         }
 
         if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return $this->render('common/pages/resettingPasswordAlreadyRequested.html.twig', array(
-                'page' => $page,
+            return $this->render('common/pages/resettingPasswordAlreadyRequested.html.twig', [
+                'page'     => $page,
                 'site_ref' => $siteRef,
-            ));
+            ]);
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -93,17 +94,18 @@ class ResettingController extends AbstractController
         $this->get('fos_user.user_manager')->updateUser($user);
 
         return new RedirectResponse($this->generateUrl('common_resetting_check_email',
-            array('email' => $this->getObfuscatedEmail($user))
+            ['email' => $this->getObfuscatedEmail($user)]
         ));
     }
 
     /**
      * Tell the user to check his email provider.
+     *
      * @Route({ "fr": "/resetting/check-email", "en": "/en/resetting/check-email", "de": "/de/resetting/check-email" }, name="_check_email", defaults={"ref": "resetting"})
      */
     public function checkEmail(Request $request, $ref)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $email = $request->query->get('email');
@@ -113,20 +115,21 @@ class ResettingController extends AbstractController
             return new RedirectResponse($this->generateUrl('common_resetting_request'));
         }
 
-        return $this->render('common/pages/resettingCheckEmail.html.twig', array(
-            'page' => $page,
+        return $this->render('common/pages/resettingCheckEmail.html.twig', [
+            'page'     => $page,
             'site_ref' => $siteRef,
-            'email' => $email,
-        ));
+            'email'    => $email,
+        ]);
     }
 
     /**
      * Reset user password.
+     *
      * @Route({ "fr": "/resetting/reset/{token}", "en": "/en/resetting/reset/{token}", "de": "/de/resetting/reset/{token}" }, name="_reset", defaults={"ref": "resetting"})
      */
     public function reset(Request $request, $ref, $token)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
@@ -161,7 +164,7 @@ class ResettingController extends AbstractController
             $userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {
-                $url = $this->generateUrl('common_profile');
+                $url      = $this->generateUrl('common_profile');
                 $response = new RedirectResponse($url);
             }
 
@@ -170,12 +173,12 @@ class ResettingController extends AbstractController
             return $response;
         }
 
-        return $this->render('common/pages/resettingReset.html.twig', array(
-            'page' => $page,
+        return $this->render('common/pages/resettingReset.html.twig', [
+            'page'     => $page,
             'site_ref' => $siteRef,
-            'token' => $token,
-            'form' => $form->createView(),
-        ));
+            'token'    => $token,
+            'form'     => $form->createView(),
+        ]);
     }
 
     /**
@@ -191,7 +194,7 @@ class ResettingController extends AbstractController
     {
         $email = $user->getEmail();
         if (false !== $pos = strpos($email, '@')) {
-            $email = '...'.substr($email, $pos);
+            $email = '...' . substr($email, $pos);
         }
 
         return $email;

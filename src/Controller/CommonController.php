@@ -6,7 +6,6 @@ use App\Entity\Contact;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Form\ContactType;
-use App\Services\ArticleService;
 use App\Services\ContactService;
 use App\Services\PageService;
 use App\Services\SiteService;
@@ -18,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -45,7 +43,7 @@ class CommonController extends AbstractController
     private $pageService;
 
     /**
-     * @var SiteService 
+     * @var SiteService
      */
     private $siteService;
 
@@ -61,26 +59,23 @@ class CommonController extends AbstractController
         PageService $pageService,
         SiteService $siteService,
         ContactService $contactService
-    )
-    {
-        $this->twig = $twig;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
-        $this->pageService = $pageService;
-        $this->siteService = $siteService;
+    ) {
+        $this->twig           = $twig;
+        $this->mailer         = $mailer;
+        $this->translator     = $translator;
+        $this->pageService    = $pageService;
+        $this->siteService    = $siteService;
         $this->contactService = $contactService;
     }
 
     /**
      * Remove slash and redirect 301.
      *
-     * @param Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function removeTrailingSlash(Request $request)
     {
-        $pathInfo = $request->getPathInfo();
+        $pathInfo   = $request->getPathInfo();
         $requestUri = $request->getRequestUri();
 
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
@@ -90,8 +85,6 @@ class CommonController extends AbstractController
 
     /**
      * Show Exception action.
-     *
-     * @param Request $request
      */
     public function showException(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null)
     {
@@ -105,7 +98,7 @@ class CommonController extends AbstractController
             $site = $this->siteService->findOneToEdit($this->get('session')->get('siteId'));
 
             if (!$site) {
-                throw new AccessDeniedHttpException('No site defined with domain '.$host);
+                throw new AccessDeniedHttpException('No site defined with domain ' . $host);
             }
         }
 
@@ -119,10 +112,10 @@ class CommonController extends AbstractController
 
         $page->addTranslation($pageTranslation);
 
-        $response = $this->render('common/pages/404.html.twig', array(
-            'page' => $pageTranslation,
+        $response = $this->render('common/pages/404.html.twig', [
+            'page'     => $pageTranslation,
             'site_ref' => $site->getRef(),
-        ));
+        ]);
         $response->headers->set('X-Status-Code', 404);
         $response->setStatusCode(404);
 
@@ -133,9 +126,9 @@ class CommonController extends AbstractController
     {
         $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
 
-        return $this->render('common/partials/hreflangs.html.twig', array(
+        return $this->render('common/partials/hreflangs.html.twig', [
             'pageLinks' => $pageLinks,
-        ));
+        ]);
     }
 
     /**
@@ -143,12 +136,13 @@ class CommonController extends AbstractController
      * @param $context
      * @param $fromEmail
      * @param $toEmail
+     *
      * @throws \Throwable
      */
     private function sendMail($templateName, $context, $fromEmail, $toEmail): void
     {
         $template = $this->twig->load($templateName);
-        $subject = $template->renderBlock('subject', $context);
+        $subject  = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
 
@@ -169,7 +163,6 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param Request $request
      * @param $ref
      *
      * @return PageTranslation
@@ -186,22 +179,22 @@ class CommonController extends AbstractController
 
     public function sitemap(Request $request, $ref)
     {
-        $page = $this->getPage($request, $ref);
+        $page    = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $sitemap = $this->siteService->getSitemap($request->getLocale());
 
-        return $this->render('common/pages/sitemap.html.twig', array(
-            'page' => $page,
-            'sitemap' => $sitemap,
+        return $this->render('common/pages/sitemap.html.twig', [
+            'page'     => $page,
+            'sitemap'  => $sitemap,
             'site_ref' => $siteRef,
-        ));
+        ]);
     }
 
     public function sitemapXml(Request $request)
     {
         $sitemapXml = $this->siteService->getSitemapXml($request->getHost(), $request->getLocale());
-        $response = new Response($sitemapXml);
+        $response   = new Response($sitemapXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
 
         return $response;
@@ -209,7 +202,7 @@ class CommonController extends AbstractController
 
     public function rss(Request $request)
     {
-        $rssXml = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
+        $rssXml   = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
         $response = new Response($rssXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
 
@@ -218,7 +211,7 @@ class CommonController extends AbstractController
 
     public function contact(Request $request, $ref)
     {
-        $page = $this->getPage($request, $ref);
+        $page    = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $contact = new Contact();
@@ -238,18 +231,18 @@ class CommonController extends AbstractController
                     $this->translator->trans('common.contact.submited')
                 );
 
-                $this->sendMail('common/mails/contact.html.twig', array(
+                $this->sendMail('common/mails/contact.html.twig', [
                     'contact' => $contact,
-                ), $contact->getEmail(), 'contact@darkwood.fr');
+                ], $contact->getEmail(), 'contact@darkwood.fr');
 
-                return $this->redirect($this->generateUrl($siteRef.'_contact', array('ref' => $ref)));
+                return $this->redirect($this->generateUrl($siteRef . '_contact', ['ref' => $ref]));
             }
         }
 
-        return $this->render('common/pages/contact.html.twig', array(
-            'form' => $form->createView(),
-            'page' => $page,
+        return $this->render('common/pages/contact.html.twig', [
+            'form'     => $form->createView(),
+            'page'     => $page,
             'site_ref' => $siteRef,
-        ));
+        ]);
     }
 }

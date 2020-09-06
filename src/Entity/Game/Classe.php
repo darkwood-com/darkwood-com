@@ -199,8 +199,6 @@ class Classe
 
     /**
      * Add player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function addPlayer(\App\Entity\Game\Player $player): void
     {
@@ -209,8 +207,6 @@ class Classe
 
     /**
      * Remove player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function removePlayer(\App\Entity\Game\Player $player)
     {

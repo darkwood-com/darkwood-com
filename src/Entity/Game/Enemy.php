@@ -114,7 +114,7 @@ class Enemy
      */
     public function __construct()
     {
-        $this->lastFightPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lastFightPlayers    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->currentEnemyPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -327,8 +327,6 @@ class Enemy
 
     /**
      * Add lastFightPlayer.
-     *
-     * @param \App\Entity\Game\Player $lastFightPlayer
      */
     public function addLastFightPlayer(\App\Entity\Game\Player $lastFightPlayer): void
     {
@@ -337,8 +335,6 @@ class Enemy
 
     /**
      * Remove lastFightPlayer.
-     *
-     * @param \App\Entity\Game\Player $lastFightPlayer
      */
     public function removeLastFightPlayer(\App\Entity\Game\Player $lastFightPlayer)
     {
@@ -357,8 +353,6 @@ class Enemy
 
     /**
      * Add currentEnemyPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentEnemyPlayer
      */
     public function addCurrentEnemyPlayer(\App\Entity\Game\Player $currentEnemyPlayer): void
     {
@@ -367,8 +361,6 @@ class Enemy
 
     /**
      * Remove currentEnemyPlayer.
-     *
-     * @param \App\Entity\Game\Player $currentEnemyPlayer
      */
     public function removeCurrentEnemyPlayer(\App\Entity\Game\Player $currentEnemyPlayer)
     {

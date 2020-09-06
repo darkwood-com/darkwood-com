@@ -17,17 +17,14 @@ class ContactType extends AbstractType
 {
     /**
      * Build Form.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
 
-        $builder->add('email', TextType::class, array('required' => false));
-        $builder->add('website', TextType::class, array('required' => false));
-        $builder->add('content', TextareaType::class, array('required' => false));
+        $builder->add('email', TextType::class, ['required' => false]);
+        $builder->add('website', TextType::class, ['required' => false]);
+        $builder->add('content', TextareaType::class, ['required' => false]);
         /*$builder->add('user', EntityType::class, array(
             'class' => 'UserBundle:User',
             'placeholder' => '- Choisissez un utilisateur -',
@@ -37,10 +34,10 @@ class ContactType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Contact::class,
-            'locale' => null,
-        ));
+            'locale'     => null,
+        ]);
     }
 
     /**

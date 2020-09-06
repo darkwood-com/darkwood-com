@@ -2,14 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Admin\SiteType;
 use App\Entity\Site;
-use App\Services\ContactService;
+use App\Form\Admin\SiteType;
 use App\Services\SiteService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -38,13 +37,12 @@ class SiteController extends AbstractController
         TranslatorInterface $translator,
         PaginatorInterface $paginator,
         SiteService $siteService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator  = $translator;
+        $this->paginator   = $paginator;
         $this->siteService = $siteService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -62,21 +60,21 @@ class SiteController extends AbstractController
             20
         );
 
-        return $this->render('admin/site/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/site/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_site_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -99,7 +97,7 @@ class SiteController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_site_edit', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl('admin_site_edit', ['id' => $entity->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -108,10 +106,10 @@ class SiteController extends AbstractController
             );
         }
 
-        return $this->render('admin/site/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/site/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entity,
-        ));
+        ]);
     }
 
     /**
@@ -166,10 +164,10 @@ class SiteController extends AbstractController
     {
         $sites = $this->siteService->findAll();
 
-        return $this->render('admin/site/partials/navbar.html.twig', array(
-            'route' => $route,
+        return $this->render('admin/site/partials/navbar.html.twig', [
+            'route'  => $route,
             'params' => $params,
-            'sites' => $sites,
-        ));
+            'sites'  => $sites,
+        ]);
     }
 }

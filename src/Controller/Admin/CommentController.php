@@ -2,15 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Admin\CommentType;
 use App\Entity\Comment;
 use App\Entity\CommentPage;
-use App\Services\ArticleService;
+use App\Form\Admin\CommentType;
 use App\Services\CommentService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -39,13 +38,12 @@ class CommentController extends AbstractController
         TranslatorInterface $translator,
         PaginatorInterface $paginator,
         CommentService $commentService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator     = $translator;
+        $this->paginator      = $paginator;
         $this->commentService = $commentService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -62,21 +60,21 @@ class CommentController extends AbstractController
             20
         );
 
-        return $this->render('admin/comment/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/comment/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_comment_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -85,9 +83,9 @@ class CommentController extends AbstractController
     {
         $mode = $entity->getId() ? 'edit' : 'create';
 
-        $form = $this->createForm(CommentType::class, $entity, array(
+        $form = $this->createForm(CommentType::class, $entity, [
             'locale' => $request->getLocale(),
-        ));
+        ]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -101,7 +99,7 @@ class CommentController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_comment_edit', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl('admin_comment_edit', ['id' => $entity->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -110,10 +108,10 @@ class CommentController extends AbstractController
             );
         }
 
-        return $this->render('admin/comment/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/comment/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entity,
-        ));
+        ]);
     }
 
     /**

@@ -19,8 +19,8 @@ class EmailVerifier
     public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
     {
         $this->verifyEmailHelper = $helper;
-        $this->mailer = $mailer;
-        $this->entityManager = $manager;
+        $this->mailer            = $mailer;
+        $this->entityManager     = $manager;
     }
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
@@ -31,7 +31,7 @@ class EmailVerifier
             $user->getEmail()
         );
 
-        $context = $email->getContext();
+        $context              = $email->getContext();
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
         $context['expiresAt'] = $signatureComponents->getExpiresAt();
 

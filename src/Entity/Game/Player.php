@@ -4,7 +4,6 @@ namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -557,8 +556,6 @@ class Player
 
     /**
      * Add dailyBattle.
-     *
-     * @param \App\Entity\Game\DailyBattle $dailyBattle
      */
     public function addDailyBattle(\App\Entity\Game\DailyBattle $dailyBattle): void
     {
@@ -567,8 +564,6 @@ class Player
 
     /**
      * Remove dailyBattle.
-     *
-     * @param \App\Entity\Game\DailyBattle $dailyBattle
      */
     public function removeDailyBattle(\App\Entity\Game\DailyBattle $dailyBattle)
     {

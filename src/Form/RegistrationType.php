@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
@@ -20,24 +19,24 @@ class RegistrationType extends AbstractType
     {
         $builder->add('username');
         $builder->add('email', EmailType::class);
-        $builder->add('plainPassword',  RepeatedType::class, array(
-            'type' => PasswordType::class,
-            'first_options' => array('label' => 'Mot de passe'),
-            'second_options' => array('label' => 'Confirmer mot de passe'),
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type'            => PasswordType::class,
+            'first_options'   => ['label' => 'Mot de passe'],
+            'second_options'  => ['label' => 'Confirmer mot de passe'],
             'invalid_message' => 'Les mots de passe ne correspondent pas.',
-            'mapped' => false,
-            'constraints' => [
+            'mapped'          => false,
+            'constraints'     => [
                 new NotBlank([
                     'message' => 'Please enter a password',
                 ]),
             ],
-        ));
-        $builder->add('recaptcha', EWZRecaptchaType::class, array(
-            'mapped' => false,
-            'constraints' => array(
+        ]);
+        $builder->add('recaptcha', EWZRecaptchaType::class, [
+            'mapped'      => false,
+            'constraints' => [
                 new IsTrue(),
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

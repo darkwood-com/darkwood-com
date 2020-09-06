@@ -3,8 +3,6 @@
 namespace App\Form\Admin;
 
 use App\Entity\AppContent;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,24 +16,21 @@ class AppContentType extends AbstractType
 {
     /**
      * Build Form.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('slug', TextType::class);
         $builder->add('title', TextType::class);
-        $builder->add('content', TextareaType::class, array(
+        $builder->add('content', TextareaType::class, [
             'required' => false,
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => AppContent::class,
-        ));
+        ]);
     }
 
     /**

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -21,8 +20,6 @@ class PageTranslation
 {
     use TimestampTrait;
 
-    /*********** Translation parts *********/
-
     /**
      * Locale.
      *
@@ -36,8 +33,6 @@ class PageTranslation
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $page;
-
-    /**************************************/
 
     /**
      * @ORM\Id

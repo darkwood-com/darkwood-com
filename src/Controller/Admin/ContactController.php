@@ -2,14 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Admin\ContactType;
 use App\Entity\Contact;
-use App\Services\CommentService;
+use App\Form\Admin\ContactType;
 use App\Services\ContactService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -38,13 +37,12 @@ class ContactController extends AbstractController
         TranslatorInterface $translator,
         PaginatorInterface $paginator,
         ContactService $contactService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator     = $translator;
+        $this->paginator      = $paginator;
         $this->contactService = $contactService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -61,21 +59,21 @@ class ContactController extends AbstractController
             20
         );
 
-        return $this->render('admin/contact/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/contact/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_contact_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -84,9 +82,9 @@ class ContactController extends AbstractController
     {
         $mode = $entity->getId() ? 'edit' : 'create';
 
-        $form = $this->createForm(ContactType::class, $entity, array(
+        $form = $this->createForm(ContactType::class, $entity, [
             'locale' => $request->getLocale(),
-        ));
+        ]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -100,7 +98,7 @@ class ContactController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_contact_edit', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl('admin_contact_edit', ['id' => $entity->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -109,10 +107,10 @@ class ContactController extends AbstractController
             );
         }
 
-        return $this->render('admin/contact/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/contact/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entity,
-        ));
+        ]);
     }
 
     /**

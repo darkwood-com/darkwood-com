@@ -19,18 +19,15 @@ class CommentType extends AbstractType
 {
     /**
      * Build Form.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
 
-        $builder->add('content', TextareaType::class, array('required' => false));
-        $builder->add('page', EntityType::class, array(
-            'class' => Page::class,
-            'placeholder' => '- Choisissez une page -',
+        $builder->add('content', TextareaType::class, ['required' => false]);
+        $builder->add('page', EntityType::class, [
+            'class'         => Page::class,
+            'placeholder'   => '- Choisissez une page -',
             'query_builder' => function (EntityRepository $er) use ($locale) {
                 return $er->createQueryBuilder('p')
                     ->select('p', 'pts')
@@ -38,16 +35,16 @@ class CommentType extends AbstractType
                     ->andWhere('pts.locale = :locale OR pts.locale IS NULL')
                     ->setParameter('locale', $locale);
             },
-        ));
-        $builder->add('active', CheckboxType::class, array('required' => false));
+        ]);
+        $builder->add('active', CheckboxType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Comment::class,
-            'locale' => null,
-        ));
+            'locale'     => null,
+        ]);
     }
 
     /**

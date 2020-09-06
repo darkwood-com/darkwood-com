@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\AppContent;
-use App\Repository\BaseRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -26,7 +25,7 @@ class AppContentRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function queryForSearch($filters = array(), $order = null)
+    public function queryForSearch($filters = [], $order = null)
     {
         $qb = $this->createQueryBuilder('ac')
             ->select('ac')
@@ -50,12 +49,12 @@ class AppContentRepository extends ServiceEntityRepository
                     continue;
                 }
 
-                $qb->andWhere('ac.'.$key.' LIKE :'.$key);
-                $qb->setParameter($key, '%'.$filter.'%');
+                $qb->andWhere('ac.' . $key . ' LIKE :' . $key);
+                $qb->setParameter($key, '%' . $filter . '%');
             }
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::queryForSearch');
+        //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::queryForSearch');
 
         $query = $qb->getQuery();
 
@@ -77,7 +76,7 @@ class AppContentRepository extends ServiceEntityRepository
             ->orderBy('ac.id', 'asc')
             ->setParameter('id', $id);
 
-        #$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findOneToEdit'.($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -91,13 +90,13 @@ class AppContentRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAll($parameters = array())
+    public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('ac')
             ->select('ac')
         ;
 
-        #$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findAll');
+        //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findAll');
 
         $query = $qb->getQuery();
 
@@ -115,7 +114,7 @@ class AppContentRepository extends ServiceEntityRepository
             $qb->setMaxResults($limit);
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findActives');
+        //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findActives');
 
         $query = $qb->getQuery();
 

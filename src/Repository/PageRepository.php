@@ -2,8 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\AppContent;
-use App\Repository\BaseRepository;
 use App\Entity\Page;
 use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -27,7 +25,7 @@ class PageRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function queryForSearch($filters = array(), $type, $host, $locale, $order = null)
+    public function queryForSearch($filters = [], $type, $host, $locale, $order = null)
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p', 'pts')
@@ -76,12 +74,12 @@ class PageRepository extends ServiceEntityRepository
                     continue;
                 }
 
-                $qb->andWhere('p.'.$key.' LIKE :'.$key);
-                $qb->setParameter($key, '%'.$filter.'%');
+                $qb->andWhere('p.' . $key . ' LIKE :' . $key);
+                $qb->setParameter($key, '%' . $filter . '%');
             }
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
+        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
 
         $query = $qb->getQuery();
 
@@ -104,7 +102,7 @@ class PageRepository extends ServiceEntityRepository
             ->orderBy('p.id', 'asc')
             ->setParameter('id', $id);
 
-        #$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -131,7 +129,7 @@ class PageRepository extends ServiceEntityRepository
             $qb->setParameter('id', $site->getId());
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
+        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
 
         $query = $qb->getQuery();
 

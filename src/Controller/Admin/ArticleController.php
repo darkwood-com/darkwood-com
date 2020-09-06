@@ -9,8 +9,8 @@ use App\Services\ArticleService;
 use App\Services\TagService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,12 +24,12 @@ class ArticleController extends AbstractController
      * @var TranslatorInterface
      */
     private $translator;
-    
+
     /**
      * @var PaginatorInterface
      */
     private $paginator;
-    
+
     /**
      * @var ArticleService
      */
@@ -45,14 +45,13 @@ class ArticleController extends AbstractController
         PaginatorInterface $paginator,
         ArticleService $articleService,
         TagService $tagService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator     = $translator;
+        $this->paginator      = $paginator;
         $this->articleService = $articleService;
-        $this->tagService = $tagService;
+        $this->tagService     = $tagService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -69,21 +68,21 @@ class ArticleController extends AbstractController
             20
         );
 
-        return $this->render('admin/article/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/article/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_article_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -92,9 +91,9 @@ class ArticleController extends AbstractController
     {
         $mode = $entityTranslation->getId() ? 'edit' : 'create';
 
-        $form = $this->createForm(ArticleTranslationType::class, $entityTranslation, array(
+        $form = $this->createForm(ArticleTranslationType::class, $entityTranslation, [
             'locale' => $request->getLocale(),
-        ));
+        ]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -108,7 +107,7 @@ class ArticleController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_article_edit', array('id' => $entityTranslation->getArticle()->getId())));
+                return $this->redirect($this->generateUrl('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -117,11 +116,11 @@ class ArticleController extends AbstractController
             );
         }
 
-        return $this->render('admin/article/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/article/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entityTranslation,
-            'tags' => $this->tagService->findAllAsArray($request->getLocale()),
-        ));
+            'tags'   => $this->tagService->findAllAsArray($request->getLocale()),
+        ]);
     }
 
     /**
@@ -138,6 +137,7 @@ class ArticleController extends AbstractController
 
         return $this->manage($request, $entityTranslation);
     }
+
     /**
      * @Route("/edit/{id}", name="edit")
      */

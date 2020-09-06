@@ -32,25 +32,24 @@ class PhotosController extends AbstractController
         CommonController $commonController,
         AuthenticationUtils $authenticationUtils,
         PageService $pageService
-    )
-    {
-        $this->commonController = $commonController;
+    ) {
+        $this->commonController    = $commonController;
         $this->authenticationUtils = $authenticationUtils;
-        $this->pageService = $pageService;
+        $this->pageService         = $pageService;
     }
 
     public function menu(Request $request, $ref)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
         $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
 
-        return $this->render('photos/partials/menu.html.twig', array(
+        return $this->render('photos/partials/menu.html.twig', [
             'last_username' => $lastUsername,
-            'csrf_token' => $csrfToken,
-            'pageLinks' => $pageLinks,
-        ));
+            'csrf_token'    => $csrfToken,
+            'pageLinks'     => $pageLinks,
+        ]);
     }
 
     /**
@@ -60,9 +59,9 @@ class PhotosController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('photos/pages/home.html.twig', array(
+        return $this->render('photos/pages/home.html.twig', [
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -104,9 +103,9 @@ class PhotosController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('photos/pages/show.html.twig', array(
+        return $this->render('photos/pages/show.html.twig', [
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -116,9 +115,9 @@ class PhotosController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('photos/pages/demo.html.twig', array(
+        return $this->render('photos/pages/demo.html.twig', [
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -128,9 +127,9 @@ class PhotosController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('photos/pages/help.html.twig', array(
-            'page' => $page,
+        return $this->render('photos/pages/help.html.twig', [
+            'page'      => $page,
             'showLinks' => true,
-        ));
+        ]);
     }
 }

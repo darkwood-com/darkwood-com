@@ -2,16 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Admin\PageTranslationType;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
-use App\Services\ContactService;
+use App\Form\Admin\PageTranslationType;
 use App\Services\PageService;
 use App\Services\SiteService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -46,14 +45,13 @@ class PageController extends AbstractController
         PaginatorInterface $paginator,
         PageService $pageService,
         SiteService $siteService
-    )
-    {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
+    ) {
+        $this->translator  = $translator;
+        $this->paginator   = $paginator;
         $this->pageService = $pageService;
         $this->siteService = $siteService;
     }
-    
+
     /**
      * @Route("/list", name="list")
      */
@@ -70,21 +68,21 @@ class PageController extends AbstractController
             20
         );
 
-        return $this->render('admin/page/index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('admin/page/index.html.twig', [
+            'entities'    => $entities,
             'search_form' => $form->createView(),
-        ));
+        ]);
     }
 
     private function createSearchForm()
     {
-        $data = array();
+        $data = [];
 
         return $this->createFormBuilder($data)
             ->setAction($this->generateUrl('admin_page_list'))
             ->setMethod('GET')
-            ->add('id',        TextType::class, array('required' => false, 'label' => 'Id'))
-            ->add('submit',    SubmitType::class, array('label' => 'Search'))
+            ->add('id', TextType::class, ['required' => false, 'label' => 'Id'])
+            ->add('submit', SubmitType::class, ['label' => 'Search'])
             ->getForm()
             ;
     }
@@ -93,9 +91,9 @@ class PageController extends AbstractController
     {
         $mode = $entityTranslation->getId() ? 'edit' : 'create';
 
-        $form = $this->createForm(PageTranslationType::class, $entityTranslation, array(
+        $form = $this->createForm(PageTranslationType::class, $entityTranslation, [
             'locale' => $request->getLocale(),
-        ));
+        ]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -109,7 +107,7 @@ class PageController extends AbstractController
                     $this->translator->trans('notice.form.updated')
                 );
 
-                return $this->redirect($this->generateUrl('admin_page_edit', array('id' => $entityTranslation->getPage()->getId())));
+                return $this->redirect($this->generateUrl('admin_page_edit', ['id' => $entityTranslation->getPage()->getId()]));
             }
 
             $this->get('session')->getFlashBag()->add(
@@ -118,11 +116,11 @@ class PageController extends AbstractController
             );
         }
 
-        return $this->render('admin/page/'.$mode.'.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('admin/page/' . $mode . '.html.twig', [
+            'form'   => $form->createView(),
             'entity' => $entityTranslation,
-            'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null,
-        ));
+            'url'    => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null,
+        ]);
     }
 
     /**

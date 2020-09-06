@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Page;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -55,8 +54,6 @@ class App extends Page
 
     /**
      * Add content.
-     *
-     * @param \App\Entity\AppContent $content
      */
     public function addContent(\App\Entity\AppContent $content): void
     {
@@ -66,8 +63,6 @@ class App extends Page
 
     /**
      * Remove content.
-     *
-     * @param \App\Entity\AppContent $content
      */
     public function removeContent(\App\Entity\AppContent $content)
     {

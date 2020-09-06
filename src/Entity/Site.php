@@ -211,10 +211,9 @@ class Site
     }
 
     //PAGES
+
     /**
      * Add pages.
-     *
-     * @param \App\Entity\Page $pages
      */
     public function addPage(\App\Entity\Page $pages): void
     {
@@ -223,8 +222,6 @@ class Site
 
     /**
      * Remove pages.
-     *
-     * @param \App\Entity\Page $pages
      */
     public function removePage(\App\Entity\Page $pages)
     {

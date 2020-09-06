@@ -6,10 +6,8 @@ use App\Entity\App;
 use App\Entity\AppContent;
 use App\Entity\CommentPage;
 use App\Form\CommentType;
-use App\Services\ArticleService;
 use App\Services\CommentService;
 use App\Services\PageService;
-use Knp\Bundle\PaginatorBundle\Definition\PaginatorAwareInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,12 +41,12 @@ class AppsController extends AbstractController
     private $paginator;
 
     /**
-     * @var PageService 
+     * @var PageService
      */
     private $pageService;
 
     /**
-     * @var CommentService 
+     * @var CommentService
      */
     private $commentService;
 
@@ -59,38 +57,37 @@ class AppsController extends AbstractController
         PaginatorInterface $paginator,
         PageService $pageService,
         CommentService $commentService
-    )
-    {
-        $this->commonController = $commonController;
+    ) {
+        $this->commonController    = $commonController;
         $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->commentService = $commentService;
+        $this->translator          = $translator;
+        $this->paginator           = $paginator;
+        $this->pageService         = $pageService;
+        $this->commentService      = $commentService;
     }
 
     public function menu(Request $request, $ref)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
-        $apps = $this->pageService->findActives($request->getLocale(), 'app');
-        $appLinks = array();
+        $apps     = $this->pageService->findActives($request->getLocale(), 'app');
+        $appLinks = [];
         foreach ($apps as $app) {
-            $appLinks[] = array(
+            $appLinks[] = [
                 'label' => $app->getOneTranslation()->getTitle(),
-                'link' => $this->pageService->getUrl($app->getOneTranslation()),
-            );
+                'link'  => $this->pageService->getUrl($app->getOneTranslation()),
+            ];
         }
 
         $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
 
-        return $this->render('apps/partials/menu.html.twig', array(
+        return $this->render('apps/partials/menu.html.twig', [
             'last_username' => $lastUsername,
-            'csrf_token' => $csrfToken,
-            'appLinks' => $appLinks,
-            'pageLinks' => $pageLinks,
-        ));
+            'csrf_token'    => $csrfToken,
+            'appLinks'      => $appLinks,
+            'pageLinks'     => $pageLinks,
+        ]);
     }
 
     /**
@@ -100,9 +97,9 @@ class AppsController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
 
-        return $this->render('apps/pages/home.html.twig', array(
+        return $this->render('apps/pages/home.html.twig', [
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -143,7 +140,7 @@ class AppsController extends AbstractController
     public function app(Request $request, $ref, $slug = null)
     {
         $page = $this->commonController->getPage($request, $ref);
-        $app = $page->getPage();
+        $app  = $page->getPage();
 
         if (!$app instanceof App) {
             throw $this->createNotFoundException('App not found !');
@@ -182,7 +179,7 @@ class AppsController extends AbstractController
                     $this->translator->trans('common.comment.submited')
                 );
 
-                return $this->redirect($this->generateUrl('apps_app', array('ref' => $ref, 'slug' => $slug)));
+                return $this->redirect($this->generateUrl('apps_app', ['ref' => $ref, 'slug' => $slug]));
             }
         }
 
@@ -194,14 +191,14 @@ class AppsController extends AbstractController
             10
         );
 
-        return $this->render('apps/pages/app.html.twig', array(
-            'page' => $page,
-            'slug' => $slug,
-            'contents' => $contents,
-            'content' => $content,
+        return $this->render('apps/pages/app.html.twig', [
+            'page'      => $page,
+            'slug'      => $slug,
+            'contents'  => $contents,
+            'content'   => $content,
             'showLinks' => true,
-            'form' => $form->createView(),
-            'comments' => $comments,
-        ));
+            'form'      => $form->createView(),
+            'comments'  => $comments,
+        ]);
     }
 }

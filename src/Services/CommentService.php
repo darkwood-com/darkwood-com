@@ -2,11 +2,8 @@
 
 namespace App\Services;
 
-use App\Entity\Article;
-use App\Entity\CommentPage;
-use App\Repository\ArticleRepository;
-use App\Services\BaseService;
 use App\Entity\Comment;
+use App\Entity\CommentPage;
 use App\Entity\Page;
 use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
@@ -27,7 +24,6 @@ class CommentService
     /**
      * @var CommentRepository
      */
-
     protected $commentRepository;
 
     /**
@@ -38,15 +34,13 @@ class CommentService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
-        $this->commentRepository = $em->getRepository(Comment::class);
+        $this->em                    = $em;
+        $this->commentRepository     = $em->getRepository(Comment::class);
         $this->commentPageRepository = $em->getRepository(CommentPage::class);
     }
 
     /**
      * Update a commentTranslation.
-     *
-     * @param Comment $comment
      *
      * @return Comment
      */
@@ -78,7 +72,7 @@ class CommentService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal')
     {
         return $this->commentRepository->queryForSearch($filters, $order);
     }

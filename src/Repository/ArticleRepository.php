@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\AppContent;
 use App\Entity\Article;
-use App\Repository\BaseRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -27,7 +25,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function queryForSearch($filters = array(), $locale, $order = null)
+    public function queryForSearch($filters = [], $locale, $order = null)
     {
         $qb = $this->createQueryBuilder('n')
             ->select('n', 'nts')
@@ -54,12 +52,12 @@ class ArticleRepository extends ServiceEntityRepository
                     continue;
                 }
 
-                $qb->andWhere('n.'.$key.' LIKE :'.$key);
-                $qb->setParameter($key, '%'.$filter.'%');
+                $qb->andWhere('n.' . $key . ' LIKE :' . $key);
+                $qb->setParameter($key, '%' . $filter . '%');
             }
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::queryForSearch');
+        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::queryForSearch');
 
         $query = $qb->getQuery();
 
@@ -82,7 +80,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->orderBy('n.id', 'asc')
             ->setParameter('id', $id);
 
-        #$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -98,7 +96,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('nts.locale = :locale')->setParameter('locale', $locale)
         ;
 
-        #$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -112,7 +110,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAll($parameters = array())
+    public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('n')
             ->select('n', 'nts')
@@ -120,7 +118,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->addOrderBy('n.created', 'desc')
         ;
 
-        #$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
+        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
 
         $query = $qb->getQuery();
 
@@ -144,7 +142,7 @@ class ArticleRepository extends ServiceEntityRepository
             $qb->setMaxResults($limit);
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
+        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
 
         $query = $qb->getQuery();
 

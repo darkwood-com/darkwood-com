@@ -2,17 +2,11 @@
 
 namespace App\Services;
 
-use App\Entity\App;
 use App\Entity\AppContent;
 use App\Entity\AppTranslation;
-use App\Entity\Page;
 use App\Repository\AppContentRepository;
-use App\Repository\PageRepository;
-use App\Services\BaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Class AppContentService
@@ -34,14 +28,12 @@ class AppContentService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
+        $this->em                   = $em;
         $this->appContentRepository = $em->getRepository(AppContent::class);
     }
 
     /**
      * Update a appTranslation.
-     *
-     * @param AppContent $appContent
      *
      * @return AppContent
      */
@@ -57,8 +49,6 @@ class AppContentService
 
     /**
      * Remove one appTranslation.
-     *
-     * @param AppContent $appContent
      */
     public function remove(AppContent $appContent)
     {
@@ -71,9 +61,9 @@ class AppContentService
      *
      * @param array $filters
      *
-     * @return null|object
+     * @return object|null
      */
-    public function findOneBy($filters = array())
+    public function findOneBy($filters = [])
     {
         return $this->appContentRepository->findOneBy($filters);
     }
@@ -85,7 +75,7 @@ class AppContentService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal')
     {
         return $this->appContentRepository->queryForSearch($filters, $order);
     }
@@ -105,7 +95,7 @@ class AppContentService
     /**
      * @param $id
      *
-     * @return null|AppContent
+     * @return AppContent|null
      */
     public function find($id)
     {

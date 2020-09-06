@@ -62,29 +62,28 @@ class BlogController extends AbstractController
         PageService $pageService,
         ArticleService $articleService,
         CommentService $commentService
-    )
-    {
-        $this->commonController = $commonController;
+    ) {
+        $this->commonController    = $commonController;
         $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->articleService = $articleService;
-        $this->commentService = $commentService;
+        $this->translator          = $translator;
+        $this->paginator           = $paginator;
+        $this->pageService         = $pageService;
+        $this->articleService      = $articleService;
+        $this->commentService      = $commentService;
     }
 
     public function menu(Request $request, $ref)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
         $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
 
-        return $this->render('blog/partials/menu.html.twig', array(
+        return $this->render('blog/partials/menu.html.twig', [
             'last_username' => $lastUsername,
-            'csrf_token' => $csrfToken,
-            'pageLinks' => $pageLinks,
-        ));
+            'csrf_token'    => $csrfToken,
+            'pageLinks'     => $pageLinks,
+        ]);
     }
 
     /**
@@ -92,14 +91,14 @@ class BlogController extends AbstractController
      */
     public function home(Request $request, $ref)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page     = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findActives($request->getLocale(), 5);
 
-        return $this->render('blog/pages/home.html.twig', array(
-            'page' => $page,
-            'articles' => $articles,
+        return $this->render('blog/pages/home.html.twig', [
+            'page'      => $page,
+            'articles'  => $articles,
             'showLinks' => true,
-        ));
+        ]);
     }
 
     /**
@@ -163,7 +162,7 @@ class BlogController extends AbstractController
                     $this->translator->trans('common.comment.submited')
                 );
 
-                return $this->redirect($this->generateUrl('blog_article', array('slug' => $article->getOneTranslation($request->getLocale())->getSlug())));
+                return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
             }
         }
 
@@ -175,12 +174,12 @@ class BlogController extends AbstractController
             10
         );
 
-        return $this->render('blog/pages/article.html.twig', array(
-            'page' => $page,
-            'article' => $article,
+        return $this->render('blog/pages/article.html.twig', [
+            'page'      => $page,
+            'article'   => $article,
             'showLinks' => true,
-            'form' => $form->createView(),
-            'comments' => $comments,
-        ));
+            'form'      => $form->createView(),
+            'comments'  => $comments,
+        ]);
     }
 }

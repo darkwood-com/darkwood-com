@@ -3,12 +3,10 @@
 namespace App\Services;
 
 use App\Entity\App;
-use App\Services\BaseService;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Entity\Site;
 use App\Repository\PageRepository;
-use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -49,16 +47,14 @@ class PageService
         CacheInterface $appCache,
         RouterInterface $router
     ) {
-        $this->em = $em;
+        $this->em             = $em;
         $this->pageRepository = $em->getRepository(Page::class);
-        $this->appCache = $appCache;
-        $this->router = $router;
+        $this->appCache       = $appCache;
+        $this->router         = $router;
     }
 
     /**
      * Update a pageTranslation.
-     *
-     * @param Page $page
      *
      * @return Page
      */
@@ -87,8 +83,6 @@ class PageService
 
     /**
      * Update a pageTranslation.
-     *
-     * @param PageTranslation $pageTranslation
      *
      * @return PageTranslation
      */
@@ -119,9 +113,9 @@ class PageService
      *
      * @param array $filters
      *
-     * @return null|object
+     * @return object|null
      */
-    public function findOneBy($filters = array())
+    public function findOneBy($filters = [])
     {
         return $this->pageRepository->findOneBy($filters);
     }
@@ -133,7 +127,7 @@ class PageService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = array(), $type, $host, $locale, $order = 'normal')
+    public function getQueryForSearch($filters = [], $type, $host, $locale, $order = 'normal')
     {
         return $this->pageRepository->queryForSearch($filters, $type, $host, $locale, $order);
     }
@@ -187,7 +181,7 @@ class PageService
     /**
      * @param $id
      *
-     * @return null|PageTranslation
+     * @return PageTranslation|null
      */
     public function find($id)
     {
@@ -203,14 +197,14 @@ class PageService
     }
 
     /**
-     * @param PageTranslation $pageTranslation
-     * @param bool            $absolute
+     * @param bool $absolute
      *
      * @return mixed
      */
     public function getUrl(PageTranslation $pageTranslation, $absolute = false, $force = false)
     {
-        $cacheId = 'page_url-'.$pageTranslation->getId().'-'.($absolute ? '1' : 0);
+        $cacheId = 'page_url-' . $pageTranslation->getId() . '-' . ($absolute ? '1' : 0);
+
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($pageTranslation) {
             $item->expiresAfter(43200); // 12 hours
 
@@ -231,14 +225,14 @@ class PageService
                     }
 
                     if ($routeLocale === $pageTranslation->getLocale()) {
-                        $routeData = array(
-                            'route' => $route,
-                            'name' => $route->getDefault('_canonical_route'),
-                            'params' => array_merge($route->getDefaults(), array(
+                        $routeData = [
+                            'route'  => $route,
+                            'name'   => $route->getDefault('_canonical_route'),
+                            'params' => array_merge($route->getDefaults(), [
                                 '_locale' => $routeLocale,
-                                'ref' => $page->getRef(),
-                            )),
-                        );
+                                'ref'     => $page->getRef(),
+                            ]),
+                        ];
 
                         break;
                     }
@@ -252,13 +246,13 @@ class PageService
                     }
 
                     if ($routeLocale === $pageTranslation->getLocale()) {
-                        $routeData = array(
-                            'route' => $route,
-                            'name' => $route->getDefault('_canonical_route'),
-                            'params' => array_merge($route->getDefaults(), array(
+                        $routeData = [
+                            'route'  => $route,
+                            'name'   => $route->getDefault('_canonical_route'),
+                            'params' => array_merge($route->getDefaults(), [
                                 '_locale' => $routeLocale,
-                            )),
-                        );
+                            ]),
+                        ];
 
                         break;
                     }
@@ -287,7 +281,7 @@ class PageService
 
     public function getPageLinks($ref, $host, $locale = null)
     {
-        $pageLinks = array();
+        $pageLinks = [];
 
         $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host);
         if ($page) {

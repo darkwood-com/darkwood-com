@@ -43,7 +43,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      *
      * @return mixed
      */
-    public function queryForSearch($filters = array())
+    public function queryForSearch($filters = [])
     {
         $qb = $this->createQueryBuilder('u')
             ->select('u')
@@ -51,8 +51,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         if (count($filters) > 0) {
             foreach ($filters as $key => $filter) {
-                $qb->andWhere('u.'.$key.' LIKE :'.$key);
-                $qb->setParameter($key, '%'.$filter.'%');
+                $qb->andWhere('u.' . $key . ' LIKE :' . $key);
+                $qb->setParameter($key, '%' . $filter . '%');
             }
         }
 

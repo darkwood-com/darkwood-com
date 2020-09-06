@@ -2,10 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\AppContent;
 use App\Entity\Article;
 use App\Entity\Tag;
-use App\Repository\BaseRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,7 +28,7 @@ class TagRepository extends ServiceEntityRepository
             ->addSelect('p')
             ->setParameter('id', $id);
 
-        $qb->getQuery()->useResultCache(true, $ttl, 'TagRepository::findCachedById'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, $ttl, 'TagRepository::findCachedById' . ($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -55,7 +53,7 @@ class TagRepository extends ServiceEntityRepository
             ->addSelect('p')
             ->setParameter('id', $id);
 
-        #$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
 
         $query = $qb->getQuery();
 
@@ -82,7 +80,7 @@ class TagRepository extends ServiceEntityRepository
                 ->setParameter('locale', $locale);
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
+        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
 
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -105,10 +103,8 @@ class TagRepository extends ServiceEntityRepository
                 ->setParameter('locale', $locale);
         }
 
-        #$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findAllAsArray');
+        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findAllAsArray');
 
-        $result = $qb->getQuery()->getResult();
-
-        return $result;
+        return $qb->getQuery()->getResult();
     }
 }

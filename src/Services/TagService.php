@@ -2,13 +2,10 @@
 
 namespace App\Services;
 
-use App\Entity\Locale;
 use App\Entity\Page;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
-use App\Services\BaseService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
@@ -37,9 +34,9 @@ class TagService
         EntityManagerInterface $em,
         CacheInterface $appCache
     ) {
-        $this->em = $em;
+        $this->em            = $em;
         $this->tagRepository = $em->getRepository(Tag::class);
-        $this->appCache = $appCache;
+        $this->appCache      = $appCache;
     }
 
     /**
@@ -49,7 +46,7 @@ class TagService
      *
      * @return Tag
      */
-    public function create($title, Locale $locale)
+    public function create($title, $locale)
     {
         $tag = new Tag();
         $tag->setTitle($title);
@@ -61,8 +58,6 @@ class TagService
 
     /**
      * Update a tag.
-     *
-     * @param Tag $tag
      *
      * @return Tag
      */
@@ -77,8 +72,6 @@ class TagService
 
     /**
      * Remove one tag.
-     *
-     * @param Tag $tag
      */
     public function remove(Tag $tag)
     {
@@ -93,9 +86,9 @@ class TagService
      */
     public function updatePage($tags, Page $page)
     {
-        $exists = 0;
+        $exists    = 0;
         $arrayTags = explode(',', $tags);
-        $allTags = $this->findAll();
+        $allTags   = $this->findAll();
 
         foreach ($arrayTags as $tag) {
             $exists = 0;
@@ -161,10 +154,10 @@ class TagService
 
     public function parseFile($id)
     {
-        $filename = $this->container->get('kernel')->getRootDir().'/../web/import/tags.csv';
+        $filename = $this->container->get('kernel')->getRootDir() . '/../web/import/tags.csv';
 
         if (!file_exists($filename) && !filesize($filename) > 0) {
-            $error = "Fichier '".$filename."' vide ou inexistant";
+            $error = "Fichier '" . $filename . "' vide ou inexistant";
 
             return $error;
         }
@@ -180,13 +173,13 @@ class TagService
         try {
             $handle = fopen($filename, 'r');
         } catch (\Exception $e) {
-            $error = "Erreur lors de l'ouverture du fichier: ".$filename.'('.$e->getMessage().')';
+            $error = "Erreur lors de l'ouverture du fichier: " . $filename . '(' . $e->getMessage() . ')';
 
             return $error;
         }
 
         try {
-            $cpt = 1;
+            $cpt     = 1;
             $newTags = 0;
 
             while (!feof($handle)) {
@@ -214,12 +207,12 @@ class TagService
             if ($newTags == 0) {
                 $success = 'Le fichier a été parsé avec succès, aucun nouveau tag n\'a été enregistré !';
             } else {
-                $success = 'Le fichier a été parsé avec succès, '.$newTags.' nouveaux tags enregistrés !';
+                $success = 'Le fichier a été parsé avec succès, ' . $newTags . ' nouveaux tags enregistrés !';
             }
 
             return $success;
         } catch (\Exception $e) {
-            $error = 'Erreur lors du parsing du fichier ('.$e->getMessage().')';
+            $error = 'Erreur lors du parsing du fichier (' . $e->getMessage() . ')';
 
             return $error;
         }

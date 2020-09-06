@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\AppContent;
 use App\Entity\CommentPage;
-use App\Repository\BaseRepository;
 use App\Entity\Page;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,7 +27,7 @@ class CommentPageRepository extends ServiceEntityRepository
             ->addOrderBy('c.created', 'desc')
         ;
 
-        #$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
+        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
 
         return $qb->getQuery();
     }

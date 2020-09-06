@@ -21,8 +21,6 @@ class ArticleTranslation
 {
     use TimestampTrait;
 
-    /*********** Translation parts *********/
-
     /**
      * Locale.
      *
@@ -36,8 +34,6 @@ class ArticleTranslation
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $article;
-
-    /**************************************/
 
     /**
      * @ORM\Id

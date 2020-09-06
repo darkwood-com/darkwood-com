@@ -4,7 +4,6 @@ namespace App\Controller\User;
 
 use App\Controller\CommonController;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Form\RegistrationType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
@@ -20,6 +19,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 /**
  * Class RegistrationController.
+ *
  * @Route("/", name="common_register")
  */
 class RegistrationController extends AbstractController
@@ -34,9 +34,8 @@ class RegistrationController extends AbstractController
     public function __construct(
         EmailVerifier $emailVerifier,
         CommonController $commonController
-    )
-    {
-        $this->emailVerifier = $emailVerifier;
+    ) {
+        $this->emailVerifier    = $emailVerifier;
         $this->commonController = $commonController;
     }
 
@@ -49,9 +48,8 @@ class RegistrationController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $authenticator,
         $ref
-    ): Response
-    {
-        $page = $this->commonController->getPage($request, $ref);
+    ): Response {
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $user = new User();
@@ -91,8 +89,8 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('common/pages/register.html.twig', [
-            'page' => $page,
-            'form' => $form->createView(),
+            'page'     => $page,
+            'form'     => $form->createView(),
             'site_ref' => $siteRef,
         ]);
     }
@@ -102,7 +100,7 @@ class RegistrationController extends AbstractController
      */
     public function checkUserEmail(Request $request, $ref): Response
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

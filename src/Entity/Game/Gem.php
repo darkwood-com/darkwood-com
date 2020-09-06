@@ -146,8 +146,6 @@ class Gem
 
     /**
      * Add equipment1Player.
-     *
-     * @param \App\Entity\Game\Player $equipment1Player
      */
     public function addEquipment1Player(\App\Entity\Game\Player $equipment1Player): void
     {
@@ -156,8 +154,6 @@ class Gem
 
     /**
      * Remove equipment1Player.
-     *
-     * @param \App\Entity\Game\Player $equipment1Player
      */
     public function removeEquipment1Player(\App\Entity\Game\Player $equipment1Player)
     {
@@ -176,8 +172,6 @@ class Gem
 
     /**
      * Add equipment2Player.
-     *
-     * @param \App\Entity\Game\Player $equipment2Player
      */
     public function addEquipment2Player(\App\Entity\Game\Player $equipment2Player): void
     {
@@ -186,8 +180,6 @@ class Gem
 
     /**
      * Remove equipment2Player.
-     *
-     * @param \App\Entity\Game\Player $equipment2Player
      */
     public function removeEquipment2Player(\App\Entity\Game\Player $equipment2Player)
     {
@@ -206,8 +198,6 @@ class Gem
 
     /**
      * Add equipment3Player.
-     *
-     * @param \App\Entity\Game\Player $equipment3Player
      */
     public function addEquipment3Player(\App\Entity\Game\Player $equipment3Player): void
     {
@@ -216,8 +206,6 @@ class Gem
 
     /**
      * Remove equipment3Player.
-     *
-     * @param \App\Entity\Game\Player $equipment3Player
      */
     public function removeEquipment3Player(\App\Entity\Game\Player $equipment3Player)
     {

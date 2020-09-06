@@ -20,8 +20,6 @@ class AppContent
 {
     use TimestampTrait;
 
-    /*********** Translation parts *********/
-
     /**
      * Locale.
      *
@@ -43,8 +41,6 @@ class AppContent
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
-
-    /**************************************/
 
     /**
      * @var int

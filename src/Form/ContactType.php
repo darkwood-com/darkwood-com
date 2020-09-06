@@ -16,20 +16,20 @@ class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', EmailType::class, array('required' => false));
-        $builder->add('website', TextType::class, array('required' => false));
-        $builder->add('content', TextareaType::class, array('required' => false));
+        $builder->add('email', EmailType::class, ['required' => false]);
+        $builder->add('website', TextType::class, ['required' => false]);
+        $builder->add('content', TextareaType::class, ['required' => false]);
         /*$builder->add('user', EntityType::class, array(
             'class' => 'UserBundle:User',
             'placeholder' => '- Choisissez un utilisateur -',
             'required' => false,
         ));*/
-        $builder->add('recaptcha', EWZRecaptchaType::class, array(
-            'mapped' => false,
-            'constraints' => array(
+        $builder->add('recaptcha', EWZRecaptchaType::class, [
+            'mapped'      => false,
+            'constraints' => [
                 new IsTrue(),
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

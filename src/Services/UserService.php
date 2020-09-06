@@ -2,13 +2,9 @@
 
 namespace App\Services;
 
-use App\Entity\Tag;
-use App\Services\BaseService;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\UserBundle\Doctrine\UserManager;
-use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Class UserService
@@ -32,14 +28,12 @@ class UserService
     public function __construct(
         EntityManagerInterface $em
     ) {
-        $this->em = $em;
+        $this->em             = $em;
         $this->userRepository = $em->getRepository(User::class);
     }
 
     /**
      * Save a user.
-     *
-     * @param User $user
      */
     public function save(User $user)
     {
@@ -49,8 +43,6 @@ class UserService
 
     /**
      * Remove one user.
-     *
-     * @param User $user
      */
     public function remove(User $user)
     {
@@ -58,9 +50,9 @@ class UserService
         $this->em->flush();
     }
 
-    public function searchQuery($filters = array())
+    public function searchQuery($filters = [])
     {
-        return $this->userRepository->createQueryBuilder( 'u')->addOrderBy('u.created', 'desc');
+        return $this->userRepository->createQueryBuilder('u')->addOrderBy('u.created', 'desc');
     }
 
     /**
@@ -70,7 +62,7 @@ class UserService
      *
      * @return mixed
      */
-    public function getQueryForSearch($filters = array())
+    public function getQueryForSearch($filters = [])
     {
         return $this->userRepository->queryForSearch($filters);
     }
@@ -96,17 +88,17 @@ class UserService
      */
     public function findOneByEmail($email)
     {
-        return $this->userRepository->findOneBy(array('email' => $email));
+        return $this->userRepository->findOneBy(['email' => $email]);
     }
 
     /**
      * @param $username
      *
-     * @return null|object
+     * @return object|null
      */
     public function findOneByUsername($username)
     {
-        return $this->userRepository->findOneBy(array('username' => $username));
+        return $this->userRepository->findOneBy(['username' => $username]);
     }
 
     /**

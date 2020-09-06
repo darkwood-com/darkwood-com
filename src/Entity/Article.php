@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article.
@@ -47,7 +46,7 @@ class Article
     public function __construct()
     {
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags         = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -62,8 +61,6 @@ class Article
 
     /**
      * Add translations.
-     *
-     * @param \App\Entity\ArticleTranslation $translations
      */
     public function addTranslation(\App\Entity\ArticleTranslation $translations): void
     {
@@ -73,8 +70,6 @@ class Article
 
     /**
      * Remove translations.
-     *
-     * @param \App\Entity\ArticleTranslation $translations
      */
     public function removeTranslation(\App\Entity\ArticleTranslation $translations)
     {
@@ -119,10 +114,9 @@ class Article
     }
 
     // KEYWORDS
+
     /**
      * Add tags.
-     *
-     * @param \App\Entity\Tag $tag
      */
     public function addTag(\App\Entity\Tag $tag): void
     {
@@ -133,8 +127,6 @@ class Article
 
     /**
      * Remove tags.
-     *
-     * @param \App\Entity\Tag $tag
      */
     public function removeTag(\App\Entity\Tag $tag)
     {
@@ -160,7 +152,7 @@ class Article
 
     public function getAllTagTitles()
     {
-        $tagTitles = array();
+        $tagTitles = [];
 
         foreach ($this->tags as $tag) {
             $tagTitles[] = $tag->getTitle();
