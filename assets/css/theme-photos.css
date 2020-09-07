@@ -53,22 +53,6 @@
 
 .theme-photos .theme-footer
 {
-    background-color: #007800;
-    color: #333333;
-}
-
-    .theme-photos .theme-footer a
-    {
-        color: #333333;
-    }
-
-    .theme-photos .theme-footer a:hover
-    {
-        color: #DDAA66;
-    }
-
-.theme-photos .theme-footer
-{
 	padding: 0;
 	background-color: #007800;
 	text-align: center;
@@ -90,6 +74,12 @@
 		list-style-type: none;
 		margin: 0;
 		padding: 10px 0px 10px 0px;
+	}
+
+	.theme-photos .theme-footer .btn-github,
+	.theme-photos .theme-footer .btn-twitter
+	{
+		background-color: transparent;
 	}
 
 

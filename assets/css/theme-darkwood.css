@@ -79,6 +79,12 @@
 		padding: 10px 0px 10px 0px;
 	}
 
+	.theme-darkwood .theme-footer .btn-github,
+	.theme-darkwood .theme-footer .btn-twitter
+	{
+		background-color: transparent;
+	}
+
 /* -> basics */
 .theme-darkwood h1
 {
