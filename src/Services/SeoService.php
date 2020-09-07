@@ -48,6 +48,11 @@ class SeoService
         $pageTranslation = $context['page'];
         $cacheId = 'seo-' . $pageTranslation->getId();
 
+        if(isset($context['article']) && $context['article'] instanceof Article) {
+            $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
+            $cacheId .= '-article_'.$articleTranslation->getId();
+        }
+
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($context) {
             $item->expiresAfter(43200); // 12 hours
 
