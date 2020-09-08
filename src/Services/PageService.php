@@ -201,11 +201,11 @@ class PageService
      *
      * @return mixed
      */
-    public function getUrl(PageTranslation $pageTranslation, $absolute = false, $force = false)
+    public function getUrl(PageTranslation $pageTranslation, $referenceType = UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
-        $cacheId = 'page_url-' . $pageTranslation->getId() . '-' . ($absolute ? '1' : 0);
+        $cacheId = 'page_url-' . $pageTranslation->getId() . '-' . $referenceType;
 
-        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($pageTranslation) {
+        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($pageTranslation, $referenceType) {
             $item->expiresAfter(43200); // 12 hours
 
             $site = $pageTranslation->getPage()->getSite();
@@ -262,7 +262,7 @@ class PageService
             $data = null;
 
             if ($routeData) {
-                return $this->router->generate($routeData['name'], $routeData['params'], UrlGeneratorInterface::NETWORK_PATH);
+                return $this->router->generate($routeData['name'], $routeData['params'], $referenceType);
             }
 
             return null;

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\Site;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -253,7 +254,7 @@ class SiteService
             $pageTranslation = $page->getOneTranslation();
 
             $urls[] = [
-                'loc'  => $this->pageService->getUrl($pageTranslation),
+                'loc'  => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL),
                 'date' => $pageTranslation->getUpdated(),
             ];
         }
