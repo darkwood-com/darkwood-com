@@ -61,6 +61,11 @@ class Contact
     protected $user;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $emailSent;
+
+    /**
      * Get id.
      *
      * @return int
@@ -148,5 +153,17 @@ class Contact
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getEmailSent(): ?bool
+    {
+        return $this->emailSent;
+    }
+
+    public function setEmailSent(bool $emailSent): self
+    {
+        $this->emailSent = $emailSent;
+
+        return $this;
     }
 }

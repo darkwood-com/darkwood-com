@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -246,9 +247,16 @@ class CommonController extends AbstractController
                     $this->translator->trans('common.contact.submited')
                 );
 
-                $this->sendMail('common/mails/contact.html.twig', [
-                    'contact' => $contact,
-                ], $contact->getEmail(), 'contact@darkwood.fr');
+
+                try {
+                    $this->sendMail('common/mails/contact.html.twig', [
+                        'contact' => $contact,
+                    ], $contact->getEmail(), 'contact@darkwood.fr');
+                    $contact->setEmailSent(true);
+                } catch (TransportException $exception) {
+                    $contact->setEmailSent(false);
+                }
+                $this->contactService->save($contact);
 
                 return $this->redirect($this->generateUrl($siteRef . '_contact', ['ref' => $ref]));
             }
