@@ -2,7 +2,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Darkwood : Toutes les news</title>
+        <title>Darkwood Blog</title>
         <link>http://{{ host }}</link>
         <description>Venez affronter le monde et devenez celebre sur le site</description>
         <copyright>Copyright 2005, tous droits reserves</copyright>
@@ -16,7 +16,8 @@
         <item>
             <title>{{ articleTranslation.title }}</title>
             <pubDate>{{ item.date|date('r') }}</pubDate>
-            <description>{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}</description>
+            <description><![CDATA[{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}]]></description>
+            <content:encoded><![CDATA[<p><img src="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" /></p>{{ articleTranslation.content|markdown }}]]></content:encoded>
             <guid>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
             <enclosure url="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" />
         </item>
