@@ -167,6 +167,11 @@ class User implements UserInterface, \Serializable
     protected $contacts;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $emailSent;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -551,6 +556,18 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getEmailSent(): ?bool
+    {
+        return $this->emailSent;
+    }
+
+    public function setEmailSent(bool $emailSent): self
+    {
+        $this->emailSent = $emailSent;
+
+        return $this;
     }
 
     public function isVerified(): bool

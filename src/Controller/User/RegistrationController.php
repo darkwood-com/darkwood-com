@@ -11,6 +11,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -70,14 +71,19 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('common_register_check', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('no-reply@darkwood.fr', 'Darkwood'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('common/mails/registration.html.twig')
-                    ->context(['user' => $user])
-            );
+            try {
+                $this->emailVerifier->sendEmailConfirmation('common_register_check', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('no-reply@darkwood.fr', 'Darkwood'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('common/mails/registration.html.twig')
+                        ->context(['user' => $user])
+                );
+                $user->setEmailSent(true);
+            } catch (TransportException $exception) {
+                $user->setEmailSent(false);
+            }
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
