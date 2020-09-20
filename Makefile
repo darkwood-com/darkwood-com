@@ -43,10 +43,11 @@ update: ## Stop the crap and start working
 cache: .env vendor
 	$(CONSOLE) cache:clear
 
-docker-run:
-	docker-compose up -d
+encore:
+	npm install
+	npm run dev-server
 
-run:
+dev:
 	docker-compose up -d
 	$(SYMFONY) server:start --port=8092
 

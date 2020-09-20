@@ -54,6 +54,10 @@
                 <li><a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans }}</a></li>
             {% endif %}
         </ul>
+        <ul class="nav nav-menu-box-blue">
+            <li><h2>{{ 'blog.menu.blog'|trans }}</h2></li>
+            <li><a href="{{ path('blog_home') }}">{{ 'blog.menu.articles'|trans }}</a></li>
+        </ul>
 
         <ul class="nav nav-menu-links-blue">
             {% for locale, pageLink in pageLinks %}

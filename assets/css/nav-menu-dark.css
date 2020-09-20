@@ -1,9 +1,10 @@
 .nav-menu-box-dark
 {
     max-width: 150px;
-    line-height: 16px;
+    width: 100%;
     margin: 0px auto 5px auto;
     padding: 0px 0px 15px 0px;
+    line-height: 16px;
     background: #202020 url('../../public/common/images/components/theme-dark/site/body/menu/ground_content.jpg') repeat-y top;
     background-size: 100% auto;
 }

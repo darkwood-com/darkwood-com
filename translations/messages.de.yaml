@@ -260,6 +260,9 @@ apps:
     home: Startseite
 
 blog:
+  menu:
+    blog: Blog
+    articles: Artikel
   home:
     article_on: der
     show_more: Lesen Sie mehr...
