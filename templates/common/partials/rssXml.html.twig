@@ -17,7 +17,7 @@
             <title>{{ articleTranslation.title }}</title>
             <pubDate>{{ item.date|date('r') }}</pubDate>
             <description><![CDATA[{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}]]></description>
-            <content:encoded><![CDATA[<p><img src="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" /></p>{{ articleTranslation.content|markdown }}]]></content:encoded>
+            <content:encoded><![CDATA[<p><img src="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('rss_cover') }}" /></p>{{ articleTranslation.content|markdown }}]]></content:encoded>
             <guid>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
             <enclosure url="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" />
         </item>
