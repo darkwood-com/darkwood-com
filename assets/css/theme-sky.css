@@ -921,6 +921,32 @@
     background-color: #E4BC87;
 }
 
+/* project::wild */
+.theme-sky .theme-content .project table.wild a
+{
+    color: #f96147;
+}
+
+.theme-sky .theme-content .project table.wild a:hover
+{
+    color: #ffa798;
+}
+
+.theme-sky .theme-content .project table.wild
+{
+    border: 2px solid #0d1d3d;
+}
+
+.theme-sky .theme-content .project table.wild tr.banner td
+{
+    background-color: #0d1d3d;
+}
+
+.theme-sky .theme-content .project table.wild tr.links td
+{
+    background-color: #0d1d3d;
+}
+
 /* -> ti89.p */
 .theme-sky .theme-content table.ti89p th a:hover
 {

@@ -1,10 +1,21 @@
-##
-
 EXEC_PHP        = php
 CONSOLE         = $(EXEC_PHP) bin/console
 COMPOSER        = composer
 SYMFONY         = symfony
 
+##
+##Dev
+##-------------
+
+encore: ## Start encore dev server
+	if [ ! -d "node_modules" ]; then npm install; fi
+	npm run dev-server
+
+dev: ## Start symfony dev server
+	docker-compose up -d
+	$(SYMFONY) server:start --port=8092
+
+##
 ##Symfony
 ##-------------
 
@@ -43,17 +54,10 @@ update: ## Stop the crap and start working
 cache: .env vendor
 	$(CONSOLE) cache:clear
 
-encore:
-	npm install
-	npm run dev-server
-
-dev:
-	docker-compose up -d
-	$(SYMFONY) server:start --port=8092
-
 ##
 ##DevOps
 ##-------------
+
 fix-cs: ## Fix PHP Coding style
 	vendor/bin/php-cs-fixer fix src  --verbose --show-progress=estimating \
     --rules='{"@Symfony" : true, "binary_operator_spaces": {"default" : "align"}, "phpdoc_summary" : false, "phpdoc_no_package" : false, "concat_space": {"spacing": "one"}, "phpdoc_no_empty_return" : false, "trailing_comma_in_multiline_array" : false, "yoda_style" : false}'

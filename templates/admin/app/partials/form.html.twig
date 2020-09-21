@@ -277,7 +277,7 @@
 
                             {% if form.page.theme.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.page.theme) }}</div></div>{% endif %}
                             <div class="form-group {% if form.page.theme.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
-                                {{ form_label(form.page.theme, 'Description', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
+                                {{ form_label(form.page.theme, 'Theme', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}
                                 <div class="col-md-10">
                                     {{ form_widget(form.page.theme, { 'attr': {'class': 'form-control'} }) }}
                                 </div>

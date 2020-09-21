@@ -33,3 +33,7 @@ liip_imagine:
         rss_cover:
             filters:
                 thumbnail: { size: [ 800, 200 ], mode: inset }
+
+        app_cover:
+            filters:
+                thumbnail: { size: [ 768, 115 ], mode: outbound }

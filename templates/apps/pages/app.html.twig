@@ -39,7 +39,7 @@
         {% if page.page.bannerName %}
         <tr class="banner">
             <td colspan="{{ (contents | length) + 1 }}">
-                <img src="{{ asset(vich_uploader_asset(page.page, 'banner')) }}" alt="{{ 'apps.app.banner'|trans }}" class="center" />
+                <img src="{{ asset(vich_uploader_asset(page.page, 'banner')) | imagine_filter('app_cover') }}" alt="{{ 'apps.app.banner'|trans }}" class="center" />
             </td>
         </tr>
         {% endif %}
