@@ -15,6 +15,16 @@ dev: ## Start symfony dev server
 	docker-compose up -d
 	$(SYMFONY) server:start --port=8092
 
+
+##
+##DevOps
+##-------------
+
+deploy:
+	npm run build
+	composer install --no-dev --optimize-autoloader
+	bin/console doctrine:migration:migrate
+
 ##
 ##Symfony
 ##-------------
