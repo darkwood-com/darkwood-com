@@ -23,7 +23,7 @@ dev: ## Start symfony dev server
 deploy: ## Deploy app on server
 	npm run build
 	composer install --no-dev --optimize-autoloader
-	bin/console doctrine:migration:migrate
+	bin/console doctrine:migration:migrate --no-interaction
 
 ##
 ##Symfony
