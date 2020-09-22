@@ -97,6 +97,7 @@ class ArticleService
         }
 
         $duplicateArticleTranslation->setTitle($articleTranslation->getTitle());
+        $duplicateArticleTranslation->setSlug($articleTranslation->getSlug());
         $duplicateArticleTranslation->setContent($articleTranslation->getContent());
         $duplicateArticleTranslation->setActive($articleTranslation->getActive());
         
