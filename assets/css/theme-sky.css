@@ -661,15 +661,6 @@
 }
 
 /* -> projects */
-.theme-sky .theme-content .project table a
-{
-    text-decoration: none;
-}
-
-.theme-sky .theme-content .project tr.links td
-{
-    padding: 2px;
-}
 
 .theme-sky .theme-content .project p.image
 {
@@ -693,256 +684,246 @@
     float:right;
 }
 
-/* project::galleries */
-.theme-sky .theme-content .project div.gallery a
+.theme-sky .theme-content .project .banner a
 {
-    margin: 10px;
-    display: block;
-    float: left;
-    text-align: center;
     text-decoration: none;
 }
 
-.theme-sky .theme-content .project div.gallery img
+.theme-sky .theme-content .project .banner .col
 {
-    width: 340px;
-}
-
-.theme-sky .theme-content .project div.gallery label
-{
-    display: block;
+    padding: 2px;
 }
 
 /* project::yellow */
-.theme-sky .theme-content .project table.yellow a
+.theme-sky .theme-content .project.yellow .banner a
 {
     color: #B37622;
 }
 
-.theme-sky .theme-content .project table.yellow a:hover
+.theme-sky .theme-content .project.yellow .banner a:hover
 {
     color: #FFB54D;
 }
 
-.theme-sky .theme-content .project table.yellow
+.theme-sky .theme-content .project.yellow .banner
 {
     border: 2px solid #FF9500;
 }
 
-.theme-sky .theme-content .project table.yellow tr.banner td
+.theme-sky .theme-content .project.yellow .banner-image
 {
     background-color: #FFAA30;
 }
 
-.theme-sky .theme-content .project table.yellow tr.links td
+.theme-sky .theme-content .project.yellow .banner-links
 {
     background-color: #FF9500;
 }
 
 /* project::blue */
-.theme-sky .theme-content .project table.blue a
+.theme-sky .theme-content .project.blue .banner a
 {
     color: #25D2FE;
 }
 
-.theme-sky .theme-content .project table.blue a:hover
+.theme-sky .theme-content .project.blue .banner a:hover
 {
     color: #C2F2FF;
 }
 
-.theme-sky .theme-content .project table.blue
+.theme-sky .theme-content .project.blue .banner
 {
     border: 2px solid #0055FF;
 }
 
-.theme-sky .theme-content .project table.blue tr.banner td
+.theme-sky .theme-content .project.blue .banner-image
 {
     background-color: #6699CC;
 }
 
-.theme-sky .theme-content .project table.blue tr.links td
+.theme-sky .theme-content .project.blue .banner-links
 {
     background-color: #0055FF;
 }
 
 /* project::brown */
-.theme-sky .theme-content .project table.brown a
+.theme-sky .theme-content .project.brown .banner a
 {
     color: #532800;
 }
 
-.theme-sky .theme-content .project table.brown a:hover
+.theme-sky .theme-content .project.brown .banner a:hover
 {
     color: #AD5200;
 }
 
-.theme-sky .theme-content .project table.brown
+.theme-sky .theme-content .project.brown .banner
 {
     border: 2px solid #8A3D37;
 }
 
-.theme-sky .theme-content .project table.brown tr.banner td
+.theme-sky .theme-content .project.brown .banner-image
 {
     background-color: #A34E3A;
 }
 
-.theme-sky .theme-content .project table.brown tr.links td
+.theme-sky .theme-content .project.brown .banner-links
 {
     background-color: #8A3D37;
 }
 
 /* project::yellow_light */
-.theme-sky .theme-content .project table.yellow_light a
+.theme-sky .theme-content .project.yellow_light .banner a
 {
     color: #808000;
 }
 
-.theme-sky .theme-content .project table.yellow_light a:hover
+.theme-sky .theme-content .project.yellow_light .banner a:hover
 {
     color: #404000;
 }
 
-.theme-sky .theme-content .project table.yellow_light
+.theme-sky .theme-content .project.yellow_light .banner
 {
     border: 2px solid #B6B600;
 }
 
-.theme-sky .theme-content .project table.yellow_light tr.banner td
+.theme-sky .theme-content .project.yellow_light .banner-image
 {
     background-color: #E6E6CC;
 }
 
-.theme-sky .theme-content .project table.yellow_light tr.links td
+.theme-sky .theme-content .project.yellow_light .banner-links
 {
     background-color: #B6B600;
 }
 
 /* project::yellow_sun */
-.theme-sky .theme-content .project table.yellow_sun a
+.theme-sky .theme-content .project.yellow_sun .banner a
 {
     color: #B37622;
 }
 
-.theme-sky .theme-content .project table.yellow_sun a:hover
+.theme-sky .theme-content .project.yellow_sun .banner a:hover
 {
     color: #FFFFFF;
 }
 
-.theme-sky .theme-content .project table.yellow_sun
+.theme-sky .theme-content .project.yellow_sun .banner
 {
     border: 2px solid #FFBC1A;
 }
 
-.theme-sky .theme-content .project table.yellow_sun tr.banner td
+.theme-sky .theme-content .project.yellow_sun .banner-image
 {
     background-color: #F7D46B;
 }
 
-.theme-sky .theme-content .project table.yellow_sun tr.links td
+.theme-sky .theme-content .project.yellow_sun .banner-links
 {
     background-color: #FFBC1A;
 }
 
 /* project::black_white */
-.theme-sky .theme-content .project table.black_white a
+.theme-sky .theme-content .project.black_white .banner a
 {
     color: #AAAAAA;
 }
 
-.theme-sky .theme-content .project table.black_white a:hover
+.theme-sky .theme-content .project.black_white .banner a:hover
 {
     color: #FFFFFF;
 }
 
-.theme-sky .theme-content .project table.black_white
+.theme-sky .theme-content .project.black_white .banner
 {
     border: 2px solid #000000;
 }
 
-.theme-sky .theme-content .project table.black_white tr.banner td
+.theme-sky .theme-content .project.black_white .banner-image
 {
     background-color: #FFFFFF;
 }
 
-.theme-sky .theme-content .project table.black_white tr.links td
+.theme-sky .theme-content .project.black_white .banner-links
 {
     background-color: #000000;
 }
 
 /* project::black */
-.theme-sky .theme-content .project table.black a
+.theme-sky .theme-content .project.black .banner a
 {
     color: #AAAAAA;
 }
 
-.theme-sky .theme-content .project table.black a:hover
+.theme-sky .theme-content .project.black .banner a:hover
 {
     color: #FFFFFF;
 }
 
-.theme-sky .theme-content .project table.black
+.theme-sky .theme-content .project.black .banner
 {
     border: 2px solid #000000;
 }
 
-.theme-sky .theme-content .project table.black tr.banner td
+.theme-sky .theme-content .project.black .banner-image
 {
     background-color: #000000;
 }
 
-.theme-sky .theme-content .project table.black tr.links td
+.theme-sky .theme-content .project.black .banner-links
 {
     background-color: #000000;
 }
 
 /* project::wheat */
-.theme-sky .theme-content .project table.wheat a
+.theme-sky .theme-content .project.wheat .banner a
 {
     color: #9C875B;
 }
 
-.theme-sky .theme-content .project table.wheat a:hover
+.theme-sky .theme-content .project.wheat .banner a:hover
 {
     color: #FFFFFF;
 }
 
-.theme-sky .theme-content .project table.wheat
+.theme-sky .theme-content .project.wheat .banner
 {
     border: 2px solid #E4BC87;
 }
 
-.theme-sky .theme-content .project table.wheat tr.banner td
+.theme-sky .theme-content .project.wheat .banner-image
 {
     background-color: #F5DEB3;
 }
 
-.theme-sky .theme-content .project table.wheat tr.links td
+.theme-sky .theme-content .project.wheat .banner-links
 {
     background-color: #E4BC87;
 }
 
 /* project::wild */
-.theme-sky .theme-content .project table.wild a
+.theme-sky .theme-content .project.wild .banner a
 {
     color: #f96147;
 }
 
-.theme-sky .theme-content .project table.wild a:hover
+.theme-sky .theme-content .project.wild .banner a:hover
 {
     color: #ffa798;
 }
 
-.theme-sky .theme-content .project table.wild
+.theme-sky .theme-content .project.wild .banner
 {
     border: 2px solid #142340;
 }
 
-.theme-sky .theme-content .project table.wild tr.banner td
+.theme-sky .theme-content .project.wild .banner-image
 {
     background-color: #142340;
 }
 
-.theme-sky .theme-content .project table.wild tr.links td
+.theme-sky .theme-content .project.wild .banner-links
 {
     background-color: #142340;
 }

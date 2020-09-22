@@ -2,55 +2,19 @@
 
 {% block content %}
 
-<div class="project">
+<div class="project {{ page.page.theme }}">
 {% if contents | length > 0 %}
-<table class="{{ page.page.theme }}">
-    <colgroup>
-        {% if contents | length == 0 %}
-            <col class="col-1" />
-        {% elseif contents | length == 1 %}
-            <col class="col-2" />
-            <col class="col-2" />
-        {% elseif contents | length == 2 %}
-            <col class="col-3" />
-            <col class="col-3" />
-            <col class="col-3" />
-        {% elseif contents | length == 3 %}
-            <col class="col-4" />
-            <col class="col-4" />
-            <col class="col-4" />
-            <col class="col-4" />
-        {% elseif contents | length == 4 %}
-            <col class="col-5" />
-            <col class="col-5" />
-            <col class="col-5" />
-            <col class="col-5" />
-            <col class="col-5" />
-        {% elseif contents | length == 5 %}
-            <col class="col-6" />
-            <col class="col-6" />
-            <col class="col-6" />
-            <col class="col-6" />
-            <col class="col-6" />
-            <col class="col-6" />
-        {% endif %}
-    </colgroup>
-    <tbody>
-        {% if page.page.bannerName %}
-        <tr class="banner">
-            <td colspan="{{ (contents | length) + 1 }}">
-                <img src="{{ asset(vich_uploader_asset(page.page, 'banner')) | imagine_filter('app_cover') }}" alt="{{ 'apps.app.banner'|trans }}" class="center" />
-            </td>
-        </tr>
-        {% endif %}
-        <tr class="links">
-            <td><a href="{{ path('apps_app', {'ref': page.page.ref}) }}">{{ 'apps.app.home'|trans }}</a></td>
-            {% for content in contents %}
-            <td><a href="{{ path('apps_app', {'ref': page.page.ref, 'slug': content.slug}) }}">{{ content.title }}</a></td>
-            {% endfor %}
-        </tr>
-    </tbody>
-</table>
+<div class="container banner">
+    <div class="row banner-image">
+        <div class="col"><img src="{{ asset(vich_uploader_asset(page.page, 'banner')) | imagine_filter('app_cover') }}" alt="{{ 'apps.app.banner'|trans }}" class="center" /></div>
+    </div>
+    <div class="row banner-links">
+        <div class="col text-center"><a href="{{ path('apps_app', {'ref': page.page.ref}) }}">{{ 'apps.app.home'|trans }}</a></div>
+        {% for content in contents %}
+        <div class="col text-center"><a href="{{ path('apps_app', {'ref': page.page.ref, 'slug': content.slug}) }}">{{ content.title }}</a></div>
+        {% endfor %}
+    </div>
+</div>
 {{ include(template_from_string(content))|markdown }}
 {% else %}
 <h1>{{ page.title }}</h1>
