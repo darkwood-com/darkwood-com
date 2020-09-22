@@ -106,7 +106,7 @@ class ArticleService
             $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
-                $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
+                $imageName = basename(md5(time()).preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
 
@@ -134,9 +134,9 @@ class ArticleService
                 if ($locale !== $articleTranslation->getLocale()) {
                     $exportPageTranslation = $this->duplicate($articleTranslation, $locale);
                     $this->em->persist($exportPageTranslation);
+                    $this->em->flush();
                 }
             }
-            $this->em->flush();
         }
 
         return $articleTranslation;

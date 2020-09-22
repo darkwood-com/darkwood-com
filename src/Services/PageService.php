@@ -193,9 +193,9 @@ class PageService
                 if($locale !== $entity->getLocale()) {
                     $exportPageTranslation = $this->duplicate($entity, $locale);
                     $this->em->persist($exportPageTranslation);
+                    $this->em->flush();
                 }
             }
-            $this->em->flush();
         }
 
         return $entity;
