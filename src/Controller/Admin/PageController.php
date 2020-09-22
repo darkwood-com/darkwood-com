@@ -99,7 +99,7 @@ class PageController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->pageService->saveTranslation($entityTranslation);
+                $this->pageService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
 
                 // Launch the message flash
                 $this->get('session')->getFlashBag()->add(

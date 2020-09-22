@@ -36,6 +36,7 @@ class ArticleTranslationType extends AbstractType
         ]);
 
         $builder->add('active', CheckboxType::class, ['required' => false]);
+        $builder->add('export_locales', CheckboxType::class, ['required' => false, "mapped" => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -99,7 +99,7 @@ class ArticleController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->articleService->saveTranslation($entityTranslation);
+                $this->articleService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
 
                 // Launch the message flash
                 $this->get('session')->getFlashBag()->add(

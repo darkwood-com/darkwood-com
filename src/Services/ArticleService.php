@@ -5,8 +5,13 @@ namespace App\Services;
 use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Repository\ArticleRepository;
+use App\Repository\ArticleTranslationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Vich\UploaderBundle\Storage\StorageInterface;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
  * Class ArticleService
@@ -21,15 +26,35 @@ class ArticleService
     protected $em;
 
     /**
+     * @var ParameterBagInterface
+     */
+    protected $parameterBagInterface;
+
+    /**
      * @var ArticleRepository
      */
     protected $articleRepository;
 
+    /**
+     * @var ArticleTranslationRepository
+     */
+    protected $articleTranslationRepository;
+
+    /**
+     * @var StorageInterface
+     */
+    protected $storage;
+
     public function __construct(
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ParameterBagInterface $parameterBagInterface,
+        StorageInterface $storage
     ) {
         $this->em                = $em;
         $this->articleRepository = $em->getRepository(Article::class);
+        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
+        $this->parameterBagInterface     = $parameterBagInterface;
+        $this->storage            = $storage;
     }
 
     /**
@@ -60,16 +85,57 @@ class ArticleService
         $this->em->flush();
     }
 
+    public function duplicate(articleTranslation $articleTranslation, $locale)
+    {
+        $article = $articleTranslation->getArticle();
+
+        $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
+        if(!$duplicateArticleTranslation) {
+            $duplicateArticleTranslation = new ArticleTranslation();
+            $duplicateArticleTranslation->setArticle($article);
+            $duplicateArticleTranslation->setLocale($locale);
+        }
+
+        $duplicateArticleTranslation->setTitle($articleTranslation->getTitle());
+        $duplicateArticleTranslation->setContent($articleTranslation->getContent());
+        $duplicateArticleTranslation->setActive($articleTranslation->getActive());
+        
+        if($articleTranslation->getImageName()) {
+            $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
+            $imageContent = file_get_contents($imageUrl);
+            if ($imageContent) {
+                $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
+                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
+                file_put_contents($tmpFile, $imageContent);
+
+                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
+                $duplicateArticleTranslation->setImage($image);
+            }
+        }
+
+        return $duplicateArticleTranslation;
+    }
+
     /**
      * Update a articleTranslation.
      *
      * @return ArticleTranslation
      */
-    public function saveTranslation(ArticleTranslation $articleTranslation, $invalidate = false)
+    public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false)
     {
         $articleTranslation->setUpdated(new \DateTime('now'));
         $this->em->persist($articleTranslation);
         $this->em->flush();
+
+        if ($exportLocales) {
+            foreach ($this->parameterBagInterface->get('app_locales') as $locale) {
+                if ($locale !== $articleTranslation->getLocale()) {
+                    $exportPageTranslation = $this->duplicate($articleTranslation, $locale);
+                    $this->em->persist($exportPageTranslation);
+                }
+            }
+            $this->em->flush();
+        }
 
         return $articleTranslation;
     }

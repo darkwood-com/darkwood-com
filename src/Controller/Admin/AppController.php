@@ -113,7 +113,7 @@ class AppController extends AbstractController
                     $content->setLocale($request->getLocale());
                 }
 
-                $this->pageService->saveTranslation($entityTranslation);
+                $this->pageService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
 
                 // Launch the message flash
                 $this->get('session')->getFlashBag()->add(

@@ -351,6 +351,16 @@
                             <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
                         </div>
 
+                        <div class="col-md-4 text-right"><strong>Export locales</strong></div>
+                        <div class="col-md-8">{% if form.export_locales.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.export_locales) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.export_locales.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.export_locales, 'Export locales', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.export_locales) }}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-12"><hr/></div>
 
                         <div class="col-md-4 text-right"><strong>Activé</strong></div>
@@ -387,6 +397,16 @@
                         <div class="col-md-4 text-right"><strong>Langue</strong></div>
                         <div class="col-md-8">
                             <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
+                        </div>
+
+                        <div class="col-md-4 text-right"><strong>Export locales</strong></div>
+                        <div class="col-md-8">{% if form.export_locales.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.export_locales) }}</div></div>{% endif %}
+                            <div class="form-group {% if form.export_locales.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {#{{ form_label(form.export_locales, 'Export locales', { 'label_attr': { 'class': 'col-md-2 control-label' }}) }}#}
+                                <div class="col-md-10 toggle-button" data-on="success" data-off="danger">
+                                    {{ form_widget(form.export_locales) }}
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-12"><hr/></div>
