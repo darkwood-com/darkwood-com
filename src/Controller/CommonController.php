@@ -10,10 +10,14 @@ use App\Services\ContactService;
 use App\Services\PageService;
 use App\Services\SeoService;
 use App\Services\SiteService;
+use Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ErrorHandler\ErrorRenderer\ErrorRendererInterface;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ErrorController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportException;
@@ -59,6 +63,11 @@ class CommonController extends AbstractController
      */
     private SeoService $seoService;
 
+    /**
+     * @var HtmlErrorRenderer
+     */
+    private $errorRenderer;
+
     public function __construct(
         Environment $twig,
         MailerInterface $mailer,
@@ -66,15 +75,17 @@ class CommonController extends AbstractController
         PageService $pageService,
         SiteService $siteService,
         ContactService $contactService,
-        SeoService $seoService
+        SeoService $seoService,
+        HtmlErrorRenderer $errorRenderer
     ) {
-        $this->twig           = $twig;
-        $this->mailer         = $mailer;
-        $this->translator     = $translator;
-        $this->pageService    = $pageService;
-        $this->siteService    = $siteService;
-        $this->contactService = $contactService;
-        $this->seoService = $seoService;
+        $this->twig            = $twig;
+        $this->mailer          = $mailer;
+        $this->translator      = $translator;
+        $this->pageService     = $pageService;
+        $this->siteService     = $siteService;
+        $this->contactService  = $contactService;
+        $this->seoService      = $seoService;
+        $this->errorRenderer   = $errorRenderer;
     }
 
     /**
@@ -95,10 +106,12 @@ class CommonController extends AbstractController
     /**
      * Show Exception action.
      */
-    public function showException(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null)
+    public function showException(Request $request, \Throwable $exception, DebugLoggerInterface $logger = null)
     {
-        if ($exception->getStatusCode() != 404) {
-            return $this->get('twig.controller.exception')->showAction($request, $exception, $logger);
+        if ($exception->getCode() != 404) {
+            $exception = $this->errorRenderer->render($exception);
+
+            return new Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
         }
 
         $host = $request->getHost();
@@ -138,9 +151,9 @@ class CommonController extends AbstractController
         ]);
     }
 
-    public function hreflangs(Request $request, $ref)
+    public function hreflangs(Request $request, $ref, $entity)
     {
-        $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('common/partials/hreflangs.html.twig', [
             'pageLinks' => $pageLinks,

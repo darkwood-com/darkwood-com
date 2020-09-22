@@ -38,12 +38,12 @@ class PhotosController extends AbstractController
         $this->pageService         = $pageService;
     }
 
-    public function menu(Request $request, $ref)
+    public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
-        $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('photos/partials/menu.html.twig', [
             'last_username' => $lastUsername,

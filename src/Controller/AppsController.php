@@ -66,7 +66,7 @@ class AppsController extends AbstractController
         $this->commentService      = $commentService;
     }
 
-    public function menu(Request $request, $ref)
+    public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
@@ -80,7 +80,7 @@ class AppsController extends AbstractController
             ];
         }
 
-        $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('apps/partials/menu.html.twig', [
             'last_username' => $lastUsername,

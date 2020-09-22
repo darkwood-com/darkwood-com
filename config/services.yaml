@@ -18,6 +18,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer: '@error_handler.error_renderer.html'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

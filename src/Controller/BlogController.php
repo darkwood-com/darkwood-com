@@ -72,12 +72,12 @@ class BlogController extends AbstractController
         $this->commentService      = $commentService;
     }
 
-    public function menu(Request $request, $ref)
+    public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
-        $pageLinks = $this->pageService->getPageLinks($ref, $request->getHost(), $request->getLocale());
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('blog/partials/menu.html.twig', [
             'last_username' => $lastUsername,
@@ -183,6 +183,7 @@ class BlogController extends AbstractController
         return $this->render('blog/pages/article.html.twig', [
             'page'      => $page,
             'article'   => $article,
+            'entity'    => $article->getOneTranslation($request->getLocale()),
             'showLinks' => true,
             'form'      => $form->createView(),
             'comments'  => $comments,
