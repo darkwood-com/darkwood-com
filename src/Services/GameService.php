@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -1044,7 +1045,7 @@ class GameService
     /**
      * @param User $user
      *
-     * @return array
+     * @return array|Response
      */
     public function play(Request $request, User $user = null, $display = null)
     {

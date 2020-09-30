@@ -53,7 +53,7 @@ class Contact
     private $content;
 
     /**
-     * @var string
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")

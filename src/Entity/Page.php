@@ -46,7 +46,7 @@ class Page
     protected $ref;
 
     /**
-     * @var string
+     * @var Site
      *
      * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="pages", cascade={"persist"})

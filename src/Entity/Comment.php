@@ -42,7 +42,7 @@ abstract class Comment
     protected $active = true;
 
     /**
-     * @var string
+     * @var User
      *
      * @Assert\NotNull(message="common.comment.required_user")
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist"})
@@ -51,7 +51,7 @@ abstract class Comment
     protected $user;
 
     /**
-     * @var string
+     * @var Page
      *
      * @Assert\NotNull(message="common.comment.required_page")
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="comments", cascade={"persist"})
