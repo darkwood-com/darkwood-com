@@ -49,6 +49,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class GameService
 {
     /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+    
+    /**
      * @var container
      */
     protected $container;

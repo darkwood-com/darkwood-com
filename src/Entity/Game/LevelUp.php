@@ -2,6 +2,7 @@
 
 namespace App\Entity\Game;
 
+use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -15,6 +16,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class LevelUp
 {
+    use TimestampTrait;
+
     /**
      * @var int
      *

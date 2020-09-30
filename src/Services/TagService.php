@@ -109,13 +109,6 @@ class TagService
         }
     }
 
-    public function findCachedById($id)
-    {
-        $ttl = $this->cacheService->data('tag');
-
-        return $this->tagRepository->findCachedById($id, $ttl);
-    }
-
     /**
      * Find one to edit.
      *
@@ -150,72 +143,6 @@ class TagService
     public function findOneByTitle($title, $locale = null)
     {
         return $this->tagRepository->findOneByTitle($title, $locale);
-    }
-
-    public function parseFile($id)
-    {
-        $filename = $this->container->get('kernel')->getRootDir() . '/../web/import/tags.csv';
-
-        if (!file_exists($filename) && !filesize($filename) > 0) {
-            $error = "Fichier '" . $filename . "' vide ou inexistant";
-
-            return $error;
-        }
-
-        /** @var Locale $locale */
-        $locale = $this->container->get('by.locale')->findOneToEdit($id);
-        if (!$locale) {
-            $error = 'Locale inconnu...';
-
-            return $error;
-        }
-
-        try {
-            $handle = fopen($filename, 'r');
-        } catch (\Exception $e) {
-            $error = "Erreur lors de l'ouverture du fichier: " . $filename . '(' . $e->getMessage() . ')';
-
-            return $error;
-        }
-
-        try {
-            $cpt     = 1;
-            $newTags = 0;
-
-            while (!feof($handle)) {
-                $line = fgets($handle);
-
-                $title = str_replace("\n", '', $line);
-                $title = str_replace("\r", '', $title);
-
-                $tagPersisted = $this->findOneByTitle($title, $locale->getId());
-                if (!$tagPersisted) {
-                    $this->create($title, $locale);
-                    ++$newTags;
-                }
-
-                ++$cpt;
-
-                if (($cpt % 100) == 0) {
-                    $this->em->flush();
-                    $this->em->clear();
-                }
-            }
-            $this->em->flush();
-            $this->em->clear();
-
-            if ($newTags == 0) {
-                $success = 'Le fichier a été parsé avec succès, aucun nouveau tag n\'a été enregistré !';
-            } else {
-                $success = 'Le fichier a été parsé avec succès, ' . $newTags . ' nouveaux tags enregistrés !';
-            }
-
-            return $success;
-        } catch (\Exception $e) {
-            $error = 'Erreur lors du parsing du fichier (' . $e->getMessage() . ')';
-
-            return $error;
-        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Game;
 
+use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -16,6 +17,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Sword
 {
+    use TimestampTrait;
+
     /**
      * @var int
      *

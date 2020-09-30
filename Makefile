@@ -75,6 +75,9 @@ fix-cs: ## Fix PHP Coding style
 rector: ## instant upgrade PHP
 	docker run --rm -v $$(pwd):/project rector/rector:latest process /project/src --set php74 --autoload-file /project/vendor/autoload.php
 
+phpstan: ## static analysis tool
+	vendor/bin/phpstan analyse
+
 # DEFAULT
 .DEFAULT_GOAL := help
 help:
