@@ -50,7 +50,7 @@ class AppService
     /**
      * Remove one appTranslation.
      *
-     * @param AppTranslation $appTranslation
+     * @param App $app
      */
     public function remove(App $app)
     {
@@ -95,9 +95,9 @@ class AppService
     }
 
     /**
-     * @param $id
+     * @param integer $id
      *
-     * @return AppTranslation|null
+     * @return App|null
      */
     public function find($id)
     {

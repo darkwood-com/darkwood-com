@@ -44,7 +44,7 @@ class SiteRepository extends ServiceEntityRepository
     /**
      * Find one for edit profile.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */
@@ -63,7 +63,7 @@ class SiteRepository extends ServiceEntityRepository
     /**
      * Find one by host.
      *
-     * @param $host
+     * @param string $host
      *
      * @return mixed
      */

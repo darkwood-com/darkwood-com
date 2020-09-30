@@ -89,7 +89,7 @@ class PageRepository extends ServiceEntityRepository
     /**
      * Find one for edit.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */
@@ -111,8 +111,6 @@ class PageRepository extends ServiceEntityRepository
 
     /**
      * Find one for edit.
-     *
-     * @param $id
      *
      * @return mixed
      */
@@ -139,7 +137,7 @@ class PageRepository extends ServiceEntityRepository
     /**
      * Find content by site.
      *
-     * @param $siteId
+     * @param integer $siteId
      *
      * @return array
      */
@@ -161,7 +159,7 @@ class PageRepository extends ServiceEntityRepository
     /**
      * Find no content by site.
      *
-     * @param $siteId
+     * @param integer $siteId
      *
      * @return array
      */
@@ -181,8 +179,8 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $ref
-     * @param $host
+     * @param string $ref
+     * @param string $host
      * @param null $locale
      * @param null $ttl
      *
@@ -216,9 +214,9 @@ class PageRepository extends ServiceEntityRepository
     /**
      * Find one public.
      *
-     * @param $siteId
-     * @param $navigationSlug
-     * @param $slug
+     * @param string $ref
+     * @param string $locale
+     * @param null|integer $ttl
      */
     public function findOneByRef($ref, $locale = null, $ttl = null)
     {

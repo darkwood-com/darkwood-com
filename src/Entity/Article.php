@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,7 +34,7 @@ class Article
     protected $translations;
 
     /**
-     * @var Tag[]
+     * @var ArrayCollection<Tag>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
      * @ORM\JoinTable(name="article_tag")
@@ -45,8 +46,8 @@ class Article
      */
     public function __construct()
     {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tags         = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->tags         = new ArrayCollection();
     }
 
     /**
@@ -155,7 +156,7 @@ class Article
         $tagTitles = [];
 
         foreach ($this->tags as $tag) {
-            $tagTitles[] = $tag->getTitle();
+            $tagTitles[] = $tag->getOneTranslation()->getTitle();
         }
 
         return $tagTitles;

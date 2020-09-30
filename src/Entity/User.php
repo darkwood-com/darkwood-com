@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class User.
@@ -181,8 +182,8 @@ class User implements UserInterface, \Serializable
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function __toString()
@@ -501,6 +502,7 @@ class User implements UserInterface, \Serializable
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**

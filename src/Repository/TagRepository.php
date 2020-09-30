@@ -38,7 +38,7 @@ class TagRepository extends ServiceEntityRepository
     /**
      * Find one for edit.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */
@@ -63,7 +63,8 @@ class TagRepository extends ServiceEntityRepository
     /**
      * Get one article.
      *
-     * @param string $slug
+     * @param string $title
+     * @param string|null $locale
      *
      * @return mixed
      */
@@ -88,7 +89,7 @@ class TagRepository extends ServiceEntityRepository
     /**
      * Get all tags.
      *
-     * @param string $slug
+     * @param string|null $locale
      *
      * @return mixed
      */

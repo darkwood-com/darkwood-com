@@ -43,7 +43,7 @@ class DailyBattleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param |DateTime $date
+     * @param \DateTime $date
      *
      * @return array
      */

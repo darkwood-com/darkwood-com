@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Page;
 use App\Entity\Tag;
+use App\Entity\TagTranslation;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -42,15 +43,18 @@ class TagService
     /**
      * Update a tag.
      *
-     * @param Tag $tag
+     * @param string $title
+     * @param string $locale
      *
      * @return Tag
      */
     public function create($title, $locale)
     {
         $tag = new Tag();
-        $tag->setTitle($title);
-        $tag->setLocale($locale);
+        $tagTranslation = new TagTranslation();
+        $tagTranslation->setTitle($title);
+        $tagTranslation->setLocale($locale);
+        $tag->addTranslation($tagTranslation);
         $this->em->persist($tag);
 
         return $tag;
@@ -113,18 +117,5 @@ class TagService
     public function findOneByTitle($title, $locale = null)
     {
         return $this->tagRepository->findOneByTitle($title, $locale);
-    }
-
-    /**
-     * Find titles.
-     *
-     * @param $slug
-     * @param $max
-     *
-     * @return mixed
-     */
-    public function findByPageBreed($locale, $slug, $max)
-    {
-        return $this->tagRepository->findByPageBreed($locale, $slug, $max);
     }
 }

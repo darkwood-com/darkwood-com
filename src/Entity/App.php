@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -49,7 +50,7 @@ class App extends Page
      */
     public function __construct()
     {
-        $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contents = new ArrayCollection();
     }
 
     /**

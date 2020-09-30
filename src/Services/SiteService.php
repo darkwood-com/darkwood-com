@@ -96,9 +96,9 @@ class SiteService
      *
      * @return mixed
      */
-    public function getQueryForSearch($filters = [], $state = null)
+    public function getQueryForSearch($filters = [])
     {
-        return $this->siteRepository->queryForSearch($filters, $state);
+        return $this->siteRepository->queryForSearch($filters);
     }
 
     /**
@@ -116,7 +116,7 @@ class SiteService
     /**
      * Find one by host.
      *
-     * @param $host
+     * @param string $host
      *
      * @return Site|null
      */

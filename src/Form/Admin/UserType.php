@@ -63,7 +63,7 @@ class UserType extends AbstractType
     /**
      * Defualt options.
      *
-     * @param ExceptionInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {

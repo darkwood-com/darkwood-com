@@ -6,6 +6,7 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Enemy.
@@ -117,8 +118,8 @@ class Enemy
      */
     public function __construct()
     {
-        $this->lastFightPlayers    = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->currentEnemyPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lastFightPlayers    = new ArrayCollection();
+        $this->currentEnemyPlayers = new ArrayCollection();
     }
 
     /**

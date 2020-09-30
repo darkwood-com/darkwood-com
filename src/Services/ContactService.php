@@ -49,7 +49,7 @@ class ContactService
     /**
      * Remove one contactTranslation.
      *
-     * @param Contact $contactTranslation
+     * @param Contact $contact
      */
     public function remove(Contact $contact)
     {

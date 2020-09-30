@@ -991,8 +991,7 @@ class GameService
             $sessionDaily = null;
 
             $result = ['lose_xp' => 1, 'win_xp' => 1];
-            $enemy  = $enemy;
-            $enemy->setXp($enemy->getPlayer()->getXp() + $result['win_xp']);
+            $enemy->getPlayer()->setXp($enemy->getPlayer()->getXp() + $result['win_xp']);
             $player->setXp($player->getXp() - $result['lose_xp']);
             if ($player->getXp() < 0) {
                 $player->setXp(0);
@@ -1005,7 +1004,7 @@ class GameService
 
             $player->setDailyBattleDefeats($player->getDailyBattleDefeats() + 1);
             $enemy = $enemy;
-            $enemy->setDailyBattleVictories($enemy->getPlayer()->getDailyBattleVictories() + 1);
+            $enemy->getPlayer()->setDailyBattleVictories($enemy->getPlayer()->getDailyBattleVictories() + 1);
 
             $dailyBattle = new DailyBattle();
             $dailyBattle->setPlayer($player);
@@ -1017,19 +1016,17 @@ class GameService
             $result = ['lose_xp' => 1, 'win_xp' => 1];
 
             $player->setXp($player->getXp() + $result['win_xp']);
-            $enemy = $enemy;
-            $enemy->setXp($enemy->getPlayer()->getXp() - $result['lose_xp']);
+            $enemy->getPlayer()->setXp($enemy->getPlayer()->getXp() - $result['lose_xp']);
             if ($enemy->getPlayer()->getXp() < 0) {
                 $enemy = $enemy;
-                $enemy->setXp(0);
+                $enemy->getPlayer()->setXp(0);
             }
 
             $result = [
                 'mode'   => 'player_win',
                 'result' => $result,
             ];
-            $enemy = $enemy;
-            $enemy->setDailyBattleDefeats($enemy->getPlayer()->getDailyBattleDefeats() + 1);
+            $enemy->getPlayer()->setDailyBattleDefeats($enemy->getPlayer()->getDailyBattleDefeats() + 1);
             $player->setDailyBattleVictories($player->getDailyBattleVictories() + 1);
 
             $dailyBattle = new DailyBattle();
@@ -1064,7 +1061,7 @@ class GameService
 
         if ($parameters['state'] == 'login') {
             if ($parameters['mode'] == 'logout') {
-                $request->getSession('session')->invalidate();
+                $request->getSession()->invalidate();
                 $this->tokenStorage->setToken(null);
                 $parameters['mode'] = null;
 
@@ -1079,7 +1076,6 @@ class GameService
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
 
-                    /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
                     $session = $request->getSession();
 
                     $lastUsernameKey = Security::LAST_USERNAME;
@@ -1104,7 +1100,6 @@ class GameService
                 }
             }
 
-            /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
             $session = $request->getSession();
 
             $lastUsernameKey = Security::LAST_USERNAME;

@@ -115,7 +115,7 @@ class PageService
     /**
      * Remove one entity.
      *
-     * @param PageTranslation $entity
+     * @param Page $page
      */
     public function remove(Page $page)
     {
@@ -251,8 +251,8 @@ class PageService
     }
 
     /**
-     * @param $ref
-     * @param $host
+     * @param string $ref
+     * @param string $host
      * @param null $locale
      *
      * @return Page|null
@@ -263,7 +263,7 @@ class PageService
     }
 
     /**
-     * @param $ref
+     * @param string $ref
      * @param null $locale
      *
      * @return Page|null
@@ -285,7 +285,7 @@ class PageService
     }
 
     /**
-     * @param $id
+     * @param integer $id
      *
      * @return PageTranslation|null
      */
@@ -302,11 +302,6 @@ class PageService
         return $this->pageRepository->findAllBySite($site);
     }
 
-    /**
-     * @param bool $absolute
-     *
-     * @return mixed
-     */
     public function getUrl($entity, $referenceType = UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
         $cacheId = 'page_url-' . md5($entity->getId() . '-' . get_class($entity). '-' . $referenceType);

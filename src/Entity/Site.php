@@ -100,7 +100,7 @@ class Site
      */
     public function __construct()
     {
-        $this->pages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
     public function __toString()

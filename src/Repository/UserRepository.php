@@ -73,7 +73,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Find one for edit profile.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */

@@ -45,7 +45,7 @@ class ContactRepository extends ServiceEntityRepository
     /**
      * Find one for edit.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */

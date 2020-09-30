@@ -68,7 +68,7 @@ class AppController extends AbstractController
         $form = $this->createSearchForm();
         $form->handleRequest($request);
 
-        $query = $this->appService->getQueryForSearch($form->getData(), 'app', null, $request->getLocale());
+        $query = $this->appService->getQueryForSearch($form->getData(), 'app');
 
         $entities = $this->paginator->paginate(
             $query,

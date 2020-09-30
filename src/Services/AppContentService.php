@@ -93,7 +93,7 @@ class AppContentService
     }
 
     /**
-     * @param $id
+     * @param integer $id
      *
      * @return AppContent|null
      */

@@ -31,7 +31,7 @@ trait TimestampTrait
      *
      * @param \DateTime $created
      *
-     * @return TimestampTrait
+     * @return self
      */
     public function setCreated($created)
     {
@@ -55,7 +55,7 @@ trait TimestampTrait
      *
      * @param \DateTime $updated
      *
-     * @return TimestampTrait
+     * @return self
      */
     public function setUpdated($updated)
     {

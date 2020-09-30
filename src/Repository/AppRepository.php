@@ -64,7 +64,7 @@ class AppRepository extends ServiceEntityRepository
     /**
      * Find one for edit.
      *
-     * @param $id
+     * @param integer $id
      *
      * @return mixed
      */
@@ -90,7 +90,7 @@ class AppRepository extends ServiceEntityRepository
     /**
      * Find one for edit.
      *
-     * @param $id
+     * @param array $parameters
      *
      * @return mixed
      */

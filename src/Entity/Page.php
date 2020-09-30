@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -65,8 +66,8 @@ class Page
      */
     public function __construct()
     {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments     = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->comments     = new ArrayCollection();
     }
 
     /**
@@ -100,7 +101,7 @@ class Page
     /**
      * Get translations.
      *
-     * @return PageTranslation[]
+     * @return ArrayCollection<PageTranslation>
      */
     public function getTranslations()
     {

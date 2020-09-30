@@ -40,8 +40,8 @@ class Tag
      */
     public function __construct()
     {
-        $this->articles     = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->articles     = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     /**

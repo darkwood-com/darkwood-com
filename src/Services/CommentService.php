@@ -57,7 +57,7 @@ class CommentService
     /**
      * Remove one commentTranslation.
      *
-     * @param Comment $commentTranslation
+     * @param Comment $comment
      */
     public function remove(Comment $comment)
     {

@@ -161,10 +161,10 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param $templateName
-     * @param $context
-     * @param $fromEmail
-     * @param $toEmail
+     * @param string $templateName
+     * @param array $context
+     * @param string $fromEmail
+     * @param string $toEmail
      *
      * @throws \Throwable
      */
@@ -192,7 +192,7 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param $ref
+     * @param string $ref
      *
      * @return PageTranslation
      */

@@ -5,6 +5,7 @@ namespace App\Entity\Game;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Player.
@@ -201,7 +202,7 @@ class Player
      */
     public function __construct()
     {
-        $this->dailyBattles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dailyBattles = new ArrayCollection();
     }
 
     /**

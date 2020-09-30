@@ -77,7 +77,7 @@ class ArticleService
     /**
      * Remove one articleTranslation.
      *
-     * @param ArticleTranslation $articleTranslation
+     * @param Article $article
      */
     public function remove(Article $article)
     {
@@ -168,8 +168,8 @@ class ArticleService
     }
 
     /**
-     * @param $slug
-     * @param $locale
+     * @param string $slug
+     * @param string $locale
      *
      * @return Article
      */
@@ -203,7 +203,7 @@ class ArticleService
     }
 
     /**
-     * @param $id
+     * @param integer $id
      *
      * @return ArticleTranslation|null
      */

@@ -82,7 +82,7 @@ class UserService
     /**
      * Find one by email.
      *
-     * @param $email
+     * @param string $email
      *
      * @return mixed
      */
@@ -92,7 +92,7 @@ class UserService
     }
 
     /**
-     * @param $username
+     * @param string $username
      *
      * @return object|null
      */
@@ -101,13 +101,6 @@ class UserService
         return $this->userRepository->findOneBy(['username' => $username]);
     }
 
-    /**
-     * Find one by email.
-     *
-     * @param $email
-     *
-     * @return mixed
-     */
     public function findAll()
     {
         return $this->userRepository->findAll();
