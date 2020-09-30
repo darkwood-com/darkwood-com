@@ -1,4 +1,4 @@
-.nav-menu-box-blue
+.nav-menu-box-yellow
 {
 	width: 100%;
 	margin: 0px 0px 10px 0px;
@@ -7,14 +7,14 @@
 	line-height: 16px;
 }
 
-	.nav-menu-box-blue li
+	.nav-menu-box-yellow li
 	{
 		margin: 0;
 		padding: 0px 0px 4px 0px;
 		width: 100%;
 	}
 
-		.nav-menu-box-blue h2
+		.nav-menu-box-yellow h2
 		{
 			margin: 0;
 			padding: 15px 0px 5px 0px;
@@ -22,7 +22,7 @@
 			text-align: center;
 		}
 
-		.nav-menu-box-blue h3
+		.nav-menu-box-yellow h3
 		{
 			margin: 0;
 			padding: 0px 10px 0px 10px;
@@ -31,26 +31,26 @@
 			font-weight: normal;
 		}
 
-		.nav-menu-box-blue li a
+		.nav-menu-box-yellow li a
 		{
 			margin: 0;
 			padding: 0px 10px 0px 10px;
 			display: block;
 		}
 
-		.nav-menu-box-blue li a:hover,
-		.nav-menu-box-blue li a:focus {
+		.nav-menu-box-yellow li a:hover,
+		.nav-menu-box-yellow li a:focus {
 			text-decoration: none;
 			background-color: transparent;
 		}
 
-		.nav-menu-box-blue form
+		.nav-menu-box-yellow form
 		{
 			margin: 0;
 			padding: 0px 10px 0px 10px;
 		}
 
-		.nav-menu-box-blue form input[type=submit]
+		.nav-menu-box-yellow form input[type=submit]
 		{
 			font-size: 12px;
 			padding: 0px 6px 0px 6px;
@@ -59,47 +59,47 @@
 		}
 
 		/* user informations and friends */
-        .nav-menu-box-blue div.user_icon
+        .nav-menu-box-yellow div.user_icon
         {
             float:right;
             width: 50%;
             text-align: right;
         }
         
-        .nav-menu-box-blue div.user_info
+        .nav-menu-box-yellow div.user_info
         {
             float:left;
             width: 50%;
         }
 
-		.nav-menu-box-blue div.friends
+		.nav-menu-box-yellow div.friends
 		{
 			width:110px;
 			margin:0 auto;
 		}
 
-		.nav-menu-box-blue div.user_info a, .nav-menu-box-blue div.friends a
+		.nav-menu-box-yellow div.user_info a, .nav-menu-box-yellow div.friends a
 		{
 			margin: 0;
 			padding: 0;
 		}
 
-        .nav-menu-box-blue div.user_logout
+        .nav-menu-box-yellow div.user_logout
         {
             margin: 0;
             padding: 0;
         }
 
-        .nav-menu-box-blue div.user_logout form input[type=submit]
+        .nav-menu-box-yellow div.user_logout form input[type=submit]
         {
             width: auto;
         }
 
-		.nav-menu-box-blue div.facebook_connect a
+		.nav-menu-box-yellow div.facebook_connect a
 		{
 			margin: 0px 10px 6px 0px;
             padding:0 0 0 16px;
-			background: transparent url('../../public/common/images/components/theme-sky/site/body/menu/facebook_connect.png') no-repeat top;
+			background: transparent url('../../public/common/images/components/theme-paper/site/body/menu/facebook_connect.png') no-repeat top;
 			display: block;
 			width:96px;
 			height:16px;
@@ -112,7 +112,7 @@
 			text-align: center;
 		}
 
-.nav-menu-links-blue
+.nav-menu-links-yellow
 {
 	margin: 0px 0px 10px 0px;
 	padding: 0px 0px 15px 0px;
@@ -120,25 +120,25 @@
 	line-height: 16px;
 }
 
-	.nav-menu-links-blue li
+	.nav-menu-links-yellow li
 	{
 		margin: 0;
 		padding: 0px 0px 2px 0px;
 		float: left;
 	}
 
-		.nav-menu-links-blue li a
+		.nav-menu-links-yellow li a
 		{
 			margin: 0;
 			padding: 8px 10px 8px 10px;
 		}
 
-		.nav-menu-links-blue li a:hover,
-		.nav-menu-links-blue li a:focus {
+		.nav-menu-links-yellow li a:hover,
+		.nav-menu-links-yellow li a:focus {
 			text-decoration: none;
-			background-color: #0099FF;
+			background-color: #975231;
 		}
 
-		.nav-menu-links-blue li .flag {
+		.nav-menu-links-yellow li .flag {
 			width: 25px;
 		}

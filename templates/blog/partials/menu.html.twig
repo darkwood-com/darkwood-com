@@ -1,9 +1,9 @@
 {% embed 'common/components/navbar.html.twig' %}
     {% block link %}{{ path('blog_home') }}{% endblock %}
     {% block title %}Blog{% endblock %}
-    {% block theme %}navbar-light navbar-menu-blue{% endblock %}
+    {% block theme %}navbar-light navbar-menu-yellow{% endblock %}
     {% block content %}
-        <ul class="nav nav-menu-box-blue">
+        <ul class="nav nav-menu-box-yellow">
             <li><h2>{{ 'common.menu.login'|trans }}</h2></li>
             {% if app.user %}
                 <li>
@@ -54,16 +54,16 @@
                 <li><a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans }}</a></li>
             {% endif %}
         </ul>
-        <ul class="nav nav-menu-box-blue">
+        <ul class="nav nav-menu-box-yellow">
             <li><h2>{{ 'blog.menu.blog'|trans }}</h2></li>
             <li><a href="{{ path('blog_home') }}">{{ 'blog.menu.articles'|trans }}</a></li>
         </ul>
 
-        <ul class="nav nav-menu-links-blue">
+        <ul class="nav nav-menu-links-yellow">
             {% for locale, pageLink in pageLinks %}
                 <li>
                     <a href="{{ pageLink }}">
-                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" />
+                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" class="flag" />
                     </a>
                 </li>
             {% endfor %}

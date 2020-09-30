@@ -138,3 +138,7 @@
 			text-decoration: none;
 			background-color: #DDAA66;
 		}
+
+		.nav-menu-links-brown li .flag {
+			width: 25px;
+		}

@@ -1,0 +1,12 @@
+.navbar-menu-yellow {
+	margin-right: -15px;
+	margin-left: -15px;
+	padding: .5rem 0;
+}
+.navbar-menu-yellow .navbar-brand {
+	margin-left: 15px;
+	color: #692D00;
+}
+.navbar-menu-yellow .navbar-toggler {
+	margin-right: 15px;
+}

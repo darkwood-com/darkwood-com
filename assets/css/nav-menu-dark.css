@@ -141,3 +141,7 @@
             text-decoration: none;
             background-color: #eee;
         }
+
+		.nav-menu-links-dark li .flag {
+			width: 25px;
+		}

@@ -1,0 +1,490 @@
+/* -> layout */
+.theme-paper
+{
+    color: #692D00;
+    background: #9b5638 url('../../public/common/images/components/theme-paper/site/paper_pattern.png') center repeat;
+}
+
+@media(max-width:767px) {
+    .theme-paper
+    {
+        background-size: 1px 415px;
+    }
+}
+
+.theme-paper .theme-header
+{
+    height: 250px;
+}
+
+@media(max-width:767px) {
+    .theme-paper .theme-header
+    {
+        height: 125px;
+    }
+}
+
+	.theme-paper .theme-header-logo
+	{
+        height: 450px;
+        width: 100%;
+        background: transparent url('../../public/common/images/components/theme-paper/site/header/paper.png') no-repeat center top;
+		background-size: auto 100%;
+	}
+
+	@media(max-width:767px) {
+		.theme-paper .theme-header-logo
+        {
+            height: 320px;
+            background-position-y: -45px;
+		}
+	}
+
+
+.theme-paper .theme-body
+{
+    background: transparent url('../../public/common/images/components/theme-paper/site/body/page_pattern.png') repeat-y center top;
+}
+
+@media(max-width:767px) {
+    .theme-paper .theme-body
+    {
+        background-size: 1138px auto; /* = 1600 * 320 / 450 */
+        background-position-y: -3px;
+    }
+}
+
+.theme-paper .theme-body > * {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+/*@media(max-width:767px) {
+    .theme-paper .theme-body
+    {
+        background-size: 500px auto;
+    }
+}*/
+    .theme-paper .theme-body-top
+    {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px 20px 20px 20px;
+        /*background: transparent url('../../public/common/images/components/theme-paper/site/body/page_top.png') no-repeat top;*/
+    }
+
+    @media(max-width:767px) {
+        .theme-paper .theme-body-top
+        {
+            padding: 20px 0px 0px 0px;
+            /*max-width: 500px;
+            background-size: 500px auto;*/
+        }
+    }
+
+.theme-paper .theme-footer
+{
+    padding: 0;
+    background-color: #e9c7a9;
+    text-align: center;
+}
+
+    .theme-paper .theme-footer-top
+    {
+        margin: 0px auto 0px auto;
+        padding: 0;
+        width: 1000px;
+    }
+
+    .theme-paper .theme-footer ul
+    {
+        list-style-type: none;
+        margin: 0;
+        padding: 10px 0px 10px 0px;
+    }
+
+    .theme-paper .theme-footer .btn-github,
+    .theme-paper .theme-footer .btn-twitter
+    {
+        background-color: transparent;
+    }
+
+.theme-paper h1
+{
+    margin: 20px 0px 20px 0px;
+    font-size: 32px;
+    text-align: center;
+    color: #692D00;
+}
+
+.theme-paper h2
+{
+    margin: 18px 0px 18px 0px;
+    font-size: 24px;
+    text-align: left;
+    color: #692D00;
+}
+
+.theme-paper h3
+{
+    margin: 16px 0px 10px 0px;
+    font-size: 20px;
+    text-align: center;
+    color: #692D00;
+}
+
+.theme-paper h4
+{
+    margin: 5px 0px 5px 0px;
+    font-size: 16px;
+    color: #692D00;
+}
+
+.theme-paper a
+{
+    color: #692D00;
+    text-decoration: none;
+}
+
+.theme-paper a:hover
+{
+    color: #a95e00;
+    cursor: pointer;
+}
+
+.theme-paper a:active
+{
+    cursor: pointer;
+}
+
+.theme-paper p
+{
+    margin: 10px 0px 10px 0px;
+}
+
+/* -> user-box */
+.theme-paper div.user-box
+{
+    margin: 15px;
+    width: 60px;
+    height: 70px;
+    text-align: center;
+    float: left;
+}
+
+/* -> links */
+.theme-paper ul.links li
+{
+    padding: 5px 0px 5px 0px;
+    clear: both;
+    overflow: auto;
+}
+
+.theme-paper ul.links a
+{
+    float: left;
+}
+
+.theme-paper ul.links p
+{
+    margin: 0px 0px 0px 250px;
+}
+
+/* -> pagination */
+.theme-paper ul.pagination a
+{
+    background-color: #e4c5a5;
+    border: 1px solid #d49359;
+    text-decoration: none !important;
+    color: #FFFFFF;
+}
+
+.theme-paper ul.pagination a.current,
+.theme-paper ul.pagination a:active,
+.theme-paper ul.pagination a:hover
+{
+    border-color: #d49359;
+    font-weight: bold;
+    background: #d49359 none;
+    color: #FFFFFF;
+}
+
+.theme-paper ul.pagination .disabled
+{
+    border: 1px solid #929292;
+    color: #929292;
+}
+
+/* -> comments */
+.theme-paper ul.comments
+{
+    list-style-type: none;
+    padding: 0;
+}
+
+.theme-paper ul.comments li
+{
+    margin: 10px 0px 10px 0px;
+    overflow: auto;
+    clear: both;
+}
+
+.theme-paper ul.comments a.author
+{
+    float: left;
+    text-align: center;
+}
+
+.theme-paper ul.comments div.content
+{
+    margin: 0px 0px 0px 100px;
+    padding: 10px;
+    background: #D8F1FE;
+    border: 1px solid #66B8E2;
+}
+
+.theme-paper ul.comments div.content div.arrow
+{
+    background: transparent url('../../public/common/images/components/theme-paper/comment/arrow.png') no-repeat;
+    width: 21px;
+    height: 18px;
+    position: relative;
+    left: -32px;
+}
+
+.theme-paper ul.comments div.content div.date
+{
+    margin: 20px 0px 0px 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* -> forms */
+.theme-paper form
+{
+    margin: 0px auto 0px auto;
+}
+
+.theme-paper form fieldset
+{
+    margin: 10px;
+    padding: 10px;
+    border: #66B8E2 1px solid;
+}
+
+.theme-paper form fieldset legend
+{
+    margin: 0px 10px 0px 10px;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    border-top: none;
+    border-bottom: none;
+    border-left: #66B8E2 1px solid;
+    border-right: #66B8E2 1px solid;
+    color: #66B8E2;
+}
+
+.theme-paper form fieldset li
+{
+    list-style-type: none;
+}
+
+.theme-paper form ul, .theme-paper form li
+{
+    padding: 0px;
+    list-style-type: none;
+    clear: both;
+}
+
+.theme-paper form li.centered
+{
+    text-align: center;
+}
+
+.theme-paper form label
+{
+    margin: 2px 0px 2px 0px;
+    width: 45%;
+    float: left;
+}
+
+.theme-paper form label.centered
+{
+    display: block;
+    width: 100%;
+    float: none;
+}
+
+.theme-paper form input, .theme-paper form textarea
+{
+    margin: 2px 0px 2px 0px;
+    border: 0px solid #FFFFFF;
+    color: #FFFFFF;
+    background-color: #975231;
+    width: 50%;
+    float: right;
+    clear: right;
+}
+
+.theme-paper form .g-recaptcha {
+    margin: 2px 0px 2px 0px;
+    border: 0px solid #FFFFFF;
+    color: #FFFFFF;
+    width: 50%;
+    float: right;
+    clear: right;
+}
+
+.theme-paper form .g-recaptcha.centered {
+    margin: auto;
+    border: 0px solid #FFFFFF;
+    width: 50%;
+    float: none;
+    clear: both;
+}
+
+.theme-paper form input.centered, .theme-paper form textarea.centered, .theme-paper form img.centered
+{
+    float: none;
+}
+
+.theme-paper form img
+{
+    float: right;
+    clear: right;
+}
+
+.theme-paper form input:focus, .theme-paper form textarea:focus
+{
+    background-color: #713e25;
+}
+
+.theme-paper form input[type=submit]
+{
+    font-weight:bold;
+    width: auto;
+}
+
+.theme-paper form input[type=submit]:hover
+{
+    background-color: #713e25;
+    cursor:pointer;
+}
+
+.theme-paper form input[type=submit]:active
+{
+    background-color:#633800;
+}
+
+/* -> list */
+.theme-paper ul.itemlist
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.theme-paper ul.itemlist > li
+{
+    margin: 15px 0px 15px 0px;
+    padding: 0;
+    background:  #e4c5a5 none;
+    border: 2px solid #d49359;
+}
+
+.theme-paper ul.itemlist li h3
+{
+    margin: 0;
+    padding: 2px;
+    background: #d49359 none;
+}
+
+.theme-paper ul.itemlist li p
+{
+    padding: 10px;
+}
+
+/* -> trees */
+.theme-paper fieldset.tree
+{
+	float: left;
+	border-top: 2px solid #975231;
+	border-left: 2px solid #975231;
+}
+
+.theme-paper .tree legend
+{
+	margin: 10px;
+	padding: 0px 10px 0px 10px;
+	width: auto;
+	border-top: none;
+	border-bottom: none;
+	border-left: #975231 2px solid;
+	border-right: #975231 2px solid;
+	color: #975231;
+}
+
+.theme-paper .tree ul.root
+{
+	margin:  0px;
+	padding: 0px;
+	border: 0px none;
+}
+
+.theme-paper .tree ul
+{
+	margin:  0px 0px 0px 24px;
+	padding: 0px;
+	border-left: 2px solid #975231;
+}
+
+.theme-paper .tree li
+{
+	margin:  0px;
+	padding: 15px 0px 0px 0px;
+	list-style:none;
+}
+
+.theme-paper .tree li .folder
+{
+	background-color: #975231;
+}
+
+.theme-paper .tree li span
+{
+	margin:  0px 5px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	border-top: 2px solid #975231;
+}
+
+.theme-paper .tree li a
+{
+	position: relative;
+	top: -8px;
+	padding: 2px;
+	border: 2px solid #975231;
+	color: #351700;
+	background-color: #d49359;
+}
+
+.theme-paper .tree li a:hover
+{
+	color: #000000;
+	border: 2px solid #663721;
+}
+
+/*** css specific to the site ***/
+
+/* -> links */
+.theme-paper .theme-content a.no_link
+{
+    color: #692D00;
+    cursor: default;
+}
+
+.theme-paper .theme-content.show_links a
+{
+    text-decoration: underline;
+}
+

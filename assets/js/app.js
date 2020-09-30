@@ -13,13 +13,16 @@ import '../css/layout.css'
 import '../css/theme.css'
 import '../css/theme-darkwood.css'
 import '../css/theme-sky.css'
+import '../css/theme-paper.css'
 import '../css/theme-photos.css'
 import '../css/nav-menu-blue.css'
 import '../css/nav-menu-brown.css'
 import '../css/nav-menu-dark.css'
+import '../css/nav-menu-yellow.css'
 import '../css/navbar-menu-blue.css'
 import '../css/navbar-menu-brown.css'
 import '../css/navbar-menu-dark.css'
+import '../css/navbar-menu-yellow.css'
 
 global.$ = global.jQuery = $;
 

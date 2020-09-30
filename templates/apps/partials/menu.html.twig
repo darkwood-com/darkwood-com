@@ -65,7 +65,7 @@
             {% for locale, pageLink in pageLinks %}
                 <li>
                     <a href="{{ pageLink }}">
-                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" />
+                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" class="flag" />
                     </a>
                 </li>
             {% endfor %}
