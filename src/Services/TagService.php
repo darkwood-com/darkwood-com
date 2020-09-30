@@ -80,36 +80,6 @@ class TagService
     }
 
     /**
-     * Update page tags.
-     *
-     * @param array $tags
-     */
-    public function updatePage($tags, Page $page)
-    {
-        $exists    = 0;
-        $arrayTags = explode(',', $tags);
-        $allTags   = $this->findAll();
-
-        foreach ($arrayTags as $tag) {
-            $exists = 0;
-            /** @var Tag $persisted */
-            foreach ($allTags as $persisted) {
-                if ($persisted->getTitle() == $tag) {
-                    $exists = 1;
-                }
-            }
-            if ($exists == 1) {
-                $page->addTag($persisted);
-            } else {
-                $newTag = new Tag();
-                $newTag->setTitle($tag);
-                $page->addTag($newTag);
-                $this->save($newTag);
-            }
-        }
-    }
-
-    /**
      * Find one to edit.
      *
      * @param string $id
