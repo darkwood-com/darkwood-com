@@ -2,7 +2,7 @@
 .theme-paper
 {
     color: #692D00;
-    background: #9b5638 url('../../public/common/images/components/theme-paper/site/paper_pattern.png') center repeat;
+    background: #9b5638 url('../../public/common/images/components/theme-paper/site/paper_pattern.jpg') center repeat;
 }
 
 @media(max-width:767px) {
@@ -28,7 +28,7 @@
 	{
         height: 450px;
         width: 100%;
-        background: transparent url('../../public/common/images/components/theme-paper/site/header/paper.png') no-repeat center top;
+        background: transparent url('../../public/common/images/components/theme-paper/site/header/paper.jpg') no-repeat center top;
 		background-size: auto 100%;
 	}
 
@@ -43,7 +43,7 @@
 
 .theme-paper .theme-body
 {
-    background: transparent url('../../public/common/images/components/theme-paper/site/body/page_pattern.png') repeat-y center top;
+    background: transparent url('../../public/common/images/components/theme-paper/site/body/page_pattern.jpg') repeat-y center top;
 }
 
 @media(max-width:767px) {
