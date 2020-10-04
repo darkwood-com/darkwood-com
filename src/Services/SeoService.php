@@ -68,14 +68,14 @@ class SeoService
                     'type'        => ($pageTranslation->getOgType() ? $pageTranslation->getOgType() : 'article'),
                     'url'         => '',
                     'site_name'   => $pageTranslation->getPage()->getSite()->getName(),
-                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'ogImage'),
+                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'ogImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image'),
                 ],
                 'twitter'     => [
                     'card'        => ($pageTranslation->getTwitterCard() ? $pageTranslation->getTwitterCard() : 'summary'),
                     'title'       => ($pageTranslation->getTwitterTitle() != '') ? $pageTranslation->getTwitterTitle() : $pageTranslation->getTitle(),
                     'description' => ($pageTranslation->getTwitterDescription() != '') ? $pageTranslation->getTwitterDescription() : $pageTranslation->getDescription(),
                     'site'        => $pageTranslation->getTwitterSite(),
-                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'twitterImage'),
+                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'twitterImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image'),
                 ]
             ];
 
