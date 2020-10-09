@@ -1,4 +1,4 @@
-EXEC_PHP        = php
+EXEC_PHP        = php -d memory_limit=-1
 CONSOLE         = $(EXEC_PHP) bin/console
 COMPOSER        = composer
 SYMFONY         = symfony
