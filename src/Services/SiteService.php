@@ -126,6 +126,18 @@ class SiteService
     }
 
     /**
+     * Find one by ref.
+     *
+     * @param string $ref
+     *
+     * @return Site|null
+     */
+    public function findOneByRef($ref)
+    {
+        return $this->siteRepository->findOneByRef($ref);
+    }
+
+    /**
      * Find all.
      *
      * @return mixed

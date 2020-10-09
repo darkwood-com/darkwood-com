@@ -80,6 +80,26 @@ class SiteRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * Find one by ref.
+     *
+     * @param string $ref
+     *
+     * @return mixed
+     */
+    public function findOneByRef($ref)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.ref = :ref')
+            ->setParameter('ref', $ref);
+
+        $query = $qb->getQuery();
+        //$query->useResultCache(true, 120, 'SiteRepository::findOneByRef' . $ref);
+
+        return $query->getOneOrNullResult();
+    }
+
     public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('s')

@@ -121,7 +121,7 @@ class CommonController extends AbstractController
             $site = $this->siteService->findOneToEdit($this->get('session')->get('siteId'));
 
             if (!$site) {
-                throw new AccessDeniedHttpException('No site defined with domain ' . $host);
+                $site = $this->siteService->findOneByRef('darkwood');
             }
         }
 
