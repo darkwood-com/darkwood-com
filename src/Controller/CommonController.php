@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ErrorController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
@@ -108,7 +109,7 @@ class CommonController extends AbstractController
      */
     public function showException(Request $request, \Throwable $exception, DebugLoggerInterface $logger = null)
     {
-        if ($exception->getCode() != 404) {
+        if (!$exception instanceof NotFoundHttpException) {
             $exception = $this->errorRenderer->render($exception);
 
             return new Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
