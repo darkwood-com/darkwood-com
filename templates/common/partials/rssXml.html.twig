@@ -18,6 +18,7 @@
             <pubDate>{{ item.date|date('r') }}</pubDate>
             <description><![CDATA[{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}]]></description>
             <content:encoded><![CDATA[<p><img src="{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('rss_cover') }}" /></p>{{ articleTranslation.content|markdown }}]]></content:encoded>
+            <link>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</link>
             <guid>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
             <enclosure url="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" />
         </item>
