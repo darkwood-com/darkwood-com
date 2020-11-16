@@ -194,8 +194,8 @@
 /* -> pagination */
 .theme-paper ul.pagination a
 {
-    background-color: #e4c5a5;
-    border: 1px solid #d49359;
+    background-color: #ffeac4;
+    border: 1px solid #f3c790;
     text-decoration: none !important;
     color: #FFFFFF;
 }
@@ -204,9 +204,9 @@
 .theme-paper ul.pagination a:active,
 .theme-paper ul.pagination a:hover
 {
-    border-color: #d49359;
+    border-color: #f3c790;
     font-weight: bold;
-    background: #d49359 none;
+    background: #f3c790 none;
     color: #FFFFFF;
 }
 
@@ -240,7 +240,7 @@
 {
     margin: 0px 0px 0px 100px;
     padding: 10px;
-    background: #e4c5a5;
+    background: #ffeac4;
     border: 1px solid #975231;
 }
 
@@ -389,15 +389,15 @@
 {
     margin: 15px 0px 15px 0px;
     padding: 0;
-    background:  #e4c5a5 none;
-    border: 2px solid #d49359;
+    background:  #ffeac4 none;
+    border: 2px solid #f3c790;
 }
 
 .theme-paper ul.itemlist li h3
 {
     margin: 0;
     padding: 2px;
-    background: #d49359 none;
+    background: #f3c790 none;
 }
 
 .theme-paper ul.itemlist li p
@@ -465,7 +465,7 @@
 	padding: 2px;
 	border: 2px solid #975231;
 	color: #351700;
-	background-color: #d49359;
+	background-color: #f3c790;
 }
 
 .theme-paper .tree li a:hover
