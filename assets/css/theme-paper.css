@@ -197,7 +197,7 @@
     background-color: #ffeac4;
     border: 1px solid #f3c790;
     text-decoration: none !important;
-    color: #FFFFFF;
+    color: #692d00;
 }
 
 .theme-paper ul.pagination a.current,
@@ -207,7 +207,7 @@
     border-color: #f3c790;
     font-weight: bold;
     background: #f3c790 none;
-    color: #FFFFFF;
+    color: #692d00;
 }
 
 .theme-paper ul.pagination .disabled
