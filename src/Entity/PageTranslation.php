@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 /**
  * @ORM\Table(name="page_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_page_unique",columns={"locale","page_id"})
@@ -16,181 +15,151 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class PageTranslation
+class PageTranslation implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * Locale.
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
-
     /**
      * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $page;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="pages", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="thumbnailPages", fileNameProperty="thumbnailImageName")
      */
     protected $thumbnailImage;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $thumbnailImageName;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $imgAlt;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $imgTitle;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoTitle;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoDescription;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoKeywords;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterCard;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterSite;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterTitle;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterDescription;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="twitterPages", fileNameProperty="twitterImageName")
      */
     protected $twitterImage;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $twitterImageName;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogTitle;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogType;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="ogPages", fileNameProperty="ogImageName")
      */
     protected $ogImage;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $ogImageName;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogDescription;
-
     /**
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getTitle();
     }
-
     /**
      * Set locale.
      *
@@ -200,7 +169,6 @@ class PageTranslation
     {
         $this->locale = $locale;
     }
-
     /**
      * Get locale.
      *
@@ -210,7 +178,6 @@ class PageTranslation
     {
         return $this->locale;
     }
-
     /**
      * Get id.
      *
@@ -220,7 +187,6 @@ class PageTranslation
     {
         return $this->id;
     }
-
     /**
      * Set title.
      *
@@ -230,7 +196,6 @@ class PageTranslation
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -240,7 +205,6 @@ class PageTranslation
     {
         return $this->title;
     }
-
     /**
      * Set description.
      *
@@ -250,7 +214,6 @@ class PageTranslation
     {
         $this->description = $description;
     }
-
     /**
      * Get description.
      *
@@ -260,7 +223,6 @@ class PageTranslation
     {
         return $this->description;
     }
-
     /**
      * @return mixed
      */
@@ -268,7 +230,6 @@ class PageTranslation
     {
         return $this->content;
     }
-
     /**
      * @param mixed $content
      */
@@ -276,7 +237,6 @@ class PageTranslation
     {
         $this->content = $content;
     }
-
     /**
      * @return mixed
      */
@@ -284,20 +244,17 @@ class PageTranslation
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -305,7 +262,6 @@ class PageTranslation
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -313,7 +269,6 @@ class PageTranslation
     {
         $this->imageName = $imageName;
     }
-
     /**
      * @return File
      */
@@ -321,20 +276,17 @@ class PageTranslation
     {
         return $this->thumbnailImage;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnailImage
      */
-    public function setThumbnailImage(File $thumbnailImage)
+    public function setThumbnailImage(\Symfony\Component\HttpFoundation\File\File $thumbnailImage)
     {
         $this->thumbnailImage = $thumbnailImage;
-
         if ($thumbnailImage) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -342,7 +294,6 @@ class PageTranslation
     {
         return $this->thumbnailImageName;
     }
-
     /**
      * @param string $thumbnailImageName
      */
@@ -350,7 +301,6 @@ class PageTranslation
     {
         $this->thumbnailImageName = $thumbnailImageName;
     }
-
     /**
      * @param mixed $imgAlt
      */
@@ -358,7 +308,6 @@ class PageTranslation
     {
         $this->imgAlt = $imgAlt;
     }
-
     /**
      * @return mixed
      */
@@ -366,7 +315,6 @@ class PageTranslation
     {
         return $this->imgAlt;
     }
-
     /**
      * @param mixed $imgTitle
      */
@@ -374,7 +322,6 @@ class PageTranslation
     {
         $this->imgTitle = $imgTitle;
     }
-
     /**
      * @return mixed
      */
@@ -382,7 +329,6 @@ class PageTranslation
     {
         return $this->imgTitle;
     }
-
     /**
      * @param mixed $seoTitle
      */
@@ -390,7 +336,6 @@ class PageTranslation
     {
         $this->seoTitle = $seoTitle;
     }
-
     /**
      * @return mixed
      */
@@ -398,7 +343,6 @@ class PageTranslation
     {
         return $this->seoTitle;
     }
-
     /**
      * @param mixed $seoDescription
      */
@@ -406,7 +350,6 @@ class PageTranslation
     {
         $this->seoDescription = $seoDescription;
     }
-
     /**
      * @return mixed
      */
@@ -414,7 +357,6 @@ class PageTranslation
     {
         return $this->seoDescription;
     }
-
     /**
      * @param mixed $seoKeywords
      */
@@ -422,7 +364,6 @@ class PageTranslation
     {
         $this->seoKeywords = $seoKeywords;
     }
-
     /**
      * @return mixed
      */
@@ -430,7 +371,6 @@ class PageTranslation
     {
         return $this->seoKeywords;
     }
-
     /**
      * @param mixed $twitterTitle
      */
@@ -438,7 +378,6 @@ class PageTranslation
     {
         $this->twitterTitle = $twitterTitle;
     }
-
     /**
      * @return mixed
      */
@@ -446,7 +385,6 @@ class PageTranslation
     {
         return $this->twitterTitle;
     }
-
     /**
      * @param mixed $twitterCard
      */
@@ -454,7 +392,6 @@ class PageTranslation
     {
         $this->twitterCard = $twitterCard;
     }
-
     /**
      * @return mixed
      */
@@ -462,7 +399,6 @@ class PageTranslation
     {
         return $this->twitterCard;
     }
-
     /**
      * @param mixed $twitterDescription
      */
@@ -470,7 +406,6 @@ class PageTranslation
     {
         $this->twitterDescription = $twitterDescription;
     }
-
     /**
      * @return mixed
      */
@@ -478,7 +413,6 @@ class PageTranslation
     {
         return $this->twitterDescription;
     }
-
     /**
      * @param mixed $twitterSite
      */
@@ -486,7 +420,6 @@ class PageTranslation
     {
         $this->twitterSite = $twitterSite;
     }
-
     /**
      * @return mixed
      */
@@ -494,7 +427,6 @@ class PageTranslation
     {
         return $this->twitterSite;
     }
-
     /**
      * @return File
      */
@@ -502,20 +434,17 @@ class PageTranslation
     {
         return $this->twitterImage;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $twitterImage
      */
-    public function setTwitterImage(File $twitterImage)
+    public function setTwitterImage(\Symfony\Component\HttpFoundation\File\File $twitterImage)
     {
         $this->twitterImage = $twitterImage;
-
         if ($twitterImage) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -523,7 +452,6 @@ class PageTranslation
     {
         return $this->twitterImageName;
     }
-
     /**
      * @param string $twitterImageName
      */
@@ -531,7 +459,6 @@ class PageTranslation
     {
         $this->twitterImageName = $twitterImageName;
     }
-
     /**
      * @param mixed $ogTitle
      */
@@ -539,7 +466,6 @@ class PageTranslation
     {
         $this->ogTitle = $ogTitle;
     }
-
     /**
      * @return mixed
      */
@@ -547,7 +473,6 @@ class PageTranslation
     {
         return $this->ogTitle;
     }
-
     /**
      * @param mixed $ogDescription
      */
@@ -555,7 +480,6 @@ class PageTranslation
     {
         $this->ogDescription = $ogDescription;
     }
-
     /**
      * @return mixed
      */
@@ -563,7 +487,6 @@ class PageTranslation
     {
         return $this->ogDescription;
     }
-
     /**
      * @param mixed $ogType
      */
@@ -571,7 +494,6 @@ class PageTranslation
     {
         $this->ogType = $ogType;
     }
-
     /**
      * @return mixed
      */
@@ -579,7 +501,6 @@ class PageTranslation
     {
         return $this->ogType;
     }
-
     /**
      * @return File
      */
@@ -587,20 +508,17 @@ class PageTranslation
     {
         return $this->ogImage;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $ogImage
      */
     public function setOgImage($ogImage)
     {
         $this->ogImage = $ogImage;
-
         if ($ogImage) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -608,7 +526,6 @@ class PageTranslation
     {
         return $this->ogImageName;
     }
-
     /**
      * @param string $ogImageName
      */
@@ -616,7 +533,6 @@ class PageTranslation
     {
         $this->ogImageName = $ogImageName;
     }
-
     /**
      * Set active.
      *
@@ -626,7 +542,6 @@ class PageTranslation
     {
         $this->active = $active;
     }
-
     /**
      * Get active.
      *
@@ -636,7 +551,6 @@ class PageTranslation
     {
         return $this->active;
     }
-
     /**
      * Set page.
      *
@@ -646,7 +560,6 @@ class PageTranslation
     {
         $this->page = $page;
     }
-
     /**
      * Get page.
      *

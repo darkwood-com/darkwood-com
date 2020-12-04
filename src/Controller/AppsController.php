@@ -14,138 +14,102 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
 /**
  * @Route("/", name="apps_", host="%apps_host%")
  */
-class AppsController extends AbstractController
+class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @var CommonController
      */
     private $commonController;
-
     /**
      * @var AuthenticationUtils
      */
     private $authenticationUtils;
-
     /**
      * @var TranslatorInterface
      */
     private $translator;
-
     /**
      * @var PaginatorInterface
      */
     private $paginator;
-
     /**
      * @var PageService
      */
     private $pageService;
-
     /**
      * @var CommentService
      */
     private $commentService;
-
-    public function __construct(
-        CommonController $commonController,
-        AuthenticationUtils $authenticationUtils,
-        TranslatorInterface $translator,
-        PaginatorInterface $paginator,
-        PageService $pageService,
-        CommentService $commentService
-    ) {
-        $this->commonController    = $commonController;
+    public function __construct(\App\Controller\CommonController $commonController, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Contracts\Translation\TranslatorInterface $translator, \Knp\Component\Pager\PaginatorInterface $paginator, \App\Services\PageService $pageService, \App\Services\CommentService $commentService)
+    {
+        $this->commonController = $commonController;
         $this->authenticationUtils = $authenticationUtils;
-        $this->translator          = $translator;
-        $this->paginator           = $paginator;
-        $this->pageService         = $pageService;
-        $this->commentService      = $commentService;
+        $this->translator = $translator;
+        $this->paginator = $paginator;
+        $this->pageService = $pageService;
+        $this->commentService = $commentService;
     }
-
-    public function menu(Request $request, $ref, $entity)
+    public function menu(\Symfony\Component\HttpFoundation\Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
-
-        $apps     = $this->pageService->findActives($request->getLocale(), 'app');
+        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $apps = $this->pageService->findActives($request->getLocale(), 'app');
         $appLinks = [];
         foreach ($apps as $app) {
-            $appLinks[] = [
-                'label' => $app->getOneTranslation()->getTitle(),
-                'link'  => $this->pageService->getUrl($app->getOneTranslation()),
-            ];
+            $appLinks[] = ['label' => $app->getOneTranslation()->getTitle(), 'link' => $this->pageService->getUrl($app->getOneTranslation())];
         }
-
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-
-        return $this->render('apps/partials/menu.html.twig', [
-            'last_username' => $lastUsername,
-            'csrf_token'    => $csrfToken,
-            'appLinks'      => $appLinks,
-            'pageLinks'     => $pageLinks,
-        ]);
+        return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks]);
     }
-
     /**
      * @Route({ "fr": "/", "en": "/en", "de": "/de" }, name="home", defaults={"ref": "home"})
      */
-    public function home(Request $request, $ref)
+    public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
-
-        return $this->render('apps/pages/home.html.twig', [
-            'page' => $page,
-        ]);
+        return $this->render('apps/pages/home.html.twig', ['page' => $page]);
     }
-
     /**
      * @Route({ "fr": "/plan-du-site", "en": "/en/sitemap", "de": "/de/sitemap" }, name="sitemap", defaults={"ref": "sitemap"})
      */
-    public function sitemap(Request $request, $ref)
+    public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
-
     /**
      * @Route({ "fr": "/sitemap.xml", "en": "/en/sitemap.xml", "de": "/de/sitemap.xml" }, name="sitemap_xml")
      */
-    public function sitemapXml(Request $request)
+    public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
-
     /**
      * @Route({ "fr": "/rss", "en": "/en/rss", "de": "/de/rss" }, name="rss")
      */
-    public function rss(Request $request)
+    public function rss(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->rss($request);
     }
-
     /**
      * @Route({ "fr": "/contact", "en": "/en/contact", "de": "/de/kontakt" }, name="contact", defaults={"ref": "contact"})
      */
-    public function contact(Request $request, $ref)
+    public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
-
     /**
      * @Route({ "en": "/en/{ref}/{slug}", "de": "/de/{ref}/{slug}", "fr": "/{ref}/{slug}" }, name="app", defaults={"ref": null, "slug": null})
      */
-    public function app(Request $request, $ref, $slug = null)
+    public function app(\Symfony\Component\HttpFoundation\Request $request, $ref, $slug = null)
     {
         $page = $this->commonController->getPage($request, $ref);
-        $app  = $page->getPage();
-
-        if (!$app instanceof App) {
+        $app = $page->getPage();
+        if (!$app instanceof \App\Entity\App) {
             throw $this->createNotFoundException('App not found !');
         }
-
         $contents = $app->getContents()->filter(function ($appContent) use ($request) {
             /* @var AppContent $appContent */
             return $appContent->getLocale() == $request->getLocale();
@@ -161,44 +125,20 @@ class AppsController extends AbstractController
             }
             $content = $content->getContent();
         }
-
-        $comment = new CommentPage();
+        $comment = new \App\Entity\CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
-
-        $form = $this->createForm(CommentType::class, $comment);
-
+        $form = $this->createForm(\App\Form\CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($comment);
-
-                $this->get('session')->getFlashBag()->add(
-                    'success',
-                    $this->translator->trans('common.comment.submited')
-                );
-
+                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
                 return $this->redirect($this->generateUrl('apps_app', ['ref' => $ref, 'slug' => $slug]));
             }
         }
-
         $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-
-        $comments = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            10
-        );
-
-        return $this->render('apps/pages/app.html.twig', [
-            'page'      => $page,
-            'slug'      => $slug,
-            'contents'  => $contents,
-            'content'   => $content,
-            'showLinks' => true,
-            'form'      => $form->createView(),
-            'comments'  => $comments,
-        ]);
+        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        return $this->render('apps/pages/app.html.twig', ['page' => $page, 'slug' => $slug, 'contents' => $contents, 'content' => $content, 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
     }
 }

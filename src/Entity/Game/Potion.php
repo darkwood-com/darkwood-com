@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Potion.
  *
@@ -18,8 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Potion
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -28,65 +26,56 @@ class Potion
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
-
     /**
      * @var int
      *
      * @ORM\Column(name="life", type="integer")
      */
     private $life;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="potions", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="potion", cascade={"persist", "remove"})
      */
     protected $players;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentPotion", cascade={"persist", "remove"})
      */
     protected $currentPotionPlayers;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players              = new ArrayCollection();
-        $this->currentPotionPlayers = new ArrayCollection();
+        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->currentPotionPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -96,7 +85,6 @@ class Potion
     {
         return $this->id;
     }
-
     /**
      * Set price.
      *
@@ -106,7 +94,6 @@ class Potion
     {
         $this->price = $price;
     }
-
     /**
      * Get price.
      *
@@ -116,7 +103,6 @@ class Potion
     {
         return $this->price;
     }
-
     /**
      * Set life.
      *
@@ -126,7 +112,6 @@ class Potion
     {
         $this->life = $life;
     }
-
     /**
      * Get life.
      *
@@ -136,7 +121,6 @@ class Potion
     {
         return $this->life;
     }
-
     /**
      * @return mixed
      */
@@ -144,20 +128,17 @@ class Potion
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -165,7 +146,6 @@ class Potion
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -173,7 +153,6 @@ class Potion
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set title.
      *
@@ -183,7 +162,6 @@ class Potion
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -193,7 +171,6 @@ class Potion
     {
         return $this->title;
     }
-
     /**
      * Add player.
      */
@@ -201,7 +178,6 @@ class Potion
     {
         $this->players[] = $player;
     }
-
     /**
      * Remove player.
      */
@@ -209,7 +185,6 @@ class Potion
     {
         $this->players->removeElement($player);
     }
-
     /**
      * Get players.
      *
@@ -219,7 +194,6 @@ class Potion
     {
         return $this->players;
     }
-
     /**
      * Add currentPotionPlayer.
      */
@@ -227,7 +201,6 @@ class Potion
     {
         $this->currentPotionPlayers[] = $currentPotionPlayer;
     }
-
     /**
      * Remove currentPotionPlayer.
      */
@@ -235,7 +208,6 @@ class Potion
     {
         $this->currentPotionPlayers->removeElement($currentPotionPlayer);
     }
-
     /**
      * Get currentPotionPlayers.
      *

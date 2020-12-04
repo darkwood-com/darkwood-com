@@ -9,7 +9,6 @@ use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-
 /**
  * Class CommentService.
  *
@@ -18,53 +17,45 @@ use Doctrine\ORM\Query;
 class CommentService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-    /**
      * @var CommentRepository
      */
     protected $commentRepository;
-
     /**
      * @var CommentPageRepository
      */
     protected $commentPageRepository;
-
     public function __construct(
-        EntityManagerInterface $em
-    ) {
-        $this->em                    = $em;
-        $this->commentRepository     = $em->getRepository(Comment::class);
-        $this->commentPageRepository = $em->getRepository(CommentPage::class);
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em
+    )
+    {
+        $this->commentRepository = $em->getRepository(\App\Entity\Comment::class);
+        $this->commentPageRepository = $em->getRepository(\App\Entity\CommentPage::class);
     }
-
     /**
      * Update a commentTranslation.
      *
      * @return Comment
      */
-    public function save(Comment $comment)
+    public function save(\App\Entity\Comment $comment)
     {
         $comment->setUpdated(new \DateTime('now'));
-
         $this->em->persist($comment);
         $this->em->flush();
-
         return $comment;
     }
-
     /**
      * Remove one commentTranslation.
      *
      * @param Comment $comment
      */
-    public function remove(Comment $comment)
+    public function remove(\App\Entity\Comment $comment)
     {
         $this->em->remove($comment);
         $this->em->flush();
     }
-
     /**
      * Search.
      *
@@ -76,7 +67,6 @@ class CommentService
     {
         return $this->commentRepository->queryForSearch($filters, $order);
     }
-
     /**
      * Find one to edit.
      *
@@ -88,8 +78,7 @@ class CommentService
     {
         return $this->commentRepository->findOneToEdit($id);
     }
-
-    public function findActiveCommentByPageQuery(Page $page)
+    public function findActiveCommentByPageQuery(\App\Entity\Page $page)
     {
         return $this->commentPageRepository->findActiveCommentByPageQuery($page);
     }

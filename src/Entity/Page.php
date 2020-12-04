@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * @ORM\Table(name="page",uniqueConstraints={
  *      @ORM\UniqueConstraint(name="ref_site_unique",columns={"ref","site_id"})
@@ -19,24 +18,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorMap({"page" = "App\Entity\Page", "app" = "App\Entity\App"})
  * @ORM\HasLifecycleCallbacks
  */
-class Page
+class Page implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\PageTranslation", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $translations;
-
     /**
      * @var string
      *
@@ -44,7 +40,6 @@ class Page
      * @ORM\Column(type="string", length=255)
      */
     protected $ref;
-
     /**
      * @var Site
      *
@@ -53,23 +48,20 @@ class Page
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      **/
     protected $site;
-
     /**
      * Comments.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $comments;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->translations = new ArrayCollection();
-        $this->comments     = new ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -79,7 +71,6 @@ class Page
     {
         return $this->id;
     }
-
     /**
      * Add translations.
      */
@@ -88,7 +79,6 @@ class Page
         $this->translations[] = $translations;
         $translations->setPage($this);
     }
-
     /**
      * Remove translations.
      */
@@ -97,7 +87,6 @@ class Page
         $this->translations->removeElement($translations);
         $translations->setPage(null);
     }
-
     /**
      * Get translations.
      *
@@ -107,7 +96,6 @@ class Page
     {
         return $this->translations;
     }
-
     /**
      * Get one translation.
      *
@@ -123,10 +111,8 @@ class Page
                 return $translation;
             }
         }
-
         return $this->getTranslations()->current();
     }
-
     /**
      * @return mixed
      */
@@ -134,7 +120,6 @@ class Page
     {
         return $this->ref;
     }
-
     /**
      * @param mixed $ref
      */
@@ -142,16 +127,12 @@ class Page
     {
         $this->ref = $ref;
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         $pageTs = $this->getOneTranslation();
-
         return $pageTs ? $pageTs->getTitle() : '';
     }
-
     /* SITE */
-
     /**
      * Set site.
      *
@@ -161,7 +142,6 @@ class Page
     {
         $this->site = $site;
     }
-
     /**
      * Get page.
      *
@@ -171,7 +151,6 @@ class Page
     {
         return $this->site;
     }
-
     /**
      * Add comment.
      */
@@ -180,7 +159,6 @@ class Page
         $this->comments[] = $comment;
         $comment->setPage($this);
     }
-
     /**
      * Remove comment.
      */
@@ -189,7 +167,6 @@ class Page
         $this->comments->removeElement($comment);
         $comment->setPage(null);
     }
-
     /**
      * Get comments.
      *

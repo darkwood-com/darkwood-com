@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Article.
  *
@@ -13,10 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Article
+class Article implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -25,14 +23,12 @@ class Article
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\ArticleTranslation", mappedBy="article", cascade={"persist", "remove"})
      */
     protected $translations;
-
     /**
      * @var ArrayCollection<Tag>
      *
@@ -40,16 +36,14 @@ class Article
      * @ORM\JoinTable(name="article_tag")
      */
     protected $tags;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->translations = new ArrayCollection();
-        $this->tags         = new ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -59,7 +53,6 @@ class Article
     {
         return $this->id;
     }
-
     /**
      * Add translations.
      */
@@ -68,7 +61,6 @@ class Article
         $this->translations[] = $translations;
         $translations->setArticle($this);
     }
-
     /**
      * Remove translations.
      */
@@ -77,7 +69,6 @@ class Article
         $this->translations->removeElement($translations);
         $translations->setArticle(null);
     }
-
     /**
      * Get translations.
      *
@@ -87,7 +78,6 @@ class Article
     {
         return $this->translations;
     }
-
     /**
      * Get one translation.
      *
@@ -103,46 +93,36 @@ class Article
                 return $translation;
             }
         }
-
         return $this->getTranslations()->current();
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         $articleTs = $this->getOneTranslation();
-
         return $articleTs ? $articleTs->getTitle() : '';
     }
-
     // KEYWORDS
-
     /**
      * Add tags.
      */
     public function addTag(\App\Entity\Tag $tag): void
     {
         $this->tags[] = $tag;
-
         $tag->addArticle($this);
     }
-
     /**
      * Remove tags.
      */
     public function removeTag(\App\Entity\Tag $tag)
     {
         $this->tags->removeElement($tag);
-
         $tag->removeArticle($this);
     }
-
     public function removeAllTags()
     {
         foreach ($this->getTags() as $tag) {
             $this->removeTag($tag);
         }
     }
-
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -150,15 +130,12 @@ class Article
     {
         return $this->tags;
     }
-
     public function getAllTagTitles()
     {
         $tagTitles = [];
-
         foreach ($this->tags as $tag) {
             $tagTitles[] = $tag->getOneTranslation()->getTitle();
         }
-
         return $tagTitles;
     }
 }

@@ -5,17 +5,15 @@ namespace App\Repository\Game;
 use App\Entity\Game\DailyBattle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
 /**
  * Class DailyBattleRepository.
  */
-class DailyBattleRepository extends ServiceEntityRepository
+class DailyBattleRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
     {
-        parent::__construct($registry, DailyBattle::class);
+        parent::__construct($registry, \App\Entity\Game\DailyBattle::class);
     }
-
     /**
      * @param \DateTime $date
      *
@@ -29,19 +27,9 @@ class DailyBattleRepository extends ServiceEntityRepository
         $beginDate->setTime(0, 0, 0);
         $endDate = clone $date;
         $endDate->setTime(23, 59, 59);
-
-        $qb = $this->createQueryBuilder('db')
-            ->select('db')
-            ->addOrderBy('db.created', 'asc')
-            ->andWhere('db.status = :status')->setParameter('status', DailyBattle::STATUS_DAILY_USER)
-            ->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)
-            ->andWhere('db.created <= :end')->setParameter('end', $endDate)
-            ->setMaxResults(1)
-        ;
-
+        $qb = $this->createQueryBuilder('db')->select('db')->addOrderBy('db.created', 'asc')->andWhere('db.status = :status')->setParameter('status', \App\Entity\Game\DailyBattle::STATUS_DAILY_USER)->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)->andWhere('db.created <= :end')->setParameter('end', $endDate)->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-
     /**
      * @param \DateTime $date
      *
@@ -53,16 +41,8 @@ class DailyBattleRepository extends ServiceEntityRepository
         $beginDate->setTime(0, 0, 0);
         $endDate = clone $date;
         $endDate->setTime(23, 59, 59);
-
-        $qb = $this->createQueryBuilder('db')
-            ->select('db')
-            ->addOrderBy('db.created', 'asc')
-            ->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)
-            ->andWhere('db.created <= :end')->setParameter('end', $endDate)
-        ;
-
-        $qb->andWhere($qb->expr()->in('db.status', [DailyBattle::STATUS_NEW_WIN, DailyBattle::STATUS_NEW_LOSE]));
-
+        $qb = $this->createQueryBuilder('db')->select('db')->addOrderBy('db.created', 'asc')->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)->andWhere('db.created <= :end')->setParameter('end', $endDate);
+        $qb->andWhere($qb->expr()->in('db.status', [\App\Entity\Game\DailyBattle::STATUS_NEW_WIN, \App\Entity\Game\DailyBattle::STATUS_NEW_LOSE]));
         return $qb->getQuery()->getResult();
     }
 }

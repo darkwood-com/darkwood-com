@@ -21,87 +21,53 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class LoginFormAuthenticator extends \Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator implements \Symfony\Component\Security\Guard\PasswordAuthenticatedInterface
 {
-    use TargetPathTrait;
-
+    use \Symfony\Component\Security\Http\Util\TargetPathTrait;
     public const LOGIN_ROUTE = 'security_login';
-
-    private $entityManager;
-    private $urlGenerator;
-    private $csrfTokenManager;
-    private $passwordEncoder;
-
-    /**
-     * @var SiteService
-     */
-    private $siteService;
-
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder,
-        SiteService $siteService,
-        ParameterBagInterface $parameterBag
-    ) {
-        $this->entityManager    = $entityManager;
-        $this->urlGenerator     = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder  = $passwordEncoder;
-        $this->siteService      = $siteService;
-        $this->parameterBag     = $parameterBag;
-    }
-
-    public function supports(Request $request)
+        private \Doctrine\ORM\EntityManagerInterface $entityManager,
+        private \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator,
+        private \Symfony\Component\Security\Csrf\CsrfTokenManagerInterface $csrfTokenManager,
+        private \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder,
+        /**
+         * @var SiteService
+         */
+        private \App\Services\SiteService $siteService,
+        /**
+         * @var ParameterBagInterface
+         */
+        private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag
+    )
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
     }
-
-    public function getCredentials(Request $request)
+    public function supports(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $credentials = [
-            'username'   => $request->request->get('username'),
-            'password'   => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
-        ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['username']
-        );
-
+        return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
+    }
+    public function getCredentials(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $credentials = ['username' => $request->request->get('username'), 'password' => $request->request->get('password'), 'csrf_token' => $request->request->get('_csrf_token')];
+        $request->getSession()->set(\Symfony\Component\Security\Core\Security::LAST_USERNAME, $credentials['username']);
         return $credentials;
     }
-
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+        $token = new \Symfony\Component\Security\Csrf\CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
+            throw new \Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException();
         }
-
-        $user = $this->entityManager->getRepository(User::class)->loadUserByUsername($credentials['username']);
-
+        $user = $this->entityManager->getRepository(\App\Entity\User::class)->loadUserByUsername($credentials['username']);
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new \Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException('Username could not be found.');
         }
-
         return $user;
     }
-
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, \Symfony\Component\Security\Core\User\UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
-
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
@@ -109,29 +75,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         return $credentials['password'];
     }
-
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
+            return new \Symfony\Component\HttpFoundation\RedirectResponse($targetPath);
         }
-
         $redirectUrl = $request->headers->get('Referer');
-        if (strpos($redirectUrl, 'login') !== false) {
-            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-
+        if (str_contains($redirectUrl, 'login')) {
+            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
             $host = $request->getHost();
             $site = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
-                $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate('admin_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
             } elseif ($site) {
-                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
-
-        return new RedirectResponse($redirectUrl);
+        return new \Symfony\Component\HttpFoundation\RedirectResponse($redirectUrl);
     }
-
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

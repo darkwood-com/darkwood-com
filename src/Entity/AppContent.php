@@ -6,7 +6,6 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * AppContent.
  *
@@ -18,21 +17,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AppContent
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * Locale.
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\App", inversedBy="contents", cascade={"persist"})
      * @ORM\JoinColumn(name="app_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $app;
-
     /**
      * Slug.
      *
@@ -41,7 +37,6 @@ class AppContent
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
-
     /**
      * @var int
      *
@@ -50,28 +45,24 @@ class AppContent
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
-
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
-
     /**
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
-
     /**
      * Get id.
      *
@@ -81,7 +72,6 @@ class AppContent
     {
         return $this->id;
     }
-
     /**
      * Set locale.
      *
@@ -91,7 +81,6 @@ class AppContent
     {
         $this->locale = $locale;
     }
-
     /**
      * Get locale.
      *
@@ -101,7 +90,6 @@ class AppContent
     {
         return $this->locale;
     }
-
     /**
      * Set title.
      *
@@ -111,7 +99,6 @@ class AppContent
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -121,7 +108,6 @@ class AppContent
     {
         return $this->title;
     }
-
     /**
      * Set slug.
      *
@@ -131,7 +117,6 @@ class AppContent
     {
         $this->slug = $slug;
     }
-
     /**
      * Get slug.
      *
@@ -141,7 +126,6 @@ class AppContent
     {
         return $this->slug;
     }
-
     /**
      * Set content.
      *
@@ -151,7 +135,6 @@ class AppContent
     {
         $this->content = $content;
     }
-
     /**
      * Get content.
      *
@@ -161,7 +144,6 @@ class AppContent
     {
         return $this->content;
     }
-
     /**
      * Set app.
      *
@@ -171,7 +153,6 @@ class AppContent
     {
         $this->app = $app;
     }
-
     /**
      * Get app.
      *
@@ -181,7 +162,6 @@ class AppContent
     {
         return $this->app;
     }
-
     /**
      * @return int
      */
@@ -189,7 +169,6 @@ class AppContent
     {
         return $this->position;
     }
-
     /**
      * @param int $position
      */

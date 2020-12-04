@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-
 /**
  * Class ArticleService
  *
@@ -21,48 +20,37 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class ArticleService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
-     * @var ParameterBagInterface
-     */
-    protected $parameterBagInterface;
-
-    /**
      * @var ArticleRepository
      */
     protected $articleRepository;
-
     /**
      * @var ArticleTranslationRepository
      */
     protected $articleTranslationRepository;
-
-    /**
-     * @var StorageInterface
-     */
-    protected $storage;
-
     public function __construct(
-        EntityManagerInterface $em,
-        ParameterBagInterface $parameterBagInterface,
-        StorageInterface $storage
-    ) {
-        $this->em                = $em;
-        $this->articleRepository = $em->getRepository(Article::class);
-        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
-        $this->parameterBagInterface     = $parameterBagInterface;
-        $this->storage            = $storage;
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em,
+        /**
+         * @var ParameterBagInterface
+         */
+        protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBagInterface,
+        /**
+         * @var StorageInterface
+         */
+        protected \Vich\UploaderBundle\Storage\StorageInterface $storage
+    )
+    {
+        $this->articleRepository = $em->getRepository(\App\Entity\Article::class);
+        $this->articleTranslationRepository = $em->getRepository(\App\Entity\ArticleTranslation::class);
     }
-
     /**
      * Update a articleTranslation.
      *
      * @return Article
      */
-    public function save(Article $article, $invalidate = false)
+    public function save(\App\Entity\Article $article, $invalidate = false)
     {
         $article->setUpdated(new \DateTime('now'));
         foreach ($article->getTranslations() as $translation) {
@@ -70,65 +58,55 @@ class ArticleService
         }
         $this->em->persist($article);
         $this->em->flush();
-
         return $article;
     }
-
     /**
      * Remove one articleTranslation.
      *
      * @param Article $article
      */
-    public function remove(Article $article)
+    public function remove(\App\Entity\Article $article)
     {
         $this->em->remove($article);
         $this->em->flush();
     }
-
-    public function duplicate(articleTranslation $articleTranslation, $locale)
+    public function duplicate(\App\Entity\ArticleTranslation $articleTranslation, $locale)
     {
         $article = $articleTranslation->getArticle();
-
         $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
-        if(!$duplicateArticleTranslation) {
-            $duplicateArticleTranslation = new ArticleTranslation();
+        if (!$duplicateArticleTranslation) {
+            $duplicateArticleTranslation = new \App\Entity\ArticleTranslation();
             $duplicateArticleTranslation->setArticle($article);
             $duplicateArticleTranslation->setLocale($locale);
         }
-
         $duplicateArticleTranslation->setCreated($articleTranslation->getCreated());
         $duplicateArticleTranslation->setTitle($articleTranslation->getTitle());
         $duplicateArticleTranslation->setSlug($articleTranslation->getSlug());
         $duplicateArticleTranslation->setContent($articleTranslation->getContent());
         $duplicateArticleTranslation->setActive($articleTranslation->getActive());
-        
-        if($articleTranslation->getImageName()) {
+        if ($articleTranslation->getImageName()) {
             $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
-                $imageName = basename(md5(time()).preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
+                $imageName = basename(md5(time()) . preg_replace('/\?.*$/', '', $imageUrl));
+                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
-
-                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
+                $image = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicateArticleTranslation->setImage($image);
             }
         }
-
         return $duplicateArticleTranslation;
     }
-
     /**
      * Update a articleTranslation.
      *
      * @return ArticleTranslation
      */
-    public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false)
+    public function saveTranslation(\App\Entity\ArticleTranslation $articleTranslation, $exportLocales = false)
     {
         $articleTranslation->setUpdated(new \DateTime('now'));
         $this->em->persist($articleTranslation);
         $this->em->flush();
-
         if ($exportLocales) {
             foreach ($this->parameterBagInterface->get('app_locales') as $locale) {
                 if ($locale !== $articleTranslation->getLocale()) {
@@ -138,23 +116,18 @@ class ArticleService
                 }
             }
         }
-
         return $articleTranslation;
     }
-
-    public function removeTranslation(ArticleTranslation $articleTs)
+    public function removeTranslation(\App\Entity\ArticleTranslation $articleTs)
     {
         $nbT = count($articleTs->getArticle()->getTranslations());
         if ($nbT <= 1) {
             $this->remove($articleTs->getArticle());
-
             return;
         }
-
         $this->em->remove($articleTs);
         $this->em->flush();
     }
-
     /**
      * Find one by filters.
      *
@@ -166,7 +139,6 @@ class ArticleService
     {
         return $this->articleRepository->findOneBy($filters);
     }
-
     /**
      * @param string $slug
      * @param string $locale
@@ -177,7 +149,6 @@ class ArticleService
     {
         return $this->articleRepository->findOneBySlug($slug, $locale);
     }
-
     /**
      * Search.
      *
@@ -189,7 +160,6 @@ class ArticleService
     {
         return $this->articleRepository->queryForSearch($filters, $locale, $order);
     }
-
     /**
      * Find one to edit.
      *
@@ -201,7 +171,6 @@ class ArticleService
     {
         return $this->articleRepository->findOneToEdit($id);
     }
-
     /**
      * @param integer $id
      *
@@ -211,7 +180,6 @@ class ArticleService
     {
         return $this->articleRepository->find($id);
     }
-
     /**
      * Find all.
      */
@@ -219,12 +187,10 @@ class ArticleService
     {
         return $this->articleRepository->findAll();
     }
-
     public function findActivesQueryBuilder($locale = null, $limit = null)
     {
         return $this->articleRepository->findActivesQueryBuilder($locale, $limit);
     }
-
     /**
      * @param null $locale
      * @param null $limit

@@ -5,7 +5,6 @@ namespace App\Entity\Game;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 /**
  * DailyBattle.
  *
@@ -16,12 +15,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class DailyBattle
 {
-    use TimestampTrait;
-
-    const STATUS_DAILY_USER = 0;    //user of the day
-    const STATUS_NEW_WIN    = 1;        //user that win the fight
-    const STATUS_NEW_LOSE   = 2;        //user that lose the fight
-
+    use \App\Entity\Traits\TimestampTrait;
+    const STATUS_DAILY_USER = 0;
+    //user of the day
+    const STATUS_NEW_WIN = 1;
+    //user that win the fight
+    const STATUS_NEW_LOSE = 2;
+    //user that lose the fight
     /**
      * @var int
      *
@@ -30,20 +30,17 @@ class DailyBattle
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Player", inversedBy="dailyBattles", cascade={"persist"})
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $player;
-
     /**
      * @var int
      *
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
-
     /**
      * Get id.
      *
@@ -53,7 +50,6 @@ class DailyBattle
     {
         return $this->id;
     }
-
     /**
      * Set status.
      *
@@ -63,7 +59,6 @@ class DailyBattle
     {
         $this->status = $status;
     }
-
     /**
      * Get status.
      *
@@ -73,7 +68,6 @@ class DailyBattle
     {
         return $this->status;
     }
-
     /**
      * Set player.
      *
@@ -83,7 +77,6 @@ class DailyBattle
     {
         $this->player = $player;
     }
-
     /**
      * Get player.
      *

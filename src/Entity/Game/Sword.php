@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Sword.
  *
@@ -18,8 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Sword
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -28,79 +26,68 @@ class Sword
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
-
     /**
      * @var int
      *
      * @ORM\Column(name="damageMin", type="integer")
      */
     private $damageMin;
-
     /**
      * @var int
      *
      * @ORM\Column(name="damageMax", type="integer")
      */
     private $damageMax;
-
     /**
      * @var int
      *
      * @ORM\Column(name="requiredStrength", type="integer")
      */
     private $requiredStrength;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="swords", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="sword", cascade={"persist", "remove"})
      */
     protected $players;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentSword", cascade={"persist", "remove"})
      */
     protected $currentSwordPlayers;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players             = new ArrayCollection();
-        $this->currentSwordPlayers = new ArrayCollection();
+        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->currentSwordPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -110,7 +97,6 @@ class Sword
     {
         return $this->id;
     }
-
     /**
      * Set price.
      *
@@ -120,7 +106,6 @@ class Sword
     {
         $this->price = $price;
     }
-
     /**
      * Get price.
      *
@@ -130,7 +115,6 @@ class Sword
     {
         return $this->price;
     }
-
     /**
      * Set damageMin.
      *
@@ -140,7 +124,6 @@ class Sword
     {
         $this->damageMin = $damageMin;
     }
-
     /**
      * Get damageMin.
      *
@@ -150,7 +133,6 @@ class Sword
     {
         return $this->damageMin;
     }
-
     /**
      * Set damageMax.
      *
@@ -160,7 +142,6 @@ class Sword
     {
         $this->damageMax = $damageMax;
     }
-
     /**
      * Get damageMax.
      *
@@ -170,7 +151,6 @@ class Sword
     {
         return $this->damageMax;
     }
-
     /**
      * Set requiredStrength.
      *
@@ -180,7 +160,6 @@ class Sword
     {
         $this->requiredStrength = $requiredStrength;
     }
-
     /**
      * Get requiredStrength.
      *
@@ -190,7 +169,6 @@ class Sword
     {
         return $this->requiredStrength;
     }
-
     /**
      * @return mixed
      */
@@ -198,20 +176,17 @@ class Sword
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -219,7 +194,6 @@ class Sword
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -227,7 +201,6 @@ class Sword
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set title.
      *
@@ -237,7 +210,6 @@ class Sword
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -247,7 +219,6 @@ class Sword
     {
         return $this->title;
     }
-
     /**
      * Add player.
      */
@@ -255,7 +226,6 @@ class Sword
     {
         $this->players[] = $player;
     }
-
     /**
      * Remove player.
      */
@@ -263,7 +233,6 @@ class Sword
     {
         $this->players->removeElement($player);
     }
-
     /**
      * Get players.
      *
@@ -273,7 +242,6 @@ class Sword
     {
         return $this->players;
     }
-
     /**
      * Add currentSwordPlayer.
      */
@@ -281,7 +249,6 @@ class Sword
     {
         $this->currentSwordPlayers[] = $currentSwordPlayer;
     }
-
     /**
      * Remove currentSwordPlayer.
      */
@@ -289,7 +256,6 @@ class Sword
     {
         $this->currentSwordPlayers->removeElement($currentSwordPlayer);
     }
-
     /**
      * Get currentSwordPlayers.
      *

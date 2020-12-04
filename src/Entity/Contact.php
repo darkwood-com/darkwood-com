@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * Contact.
  *
@@ -14,8 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Contact
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -24,7 +22,6 @@ class Contact
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
@@ -36,14 +33,12 @@ class Contact
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
-
     /**
      * @var string
      *
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
     private $website;
-
     /**
      * @var string
      *
@@ -51,7 +46,6 @@ class Contact
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-
     /**
      * @var User
      *
@@ -59,12 +53,10 @@ class Contact
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
     protected $user;
-
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $emailSent;
-
     /**
      * Get id.
      *
@@ -74,7 +66,6 @@ class Contact
     {
         return $this->id;
     }
-
     /**
      * Set email.
      *
@@ -84,7 +75,6 @@ class Contact
     {
         $this->email = $email;
     }
-
     /**
      * Get email.
      *
@@ -94,7 +84,6 @@ class Contact
     {
         return $this->email;
     }
-
     /**
      * Set website.
      *
@@ -104,7 +93,6 @@ class Contact
     {
         $this->website = $website;
     }
-
     /**
      * Get website.
      *
@@ -114,7 +102,6 @@ class Contact
     {
         return $this->website;
     }
-
     /**
      * Set content.
      *
@@ -124,7 +111,6 @@ class Contact
     {
         $this->content = $content;
     }
-
     /**
      * Get content.
      *
@@ -134,7 +120,6 @@ class Contact
     {
         return $this->content;
     }
-
     /**
      * Set user.
      *
@@ -144,7 +129,6 @@ class Contact
     {
         $this->user = $user;
     }
-
     /**
      * Get user.
      *
@@ -154,16 +138,13 @@ class Contact
     {
         return $this->user;
     }
-
     public function getEmailSent(): ?bool
     {
         return $this->emailSent;
     }
-
     public function setEmailSent(bool $emailSent): self
     {
         $this->emailSent = $emailSent;
-
         return $this;
     }
 }

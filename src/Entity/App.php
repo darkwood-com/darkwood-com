@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 /**
  * App.
  *
@@ -15,7 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class App extends Page
+class App extends \App\Entity\Page
 {
     /**
      * @var File
@@ -23,36 +22,31 @@ class App extends Page
      * @Vich\UploadableField(mapping="bannerApps", fileNameProperty="bannerName")
      */
     protected $banner;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $bannerName;
-
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $theme;
-
     /**
      * Contents.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\AppContent", mappedBy="app", cascade={"persist", "remove"})
      */
     protected $contents;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->contents = new ArrayCollection();
+        $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Add content.
      */
@@ -61,7 +55,6 @@ class App extends Page
         $this->contents[] = $content;
         $content->setApp($this);
     }
-
     /**
      * Remove content.
      */
@@ -70,7 +63,6 @@ class App extends Page
         $this->contents->removeElement($content);
         $content->setApp(null);
     }
-
     /**
      * Get contents.
      *
@@ -80,7 +72,6 @@ class App extends Page
     {
         return $this->contents;
     }
-
     /**
      * @return mixed
      */
@@ -88,20 +79,17 @@ class App extends Page
     {
         return $this->banner;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $banner
      */
-    public function setBanner(File $banner)
+    public function setBanner(\Symfony\Component\HttpFoundation\File\File $banner)
     {
         $this->banner = $banner;
-
         if ($banner) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -109,7 +97,6 @@ class App extends Page
     {
         return $this->bannerName;
     }
-
     /**
      * @param string $bannerName
      */
@@ -117,7 +104,6 @@ class App extends Page
     {
         $this->bannerName = $bannerName;
     }
-
     /**
      * @return string
      */
@@ -125,7 +111,6 @@ class App extends Page
     {
         return $this->theme;
     }
-
     /**
      * @param string $theme
      */

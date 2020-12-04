@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Armor.
  *
@@ -18,8 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Armor
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -28,72 +26,62 @@ class Armor
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
-
     /**
      * @var int
      *
      * @ORM\Column(name="armor", type="integer")
      */
     private $armor;
-
     /**
      * @var int
      *
      * @ORM\Column(name="requiredStrength", type="integer")
      */
     private $requiredStrength;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="armors", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="armor", cascade={"persist", "remove"})
      */
     protected $players;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentArmor", cascade={"persist", "remove"})
      */
     protected $currentArmorPlayers;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players             = new ArrayCollection();
-        $this->currentArmorPlayers = new ArrayCollection();
+        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->currentArmorPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -103,7 +91,6 @@ class Armor
     {
         return $this->id;
     }
-
     /**
      * Set price.
      *
@@ -113,7 +100,6 @@ class Armor
     {
         $this->price = $price;
     }
-
     /**
      * Get price.
      *
@@ -123,7 +109,6 @@ class Armor
     {
         return $this->price;
     }
-
     /**
      * Set armor.
      *
@@ -133,7 +118,6 @@ class Armor
     {
         $this->armor = $armor;
     }
-
     /**
      * Get armor.
      *
@@ -143,7 +127,6 @@ class Armor
     {
         return $this->armor;
     }
-
     /**
      * Set requiredStrength.
      *
@@ -153,7 +136,6 @@ class Armor
     {
         $this->requiredStrength = $requiredStrength;
     }
-
     /**
      * Get requiredStrength.
      *
@@ -163,7 +145,6 @@ class Armor
     {
         return $this->requiredStrength;
     }
-
     /**
      * @return mixed
      */
@@ -171,20 +152,17 @@ class Armor
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -192,7 +170,6 @@ class Armor
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -200,7 +177,6 @@ class Armor
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set title.
      *
@@ -210,7 +186,6 @@ class Armor
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -220,7 +195,6 @@ class Armor
     {
         return $this->title;
     }
-
     /**
      * Add player.
      */
@@ -228,7 +202,6 @@ class Armor
     {
         $this->players[] = $player;
     }
-
     /**
      * Remove player.
      */
@@ -236,7 +209,6 @@ class Armor
     {
         $this->players->removeElement($player);
     }
-
     /**
      * Get players.
      *
@@ -246,7 +218,6 @@ class Armor
     {
         return $this->players;
     }
-
     /**
      * Add currentArmorPlayer.
      */
@@ -254,7 +225,6 @@ class Armor
     {
         $this->currentArmorPlayers[] = $currentArmorPlayer;
     }
-
     /**
      * Remove currentArmorPlayer.
      */
@@ -262,7 +232,6 @@ class Armor
     {
         $this->currentArmorPlayers->removeElement($currentArmorPlayer);
     }
-
     /**
      * Get currentArmorPlayers.
      *

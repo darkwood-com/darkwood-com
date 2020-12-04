@@ -8,7 +8,6 @@ use App\Entity\TagTranslation;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
-
 /**
  * Class TagService
  *
@@ -17,29 +16,22 @@ use Symfony\Contracts\Cache\CacheInterface;
 class TagService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
      * @var tagRepository
      */
     protected $tagRepository;
-
-    /**
-     * @var CacheInterface
-     */
-    protected $appCache;
-
     public function __construct(
-        EntityManagerInterface $em,
-        CacheInterface $appCache
-    ) {
-        $this->em            = $em;
-        $this->tagRepository = $em->getRepository(Tag::class);
-        $this->appCache      = $appCache;
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em,
+        /**
+         * @var CacheInterface
+         */
+        protected \Symfony\Contracts\Cache\CacheInterface $appCache
+    )
+    {
+        $this->tagRepository = $em->getRepository(\App\Entity\Tag::class);
     }
-
     /**
      * Update a tag.
      *
@@ -50,39 +42,34 @@ class TagService
      */
     public function create($title, $locale)
     {
-        $tag = new Tag();
-        $tagTranslation = new TagTranslation();
+        $tag = new \App\Entity\Tag();
+        $tagTranslation = new \App\Entity\TagTranslation();
         $tagTranslation->setTitle($title);
         $tagTranslation->setLocale($locale);
         $tag->addTranslation($tagTranslation);
         $this->em->persist($tag);
-
         return $tag;
     }
-
     /**
      * Update a tag.
      *
      * @return Tag
      */
-    public function save(Tag $tag)
+    public function save(\App\Entity\Tag $tag)
     {
         $tag->setUpdated(new \DateTime('now'));
         $this->em->persist($tag);
         $this->em->flush();
-
         return $tag;
     }
-
     /**
      * Remove one tag.
      */
-    public function remove(Tag $tag)
+    public function remove(\App\Entity\Tag $tag)
     {
         $this->em->remove($tag);
         $this->em->flush();
     }
-
     /**
      * Find one to edit.
      *
@@ -94,7 +81,6 @@ class TagService
     {
         return $this->tagRepository->findOneToEdit($id);
     }
-
     /**
      * Find all.
      */
@@ -102,7 +88,6 @@ class TagService
     {
         return $this->tagRepository->findAll();
     }
-
     /**
      * Find all.
      */
@@ -110,7 +95,6 @@ class TagService
     {
         return $this->tagRepository->findAllAsArray($locale);
     }
-
     /**
      * Find all.
      */

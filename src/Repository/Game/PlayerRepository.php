@@ -5,36 +5,23 @@ namespace App\Repository\Game;
 use App\Entity\Game\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
 /**
  * Class PlayerRepository.
  */
-class PlayerRepository extends ServiceEntityRepository
+class PlayerRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
     {
-        parent::__construct($registry, Player::class);
+        parent::__construct($registry, \App\Entity\Game\Player::class);
     }
-
     public function findRand()
     {
-        $qb = $this->createQueryBuilder('p')
-            ->select('p')
-            ->addSelect('RAND() as HIDDEN rand')->orderBy('rand')
-            ->andWhere('p.user IS NOT NULL')
-            ->setMaxResults(1)
-        ;
-
+        $qb = $this->createQueryBuilder('p')->select('p')->addSelect('RAND() as HIDDEN rand')->orderBy('rand')->andWhere('p.user IS NOT NULL')->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-
     public function findActiveQuery($mode = null)
     {
-        $qb = $this->createQueryBuilder('p')
-            ->select('p')
-            ->andWhere('p.user IS NOT NULL')
-        ;
-
+        $qb = $this->createQueryBuilder('p')->select('p')->andWhere('p.user IS NOT NULL');
         if (in_array($mode, ['by_class_human', 'by_class_lucky_lucke', 'by_class_panoramix', 'by_class_popeye'])) {
             $qb->addOrderBy('p.xp', 'desc');
             $qb->leftJoin('p.classe', 'c');
@@ -56,7 +43,6 @@ class PlayerRepository extends ServiceEntityRepository
         } else {
             $qb->addOrderBy('p.xp', 'desc');
         }
-
         return $qb->getQuery();
     }
 }

@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Classe.
  *
@@ -18,8 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Classe
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -28,64 +26,55 @@ class Classe
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="strength", type="integer")
      */
     private $strength;
-
     /**
      * @var int
      *
      * @ORM\Column(name="dexterity", type="integer")
      */
     private $dexterity;
-
     /**
      * @var int
      *
      * @ORM\Column(name="vitality", type="integer")
      */
     private $vitality;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="classes", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="classe", cascade={"persist", "remove"})
      */
     protected $players;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players = new ArrayCollection();
+        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -95,7 +84,6 @@ class Classe
     {
         return $this->id;
     }
-
     /**
      * @return int
      */
@@ -103,7 +91,6 @@ class Classe
     {
         return $this->strength;
     }
-
     /**
      * @param int $strength
      */
@@ -111,7 +98,6 @@ class Classe
     {
         $this->strength = $strength;
     }
-
     /**
      * @return int
      */
@@ -119,7 +105,6 @@ class Classe
     {
         return $this->dexterity;
     }
-
     /**
      * @param int $dexterity
      */
@@ -127,7 +112,6 @@ class Classe
     {
         $this->dexterity = $dexterity;
     }
-
     /**
      * @return int
      */
@@ -135,7 +119,6 @@ class Classe
     {
         return $this->vitality;
     }
-
     /**
      * @param int $vitality
      */
@@ -143,7 +126,6 @@ class Classe
     {
         $this->vitality = $vitality;
     }
-
     /**
      * @return mixed
      */
@@ -151,20 +133,17 @@ class Classe
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -172,7 +151,6 @@ class Classe
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -180,7 +158,6 @@ class Classe
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set title.
      *
@@ -190,7 +167,6 @@ class Classe
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -200,7 +176,6 @@ class Classe
     {
         return $this->title;
     }
-
     /**
      * Add player.
      */
@@ -208,7 +183,6 @@ class Classe
     {
         $this->players[] = $player;
     }
-
     /**
      * Remove player.
      */
@@ -216,7 +190,6 @@ class Classe
     {
         $this->players->removeElement($player);
     }
-
     /**
      * Get players.
      *

@@ -4,54 +4,46 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Table(name="tag_translation", indexes={@ORM\Index(name="index_search", columns={"title"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_tag_unique",columns={"locale","tag_id"})
  * }))
  * @ORM\Entity(repositoryClass="App\Repository\TagTranslationRepository")
  */
-class TagTranslation
+class TagTranslation implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * Locale.
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $tag;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getTitle();
     }
-
     /**
      * Set locale.
      *
@@ -61,7 +53,6 @@ class TagTranslation
     {
         $this->locale = $locale;
     }
-
     /**
      * Get locale.
      *
@@ -71,7 +62,6 @@ class TagTranslation
     {
         return $this->locale;
     }
-
     /**
      * Get id.
      *
@@ -81,7 +71,6 @@ class TagTranslation
     {
         return $this->id;
     }
-
     /**
      * Set title.
      *
@@ -91,7 +80,6 @@ class TagTranslation
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -101,7 +89,6 @@ class TagTranslation
     {
         return $this->title;
     }
-
     /**
      * Set tag.
      *
@@ -111,7 +98,6 @@ class TagTranslation
     {
         $this->tag = $tag;
     }
-
     /**
      * Get tag.
      *

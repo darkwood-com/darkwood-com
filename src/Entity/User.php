@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Class User.
  *
@@ -22,10 +21,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class User implements UserInterface, \Serializable
+class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable, \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * Id.
      *
@@ -34,7 +32,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @Assert\Length(
      *      min = 2,
@@ -45,7 +42,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
-
     /**
      * @Assert\NotBlank(
      *     message="form.general.required"
@@ -57,25 +53,21 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     protected $email;
-
     /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string", nullable=true)
      */
     private $password;
-
     /**
      * Civility.
      *
      * @ORM\Column(length=255, nullable=true)
      */
     protected $civility = 'm';
-
     /**
      * Firstname.
      *
@@ -88,7 +80,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(length=255, nullable=true)
      */
     protected $firstname;
-
     /**
      * Lastname.
      *
@@ -101,7 +92,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(length=255, nullable=true)
      */
     protected $lastname;
-
     /**
      * Edit.
      *
@@ -110,92 +100,78 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $birthday;
-
     /**
      * City.
      *
      * @ORM\Column(length=255, nullable=true)
      */
     protected $city;
-
     /**
      * Comment.
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
-
     /**
      * Players.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Game\Player", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $player;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * @var string
      *
      * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
     protected $facebookId;
-
     /**
      * Comments.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $comments;
-
     /**
      * Contacts.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $contacts;
-
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $emailSent;
-
     /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
-        $this->contacts = new ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         return $this->firstname . ' ' . $this->lastname;
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * A visual identifier that represents this user.
      *
@@ -205,14 +181,11 @@ class User implements UserInterface, \Serializable
     {
         return (string) $this->username;
     }
-
     public function setUsername(string $username): self
     {
         $this->username = $username;
-
         return $this;
     }
-
     /**
      * @return mixed
      */
@@ -220,7 +193,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->email;
     }
-
     /**
      * @param mixed $email
      */
@@ -228,7 +200,6 @@ class User implements UserInterface, \Serializable
     {
         $this->email = $email;
     }
-
     /**
      * @see UserInterface
      */
@@ -237,17 +208,13 @@ class User implements UserInterface, \Serializable
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
-
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
         return $this;
     }
-
     /**
      * @see UserInterface
      */
@@ -255,14 +222,11 @@ class User implements UserInterface, \Serializable
     {
         return (string) $this->password;
     }
-
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
-
     /**
      * Set firstname.
      *
@@ -272,7 +236,6 @@ class User implements UserInterface, \Serializable
     {
         $this->firstname = $firstname;
     }
-
     /**
      * Get firstname.
      *
@@ -282,7 +245,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->firstname;
     }
-
     /**
      * Set lastname.
      *
@@ -292,7 +254,6 @@ class User implements UserInterface, \Serializable
     {
         $this->lastname = $lastname;
     }
-
     /**
      * Get lastname.
      *
@@ -302,7 +263,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->lastname;
     }
-
     /**
      * @param \DateTime $birthday
      */
@@ -310,7 +270,6 @@ class User implements UserInterface, \Serializable
     {
         $this->birthday = $birthday;
     }
-
     /**
      * @return \DateTime
      */
@@ -318,7 +277,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->birthday;
     }
-
     /**
      * @return mixed
      */
@@ -326,7 +284,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->city;
     }
-
     /**
      * @param mixed $city
      */
@@ -334,7 +291,6 @@ class User implements UserInterface, \Serializable
     {
         $this->city = $city;
     }
-
     /**
      * @return mixed
      */
@@ -342,7 +298,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->comment;
     }
-
     /**
      * @param mixed $comment
      */
@@ -350,7 +305,6 @@ class User implements UserInterface, \Serializable
     {
         $this->comment = $comment;
     }
-
     /**
      * @return mixed
      */
@@ -358,20 +312,17 @@ class User implements UserInterface, \Serializable
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -379,7 +330,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -387,7 +337,6 @@ class User implements UserInterface, \Serializable
     {
         $this->imageName = $imageName;
     }
-
     /**
      * @return string
      */
@@ -395,7 +344,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->facebookId;
     }
-
     /**
      * @param string $facebookId
      */
@@ -403,7 +351,6 @@ class User implements UserInterface, \Serializable
     {
         $this->facebookId = $facebookId;
     }
-
     /**
      * @param mixed $civility
      */
@@ -411,7 +358,6 @@ class User implements UserInterface, \Serializable
     {
         $this->civility = $civility;
     }
-
     /**
      * @return mixed
      */
@@ -419,7 +365,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->civility;
     }
-
     /**
      * Add comment.
      */
@@ -428,7 +373,6 @@ class User implements UserInterface, \Serializable
         $this->comments[] = $comment;
         $comment->setUser($this);
     }
-
     /**
      * Remove comment.
      */
@@ -437,7 +381,6 @@ class User implements UserInterface, \Serializable
         $this->comments->removeElement($comment);
         $comment->setUser(null);
     }
-
     /**
      * Get comments.
      *
@@ -447,7 +390,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->comments;
     }
-
     /**
      * Add contact.
      */
@@ -456,7 +398,6 @@ class User implements UserInterface, \Serializable
         $this->contacts[] = $contact;
         $contact->setUser($this);
     }
-
     /**
      * Remove contact.
      */
@@ -465,7 +406,6 @@ class User implements UserInterface, \Serializable
         $this->contacts->removeElement($contact);
         $contact->setUser(null);
     }
-
     /**
      * Get contacts.
      *
@@ -475,7 +415,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->contacts;
     }
-
     /**
      * Set player.
      *
@@ -485,7 +424,6 @@ class User implements UserInterface, \Serializable
     {
         $this->player = $player;
     }
-
     /**
      * Get player.
      *
@@ -495,7 +433,6 @@ class User implements UserInterface, \Serializable
     {
         return $this->player;
     }
-
     /**
      * @see UserInterface
      */
@@ -504,7 +441,6 @@ class User implements UserInterface, \Serializable
         // not needed when using the "bcrypt" algorithm in security.yaml
         return null;
     }
-
     /**
      * @see UserInterface
      */
@@ -513,7 +449,6 @@ class User implements UserInterface, \Serializable
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
     /**
      * String representation of object
      *
@@ -525,16 +460,8 @@ class User implements UserInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize([
-            $this->id,
-            $this->username,
-            $this->email,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ]);
+        return serialize([$this->id, $this->username, $this->email, $this->password]);
     }
-
     /**
      * Constructs the object
      *
@@ -550,37 +477,24 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        list(
-            $this->id,
-            $this->username,
-            $this->email,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-            ) = unserialize($serialized, ['allowed_classes' => false]);
+        list($this->id, $this->username, $this->email, $this->password, ) = unserialize($serialized, ['allowed_classes' => false]);
     }
-
     public function getEmailSent(): ?bool
     {
         return $this->emailSent;
     }
-
     public function setEmailSent(bool $emailSent): self
     {
         $this->emailSent = $emailSent;
-
         return $this;
     }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
-
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
-
         return $this;
     }
 }

@@ -17,112 +17,68 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-
 /**
  * Class RegistrationController.
  *
  * @Route("/", name="common_register")
  */
-class RegistrationController extends AbstractController
+class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @var CommonController
      */
     private $commonController;
-
     private $emailVerifier;
-
-    public function __construct(
-        EmailVerifier $emailVerifier,
-        CommonController $commonController
-    ) {
-        $this->emailVerifier    = $emailVerifier;
+    public function __construct(\App\Security\EmailVerifier $emailVerifier, \App\Controller\CommonController $commonController)
+    {
+        $this->emailVerifier = $emailVerifier;
         $this->commonController = $commonController;
     }
-
     /**
      * @Route({ "fr": "/inscription", "en": "/en/register", "de": "/de/registrieren" }, name="", defaults={"ref": "register"})
      */
-    public function register(
-        Request $request,
-        UserPasswordEncoderInterface $passwordEncoder,
-        GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $authenticator,
-        $ref
-    ): Response {
-        $page    = $this->commonController->getPage($request, $ref);
+    public function register(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Security\Guard\GuardAuthenticatorHandler $guardHandler, \App\Security\LoginFormAuthenticator $authenticator, $ref): \Symfony\Component\HttpFoundation\Response
+    {
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-
-        $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+        $user = new \App\Entity\User();
+        $form = $this->createForm(\App\Form\RegistrationType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
             // generate a signed url and email it to the user
             try {
-                $this->emailVerifier->sendEmailConfirmation('common_register_check', $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('no-reply@darkwood.fr', 'Darkwood'))
-                        ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('common/mails/registration.html.twig')
-                        ->context(['user' => $user])
-                );
+                $this->emailVerifier->sendEmailConfirmation('common_register_check', $user, (new \Symfony\Bridge\Twig\Mime\TemplatedEmail())->from(new \Symfony\Component\Mime\Address('no-reply@darkwood.fr', 'Darkwood'))->to($user->getEmail())->subject('Please Confirm your Email')->htmlTemplate('common/mails/registration.html.twig')->context(['user' => $user]));
                 $user->setEmailSent(true);
-            } catch (TransportException $exception) {
+            } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                 $user->setEmailSent(false);
             }
             // do anything else you need here, like send an email
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
         }
-
-        return $this->render('common/pages/register.html.twig', [
-            'page'     => $page,
-            'form'     => $form->createView(),
-            'site_ref' => $siteRef,
-        ]);
+        return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
     }
-
     /**
      * @Route({ "fr": "/inscription/confimer-email", "en": "/en/register/check-email", "de": "/de/registrieren/check-email" }, name="_check", defaults={"ref": "register"})
      */
-    public function checkUserEmail(Request $request, $ref): Response
+    public function checkUserEmail(\Symfony\Component\HttpFoundation\Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
+        } catch (\SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('common_register');
         }
-
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-
         return $this->redirectToRoute('common_register');
     }
 }

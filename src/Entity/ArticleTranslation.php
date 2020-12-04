@@ -8,7 +8,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 /**
  * @ORM\Table(name="article_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_article_unique",columns={"locale","article_id"})
@@ -17,38 +16,33 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class ArticleTranslation
+class ArticleTranslation implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * Locale.
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
-
     /**
      * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $article;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
-
     /**
      * Slug.
      *
@@ -56,38 +50,32 @@ class ArticleTranslation
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="articles", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
-
     /**
      * Set locale.
      *
@@ -97,7 +85,6 @@ class ArticleTranslation
     {
         $this->locale = $locale;
     }
-
     /**
      * Get locale.
      *
@@ -107,7 +94,6 @@ class ArticleTranslation
     {
         return $this->locale;
     }
-
     /**
      * Get id.
      *
@@ -117,7 +103,6 @@ class ArticleTranslation
     {
         return $this->id;
     }
-
     /**
      * Set title.
      *
@@ -127,7 +112,6 @@ class ArticleTranslation
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -137,7 +121,6 @@ class ArticleTranslation
     {
         return $this->title;
     }
-
     /**
      * @return mixed
      */
@@ -145,7 +128,6 @@ class ArticleTranslation
     {
         return $this->slug;
     }
-
     /**
      * @param mixed $slug
      */
@@ -153,7 +135,6 @@ class ArticleTranslation
     {
         $this->slug = $slug;
     }
-
     /**
      * @return mixed
      */
@@ -161,7 +142,6 @@ class ArticleTranslation
     {
         return $this->content;
     }
-
     /**
      * @param mixed $content
      */
@@ -169,7 +149,6 @@ class ArticleTranslation
     {
         $this->content = $content;
     }
-
     /**
      * @return mixed
      */
@@ -177,20 +156,17 @@ class ArticleTranslation
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -198,7 +174,6 @@ class ArticleTranslation
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -206,7 +181,6 @@ class ArticleTranslation
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set active.
      *
@@ -216,7 +190,6 @@ class ArticleTranslation
     {
         $this->active = $active;
     }
-
     /**
      * Get active.
      *
@@ -226,7 +199,6 @@ class ArticleTranslation
     {
         return $this->active;
     }
-
     /**
      * Set article.
      *
@@ -236,7 +208,6 @@ class ArticleTranslation
     {
         $this->article = $article;
     }
-
     /**
      * Get article.
      *
@@ -246,8 +217,7 @@ class ArticleTranslation
     {
         return $this->article;
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getTitle();
     }

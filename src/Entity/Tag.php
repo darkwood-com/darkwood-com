@@ -5,45 +5,39 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @ORM\Table(name="tag")
  */
-class Tag
+class Tag implements \Stringable
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\TagTranslation", mappedBy="tag", cascade={"persist", "remove"})
      */
     protected $translations;
-
     /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Article", mappedBy="tags", cascade={"persist"})
      */
     protected $articles;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->articles     = new ArrayCollection();
-        $this->translations = new ArrayCollection();
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -53,7 +47,6 @@ class Tag
     {
         return $this->id;
     }
-
     /**
      * Add translations.
      */
@@ -62,7 +55,6 @@ class Tag
         $this->translations[] = $translations;
         $translations->setTag($this);
     }
-
     /**
      * Remove translations.
      */
@@ -71,7 +63,6 @@ class Tag
         $this->translations->removeElement($translations);
         $translations->setTag(null);
     }
-
     /**
      * Get translations.
      *
@@ -81,7 +72,6 @@ class Tag
     {
         return $this->translations;
     }
-
     /**
      * Get one translation.
      *
@@ -97,19 +87,14 @@ class Tag
                 return $translation;
             }
         }
-
         return $this->getTranslations()->current();
     }
-
-    public function __toString()
+    public function __toString(): string
     {
         $tagTs = $this->getOneTranslation();
-
         return $tagTs ? $tagTs->getTitle() : '';
     }
-
     // ARTICLES
-
     /**
      * Add articles.
      */
@@ -117,7 +102,6 @@ class Tag
     {
         $this->articles[] = $article;
     }
-
     /**
      * Remove articles.
      */
@@ -125,14 +109,12 @@ class Tag
     {
         $this->articles->removeElement($article);
     }
-
     public function removeAllArticles()
     {
         foreach ($this->getArticles() as $article) {
             $this->removeArticle($article);
         }
     }
-
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */

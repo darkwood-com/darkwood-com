@@ -6,7 +6,6 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Player.
  *
@@ -17,8 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Player
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -27,184 +25,156 @@ class Player
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var int
      *
      * @ORM\Column(name="lifeMin", type="integer")
      */
     private $lifeMin;
-
     /**
      * @var int
      *
      * @ORM\Column(name="lifeMax", type="integer")
      */
     private $lifeMax;
-
     /**
      * @var int
      *
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="sword_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $sword;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="armor_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $armor;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="potion_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $potion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="gold", type="integer")
      */
     private $gold;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="lastFightPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="last_fight_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $lastFight;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="currentEnemyPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_enemy_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentEnemy;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Classe", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="classe_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $classe;
-
     /**
      * @var int
      *
      * @ORM\Column(name="strength", type="integer")
      */
     private $strength;
-
     /**
      * @var int
      *
      * @ORM\Column(name="dexterity", type="integer")
      */
     private $dexterity;
-
     /**
      * @var int
      *
      * @ORM\Column(name="vitality", type="integer")
      */
     private $vitality;
-
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $user;
-
     /**
      * DailyBattles.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\DailyBattle", mappedBy="player", cascade={"persist", "remove"})
      */
     protected $dailyBattles;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment1Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment1_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment1;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment1_is_use", type="boolean")
      */
     private $equipment1IsUse;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment2Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment2_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment2;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment2_is_use", type="boolean")
      */
     private $equipment2IsUse;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment3Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment3_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment3;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment3_is_use", type="boolean")
      */
     private $equipment3IsUse;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="currentSwordPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_sword_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentSword;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="currentPotionPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_potion_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentPotion;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="currentArmorPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_armor_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentArmor;
-
     /**
      * @var int
      *
      * @ORM\Column(name="daily_battle_victories", type="integer")
      */
     private $dailyBattleVictories;
-
     /**
      * @var int
      *
      * @ORM\Column(name="daily_battle_defeats", type="integer")
      */
     private $dailyBattleDefeats;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->dailyBattles = new ArrayCollection();
+        $this->dailyBattles = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -214,7 +184,6 @@ class Player
     {
         return $this->id;
     }
-
     /**
      * Set lifeMin.
      *
@@ -224,7 +193,6 @@ class Player
     {
         $this->lifeMin = $lifeMin;
     }
-
     /**
      * Get lifeMin.
      *
@@ -234,7 +202,6 @@ class Player
     {
         return $this->lifeMin;
     }
-
     /**
      * Set lifeMax.
      *
@@ -244,7 +211,6 @@ class Player
     {
         $this->lifeMax = $lifeMax;
     }
-
     /**
      * Get lifeMax.
      *
@@ -254,7 +220,6 @@ class Player
     {
         return $this->lifeMax;
     }
-
     /**
      * Set xp.
      *
@@ -264,7 +229,6 @@ class Player
     {
         $this->xp = $xp;
     }
-
     /**
      * Get xp.
      *
@@ -274,7 +238,6 @@ class Player
     {
         return $this->xp;
     }
-
     /**
      * Set gold.
      *
@@ -284,7 +247,6 @@ class Player
     {
         $this->gold = $gold;
     }
-
     /**
      * Get gold.
      *
@@ -294,7 +256,6 @@ class Player
     {
         return $this->gold;
     }
-
     /**
      * Set strength.
      *
@@ -304,7 +265,6 @@ class Player
     {
         $this->strength = $strength;
     }
-
     /**
      * Get strength.
      *
@@ -314,7 +274,6 @@ class Player
     {
         return $this->strength;
     }
-
     /**
      * Set dexterity.
      *
@@ -324,7 +283,6 @@ class Player
     {
         $this->dexterity = $dexterity;
     }
-
     /**
      * Get dexterity.
      *
@@ -334,7 +292,6 @@ class Player
     {
         return $this->dexterity;
     }
-
     /**
      * Set vitality.
      *
@@ -344,7 +301,6 @@ class Player
     {
         $this->vitality = $vitality;
     }
-
     /**
      * Get vitality.
      *
@@ -354,7 +310,6 @@ class Player
     {
         return $this->vitality;
     }
-
     /**
      * Set equipment1IsUse.
      *
@@ -364,7 +319,6 @@ class Player
     {
         $this->equipment1IsUse = $equipment1IsUse;
     }
-
     /**
      * Get equipment1IsUse.
      *
@@ -374,7 +328,6 @@ class Player
     {
         return $this->equipment1IsUse;
     }
-
     /**
      * Set equipment2IsUse.
      *
@@ -384,7 +337,6 @@ class Player
     {
         $this->equipment2IsUse = $equipment2IsUse;
     }
-
     /**
      * Get equipment2IsUse.
      *
@@ -394,7 +346,6 @@ class Player
     {
         return $this->equipment2IsUse;
     }
-
     /**
      * Set equipment3IsUse.
      *
@@ -404,7 +355,6 @@ class Player
     {
         $this->equipment3IsUse = $equipment3IsUse;
     }
-
     /**
      * Get equipment3IsUse.
      *
@@ -414,7 +364,6 @@ class Player
     {
         return $this->equipment3IsUse;
     }
-
     /**
      * Set sword.
      *
@@ -424,7 +373,6 @@ class Player
     {
         $this->sword = $sword;
     }
-
     /**
      * Get sword.
      *
@@ -434,7 +382,6 @@ class Player
     {
         return $this->sword;
     }
-
     /**
      * Set armor.
      *
@@ -444,7 +391,6 @@ class Player
     {
         $this->armor = $armor;
     }
-
     /**
      * Get armor.
      *
@@ -454,7 +400,6 @@ class Player
     {
         return $this->armor;
     }
-
     /**
      * Set potion.
      *
@@ -464,7 +409,6 @@ class Player
     {
         $this->potion = $potion;
     }
-
     /**
      * Get potion.
      *
@@ -474,7 +418,6 @@ class Player
     {
         return $this->potion;
     }
-
     /**
      * Set lastFight.
      *
@@ -484,7 +427,6 @@ class Player
     {
         $this->lastFight = $lastFight;
     }
-
     /**
      * Get lastFight.
      *
@@ -494,7 +436,6 @@ class Player
     {
         return $this->lastFight;
     }
-
     /**
      * Set currentEnemy.
      *
@@ -504,7 +445,6 @@ class Player
     {
         $this->currentEnemy = $currentEnemy;
     }
-
     /**
      * Get currentEnemy.
      *
@@ -514,7 +454,6 @@ class Player
     {
         return $this->currentEnemy;
     }
-
     /**
      * Set classe.
      *
@@ -524,7 +463,6 @@ class Player
     {
         $this->classe = $classe;
     }
-
     /**
      * Get classe.
      *
@@ -534,7 +472,6 @@ class Player
     {
         return $this->classe;
     }
-
     /**
      * Set user.
      *
@@ -544,7 +481,6 @@ class Player
     {
         $this->user = $user;
     }
-
     /**
      * Get user.
      *
@@ -554,7 +490,6 @@ class Player
     {
         return $this->user;
     }
-
     /**
      * Add dailyBattle.
      */
@@ -562,7 +497,6 @@ class Player
     {
         $this->dailyBattles[] = $dailyBattle;
     }
-
     /**
      * Remove dailyBattle.
      */
@@ -570,7 +504,6 @@ class Player
     {
         $this->dailyBattles->removeElement($dailyBattle);
     }
-
     /**
      * Get dailyBattles.
      *
@@ -580,7 +513,6 @@ class Player
     {
         return $this->dailyBattles;
     }
-
     /**
      * Set equipment1.
      *
@@ -590,7 +522,6 @@ class Player
     {
         $this->equipment1 = $equipment1;
     }
-
     /**
      * Get equipment1.
      *
@@ -600,7 +531,6 @@ class Player
     {
         return $this->equipment1;
     }
-
     /**
      * Set equipment2.
      *
@@ -610,7 +540,6 @@ class Player
     {
         $this->equipment2 = $equipment2;
     }
-
     /**
      * Get equipment2.
      *
@@ -620,7 +549,6 @@ class Player
     {
         return $this->equipment2;
     }
-
     /**
      * Set equipment3.
      *
@@ -630,7 +558,6 @@ class Player
     {
         $this->equipment3 = $equipment3;
     }
-
     /**
      * Get equipment3.
      *
@@ -640,7 +567,6 @@ class Player
     {
         return $this->equipment3;
     }
-
     /**
      * Set dailyBattleVictories.
      *
@@ -650,7 +576,6 @@ class Player
     {
         $this->dailyBattleVictories = $dailyBattleVictories;
     }
-
     /**
      * Get dailyBattleVictories.
      *
@@ -660,7 +585,6 @@ class Player
     {
         return $this->dailyBattleVictories;
     }
-
     /**
      * Set dailyBattleDefeats.
      *
@@ -670,7 +594,6 @@ class Player
     {
         $this->dailyBattleDefeats = $dailyBattleDefeats;
     }
-
     /**
      * Get dailyBattleDefeats.
      *
@@ -680,7 +603,6 @@ class Player
     {
         return $this->dailyBattleDefeats;
     }
-
     /**
      * Set currentSword.
      *
@@ -690,7 +612,6 @@ class Player
     {
         $this->currentSword = $currentSword;
     }
-
     /**
      * Get currentSword.
      *
@@ -700,7 +621,6 @@ class Player
     {
         return $this->currentSword;
     }
-
     /**
      * @return Sword
      */
@@ -708,7 +628,6 @@ class Player
     {
         return $this->getCurrentSword() ? $this->getCurrentSword() : $this->getSword();
     }
-
     /**
      * Set currentPotion.
      *
@@ -718,7 +637,6 @@ class Player
     {
         $this->currentPotion = $currentPotion;
     }
-
     /**
      * Get currentPotion.
      *
@@ -728,7 +646,6 @@ class Player
     {
         return $this->currentPotion;
     }
-
     /**
      * @return Potion
      */
@@ -736,7 +653,6 @@ class Player
     {
         return $this->getCurrentPotion() ? $this->getCurrentPotion() : $this->getPotion();
     }
-
     /**
      * Set currentArmor.
      *
@@ -746,7 +662,6 @@ class Player
     {
         $this->currentArmor = $currentArmor;
     }
-
     /**
      * Get currentArmor.
      *
@@ -756,7 +671,6 @@ class Player
     {
         return $this->currentArmor;
     }
-
     /**
      * @return Armor
      */

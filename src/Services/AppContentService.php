@@ -7,7 +7,6 @@ use App\Entity\AppTranslation;
 use App\Repository\AppContentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-
 /**
  * Class AppContentService
  *
@@ -16,46 +15,38 @@ use Doctrine\ORM\Query;
 class AppContentService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
      * @var AppContentRepository
      */
     protected $appContentRepository;
-
     public function __construct(
-        EntityManagerInterface $em
-    ) {
-        $this->em                   = $em;
-        $this->appContentRepository = $em->getRepository(AppContent::class);
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em
+    )
+    {
+        $this->appContentRepository = $em->getRepository(\App\Entity\AppContent::class);
     }
-
     /**
      * Update a appTranslation.
      *
      * @return AppContent
      */
-    public function save(AppContent $appContent, $invalidate = false)
+    public function save(\App\Entity\AppContent $appContent, $invalidate = false)
     {
         $appContent->setUpdated(new \DateTime('now'));
-
         $this->em->persist($appContent);
         $this->em->flush();
-
         return $appContent;
     }
-
     /**
      * Remove one appTranslation.
      */
-    public function remove(AppContent $appContent)
+    public function remove(\App\Entity\AppContent $appContent)
     {
         $this->em->remove($appContent);
         $this->em->flush();
     }
-
     /**
      * Find one by filters.
      *
@@ -67,7 +58,6 @@ class AppContentService
     {
         return $this->appContentRepository->findOneBy($filters);
     }
-
     /**
      * Search.
      *
@@ -79,7 +69,6 @@ class AppContentService
     {
         return $this->appContentRepository->queryForSearch($filters, $order);
     }
-
     /**
      * Find one to edit.
      *
@@ -91,7 +80,6 @@ class AppContentService
     {
         return $this->appContentRepository->findOneToEdit($id);
     }
-
     /**
      * @param integer $id
      *
@@ -101,7 +89,6 @@ class AppContentService
     {
         return $this->appContentRepository->find($id);
     }
-
     /**
      * Find all.
      */
@@ -109,7 +96,6 @@ class AppContentService
     {
         return $this->appContentRepository->findAll();
     }
-
     public function findActives($limit = null)
     {
         return $this->appContentRepository->findActives($limit);

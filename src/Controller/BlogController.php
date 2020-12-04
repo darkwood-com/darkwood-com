@@ -13,180 +13,118 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
 /**
  * @Route("/", name="blog_", host="%blog_host%")
  */
-class BlogController extends AbstractController
+class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @var CommonController
      */
     private $commonController;
-
     /**
      * @var AuthenticationUtils
      */
     private $authenticationUtils;
-
     /**
      * @var TranslatorInterface
      */
     private $translator;
-
     /**
      * @var PaginatorInterface
      */
     private $paginator;
-
     /**
      * @var PageService
      */
     private $pageService;
-
     /**
      * @var ArticleService
      */
     private $articleService;
-
     /**
      * @var CommentService
      */
     private $commentService;
-
-    public function __construct(
-        CommonController $commonController,
-        AuthenticationUtils $authenticationUtils,
-        TranslatorInterface $translator,
-        PaginatorInterface $paginator,
-        PageService $pageService,
-        ArticleService $articleService,
-        CommentService $commentService
-    ) {
-        $this->commonController    = $commonController;
+    public function __construct(\App\Controller\CommonController $commonController, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Contracts\Translation\TranslatorInterface $translator, \Knp\Component\Pager\PaginatorInterface $paginator, \App\Services\PageService $pageService, \App\Services\ArticleService $articleService, \App\Services\CommentService $commentService)
+    {
+        $this->commonController = $commonController;
         $this->authenticationUtils = $authenticationUtils;
-        $this->translator          = $translator;
-        $this->paginator           = $paginator;
-        $this->pageService         = $pageService;
-        $this->articleService      = $articleService;
-        $this->commentService      = $commentService;
+        $this->translator = $translator;
+        $this->paginator = $paginator;
+        $this->pageService = $pageService;
+        $this->articleService = $articleService;
+        $this->commentService = $commentService;
     }
-
-    public function menu(Request $request, $ref, $entity)
+    public function menu(\Symfony\Component\HttpFoundation\Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
-
+        $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-
-        return $this->render('blog/partials/menu.html.twig', [
-            'last_username' => $lastUsername,
-            'csrf_token'    => $csrfToken,
-            'pageLinks'     => $pageLinks,
-        ]);
+        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
-
     /**
      * @Route({ "fr": "/", "en": "/en", "de": "/de" }, name="home", defaults={"ref": "home"})
      */
-    public function home(Request $request, $ref)
+    public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
-        $page     = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
-
-        $articles = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            10
-        );
-
-        return $this->render('blog/pages/home.html.twig', [
-            'page'      => $page,
-            'articles'  => $articles,
-            'showLinks' => true,
-        ]);
+        $articles = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }
-
     /**
      * @Route({ "fr": "/plan-du-site", "en": "/en/sitemap", "de": "/de/sitemap" }, name="sitemap", defaults={"ref": "sitemap"})
      */
-    public function sitemap(Request $request, $ref)
+    public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
-
     /**
      * @Route({ "fr": "/sitemap.xml", "en": "/en/sitemap.xml", "de": "/de/sitemap.xml" }, name="sitemap_xml")
      */
-    public function sitemapXml(Request $request)
+    public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
-
     /**
      * @Route({ "fr": "/rss", "en": "/en/rss", "de": "/de/rss" }, name="rss")
      */
-    public function rss(Request $request)
+    public function rss(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->rss($request);
     }
-
     /**
      * @Route({ "fr": "/contact", "en": "/en/contact", "de": "/de/kontakt" }, name="contact", defaults={"ref": "contact"})
      */
-    public function contact(Request $request, $ref)
+    public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
-
     /**
      * @Route({ "fr": "/article/{slug}", "en": "/en/article/{slug}", "de": "/de/article/{slug}" }, name="article", defaults={"ref": "article", "slug": null})
      */
-    public function article(Request $request, $ref, $slug)
+    public function article(\Symfony\Component\HttpFoundation\Request $request, $ref, $slug)
     {
         $page = $this->commonController->getPage($request, $ref);
-
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
         if (!$article) {
             throw $this->createNotFoundException('Article not found !');
         }
-
-        $comment = new CommentPage();
+        $comment = new \App\Entity\CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
-
-        $form = $this->createForm(CommentType::class, $comment);
-
+        $form = $this->createForm(\App\Form\CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($comment);
-
-                $this->get('session')->getFlashBag()->add(
-                    'success',
-                    $this->translator->trans('common.comment.submited')
-                );
-
+                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
                 return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
             }
         }
-
         $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-
-        $comments = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            10
-        );
-
-        return $this->render('blog/pages/article.html.twig', [
-            'page'      => $page,
-            'article'   => $article,
-            'entity'    => $article->getOneTranslation($request->getLocale()),
-            'showLinks' => true,
-            'form'      => $form->createView(),
-            'comments'  => $comments,
-        ]);
+        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
     }
 }

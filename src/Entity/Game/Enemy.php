@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Enemy.
  *
@@ -18,8 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Enemy
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -28,100 +26,86 @@ class Enemy
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="gold", type="integer")
      */
     private $gold;
-
     /**
      * @var int
      *
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
-
     /**
      * @var int
      *
      * @ORM\Column(name="life", type="integer")
      */
     private $life;
-
     /**
      * @var int
      *
      * @ORM\Column(name="armor", type="integer")
      */
     private $armor;
-
     /**
      * @var int
      *
      * @ORM\Column(name="damageMin", type="integer")
      */
     private $damageMin;
-
     /**
      * @var int
      *
      * @ORM\Column(name="damageMax", type="integer")
      */
     private $damageMax;
-
     /**
      * @var int
      *
      * @ORM\Column(name="hitLuck", type="integer")
      */
     private $hitLuck;
-
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="enemies", fileNameProperty="imageName")
      */
     protected $image;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="lastFight", cascade={"persist", "remove"})
      */
     protected $lastFightPlayers;
-
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentEnemy", cascade={"persist", "remove"})
      */
     protected $currentEnemyPlayers;
-
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->lastFightPlayers    = new ArrayCollection();
-        $this->currentEnemyPlayers = new ArrayCollection();
+        $this->lastFightPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->currentEnemyPlayers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id.
      *
@@ -131,7 +115,6 @@ class Enemy
     {
         return $this->id;
     }
-
     /**
      * Set gold.
      *
@@ -141,7 +124,6 @@ class Enemy
     {
         $this->gold = $gold;
     }
-
     /**
      * Get gold.
      *
@@ -151,7 +133,6 @@ class Enemy
     {
         return $this->gold;
     }
-
     /**
      * Set xp.
      *
@@ -161,7 +142,6 @@ class Enemy
     {
         $this->xp = $xp;
     }
-
     /**
      * Get xp.
      *
@@ -171,7 +151,6 @@ class Enemy
     {
         return $this->xp;
     }
-
     /**
      * Set life.
      *
@@ -181,7 +160,6 @@ class Enemy
     {
         $this->life = $life;
     }
-
     /**
      * Get life.
      *
@@ -191,7 +169,6 @@ class Enemy
     {
         return $this->life;
     }
-
     /**
      * Set armor.
      *
@@ -201,7 +178,6 @@ class Enemy
     {
         $this->armor = $armor;
     }
-
     /**
      * Get armor.
      *
@@ -211,7 +187,6 @@ class Enemy
     {
         return $this->armor;
     }
-
     /**
      * Set damageMin.
      *
@@ -221,7 +196,6 @@ class Enemy
     {
         $this->damageMin = $damageMin;
     }
-
     /**
      * Get damageMin.
      *
@@ -231,7 +205,6 @@ class Enemy
     {
         return $this->damageMin;
     }
-
     /**
      * Set damageMax.
      *
@@ -241,7 +214,6 @@ class Enemy
     {
         $this->damageMax = $damageMax;
     }
-
     /**
      * Get damageMax.
      *
@@ -251,7 +223,6 @@ class Enemy
     {
         return $this->damageMax;
     }
-
     /**
      * Set hitLuck.
      *
@@ -261,7 +232,6 @@ class Enemy
     {
         $this->hitLuck = $hitLuck;
     }
-
     /**
      * Get hitLuck.
      *
@@ -271,7 +241,6 @@ class Enemy
     {
         return $this->hitLuck;
     }
-
     /**
      * @return mixed
      */
@@ -279,20 +248,17 @@ class Enemy
     {
         return $this->image;
     }
-
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image)
+    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
     {
         $this->image = $image;
-
         if ($image) {
             // doctrine listeners event
             $this->updated = new \DateTime('now');
         }
     }
-
     /**
      * @return string
      */
@@ -300,7 +266,6 @@ class Enemy
     {
         return $this->imageName;
     }
-
     /**
      * @param string $imageName
      */
@@ -308,7 +273,6 @@ class Enemy
     {
         $this->imageName = $imageName;
     }
-
     /**
      * Set title.
      *
@@ -318,7 +282,6 @@ class Enemy
     {
         $this->title = $title;
     }
-
     /**
      * Get title.
      *
@@ -328,7 +291,6 @@ class Enemy
     {
         return $this->title;
     }
-
     /**
      * Add lastFightPlayer.
      */
@@ -336,7 +298,6 @@ class Enemy
     {
         $this->lastFightPlayers[] = $lastFightPlayer;
     }
-
     /**
      * Remove lastFightPlayer.
      */
@@ -344,7 +305,6 @@ class Enemy
     {
         $this->lastFightPlayers->removeElement($lastFightPlayer);
     }
-
     /**
      * Get lastFightPlayers.
      *
@@ -354,7 +314,6 @@ class Enemy
     {
         return $this->lastFightPlayers;
     }
-
     /**
      * Add currentEnemyPlayer.
      */
@@ -362,7 +321,6 @@ class Enemy
     {
         $this->currentEnemyPlayers[] = $currentEnemyPlayer;
     }
-
     /**
      * Remove currentEnemyPlayer.
      */
@@ -370,7 +328,6 @@ class Enemy
     {
         $this->currentEnemyPlayers->removeElement($currentEnemyPlayer);
     }
-
     /**
      * Get currentEnemyPlayers.
      *

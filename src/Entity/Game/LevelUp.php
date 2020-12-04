@@ -5,7 +5,6 @@ namespace App\Entity\Game;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 /**
  * LevelUp.
  *
@@ -16,8 +15,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class LevelUp
 {
-    use TimestampTrait;
-
+    use \App\Entity\Traits\TimestampTrait;
     /**
      * @var int
      *
@@ -26,21 +24,18 @@ class LevelUp
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var int
      *
      * @ORM\Column(name="level", type="integer")
      */
     private $level;
-
     /**
      * @var int
      *
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
-
     /**
      * Get id.
      *
@@ -50,7 +45,6 @@ class LevelUp
     {
         return $this->id;
     }
-
     /**
      * Set level.
      *
@@ -60,7 +54,6 @@ class LevelUp
     {
         $this->level = $level;
     }
-
     /**
      * Get level.
      *
@@ -70,7 +63,6 @@ class LevelUp
     {
         return $this->level;
     }
-
     /**
      * Set xp.
      *
@@ -80,7 +72,6 @@ class LevelUp
     {
         $this->xp = $xp;
     }
-
     /**
      * Get xp.
      *

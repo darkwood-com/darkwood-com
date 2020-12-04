@@ -14,53 +14,33 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-
 /**
  *  Form Type.
  */
-class PageType extends AbstractType
+class PageType extends \Symfony\Component\Form\AbstractType
 {
     /**
      * Build Form.
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
-
-        $builder->add('ref', TextType::class);
-        $builder->add('site', EntityType::class, [
-            'class' => Site::class,
-        ]);
-
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+        $builder->add('ref', \Symfony\Component\Form\Extension\Core\Type\TextType::class);
+        $builder->add('site', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => \App\Entity\Site::class]);
+        $builder->addEventListener(\Symfony\Component\Form\FormEvents::POST_SET_DATA, function (\Symfony\Component\Form\FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
-            if ($data instanceof App) {
-                $form->add('banner', VichImageType::class, [
-                    'required' => false,
-                ]);
-                $form->add('theme', TextType::class, [
-                    'required' => false,
-                ]);
-                $form->add('contents', CollectionType::class, [
-                    'entry_type'     => AppContentType::class,
-                    'allow_add'      => true,
-                    'by_reference'   => false,
-                    'allow_delete'   => true,
-                    'error_bubbling' => false,
-                ]);
+            if ($data instanceof \App\Entity\App) {
+                $form->add('banner', \Vich\UploaderBundle\Form\Type\VichImageType::class, ['required' => false]);
+                $form->add('theme', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false]);
+                $form->add('contents', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, ['entry_type' => \App\Form\Admin\AppContentType::class, 'allow_add' => true, 'by_reference' => false, 'allow_delete' => true, 'error_bubbling' => false]);
             }
         });
     }
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Page::class,
-            'locale'     => null,
-        ]);
+        $resolver->setDefaults(['data_class' => \App\Entity\Page::class, 'locale' => null]);
     }
-
     /**
      * Get name.
      *

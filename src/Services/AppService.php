@@ -7,7 +7,6 @@ use App\Entity\AppTranslation;
 use App\Repository\AppRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-
 /**
  * Class AppService
  *
@@ -16,48 +15,40 @@ use Doctrine\ORM\Query;
 class AppService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
      * @var AppRepository
      */
     protected $appRepository;
-
     public function __construct(
-        EntityManagerInterface $em
-    ) {
-        $this->em            = $em;
-        $this->appRepository = $em->getRepository(App::class);
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em
+    )
+    {
+        $this->appRepository = $em->getRepository(\App\Entity\App::class);
     }
-
     /**
      * Update a appTranslation.
      *
      * @return App
      */
-    public function save(App $app, $invalidate = false)
+    public function save(\App\Entity\App $app, $invalidate = false)
     {
         $app->setUpdated(new \DateTime('now'));
-
         $this->em->persist($app);
         $this->em->flush();
-
         return $app;
     }
-
     /**
      * Remove one appTranslation.
      *
      * @param App $app
      */
-    public function remove(App $app)
+    public function remove(\App\Entity\App $app)
     {
         $this->em->remove($app);
         $this->em->flush();
     }
-
     /**
      * Find one by filters.
      *
@@ -69,7 +60,6 @@ class AppService
     {
         return $this->appRepository->findOneBy($filters);
     }
-
     /**
      * Search.
      *
@@ -81,7 +71,6 @@ class AppService
     {
         return $this->appRepository->queryForSearch($filters, $order);
     }
-
     /**
      * Find one to edit.
      *
@@ -93,7 +82,6 @@ class AppService
     {
         return $this->appRepository->findOneToEdit($id, $locale);
     }
-
     /**
      * @param integer $id
      *
@@ -103,7 +91,6 @@ class AppService
     {
         return $this->appRepository->find($id);
     }
-
     /**
      * Find all.
      */
@@ -111,7 +98,6 @@ class AppService
     {
         return $this->appRepository->findAll();
     }
-
     public function findActives($limit = null)
     {
         return $this->appRepository->findActives($limit);

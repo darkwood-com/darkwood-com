@@ -73,8 +73,7 @@ fix-cs: ## Fix PHP Coding style
     --rules='{"@Symfony" : true, "binary_operator_spaces": {"default" : "align"}, "phpdoc_summary" : false, "phpdoc_no_package" : false, "concat_space": {"spacing": "one"}, "phpdoc_no_empty_return" : false, "trailing_comma_in_multiline_array" : false, "yoda_style" : false}'
 
 rector: ## instant upgrade PHP
-	docker run --rm -v $$(pwd):/project rector/rector:latest process /project/src --set php74 --autoload-file /project/vendor/autoload.php
-
+	docker run --rm -v $$(pwd):/project rector/rector:latest process
 phpstan: ## static analysis tool
 	vendor/bin/phpstan analyse
 

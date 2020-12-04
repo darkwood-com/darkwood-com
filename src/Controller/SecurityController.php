@@ -8,60 +8,38 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
-class SecurityController extends AbstractController
+class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var CommonController
-     */
-    private $commonController;
-
     public function __construct(
-        CommonController $commonController
-    ) {
-        $this->commonController = $commonController;
+        /**
+         * @var CommonController
+         */
+        private \App\Controller\CommonController $commonController
+    )
+    {
     }
-
-    /**
-     * @Route({ "fr": "/login", "en": "/en/login", "de": "/de/login" }, name="security_login", defaults={"ref": "home"})
-     */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'home'])]
+    public function login(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag, $ref): \Symfony\Component\HttpFoundation\Response
     {
         if ($request->getHost() === $parameterBag->get('admin_host')) {
             // get the login error if there is one
             $error = $authenticationUtils->getLastAuthenticationError();
             // last username entered by the user
             $lastUsername = $authenticationUtils->getLastUsername();
-
-            return $this->render('admin/login.html.twig', [
-                'last_username' => $lastUsername,
-                'error'         => $error
-            ]);
+            return $this->render('admin/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
-
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('common/pages/login.html.twig', [
-            'page'          => $page,
-            'site_ref'      => $siteRef,
-            'last_username' => $lastUsername,
-            'error'         => $error
-        ]);
+        return $this->render('common/pages/login.html.twig', ['page' => $page, 'site_ref' => $siteRef, 'last_username' => $lastUsername, 'error' => $error]);
     }
-
-    /**
-     * @Route({ "fr": "/logout", "en": "/en/logout", "de": "/de/logout" }, name="security_logout")
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/logout', 'en' => '/en/logout', 'de' => '/de/logout'], name: 'security_logout')]
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

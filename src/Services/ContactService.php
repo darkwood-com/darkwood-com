@@ -6,7 +6,6 @@ use App\Entity\Contact;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-
 /**
  * Class ContactService
  *
@@ -15,48 +14,40 @@ use Doctrine\ORM\Query;
 class ContactService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
      * @var ContactRepository
      */
     protected $contactRepository;
-
     public function __construct(
-        EntityManagerInterface $em
-    ) {
-        $this->em                = $em;
-        $this->contactRepository = $em->getRepository(Contact::class);
+        /**
+         * @var EntityManagerInterface
+         */
+        protected \Doctrine\ORM\EntityManagerInterface $em
+    )
+    {
+        $this->contactRepository = $em->getRepository(\App\Entity\Contact::class);
     }
-
     /**
      * Update a contactTranslation.
      *
      * @return Contact
      */
-    public function save(Contact $contact)
+    public function save(\App\Entity\Contact $contact)
     {
         $contact->setUpdated(new \DateTime('now'));
-
         $this->em->persist($contact);
         $this->em->flush();
-
         return $contact;
     }
-
     /**
      * Remove one contactTranslation.
      *
      * @param Contact $contact
      */
-    public function remove(Contact $contact)
+    public function remove(\App\Entity\Contact $contact)
     {
         $this->em->remove($contact);
         $this->em->flush();
     }
-
     /**
      * Search.
      *
@@ -68,7 +59,6 @@ class ContactService
     {
         return $this->contactRepository->queryForSearch($filters, $order);
     }
-
     /**
      * Find one to edit.
      *

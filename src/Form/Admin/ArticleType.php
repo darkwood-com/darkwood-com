@@ -8,46 +8,32 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  *  Form Type.
  */
-class ArticleType extends AbstractType
+class ArticleType extends \Symfony\Component\Form\AbstractType
 {
-    /**
-     * @var TagTransformer
-     */
-    private $tagTransformer;
-
     public function __construct(
-        TagTransformer $tagTransformer
-    ) {
-        $this->tagTransformer = $tagTransformer;
+        /**
+         * @var TagTransformer
+         */
+        private \App\Form\Transformer\TagTransformer $tagTransformer
+    )
+    {
     }
-
     /**
      * Build Form.
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
-
         $this->tagTransformer->setLocale($locale);
-
-        $builder->add(
-            $builder->create('tags', TextType::class)
-                ->addModelTransformer($this->tagTransformer)
-        );
+        $builder->add($builder->create('tags', \Symfony\Component\Form\Extension\Core\Type\TextType::class)->addModelTransformer($this->tagTransformer));
     }
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Article::class,
-            'locale'     => null,
-        ]);
+        $resolver->setDefaults(['data_class' => \App\Entity\Article::class, 'locale' => null]);
     }
-
     /**
      * Get name.
      *

@@ -6,17 +6,15 @@ use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
 /**
  * Class SiteRepository.
  */
-class SiteRepository extends ServiceEntityRepository
+class SiteRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
     {
-        parent::__construct($registry, Site::class);
+        parent::__construct($registry, \App\Entity\Site::class);
     }
-
     /**
      * Get all user query, using for pagination.
      *
@@ -26,21 +24,15 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function queryForSearch($filters = [])
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->orderBy('s.id', 'asc')
-        ;
-
+        $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.id', 'asc');
         if (count($filters) > 0) {
             foreach ($filters as $key => $filter) {
                 $qb->andWhere('s.' . $key . ' LIKE :' . $key);
                 $qb->setParameter($key, '%' . $filter . '%');
             }
         }
-
         return $qb->getQuery();
     }
-
     /**
      * Find one for edit profile.
      *
@@ -50,16 +42,10 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneToEdit($id)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->where('s.id = :id')
-            ->setParameter('id', $id);
-
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.id = :id')->setParameter('id', $id);
         $query = $qb->getQuery();
-
         return $query->getOneOrNullResult();
     }
-
     /**
      * Find one by host.
      *
@@ -69,17 +55,11 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneByHost($host)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->where('s.host = :host')
-            ->setParameter('host', $host);
-
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.host = :host')->setParameter('host', $host);
         $query = $qb->getQuery();
         //$query->useResultCache(true, 120, 'SiteRepository::findOneByHost' . $host);
-
         return $query->getOneOrNullResult();
     }
-
     /**
      * Find one by ref.
      *
@@ -89,35 +69,19 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneByRef($ref)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->where('s.ref = :ref')
-            ->setParameter('ref', $ref);
-
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.ref = :ref')->setParameter('ref', $ref);
         $query = $qb->getQuery();
         //$query->useResultCache(true, 120, 'SiteRepository::findOneByRef' . $ref);
-
         return $query->getOneOrNullResult();
     }
-
     public function findAll($parameters = [])
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->orderBy('s.position', 'asc')
-        ;
-
+        $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.position', 'asc');
         return $qb->getQuery()->getResult();
     }
-
     public function findActives()
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->andWhere('s.active = true')
-            ->orderBy('s.position', 'asc')
-        ;
-
+        $qb = $this->createQueryBuilder('s')->select('s')->andWhere('s.active = true')->orderBy('s.position', 'asc');
         return $qb->getQuery()->getResult();
     }
 }
