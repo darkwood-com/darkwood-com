@@ -6,8 +6,6 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
- * LevelUp.
- *
  * @ORM\Table(name="game_level_up")
  * @ORM\Entity(repositoryClass="App\Repository\Game\LevelUpRepository")
  * @ORM\HasLifecycleCallbacks

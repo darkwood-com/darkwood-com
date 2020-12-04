@@ -13,11 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * Class ProfileController.
- *
- * @Route("/", name="common_profile")
- */
+#[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_profile')]
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -48,9 +44,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $this->userService = $userService;
         $this->gameService = $gameService;
     }
-    /**
-     * @Route({ "fr": "/profil/{username}", "en": "/en/profile/{username}", "de": "/de/profil/{username}" }, name="", defaults={"ref": "profile"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(\Symfony\Component\HttpFoundation\Request $request, $ref, $username = null)
     {
         $page = $this->commonController->getPage($request, $ref);

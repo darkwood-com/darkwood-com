@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * CommentPage.
- *
  * @ORM\Entity(repositoryClass="App\Repository\CommentPageRepository")
  */
 class CommentPage extends \App\Entity\Comment

@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * AppContent.
- *
  * @ORM\Entity(repositoryClass="App\Repository\AppContentRepository")
  * @ORM\Table(name="app_content", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_app_slug_unique",columns={"locale","app_id","slug"})

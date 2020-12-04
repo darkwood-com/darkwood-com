@@ -12,9 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * @Route("/{_locale}/contacts", name="admin_contact_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
- */
+#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/contacts', name: 'admin_contact_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -35,9 +33,7 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $this->paginator = $paginator;
         $this->contactService = $contactService;
     }
-    /**
-     * @Route("/list", name="list")
-     */
+    #[Route('/list', name: 'list')]
     public function list(\Symfony\Component\HttpFoundation\Request $request)
     {
         $form = $this->createSearchForm();
@@ -67,18 +63,14 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         }
         return $this->render('admin/contact/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
     }
-    /**
-     * @Route("/create", name="create")
-     */
+    #[Route('/create', name: 'create')]
     public function create(\Symfony\Component\HttpFoundation\Request $request)
     {
         $entity = new \App\Entity\Contact();
         $entity->setCreated(new \DateTime());
         return $this->manage($request, $entity);
     }
-    /**
-     * @Route("/edit/{id}", name="edit")
-     */
+    #[Route('/edit/{id}', name: 'edit')]
     public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         $entity = $this->contactService->findOneToEdit($id);
@@ -88,9 +80,7 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $entity->setUpdated(new \DateTime());
         return $this->manage($request, $entity);
     }
-    /**
-     * @Route("/delete/{id}", name="delete")
-     */
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         /** @var Contact $contact */

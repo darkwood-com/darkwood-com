@@ -12,8 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * Class User.
- *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="The email '{{ value }}' is already used.")

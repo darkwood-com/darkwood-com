@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * @Route("/", name="apps_", host="%apps_host%")
- */
+#[\Symfony\Component\Routing\Annotation\Route('/', name: 'apps_', host: '%apps_host%')]
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -64,45 +62,33 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks]);
     }
-    /**
-     * @Route({ "fr": "/", "en": "/en", "de": "/de" }, name="home", defaults={"ref": "home"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('apps/pages/home.html.twig', ['page' => $page]);
     }
-    /**
-     * @Route({ "fr": "/plan-du-site", "en": "/en/sitemap", "de": "/de/sitemap" }, name="sitemap", defaults={"ref": "sitemap"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
-    /**
-     * @Route({ "fr": "/sitemap.xml", "en": "/en/sitemap.xml", "de": "/de/sitemap.xml" }, name="sitemap_xml")
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
     public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
-    /**
-     * @Route({ "fr": "/rss", "en": "/en/rss", "de": "/de/rss" }, name="rss")
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
     public function rss(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->rss($request);
     }
-    /**
-     * @Route({ "fr": "/contact", "en": "/en/contact", "de": "/de/kontakt" }, name="contact", defaults={"ref": "contact"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
     public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
-    /**
-     * @Route({ "en": "/en/{ref}/{slug}", "de": "/de/{ref}/{slug}", "fr": "/{ref}/{slug}" }, name="app", defaults={"ref": null, "slug": null})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/article/{ref}/{slug}', 'en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(\Symfony\Component\HttpFoundation\Request $request, $ref, $slug = null)
     {
         $page = $this->commonController->getPage($request, $ref);

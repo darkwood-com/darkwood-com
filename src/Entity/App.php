@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
- * App.
- *
  * @ORM\Table(name="app")
  * @ORM\Entity(repositoryClass="App\Repository\AppRepository")
  * @ORM\HasLifecycleCallbacks

@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 /**
- * Article.
- *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @ORM\HasLifecycleCallbacks

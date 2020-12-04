@@ -15,9 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * @Route("/{_locale}/apps", name="admin_app_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
- */
+#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private \Symfony\Contracts\Translation\TranslatorInterface $translator, private \Knp\Component\Pager\PaginatorInterface $paginator, private \App\Services\AppService $appService, private \App\Services\PageService $pageService, private \App\Services\SiteService $siteService)
@@ -28,9 +26,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         $this->pageService = $pageService;
         $this->siteService = $siteService;
     }
-    /**
-     * @Route("/list", name="list")
-     */
+    #[Route('/list', name: 'list')]
     public function list(\Symfony\Component\HttpFoundation\Request $request)
     {
         $form = $this->createSearchForm();
@@ -65,9 +61,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         }
         return $this->render('admin/app/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
     }
-    /**
-     * @Route("/create", name="create")
-     */
+    #[Route('/create', name: 'create')]
     public function create(\Symfony\Component\HttpFoundation\Request $request)
     {
         $entity = new \App\Entity\App();
@@ -77,9 +71,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         $entity->addTranslation($entityTranslation);
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/edit/{id}", name="edit")
-     */
+    #[Route('/edit/{id}', name: 'edit')]
     public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         $entity = $this->appService->findOneToEdit($id, $request->getLocale());
@@ -96,9 +88,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         $entityTranslation->setUpdated(new \DateTime());
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/delete/{id}", name="delete")
-     */
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         /** @var App $app */

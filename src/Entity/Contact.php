@@ -6,8 +6,6 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * Contact.
- *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  */

@@ -6,8 +6,6 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
- * DailyBattle.
- *
  * @ORM\Table(name="game_daily_battle")
  * @ORM\Entity(repositoryClass="App\Repository\Game\DailyBattleRepository")
  * @ORM\HasLifecycleCallbacks

@@ -14,9 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * @Route("/{_locale}/pages", name="admin_page_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
- */
+#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/pages', name: 'admin_page_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -42,9 +40,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $this->pageService = $pageService;
         $this->siteService = $siteService;
     }
-    /**
-     * @Route("/list", name="list")
-     */
+    #[Route('/list', name: 'list')]
     public function list(\Symfony\Component\HttpFoundation\Request $request)
     {
         $form = $this->createSearchForm();
@@ -74,9 +70,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         }
         return $this->render('admin/page/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
     }
-    /**
-     * @Route("/create", name="create")
-     */
+    #[Route('/create', name: 'create')]
     public function create(\Symfony\Component\HttpFoundation\Request $request)
     {
         $entity = new \App\Entity\Page();
@@ -86,9 +80,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $entity->addTranslation($entityTranslation);
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/edit/{id}", name="edit")
-     */
+    #[Route('/edit/{id}', name: 'edit')]
     public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         $entity = $this->pageService->findOneToEdit($id);
@@ -105,9 +97,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $entityTranslation->setUpdated(new \DateTime());
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/delete/{id}", name="delete")
-     */
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         /** @var Page $page */

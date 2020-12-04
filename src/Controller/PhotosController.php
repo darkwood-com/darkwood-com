@@ -7,9 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-/**
- * @Route("/", name="photos_", host="%photos_host%")
- */
+
+#[\Symfony\Component\Routing\Annotation\Route('/', name: 'photos_', host: '%photos_host%')]
 class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -37,61 +36,45 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         return $this->render('photos/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
-    /**
-     * @Route({ "fr": "/", "en": "/en", "de": "/de" }, name="home", defaults={"ref": "home"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('photos/pages/home.html.twig', ['page' => $page]);
     }
-    /**
-     * @Route({ "fr": "/plan-du-site", "en": "/en/sitemap", "de": "/de/sitemap" }, name="sitemap", defaults={"ref": "sitemap"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
-    /**
-     * @Route({ "fr": "/sitemap.xml", "en": "/en/sitemap.xml", "de": "/de/sitemap.xml" }, name="sitemap_xml")
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
     public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
-    /**
-     * @Route({ "fr": "/rss", "en": "/en/rss", "de": "/de/rss" }, name="rss")
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
     public function rss(\Symfony\Component\HttpFoundation\Request $request)
     {
         return $this->commonController->rss($request);
     }
-    /**
-     * @Route({ "fr": "/contact", "en": "/en/contact", "de": "/de/kontakt" }, name="contact", defaults={"ref": "contact"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
     public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
-    /**
-     * @Route({ "fr": "/visualisez", "en": "/en/show", "de": "/de/anzeigen" }, name="show", defaults={"ref": "show"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/visualisez', 'en' => '/en/show', 'de' => '/de/anzeigen'], name: 'show', defaults: ['ref' => 'show'])]
     public function show(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('photos/pages/show.html.twig', ['page' => $page]);
     }
-    /**
-     * @Route({ "fr": "/demonstration", "en": "/en/demo", "de": "/de/demonstration" }, name="demo", defaults={"ref": "demo"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/demonstration', 'en' => '/en/demo', 'de' => '/de/demonstration'], name: 'demo', defaults: ['ref' => 'demo'])]
     public function demo(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('photos/pages/demo.html.twig', ['page' => $page]);
     }
-    /**
-     * @Route({ "fr": "/aide", "en": "/en/help", "de": "/de/hilfe" }, name="help", defaults={"ref": "help"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/aide', 'en' => '/en/help', 'de' => '/de/hilfe'], name: 'help', defaults: ['ref' => 'help'])]
     public function help(\Symfony\Component\HttpFoundation\Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);

@@ -14,9 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-/**
- * @Route("/{_locale}/articles", name="admin_article_", host="%admin_host%", requirements={"_locale":"en|fr|de"})
- */
+#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -42,9 +40,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $this->articleService = $articleService;
         $this->tagService = $tagService;
     }
-    /**
-     * @Route("/list", name="list")
-     */
+    #[Route('/list', name: 'list')]
     public function list(\Symfony\Component\HttpFoundation\Request $request)
     {
         $form = $this->createSearchForm();
@@ -74,9 +70,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         }
         return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
     }
-    /**
-     * @Route("/create", name="create")
-     */
+    #[Route('/create', name: 'create')]
     public function create(\Symfony\Component\HttpFoundation\Request $request)
     {
         $entity = new \App\Entity\Article();
@@ -86,9 +80,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $entity->addTranslation($entityTranslation);
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/edit/{id}", name="edit")
-     */
+    #[Route('/edit/{id}', name: 'edit')]
     public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         $entity = $this->articleService->findOneToEdit($id);
@@ -105,9 +97,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $entityTranslation->setUpdated(new \DateTime());
         return $this->manage($request, $entityTranslation);
     }
-    /**
-     * @Route("/delete/{id}", name="delete")
-     */
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
     {
         /** @var Article $article */

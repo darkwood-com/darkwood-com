@@ -17,11 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-/**
- * Class RegistrationController.
- *
- * @Route("/", name="common_register")
- */
+#[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_register')]
 class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
@@ -34,9 +30,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
         $this->emailVerifier = $emailVerifier;
         $this->commonController = $commonController;
     }
-    /**
-     * @Route({ "fr": "/inscription", "en": "/en/register", "de": "/de/registrieren" }, name="", defaults={"ref": "register"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/inscription', 'en' => '/en/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
     public function register(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Security\Guard\GuardAuthenticatorHandler $guardHandler, \App\Security\LoginFormAuthenticator $authenticator, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -62,9 +56,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
         }
         return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
     }
-    /**
-     * @Route({ "fr": "/inscription/confimer-email", "en": "/en/register/check-email", "de": "/de/registrieren/check-email" }, name="_check", defaults={"ref": "register"})
-     */
+    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/inscription/confimer-email', 'en' => '/en/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
     public function checkUserEmail(\Symfony\Component\HttpFoundation\Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);

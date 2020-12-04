@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * Potion.
- *
  * @ORM\Table(name="game_potion")
  * @ORM\Entity(repositoryClass="App\Repository\Game\PotionRepository")
  * @ORM\HasLifecycleCallbacks

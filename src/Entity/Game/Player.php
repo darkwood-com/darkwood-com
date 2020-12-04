@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * Player.
- *
  * @ORM\Table(name="game_player")
  * @ORM\Entity(repositoryClass="App\Repository\Game\PlayerRepository")
  * @ORM\HasLifecycleCallbacks

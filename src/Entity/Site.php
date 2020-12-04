@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
- * Brick.
- *
  * @ORM\Table(name="site")
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
  * @ORM\HasLifecycleCallbacks
