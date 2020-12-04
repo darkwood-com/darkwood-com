@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_register')]
 class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

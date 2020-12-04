@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

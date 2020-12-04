@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_profile')]
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

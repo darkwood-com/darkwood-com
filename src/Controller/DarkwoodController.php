@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'darkwood_', host: '%darkwood_host%')]
 class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

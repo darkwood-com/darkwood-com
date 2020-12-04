@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'me_', host: '%me_host%')]
 class MeController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

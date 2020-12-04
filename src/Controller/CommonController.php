@@ -26,6 +26,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+
 class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private Environment $twig, private MailerInterface $mailer, private TranslatorInterface $translator, private PageService $pageService, private SiteService $siteService, private ContactService $contactService, private SeoService $seoService, private HtmlErrorRenderer $errorRenderer)

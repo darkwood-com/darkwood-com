@@ -7,6 +7,7 @@ use App\Entity\TagTranslation;
 use App\Services\TagService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
+
 class TagTransformer implements DataTransformerInterface
 {
     public function __construct(

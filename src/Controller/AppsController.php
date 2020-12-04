@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'apps_', host: '%apps_host%')]
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

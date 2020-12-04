@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/{_locale}/users', name: 'admin_user_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

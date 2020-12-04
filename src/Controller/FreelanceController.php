@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'freelance_', host: '%freelance_host%')]
 class FreelanceController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

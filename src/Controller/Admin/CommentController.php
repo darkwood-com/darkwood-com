@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 #[\Symfony\Component\Routing\Annotation\Route('/{_locale}/comments', name: 'admin_comment_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
