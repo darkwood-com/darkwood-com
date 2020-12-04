@@ -28,29 +28,20 @@ class ArticleService
      */
     protected $articleTranslationRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em,
-        /**
-         * @var ParameterBagInterface
-         */
-        protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBagInterface,
-        /**
-         * @var StorageInterface
-         */
-        protected \Vich\UploaderBundle\Storage\StorageInterface $storage
+        protected EntityManagerInterface $em,
+        protected ParameterBagInterface $parameterBagInterface,
+        protected StorageInterface $storage
     )
     {
-        $this->articleRepository = $em->getRepository(\App\Entity\Article::class);
-        $this->articleTranslationRepository = $em->getRepository(\App\Entity\ArticleTranslation::class);
+        $this->articleRepository = $em->getRepository(Article::class);
+        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
     }
     /**
      * Update a articleTranslation.
      *
      * @return Article
      */
-    public function save(\App\Entity\Article $article, $invalidate = false)
+    public function save(Article $article, $invalidate = false)
     {
         $article->setUpdated(new \DateTime('now'));
         foreach ($article->getTranslations() as $translation) {
@@ -65,12 +56,12 @@ class ArticleService
      *
      * @param Article $article
      */
-    public function remove(\App\Entity\Article $article)
+    public function remove(Article $article)
     {
         $this->em->remove($article);
         $this->em->flush();
     }
-    public function duplicate(\App\Entity\ArticleTranslation $articleTranslation, $locale)
+    public function duplicate(ArticleTranslation $articleTranslation, $locale)
     {
         $article = $articleTranslation->getArticle();
         $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
@@ -102,7 +93,7 @@ class ArticleService
      *
      * @return ArticleTranslation
      */
-    public function saveTranslation(\App\Entity\ArticleTranslation $articleTranslation, $exportLocales = false)
+    public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false)
     {
         $articleTranslation->setUpdated(new \DateTime('now'));
         $this->em->persist($articleTranslation);
@@ -118,7 +109,7 @@ class ArticleService
         }
         return $articleTranslation;
     }
-    public function removeTranslation(\App\Entity\ArticleTranslation $articleTs)
+    public function removeTranslation(ArticleTranslation $articleTs)
     {
         $nbT = count($articleTs->getArticle()->getTranslations());
         if ($nbT <= 1) {

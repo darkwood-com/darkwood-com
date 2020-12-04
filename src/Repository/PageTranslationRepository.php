@@ -9,13 +9,13 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class PageTranslationRepository.
  */
-class PageTranslationRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class PageTranslationRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\PageTranslation::class);
+        parent::__construct($registry, PageTranslation::class);
     }
-    public function findOneByPageAndLocale(\App\Entity\Page $page, $locale)
+    public function findOneByPageAndLocale(Page $page, $locale)
     {
         return $this->createQueryBuilder('pt')->andWhere('pt.page = :page')->setParameter('page', $page)->andWhere('pt.locale = :locale')->setParameter('locale', $locale)->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }

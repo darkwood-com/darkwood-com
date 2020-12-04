@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Gem
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -65,9 +65,9 @@ class Gem
      */
     public function __construct()
     {
-        $this->equipment1Players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->equipment2Players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->equipment3Players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->equipment1Players = new ArrayCollection();
+        $this->equipment2Players = new ArrayCollection();
+        $this->equipment3Players = new ArrayCollection();
     }
     /**
      * Get id.
@@ -106,7 +106,7 @@ class Gem
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -131,14 +131,14 @@ class Gem
     /**
      * Add equipment1Player.
      */
-    public function addEquipment1Player(\App\Entity\Game\Player $equipment1Player): void
+    public function addEquipment1Player(Player $equipment1Player): void
     {
         $this->equipment1Players[] = $equipment1Player;
     }
     /**
      * Remove equipment1Player.
      */
-    public function removeEquipment1Player(\App\Entity\Game\Player $equipment1Player)
+    public function removeEquipment1Player(Player $equipment1Player)
     {
         $this->equipment1Players->removeElement($equipment1Player);
     }
@@ -154,14 +154,14 @@ class Gem
     /**
      * Add equipment2Player.
      */
-    public function addEquipment2Player(\App\Entity\Game\Player $equipment2Player): void
+    public function addEquipment2Player(Player $equipment2Player): void
     {
         $this->equipment2Players[] = $equipment2Player;
     }
     /**
      * Remove equipment2Player.
      */
-    public function removeEquipment2Player(\App\Entity\Game\Player $equipment2Player)
+    public function removeEquipment2Player(Player $equipment2Player)
     {
         $this->equipment2Players->removeElement($equipment2Player);
     }
@@ -177,14 +177,14 @@ class Gem
     /**
      * Add equipment3Player.
      */
-    public function addEquipment3Player(\App\Entity\Game\Player $equipment3Player): void
+    public function addEquipment3Player(Player $equipment3Player): void
     {
         $this->equipment3Players[] = $equipment3Player;
     }
     /**
      * Remove equipment3Player.
      */
-    public function removeEquipment3Player(\App\Entity\Game\Player $equipment3Player)
+    public function removeEquipment3Player(Player $equipment3Player)
     {
         $this->equipment3Players->removeElement($equipment3Player);
     }

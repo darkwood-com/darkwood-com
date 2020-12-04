@@ -9,11 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class TagRepository.
  */
-class TagRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class TagRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Tag::class);
+        parent::__construct($registry, Tag::class);
     }
     public function findCachedById($id, $ttl)
     {

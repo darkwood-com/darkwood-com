@@ -10,11 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class ContactRepository.
  */
-class ContactRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class ContactRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Contact::class);
+        parent::__construct($registry, Contact::class);
     }
     /**
      * Get all user query, using for pagination.

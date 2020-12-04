@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Enemy
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -101,8 +101,8 @@ class Enemy
      */
     public function __construct()
     {
-        $this->lastFightPlayers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->currentEnemyPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lastFightPlayers = new ArrayCollection();
+        $this->currentEnemyPlayers = new ArrayCollection();
     }
     /**
      * Get id.
@@ -249,7 +249,7 @@ class Enemy
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -292,14 +292,14 @@ class Enemy
     /**
      * Add lastFightPlayer.
      */
-    public function addLastFightPlayer(\App\Entity\Game\Player $lastFightPlayer): void
+    public function addLastFightPlayer(Player $lastFightPlayer): void
     {
         $this->lastFightPlayers[] = $lastFightPlayer;
     }
     /**
      * Remove lastFightPlayer.
      */
-    public function removeLastFightPlayer(\App\Entity\Game\Player $lastFightPlayer)
+    public function removeLastFightPlayer(Player $lastFightPlayer)
     {
         $this->lastFightPlayers->removeElement($lastFightPlayer);
     }
@@ -315,14 +315,14 @@ class Enemy
     /**
      * Add currentEnemyPlayer.
      */
-    public function addCurrentEnemyPlayer(\App\Entity\Game\Player $currentEnemyPlayer): void
+    public function addCurrentEnemyPlayer(Player $currentEnemyPlayer): void
     {
         $this->currentEnemyPlayers[] = $currentEnemyPlayer;
     }
     /**
      * Remove currentEnemyPlayer.
      */
-    public function removeCurrentEnemyPlayer(\App\Entity\Game\Player $currentEnemyPlayer)
+    public function removeCurrentEnemyPlayer(Player $currentEnemyPlayer)
     {
         $this->currentEnemyPlayers->removeElement($currentEnemyPlayer);
     }

@@ -28,39 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var PageService
-     */
-    private $pageService;
-    /**
-     * @var SiteService
-     */
-    private $siteService;
-    /**
-     * @var ContactService
-     */
-    private $contactService;
-    /**
-     * @var SeoService
-     */
-    private \App\Services\SeoService $seoService;
-    /**
-     * @var HtmlErrorRenderer
-     */
-    private $errorRenderer;
-    public function __construct(\Twig\Environment $twig, \Symfony\Component\Mailer\MailerInterface $mailer, \Symfony\Contracts\Translation\TranslatorInterface $translator, \App\Services\PageService $pageService, \App\Services\SiteService $siteService, \App\Services\ContactService $contactService, \App\Services\SeoService $seoService, \Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer $errorRenderer)
+    public function __construct(private Environment $twig, private MailerInterface $mailer, private TranslatorInterface $translator, private PageService $pageService, private SiteService $siteService, private ContactService $contactService, private SeoService $seoService, private HtmlErrorRenderer $errorRenderer)
     {
         $this->twig = $twig;
         $this->mailer = $mailer;
@@ -76,7 +44,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeTrailingSlash(\Symfony\Component\HttpFoundation\Request $request)
+    public function removeTrailingSlash(Request $request)
     {
         $pathInfo = $request->getPathInfo();
         $requestUri = $request->getRequestUri();
@@ -86,7 +54,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     /**
      * Show Exception action.
      */
-    public function showException(\Symfony\Component\HttpFoundation\Request $request, \Throwable $exception, \Symfony\Component\HttpKernel\Log\DebugLoggerInterface $logger = null)
+    public function showException(Request $request, \Throwable $exception, \Symfony\Component\HttpKernel\Log\DebugLoggerInterface $logger = null)
     {
         if (!$exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             $exception = $this->errorRenderer->render($exception);
@@ -116,7 +84,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         return $this->render('common/partials/seo.html.twig', ['data' => $this->seoService->getSeo($context)]);
     }
-    public function hreflangs(\Symfony\Component\HttpFoundation\Request $request, $ref, $entity)
+    public function hreflangs(Request $request, $ref, $entity)
     {
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         return $this->render('common/partials/hreflangs.html.twig', ['pageLinks' => $pageLinks]);
@@ -148,7 +116,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      *
      * @return PageTranslation
      */
-    public function getPage(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function getPage(Request $request, $ref)
     {
         $page = $this->pageService->findOneActiveByRefAndHost($ref, $request->getHost());
         if (!$page) {
@@ -156,28 +124,28 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         }
         return $page->getOneTranslation($request->getLocale());
     }
-    public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function sitemap(Request $request, $ref)
     {
         $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $sitemap = $this->siteService->getSitemap($request->getLocale());
         return $this->render('common/pages/sitemap.html.twig', ['page' => $page, 'sitemap' => $sitemap, 'site_ref' => $siteRef]);
     }
-    public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
+    public function sitemapXml(Request $request)
     {
         $sitemapXml = $this->siteService->getSitemapXml($request->getHost(), $request->getLocale());
         $response = new \Symfony\Component\HttpFoundation\Response($sitemapXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
         return $response;
     }
-    public function rss(\Symfony\Component\HttpFoundation\Request $request)
+    public function rss(Request $request)
     {
         $rssXml = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
         $response = new \Symfony\Component\HttpFoundation\Response($rssXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
         return $response;
     }
-    public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function contact(Request $request, $ref)
     {
         $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();

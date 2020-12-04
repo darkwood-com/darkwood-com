@@ -9,11 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class SiteRepository.
  */
-class SiteRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class SiteRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Site::class);
+        parent::__construct($registry, Site::class);
     }
     /**
      * Get all user query, using for pagination.

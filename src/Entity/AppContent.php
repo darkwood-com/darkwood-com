@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AppContent
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * Locale.
      *
@@ -147,7 +147,7 @@ class AppContent
      *
      * @param \App\Entity\App $app
      */
-    public function setApp(\App\Entity\App $app = null): void
+    public function setApp(App $app = null): void
     {
         $this->app = $app;
     }

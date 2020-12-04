@@ -10,11 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class AppRepository.
  */
-class AppRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class AppRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\App::class);
+        parent::__construct($registry, App::class);
     }
     /**
      * Get all user query, using for paginatioa.

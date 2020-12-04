@@ -18,20 +18,17 @@ class ContactService
      */
     protected $contactRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em
+        protected EntityManagerInterface $em
     )
     {
-        $this->contactRepository = $em->getRepository(\App\Entity\Contact::class);
+        $this->contactRepository = $em->getRepository(Contact::class);
     }
     /**
      * Update a contactTranslation.
      *
      * @return Contact
      */
-    public function save(\App\Entity\Contact $contact)
+    public function save(Contact $contact)
     {
         $contact->setUpdated(new \DateTime('now'));
         $this->em->persist($contact);
@@ -43,7 +40,7 @@ class ContactService
      *
      * @param Contact $contact
      */
-    public function remove(\App\Entity\Contact $contact)
+    public function remove(Contact $contact)
     {
         $this->em->remove($contact);
         $this->em->flush();

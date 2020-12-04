@@ -20,18 +20,11 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_register')]
 class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var CommonController
-     */
-    private $commonController;
-    private $emailVerifier;
-    public function __construct(\App\Security\EmailVerifier $emailVerifier, \App\Controller\CommonController $commonController)
+    public function __construct(private EmailVerifier $emailVerifier, private CommonController $commonController)
     {
-        $this->emailVerifier = $emailVerifier;
-        $this->commonController = $commonController;
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/inscription', 'en' => '/en/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
-    public function register(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Security\Guard\GuardAuthenticatorHandler $guardHandler, \App\Security\LoginFormAuthenticator $authenticator, $ref): \Symfony\Component\HttpFoundation\Response
+    public function register(Request $request, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Security\Guard\GuardAuthenticatorHandler $guardHandler, \App\Security\LoginFormAuthenticator $authenticator, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
@@ -57,7 +50,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
         return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/inscription/confimer-email', 'en' => '/en/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
-    public function checkUserEmail(\Symfony\Component\HttpFoundation\Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function checkUserEmail(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();

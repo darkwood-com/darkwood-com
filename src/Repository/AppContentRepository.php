@@ -11,13 +11,13 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class AppContentRepository.
  */
-class AppContentRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class AppContentRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\AppContent::class);
+        parent::__construct($registry, AppContent::class);
     }
-    public function findByAppAndLocale(\App\Entity\App $app, $locale)
+    public function findByAppAndLocale(App $app, $locale)
     {
         return $this->createQueryBuilder('ac')->andWhere('ac.app = :app')->setParameter('app', $app)->andWhere('ac.locale = :locale')->setParameter('locale', $locale)->getQuery()->getResult();
     }

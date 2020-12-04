@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tag implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -35,8 +35,8 @@ class Tag implements \Stringable
      */
     public function __construct()
     {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
     /**
      * Get id.
@@ -50,7 +50,7 @@ class Tag implements \Stringable
     /**
      * Add translations.
      */
-    public function addTranslation(\App\Entity\TagTranslation $translations): void
+    public function addTranslation(TagTranslation $translations): void
     {
         $this->translations[] = $translations;
         $translations->setTag($this);
@@ -58,7 +58,7 @@ class Tag implements \Stringable
     /**
      * Remove translations.
      */
-    public function removeTranslation(\App\Entity\TagTranslation $translations)
+    public function removeTranslation(TagTranslation $translations)
     {
         $this->translations->removeElement($translations);
         $translations->setTag(null);
@@ -98,14 +98,14 @@ class Tag implements \Stringable
     /**
      * Add articles.
      */
-    public function addArticle(\App\Entity\Article $article): void
+    public function addArticle(Article $article): void
     {
         $this->articles[] = $article;
     }
     /**
      * Remove articles.
      */
-    public function removeArticle(\App\Entity\Article $article)
+    public function removeArticle(Article $article)
     {
         $this->articles->removeElement($article);
     }

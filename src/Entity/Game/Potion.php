@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Potion
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -71,8 +71,8 @@ class Potion
      */
     public function __construct()
     {
-        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->currentPotionPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->players = new ArrayCollection();
+        $this->currentPotionPlayers = new ArrayCollection();
     }
     /**
      * Get id.
@@ -129,7 +129,7 @@ class Potion
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -172,14 +172,14 @@ class Potion
     /**
      * Add player.
      */
-    public function addPlayer(\App\Entity\Game\Player $player): void
+    public function addPlayer(Player $player): void
     {
         $this->players[] = $player;
     }
     /**
      * Remove player.
      */
-    public function removePlayer(\App\Entity\Game\Player $player)
+    public function removePlayer(Player $player)
     {
         $this->players->removeElement($player);
     }
@@ -195,14 +195,14 @@ class Potion
     /**
      * Add currentPotionPlayer.
      */
-    public function addCurrentPotionPlayer(\App\Entity\Game\Player $currentPotionPlayer): void
+    public function addCurrentPotionPlayer(Player $currentPotionPlayer): void
     {
         $this->currentPotionPlayers[] = $currentPotionPlayer;
     }
     /**
      * Remove currentPotionPlayer.
      */
-    public function removeCurrentPotionPlayer(\App\Entity\Game\Player $currentPotionPlayer)
+    public function removeCurrentPotionPlayer(Player $currentPotionPlayer)
     {
         $this->currentPotionPlayers->removeElement($currentPotionPlayer);
     }

@@ -13,7 +13,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
      * Link to this controller to start the "connect" process
      */
     #[\Symfony\Component\Routing\Annotation\Route('/connect/facebook', name: 'connect_facebook_start')]
-    public function connectAction(\KnpU\OAuth2ClientBundle\Client\ClientRegistry $clientRegistry)
+    public function connectAction(ClientRegistry $clientRegistry)
     {
         // on Symfony 3.3 or lower, $clientRegistry = $this->get('knpu.oauth2.registry');
         // will redirect to Facebook!
@@ -25,7 +25,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
      * in config/packages/knpu_oauth2_client.yaml
      */
     #[\Symfony\Component\Routing\Annotation\Route('/connect/facebook/check', name: 'connect_facebook_check')]
-    public function connectCheckAction(\Symfony\Component\HttpFoundation\Request $request, \KnpU\OAuth2ClientBundle\Client\ClientRegistry $clientRegistry)
+    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator

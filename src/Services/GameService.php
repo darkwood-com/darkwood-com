@@ -115,46 +115,28 @@ class GameService
     const LIFE_BY_VITALITY = 25;
     const DEATH_LOSE_STATS = 10.0;
     public function __construct(
-        /**
-         * @var Session
-         */
-        protected \Symfony\Component\HttpFoundation\Session\SessionInterface $session,
-        /**
-         * @var Translator
-         */
-        protected \Symfony\Contracts\Translation\TranslatorInterface $translator,
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em,
-        /**
-         * @var UserService
-         */
-        protected \App\Services\UserService $userService,
-        /**
-         * @var PageService
-         */
-        protected \App\Services\PageService $pageService,
-        /**
-         * @var CommentService
-         */
-        protected \App\Services\CommentService $commentService
+        protected SessionInterface $session,
+        protected TranslatorInterface $translator,
+        protected EntityManagerInterface $em,
+        protected UserService $userService,
+        protected PageService $pageService,
+        protected CommentService $commentService
     )
     {
-        $this->armorRepository = $em->getRepository(\App\Entity\Game\Armor::class);
-        $this->classeRepository = $em->getRepository(\App\Entity\Game\Classe::class);
-        $this->dailyBattleRepository = $em->getRepository(\App\Entity\Game\DailyBattle::class);
-        $this->enemyRepository = $em->getRepository(\App\Entity\Game\Enemy::class);
-        $this->gemRepository = $em->getRepository(\App\Entity\Game\Gem::class);
-        $this->levelUpRepository = $em->getRepository(\App\Entity\Game\LevelUp::class);
-        $this->playerRepository = $em->getRepository(\App\Entity\Game\Player::class);
-        $this->potionRepository = $em->getRepository(\App\Entity\Game\Potion::class);
-        $this->swordRepository = $em->getRepository(\App\Entity\Game\Sword::class);
+        $this->armorRepository = $em->getRepository(Armor::class);
+        $this->classeRepository = $em->getRepository(Classe::class);
+        $this->dailyBattleRepository = $em->getRepository(DailyBattle::class);
+        $this->enemyRepository = $em->getRepository(Enemy::class);
+        $this->gemRepository = $em->getRepository(Gem::class);
+        $this->levelUpRepository = $em->getRepository(LevelUp::class);
+        $this->playerRepository = $em->getRepository(Player::class);
+        $this->potionRepository = $em->getRepository(Potion::class);
+        $this->swordRepository = $em->getRepository(Sword::class);
     }
     /**
      * @return Player
      */
-    public function getOrCreate(\App\Entity\User $user)
+    public function getOrCreate(User $user)
     {
         $player = $user->getPlayer();
         if (!$player) {
@@ -181,7 +163,7 @@ class GameService
         }
         return $player;
     }
-    public function getInfo(\App\Entity\User $user)
+    public function getInfo(User $user)
     {
         $player = $this->getOrCreate($user);
         $level = $this->levelUpRepository->findByXp($player->getXp());
@@ -222,19 +204,19 @@ class GameService
         $life['diff'] = $life['max'] - $life['min'];
         return ['user' => $user, 'player' => $player, 'level' => $level, 'damage' => $damage, 'swordDamage' => $swordDamage, 'equipmentDamage' => $equipmentDamage, 'hitLuck' => $hitLuck, 'armor' => $armor, 'armorDefence' => $armorDefence, 'points' => $points, 'life' => $life];
     }
-    public function getArmorInfo(\App\Entity\Game\Armor $armor)
+    public function getArmorInfo(Armor $armor)
     {
         return ['armor' => $armor, 'sellPrice' => ceil($armor->getPrice() / 2), 'next' => $this->armorRepository->findNext($armor), 'previous' => $this->armorRepository->findPrevious($armor)];
     }
-    public function getPotionInfo(\App\Entity\Game\Potion $potion)
+    public function getPotionInfo(Potion $potion)
     {
         return ['potion' => $potion, 'next' => $this->potionRepository->findNext($potion), 'previous' => $this->potionRepository->findPrevious($potion)];
     }
-    public function getSwordInfo(\App\Entity\Game\Sword $sword)
+    public function getSwordInfo(Sword $sword)
     {
         return ['sword' => $sword, 'sellPrice' => ceil($sword->getPrice() / 2), 'next' => $this->swordRepository->findNext($sword), 'previous' => $this->swordRepository->findPrevious($sword)];
     }
-    public function getEnemyInfo(\App\Entity\Game\Enemy $enemy)
+    public function getEnemyInfo(Enemy $enemy)
     {
         return ['enemy' => $enemy, 'next' => $this->enemyRepository->findNext($enemy), 'previous' => $this->enemyRepository->findPrevious($enemy)];
     }
@@ -242,7 +224,7 @@ class GameService
     {
         return ['default' => $this->classeRepository->findDefault(), 'list' => $this->classeRepository->findList()];
     }
-    public function getRegenerations(\App\Entity\User $user)
+    public function getRegenerations(User $user)
     {
         $player = $this->getOrCreate($user);
         $regeneration = [];
@@ -271,7 +253,7 @@ class GameService
         }
         return $regeneration;
     }
-    public function chooseClasse(\App\Entity\User $user, $classeId)
+    public function chooseClasse(User $user, $classeId)
     {
         $classeId = intval($classeId);
         $classe = $this->getClasses();
@@ -285,7 +267,7 @@ class GameService
         $player->setClasse($classe);
         $this->em->flush();
     }
-    public function addPoint(\App\Entity\User $user, $type)
+    public function addPoint(User $user, $type)
     {
         $points = $this->getInfo($user);
         $points = $points['points'];
@@ -309,7 +291,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function equipGem(\App\Entity\User $user, $index)
+    public function equipGem(User $user, $index)
     {
         $index = intval($index);
         $player = $this->getOrCreate($user);
@@ -322,7 +304,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function throwGem(\App\Entity\User $user, $index)
+    public function throwGem(User $user, $index)
     {
         $index = intval($index);
         $player = $this->getOrCreate($user);
@@ -338,7 +320,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function regen(\App\Entity\User $user, $key)
+    public function regen(User $user, $key)
     {
         $player = $this->getOrCreate($user);
         $regeneration = $this->getRegenerations($user);
@@ -359,7 +341,7 @@ class GameService
         $player->setGold($newGold);
         $this->em->flush();
     }
-    public function nextArmor(\App\Entity\User $user)
+    public function nextArmor(User $user)
     {
         $player = $this->getOrCreate($user);
         $armorInfo = $this->getArmorInfo($player->getCurrentDefaultArmor());
@@ -368,7 +350,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function previousArmor(\App\Entity\User $user)
+    public function previousArmor(User $user)
     {
         $player = $this->getOrCreate($user);
         $armorInfo = $this->getArmorInfo($player->getCurrentDefaultArmor());
@@ -377,7 +359,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function buyArmor(\App\Entity\User $user)
+    public function buyArmor(User $user)
     {
         $player = $this->getOrCreate($user);
         $armor = $player->getCurrentDefaultArmor();
@@ -394,7 +376,7 @@ class GameService
         $player->setArmor($armor);
         $this->em->flush();
     }
-    public function sellArmor(\App\Entity\User $user)
+    public function sellArmor(User $user)
     {
         $player = $this->getOrCreate($user);
         $armorInfo = $this->getArmorInfo($player->getArmor());
@@ -403,7 +385,7 @@ class GameService
         $player->setArmor($this->armorRepository->findDefault());
         $this->em->flush();
     }
-    public function nextPotion(\App\Entity\User $user)
+    public function nextPotion(User $user)
     {
         $player = $this->getOrCreate($user);
         $potionInfo = $this->getPotionInfo($player->getCurrentDefaultPotion());
@@ -412,7 +394,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function previousPotion(\App\Entity\User $user)
+    public function previousPotion(User $user)
     {
         $player = $this->getOrCreate($user);
         $potionInfo = $this->getPotionInfo($player->getCurrentDefaultPotion());
@@ -421,7 +403,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function buyPotion(\App\Entity\User $user)
+    public function buyPotion(User $user)
     {
         $player = $this->getOrCreate($user);
         $potion = $player->getCurrentDefaultPotion();
@@ -434,7 +416,7 @@ class GameService
         $player->setPotion($potion);
         $this->em->flush();
     }
-    public function nextSword(\App\Entity\User $user)
+    public function nextSword(User $user)
     {
         $player = $this->getOrCreate($user);
         $swordInfo = $this->getSwordInfo($player->getCurrentDefaultSword());
@@ -443,7 +425,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function previousSword(\App\Entity\User $user)
+    public function previousSword(User $user)
     {
         $player = $this->getOrCreate($user);
         $swordInfo = $this->getSwordInfo($player->getCurrentDefaultSword());
@@ -452,7 +434,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function buySword(\App\Entity\User $user)
+    public function buySword(User $user)
     {
         $player = $this->getOrCreate($user);
         $sword = $player->getCurrentDefaultSword();
@@ -475,7 +457,7 @@ class GameService
         $player->setEquipment3IsUse(false);
         $this->em->flush();
     }
-    public function sellSword(\App\Entity\User $user)
+    public function sellSword(User $user)
     {
         $player = $this->getOrCreate($user);
         $swordInfo = $this->getSwordInfo($player->getSword());
@@ -490,7 +472,7 @@ class GameService
         $player->setEquipment3IsUse(false);
         $this->em->flush();
     }
-    public function nextEnemy(\App\Entity\User $user)
+    public function nextEnemy(User $user)
     {
         $player = $this->getOrCreate($user);
         $enemyInfo = $this->getEnemyInfo($player->getCurrentEnemy() ? $player->getCurrentEnemy() : $this->enemyRepository->findDefault());
@@ -499,7 +481,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function previousEnemy(\App\Entity\User $user)
+    public function previousEnemy(User $user)
     {
         $player = $this->getOrCreate($user);
         $enemyInfo = $this->getEnemyInfo($player->getCurrentEnemy() ? $player->getCurrentEnemy() : $this->enemyRepository->findDefault());
@@ -508,7 +490,7 @@ class GameService
         }
         $this->em->flush();
     }
-    public function setLastFight(\App\Entity\User $user)
+    public function setLastFight(User $user)
     {
         $player = $this->getOrCreate($user);
         if (!$player->getLastFight()) {
@@ -516,7 +498,7 @@ class GameService
             $this->em->flush();
         }
     }
-    public function getSession(\App\Entity\User $user)
+    public function getSession(User $user)
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
@@ -527,13 +509,13 @@ class GameService
         }
         return $session;
     }
-    public function setSession(\App\Entity\User $user, $value): void
+    public function setSession(User $user, $value): void
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
         $this->session->set($sessionKey, $value);
     }
-    public function fight(\App\Entity\User $user, $action)
+    public function fight(User $user, $action)
     {
         $player = $this->getOrCreate($user);
         $playerInfo = $this->getInfo($user);
@@ -573,7 +555,7 @@ class GameService
         $this->em->flush();
         $this->setSession($user, $session);
     }
-    public function endFight(\App\Entity\User $user)
+    public function endFight(User $user)
     {
         $player = $this->getOrCreate($user);
         $playerInfo = $this->getInfo($user);
@@ -661,7 +643,7 @@ class GameService
             //search a random player
             $player = $this->playerRepository->findRand();
             $dailyBattle = new \App\Entity\Game\DailyBattle();
-            $dailyBattle->setStatus(\App\Entity\Game\DailyBattle::STATUS_DAILY_USER);
+            $dailyBattle->setStatus(DailyBattle::STATUS_DAILY_USER);
             $dailyBattle->setPlayer($player);
             $this->em->persist($dailyBattle);
             $this->em->flush();
@@ -677,7 +659,7 @@ class GameService
         }, $dailyBattles);
         return $dailyBattles;
     }
-    public function getSessionDaily(\App\Entity\User $user)
+    public function getSessionDaily(User $user)
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
@@ -688,13 +670,13 @@ class GameService
         }
         return $sessionDaily;
     }
-    public function setSessionDaily(\App\Entity\User $user, $value): void
+    public function setSessionDaily(User $user, $value): void
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
         $this->session->set($sessionDailyKey, $value);
     }
-    public function fightDaily(\App\Entity\User $user)
+    public function fightDaily(User $user)
     {
         $player = $this->getOrCreate($user);
         $playerInfo = $this->getInfo($user);
@@ -720,7 +702,7 @@ class GameService
         $this->em->flush();
         $this->setSessionDaily($user, $sessionDaily);
     }
-    public function endFightDaily(\App\Entity\User $user)
+    public function endFightDaily(User $user)
     {
         $player = $this->getOrCreate($user);
         $enemy = $this->getOrCreateDailyEnemy();
@@ -740,7 +722,7 @@ class GameService
             $enemy->getPlayer()->setDailyBattleVictories($enemy->getPlayer()->getDailyBattleVictories() + 1);
             $dailyBattle = new \App\Entity\Game\DailyBattle();
             $dailyBattle->setPlayer($player);
-            $dailyBattle->setStatus(\App\Entity\Game\DailyBattle::STATUS_NEW_LOSE);
+            $dailyBattle->setStatus(DailyBattle::STATUS_NEW_LOSE);
             $this->em->persist($dailyBattle);
         } elseif ($sessionDaily['enemy_current_life'] <= 0) {
             $sessionDaily = null;
@@ -756,7 +738,7 @@ class GameService
             $player->setDailyBattleVictories($player->getDailyBattleVictories() + 1);
             $dailyBattle = new \App\Entity\Game\DailyBattle();
             $dailyBattle->setPlayer($player);
-            $dailyBattle->setStatus(\App\Entity\Game\DailyBattle::STATUS_NEW_WIN);
+            $dailyBattle->setStatus(DailyBattle::STATUS_NEW_WIN);
             $this->em->persist($dailyBattle);
         }
         $this->em->flush();
@@ -768,7 +750,7 @@ class GameService
      *
      * @return array|Response
      */
-    public function play(\Symfony\Component\HttpFoundation\Request $request, \App\Entity\User $user = null, $display = null)
+    public function play(Request $request, User $user = null, $display = null)
     {
         $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => is_null($display) ? 'web' : $display];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'])) {
@@ -822,7 +804,7 @@ class GameService
                 $token = $this->tokenStorage->getToken();
                 $user = $token ? $token->getUser() : null;
             }
-            if (!$user instanceof \App\Entity\User) {
+            if (!$user instanceof User) {
                 throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('User not found !');
             }
             $parameters['user'] = $user;
@@ -835,7 +817,7 @@ class GameService
                 $token = $this->tokenStorage->getToken();
                 $user = $token ? $token->getUser() : null;
             }
-            if (!$user instanceof \App\Entity\User) {
+            if (!$user instanceof User) {
                 throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('User not found !');
             }
             $parameters['user'] = $user;

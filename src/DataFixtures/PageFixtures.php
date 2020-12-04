@@ -13,25 +13,19 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class PageFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture implements \Doctrine\Common\DataFixtures\DependentFixtureInterface
 {
     public function __construct(
-        /**
-         * @var ParameterBagInterface
-         */
-        protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBagInterface,
-        /**
-         * @var SiteService
-         */
-        private \App\Services\SiteService $siteService
+        protected ParameterBagInterface $parameterBagInterface,
+        private SiteService $siteService
     )
     {
     }
-    public function load(\Doctrine\Persistence\ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $this->createPage(['ref' => 'home', 'title' => 'Home'], $manager);
         $this->createPage(['ref' => 'contact', 'title' => 'Contact'], $manager);
         $this->createPage(['ref' => 'sitemap', 'title' => 'Sitemap'], $manager);
         $manager->flush();
     }
-    public function createPage($params, \Doctrine\Persistence\ObjectManager $manager)
+    public function createPage($params,ObjectManager $manager)
     {
         $sites = $this->siteService->findAll();
         foreach ($sites as $site) {

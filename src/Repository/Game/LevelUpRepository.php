@@ -8,11 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class LevelUpRepository.
  */
-class LevelUpRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class LevelUpRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\LevelUp::class);
+        parent::__construct($registry, LevelUp::class);
     }
     public function findByXp($xp)
     {

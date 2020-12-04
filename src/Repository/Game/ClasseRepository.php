@@ -8,11 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class ClasseRepository.
  */
-class ClasseRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class ClasseRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\Classe::class);
+        parent::__construct($registry, Classe::class);
     }
     public function findDefault()
     {

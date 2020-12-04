@@ -10,11 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class PageRepository.
  */
-class PageRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class PageRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Page::class);
+        parent::__construct($registry, Page::class);
     }
     /**
      * Get all user query, using for pagination.
@@ -84,7 +84,7 @@ class PageRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceE
      *
      * @return mixed
      */
-    public function findAllBySite(\App\Entity\Site $site = null)
+    public function findAllBySite(Site $site = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts');
         if ($site !== null) {

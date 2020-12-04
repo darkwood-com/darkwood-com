@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Contact
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -123,7 +123,7 @@ class Contact
      *
      * @param \App\Entity\User $user
      */
-    public function setUser(\App\Entity\User $user = null): void
+    public function setUser(User $user = null): void
     {
         $this->user = $user;
     }

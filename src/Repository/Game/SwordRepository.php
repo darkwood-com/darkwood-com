@@ -8,23 +8,23 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class SwordRepository.
  */
-class SwordRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class SwordRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\Sword::class);
+        parent::__construct($registry, Sword::class);
     }
     public function findDefault()
     {
         $qb = $this->createQueryBuilder('s')->select('s')->addOrderBy('s.price', 'asc')->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findNext(\App\Entity\Game\Sword $sword)
+    public function findNext(Sword $sword)
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.price', 'asc')->andWhere('a.price > :price')->setParameter('price', $sword->getPrice())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findPrevious(\App\Entity\Game\Sword $sword)
+    public function findPrevious(Sword $sword)
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.price', 'desc')->andWhere('a.price < :price')->setParameter('price', $sword->getPrice())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();

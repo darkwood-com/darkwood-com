@@ -18,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class ArticleTranslation implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * Locale.
      *
@@ -159,7 +159,7 @@ class ArticleTranslation implements \Stringable
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -204,7 +204,7 @@ class ArticleTranslation implements \Stringable
      *
      * @param \App\Entity\Article $article
      */
-    public function setArticle(\App\Entity\Article $article = null): void
+    public function setArticle(Article $article = null): void
     {
         $this->article = $article;
     }

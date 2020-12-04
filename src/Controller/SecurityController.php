@@ -11,15 +11,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        /**
-         * @var CommonController
-         */
-        private \App\Controller\CommonController $commonController
+        private CommonController $commonController
     )
     {
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'home'])]
-    public function login(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag, $ref): \Symfony\Component\HttpFoundation\Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
     {
         if ($request->getHost() === $parameterBag->get('admin_host')) {
             // get the login error if there is one

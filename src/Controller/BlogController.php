@@ -16,35 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'blog_', host: '%blog_host%')]
 class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var CommonController
-     */
-    private $commonController;
-    /**
-     * @var AuthenticationUtils
-     */
-    private $authenticationUtils;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var PageService
-     */
-    private $pageService;
-    /**
-     * @var ArticleService
-     */
-    private $articleService;
-    /**
-     * @var CommentService
-     */
-    private $commentService;
-    public function __construct(\App\Controller\CommonController $commonController, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Contracts\Translation\TranslatorInterface $translator, \Knp\Component\Pager\PaginatorInterface $paginator, \App\Services\PageService $pageService, \App\Services\ArticleService $articleService, \App\Services\CommentService $commentService)
+    public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private ArticleService $articleService, private CommentService $commentService)
     {
         $this->commonController = $commonController;
         $this->authenticationUtils = $authenticationUtils;
@@ -54,7 +26,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $this->articleService = $articleService;
         $this->commentService = $commentService;
     }
-    public function menu(\Symfony\Component\HttpFoundation\Request $request, $ref, $entity)
+    public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
@@ -62,7 +34,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function home(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
@@ -70,27 +42,27 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
-    public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
-    public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
+    public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
-    public function rss(\Symfony\Component\HttpFoundation\Request $request)
+    public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
-    public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/article/{slug}', 'en' => '/en/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
-    public function article(\Symfony\Component\HttpFoundation\Request $request, $ref, $slug)
+    public function article(Request $request, $ref, $slug)
     {
         $page = $this->commonController->getPage($request, $ref);
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());

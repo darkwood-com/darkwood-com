@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TagTranslation implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * Locale.
      *
@@ -94,7 +94,7 @@ class TagTranslation implements \Stringable
      *
      * @param \App\Entity\Tag $tag
      */
-    public function setTag(\App\Entity\Tag $tag = null): void
+    public function setTag(Tag $tag = null): void
     {
         $this->tag = $tag;
     }

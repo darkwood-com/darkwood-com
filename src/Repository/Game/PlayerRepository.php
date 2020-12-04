@@ -8,11 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class PlayerRepository.
  */
-class PlayerRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class PlayerRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\Player::class);
+        parent::__construct($registry, Player::class);
     }
     public function findRand()
     {

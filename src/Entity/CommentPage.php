@@ -20,7 +20,7 @@ class CommentPage extends \App\Entity\Comment
      *
      * @param \App\Entity\Page $page
      */
-    public function setPage(\App\Entity\Page $page = null): void
+    public function setPage(Page $page = null): void
     {
         $this->page = $page;
     }

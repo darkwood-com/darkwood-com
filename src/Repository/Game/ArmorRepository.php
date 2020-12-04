@@ -8,23 +8,23 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class ArmorRepository.
  */
-class ArmorRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class ArmorRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\Armor::class);
+        parent::__construct($registry, Armor::class);
     }
     public function findDefault()
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.price', 'asc')->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findNext(\App\Entity\Game\Armor $armor)
+    public function findNext(Armor $armor)
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.price', 'asc')->andWhere('a.price > :price')->setParameter('price', $armor->getPrice())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findPrevious(\App\Entity\Game\Armor $armor)
+    public function findPrevious(Armor $armor)
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.price', 'desc')->andWhere('a.price < :price')->setParameter('price', $armor->getPrice())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();

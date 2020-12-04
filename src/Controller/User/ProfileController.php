@@ -16,42 +16,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_profile')]
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $userPasswordEncoder;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var CommonController
-     */
-    private $commonController;
-    /**
-     * @var UserService
-     */
-    private $userService;
-    /**
-     * @var GameService
-     */
-    private \App\Services\GameService $gameService;
-    public function __construct(\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $userPasswordEncoder, \Symfony\Contracts\Translation\TranslatorInterface $translator, \App\Controller\CommonController $commonController, \App\Services\UserService $userService, \App\Services\GameService $gameService)
+    public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder, private TranslatorInterface $translator, private CommonController $commonController, private UserService $userService, private GameService $gameService)
     {
-        $this->userPasswordEncoder = $userPasswordEncoder;
-        $this->translator = $translator;
-        $this->commonController = $commonController;
-        $this->userService = $userService;
-        $this->gameService = $gameService;
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
-    public function profile(\Symfony\Component\HttpFoundation\Request $request, $ref, $username = null)
+    public function profile(Request $request, $ref, $username = null)
     {
         $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         if ($username) {
             $user = $this->userService->findOneByUsername($username);
-            if (!$user instanceof \App\Entity\User) {
+            if (!$user instanceof User) {
                 throw $this->createNotFoundException('User not found !');
             }
             $playerInfo = null;
@@ -61,7 +36,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             return $this->render('common/pages/profileShow.html.twig', ['page' => $page, 'user' => $user, 'playerInfo' => $playerInfo, 'site_ref' => $page->getPage()->getSite()->getRef()]);
         }
         $user = $this->getUser();
-        if (!$user instanceof \App\Entity\User) {
+        if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found !');
         }
         $form = $this->createForm(\App\Form\ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);

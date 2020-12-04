@@ -7,13 +7,13 @@ use App\Entity\TagTranslation;
 use App\Services\TagService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
-class TagTransformer implements \Symfony\Component\Form\DataTransformerInterface
+class TagTransformer implements DataTransformerInterface
 {
     public function __construct(
         /**
          * @var TagService
          */
-        private \App\Services\TagService $tagService
+        private TagService $tagService
     )
     {
     }
@@ -47,7 +47,7 @@ class TagTransformer implements \Symfony\Component\Form\DataTransformerInterface
      */
     public function reverseTransform($tags)
     {
-        $tagLinked = new \Doctrine\Common\Collections\ArrayCollection();
+        $tagLinked = new ArrayCollection();
         if (!$tags) {
             $tags = '';
         }

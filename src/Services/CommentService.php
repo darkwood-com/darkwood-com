@@ -25,21 +25,18 @@ class CommentService
      */
     protected $commentPageRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em
+        protected EntityManagerInterface $em
     )
     {
-        $this->commentRepository = $em->getRepository(\App\Entity\Comment::class);
-        $this->commentPageRepository = $em->getRepository(\App\Entity\CommentPage::class);
+        $this->commentRepository = $em->getRepository(Comment::class);
+        $this->commentPageRepository = $em->getRepository(CommentPage::class);
     }
     /**
      * Update a commentTranslation.
      *
      * @return Comment
      */
-    public function save(\App\Entity\Comment $comment)
+    public function save(Comment $comment)
     {
         $comment->setUpdated(new \DateTime('now'));
         $this->em->persist($comment);
@@ -51,7 +48,7 @@ class CommentService
      *
      * @param Comment $comment
      */
-    public function remove(\App\Entity\Comment $comment)
+    public function remove(Comment $comment)
     {
         $this->em->remove($comment);
         $this->em->flush();
@@ -78,7 +75,7 @@ class CommentService
     {
         return $this->commentRepository->findOneToEdit($id);
     }
-    public function findActiveCommentByPageQuery(\App\Entity\Page $page)
+    public function findActiveCommentByPageQuery(Page $page)
     {
         return $this->commentPageRepository->findActiveCommentByPageQuery($page);
     }

@@ -29,23 +29,20 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
          * @var UrlGeneratorInterface
          */
         private \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator,
-        /**
-         * @var ParameterBagInterface
-         */
         private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag,
         /**
          * @var SiteService
          */
-        private \App\Services\SiteService $siteService
+        private SiteService $siteService
     )
     {
     }
-    public function supports(\Symfony\Component\HttpFoundation\Request $request)
+    public function supports(Request $request)
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_facebook_check';
     }
-    public function getCredentials(\Symfony\Component\HttpFoundation\Request $request)
+    public function getCredentials(Request $request)
     {
         // this method is only called if supports() returns true
         // For Symfony lower than 3.4 the supports method need to be called manually here:
@@ -60,13 +57,13 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         $facebookUser = $this->getFacebookClient()->fetchUserFromToken($credentials);
         $email = $facebookUser->getEmail();
         // 1) have they logged in with Facebook before? Easy!
-        $existingUser = $this->em->getRepository(\App\Entity\User::class)->findOneBy(['facebookId' => $facebookUser->getId()]);
+        $existingUser = $this->em->getRepository(User::class)->findOneBy(['facebookId' => $facebookUser->getId()]);
         if ($existingUser !== null) {
             return $existingUser;
         }
         $username = $facebookUser->getName();
         // 2) find or create new user
-        $user = $this->em->getRepository(\App\Entity\User::class)->findOneBy(['email' => $facebookUser->getEmail()]);
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $facebookUser->getEmail()]);
         if ($user === null) {
             $user = new \App\Entity\User();
             $user->setEmail($email);
@@ -97,7 +94,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
     {
         return $this->clientRegistry->getClient('facebook_main');
     }
-    public function onAuthenticationSuccess(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
@@ -114,7 +111,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         // or, on success, let the request continue to be handled by the controller
         //return null;
     }
-    public function onAuthenticationFailure(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
         return new \Symfony\Component\HttpFoundation\Response($message, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
@@ -123,7 +120,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      */
-    public function start(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $authException = null)
+    public function start(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $authException = null)
     {
         return new \Symfony\Component\HttpFoundation\RedirectResponse(
             '/connect/',

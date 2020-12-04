@@ -10,11 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class CommentRepository.
  */
-class CommentRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Comment::class);
+        parent::__construct($registry, Comment::class);
     }
     /**
      * Get all user query, using for pagination.

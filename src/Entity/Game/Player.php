@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Player
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -171,7 +171,7 @@ class Player
      */
     public function __construct()
     {
-        $this->dailyBattles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dailyBattles = new ArrayCollection();
     }
     /**
      * Get id.
@@ -367,7 +367,7 @@ class Player
      *
      * @param \App\Entity\Game\Sword $sword
      */
-    public function setSword(\App\Entity\Game\Sword $sword = null): void
+    public function setSword(Sword $sword = null): void
     {
         $this->sword = $sword;
     }
@@ -385,7 +385,7 @@ class Player
      *
      * @param \App\Entity\Game\Armor $armor
      */
-    public function setArmor(\App\Entity\Game\Armor $armor = null): void
+    public function setArmor(Armor $armor = null): void
     {
         $this->armor = $armor;
     }
@@ -403,7 +403,7 @@ class Player
      *
      * @param \App\Entity\Game\Potion $potion
      */
-    public function setPotion(\App\Entity\Game\Potion $potion = null): void
+    public function setPotion(Potion $potion = null): void
     {
         $this->potion = $potion;
     }
@@ -421,7 +421,7 @@ class Player
      *
      * @param \App\Entity\Game\Enemy $lastFight
      */
-    public function setLastFight(\App\Entity\Game\Enemy $lastFight = null): void
+    public function setLastFight(Enemy $lastFight = null): void
     {
         $this->lastFight = $lastFight;
     }
@@ -439,7 +439,7 @@ class Player
      *
      * @param \App\Entity\Game\Enemy $currentEnemy
      */
-    public function setCurrentEnemy(\App\Entity\Game\Enemy $currentEnemy = null): void
+    public function setCurrentEnemy(Enemy $currentEnemy = null): void
     {
         $this->currentEnemy = $currentEnemy;
     }
@@ -457,7 +457,7 @@ class Player
      *
      * @param \App\Entity\Game\Classe $classe
      */
-    public function setClasse(\App\Entity\Game\Classe $classe = null): void
+    public function setClasse(Classe $classe = null): void
     {
         $this->classe = $classe;
     }
@@ -475,7 +475,7 @@ class Player
      *
      * @param \App\Entity\User $user
      */
-    public function setUser(\App\Entity\User $user = null): void
+    public function setUser(User $user = null): void
     {
         $this->user = $user;
     }
@@ -491,14 +491,14 @@ class Player
     /**
      * Add dailyBattle.
      */
-    public function addDailyBattle(\App\Entity\Game\DailyBattle $dailyBattle): void
+    public function addDailyBattle(DailyBattle $dailyBattle): void
     {
         $this->dailyBattles[] = $dailyBattle;
     }
     /**
      * Remove dailyBattle.
      */
-    public function removeDailyBattle(\App\Entity\Game\DailyBattle $dailyBattle)
+    public function removeDailyBattle(DailyBattle $dailyBattle)
     {
         $this->dailyBattles->removeElement($dailyBattle);
     }
@@ -516,7 +516,7 @@ class Player
      *
      * @param \App\Entity\Game\Gem $equipment1
      */
-    public function setEquipment1(\App\Entity\Game\Gem $equipment1 = null): void
+    public function setEquipment1(Gem $equipment1 = null): void
     {
         $this->equipment1 = $equipment1;
     }
@@ -534,7 +534,7 @@ class Player
      *
      * @param \App\Entity\Game\Gem $equipment2
      */
-    public function setEquipment2(\App\Entity\Game\Gem $equipment2 = null): void
+    public function setEquipment2(Gem $equipment2 = null): void
     {
         $this->equipment2 = $equipment2;
     }
@@ -552,7 +552,7 @@ class Player
      *
      * @param \App\Entity\Game\Gem $equipment3
      */
-    public function setEquipment3(\App\Entity\Game\Gem $equipment3 = null): void
+    public function setEquipment3(Gem $equipment3 = null): void
     {
         $this->equipment3 = $equipment3;
     }
@@ -606,7 +606,7 @@ class Player
      *
      * @param \App\Entity\Game\Sword $currentSword
      */
-    public function setCurrentSword(\App\Entity\Game\Sword $currentSword = null): void
+    public function setCurrentSword(Sword $currentSword = null): void
     {
         $this->currentSword = $currentSword;
     }
@@ -631,7 +631,7 @@ class Player
      *
      * @param \App\Entity\Game\Potion $currentPotion
      */
-    public function setCurrentPotion(\App\Entity\Game\Potion $currentPotion = null): void
+    public function setCurrentPotion(Potion $currentPotion = null): void
     {
         $this->currentPotion = $currentPotion;
     }
@@ -656,7 +656,7 @@ class Player
      *
      * @param \App\Entity\Game\Armor $currentArmor
      */
-    public function setCurrentArmor(\App\Entity\Game\Armor $currentArmor = null): void
+    public function setCurrentArmor(Armor $currentArmor = null): void
     {
         $this->currentArmor = $currentArmor;
     }

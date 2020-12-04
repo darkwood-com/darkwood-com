@@ -48,39 +48,24 @@ class PageService
      */
     protected $appContentRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em,
-        /**
-         * @var ParameterBagInterface
-         */
-        protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBagInterface,
-        /**
-         * @var CacheInterface
-         */
-        protected \Symfony\Contracts\Cache\CacheInterface $appCache,
-        /**
-         * @var RouterInterface
-         */
+        protected EntityManagerInterface $em,
+        protected ParameterBagInterface $parameterBagInterface,
+        protected CacheInterface $appCache,
         protected \Symfony\Component\Routing\RouterInterface $router,
-        /**
-         * @var StorageInterface
-         */
-        protected \Vich\UploaderBundle\Storage\StorageInterface $storage
+        protected StorageInterface $storage
     )
     {
-        $this->pageRepository = $em->getRepository(\App\Entity\Page::class);
-        $this->entityRepository = $em->getRepository(\App\Entity\PageTranslation::class);
-        $this->articleTranslationRepository = $em->getRepository(\App\Entity\ArticleTranslation::class);
-        $this->appContentRepository = $em->getRepository(\App\Entity\AppContent::class);
+        $this->pageRepository = $em->getRepository(Page::class);
+        $this->entityRepository = $em->getRepository(PageTranslation::class);
+        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
+        $this->appContentRepository = $em->getRepository(AppContent::class);
     }
     /**
      * Update a entity.
      *
      * @return Page
      */
-    public function save(\App\Entity\Page $page, $invalidate = false)
+    public function save(Page $page, $invalidate = false)
     {
         $page->setUpdated(new \DateTime('now'));
         foreach ($page->getTranslations() as $translation) {
@@ -95,12 +80,12 @@ class PageService
      *
      * @param Page $page
      */
-    public function remove(\App\Entity\Page $page)
+    public function remove(Page $page)
     {
         $this->em->remove($page);
         $this->em->flush();
     }
-    public function duplicate(\App\Entity\PageTranslation $entity, $locale)
+    public function duplicate(PageTranslation $entity, $locale)
     {
         $page = $entity->getPage();
         $duplicatePageTranslation = $this->entityRepository->findOneByPageAndLocale($page, $locale);
@@ -124,7 +109,7 @@ class PageService
                 $duplicatePageTranslation->setImage($image);
             }
         }
-        if ($page instanceof \App\Entity\App) {
+        if ($page instanceof App) {
             $oldContents = $this->appContentRepository->findByAppAndLocale($page, $locale);
             foreach ($oldContents as $oldContent) {
                 $oldContent->setApp(null);
@@ -150,7 +135,7 @@ class PageService
      *
      * @return PageTranslation
      */
-    public function saveTranslation(\App\Entity\PageTranslation $entity, $exportLocales = false)
+    public function saveTranslation(PageTranslation $entity, $exportLocales = false)
     {
         $entity->setUpdated(new \DateTime('now'));
         $this->em->persist($entity);
@@ -166,7 +151,7 @@ class PageService
         }
         return $entity;
     }
-    public function removeTranslation(\App\Entity\PageTranslation $pageTs)
+    public function removeTranslation(PageTranslation $pageTs)
     {
         $nbT = count($pageTs->getPage()->getTranslations());
         if ($nbT <= 1) {
@@ -252,7 +237,7 @@ class PageService
     /**
      * Find all.
      */
-    public function findAllBySite(\App\Entity\Site $site = null)
+    public function findAllBySite(Site $site = null)
     {
         return $this->pageRepository->findAllBySite($site);
     }
@@ -262,14 +247,14 @@ class PageService
         return $this->appCache->get($cacheId, function (\Symfony\Contracts\Cache\ItemInterface $item) use ($entity, $referenceType) {
             $item->expiresAfter(43200);
             // 12 hours
-            if ($entity instanceof \App\Entity\PageTranslation) {
+            if ($entity instanceof PageTranslation) {
                 $site = $entity->getPage()->getSite();
                 $routes = $this->router->getRouteCollection();
                 $routeData = null;
                 foreach ($routes as $name => $route) {
                     $page = $entity->getPage();
                     /** @var Route $route */
-                    if ($page instanceof \App\Entity\App && $route->getDefault('_controller') === 'App\Controller\AppsController::app') {
+                    if ($page instanceof App && $route->getDefault('_controller') === 'App\Controller\AppsController::app') {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
                         if ($route->getHost() && $route->getHost() != $host) {
@@ -295,7 +280,7 @@ class PageService
                     return $this->router->generate($routeData['name'], $routeData['params'], $referenceType);
                 }
             } else {
-                if ($entity instanceof \App\Entity\ArticleTranslation) {
+                if ($entity instanceof ArticleTranslation) {
                     return $this->router->generate('blog_article', ['_locale' => $entity->getLocale(), 'slug' => $entity->getSlug()], $referenceType);
                 }
             }
@@ -313,7 +298,7 @@ class PageService
     public function getPageLinks($ref, $entity, $host, $locale = null)
     {
         $pageLinks = [];
-        if ($entity instanceof \App\Entity\ArticleTranslation) {
+        if ($entity instanceof ArticleTranslation) {
             $articleTranslations = $this->articleTranslationRepository->findByArticle($entity->getArticle());
             foreach ($articleTranslations as $articleTranslation) {
                 if ($articleTranslation->getLocale() == $locale) {

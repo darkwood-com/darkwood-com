@@ -15,26 +15,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/{_locale}/sites', name: 'admin_site_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var SiteService
-     */
-    private $siteService;
-    public function __construct(\Symfony\Contracts\Translation\TranslatorInterface $translator, \Knp\Component\Pager\PaginatorInterface $paginator, \App\Services\SiteService $siteService)
+    public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private SiteService $siteService)
     {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->siteService = $siteService;
     }
     #[Route('/list', name: 'list')]
-    public function list(\Symfony\Component\HttpFoundation\Request $request)
+    public function list(Request $request)
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
@@ -45,12 +30,12 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     private function createSearchForm()
     {
         $data = [];
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_site_list'))->setMethod('GET')->add('id', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_site_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
-    private function manage(\Symfony\Component\HttpFoundation\Request $request, \App\Entity\Site $entity)
+    private function manage(Request $request, Site $entity)
     {
         $mode = $entity->getId() ? 'edit' : 'create';
-        $form = $this->createForm(\App\Form\Admin\SiteType::class, $entity);
+        $form = $this->createForm(SiteType::class, $entity);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -64,14 +49,14 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         return $this->render('admin/site/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
     }
     #[Route('/create', name: 'create')]
-    public function create(\Symfony\Component\HttpFoundation\Request $request)
+    public function create(Request $request)
     {
         $entity = new \App\Entity\Site();
         $entity->setCreated(new \DateTime());
         return $this->manage($request, $entity);
     }
     #[Route('/edit/{id}', name: 'edit')]
-    public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->siteService->findOneToEdit($id);
         if (!$entity) {
@@ -81,7 +66,7 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         return $this->manage($request, $entity);
     }
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
+    public function delete(Request $request, $id)
     {
         /** @var Site $site */
         $site = $this->siteService->findOneToEdit($id);

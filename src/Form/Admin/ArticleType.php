@@ -24,15 +24,15 @@ class ArticleType extends \Symfony\Component\Form\AbstractType
     /**
      * Build Form.
      */
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
         $this->tagTransformer->setLocale($locale);
-        $builder->add($builder->create('tags', \Symfony\Component\Form\Extension\Core\Type\TextType::class)->addModelTransformer($this->tagTransformer));
+        $builder->add($builder->create('tags', TextType::class)->addModelTransformer($this->tagTransformer));
     }
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => \App\Entity\Article::class, 'locale' => null]);
+        $resolver->setDefaults(['data_class' => Article::class, 'locale' => null]);
     }
     /**
      * Get name.

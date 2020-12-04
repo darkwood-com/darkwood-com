@@ -12,14 +12,11 @@ class UserFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
      * AppFixtures constructor.
      */
     public function __construct(
-        /**
-         * @var UserPasswordEncoderInterface
-         */
         private \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
     )
     {
     }
-    public function load(\Doctrine\Persistence\ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $user = new \App\Entity\User();
         $user->setUsername('matyo');

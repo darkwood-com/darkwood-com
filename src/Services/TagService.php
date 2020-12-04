@@ -20,17 +20,11 @@ class TagService
      */
     protected $tagRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em,
-        /**
-         * @var CacheInterface
-         */
-        protected \Symfony\Contracts\Cache\CacheInterface $appCache
+        protected EntityManagerInterface $em,
+        protected CacheInterface $appCache
     )
     {
-        $this->tagRepository = $em->getRepository(\App\Entity\Tag::class);
+        $this->tagRepository = $em->getRepository(Tag::class);
     }
     /**
      * Update a tag.
@@ -55,7 +49,7 @@ class TagService
      *
      * @return Tag
      */
-    public function save(\App\Entity\Tag $tag)
+    public function save(Tag $tag)
     {
         $tag->setUpdated(new \DateTime('now'));
         $this->em->persist($tag);
@@ -65,7 +59,7 @@ class TagService
     /**
      * Remove one tag.
      */
-    public function remove(\App\Entity\Tag $tag)
+    public function remove(Tag $tag)
     {
         $this->em->remove($tag);
         $this->em->flush();

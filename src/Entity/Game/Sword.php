@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Sword
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -83,8 +83,8 @@ class Sword
      */
     public function __construct()
     {
-        $this->players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->currentSwordPlayers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->players = new ArrayCollection();
+        $this->currentSwordPlayers = new ArrayCollection();
     }
     /**
      * Get id.
@@ -177,7 +177,7 @@ class Sword
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -220,14 +220,14 @@ class Sword
     /**
      * Add player.
      */
-    public function addPlayer(\App\Entity\Game\Player $player): void
+    public function addPlayer(Player $player): void
     {
         $this->players[] = $player;
     }
     /**
      * Remove player.
      */
-    public function removePlayer(\App\Entity\Game\Player $player)
+    public function removePlayer(Player $player)
     {
         $this->players->removeElement($player);
     }
@@ -243,14 +243,14 @@ class Sword
     /**
      * Add currentSwordPlayer.
      */
-    public function addCurrentSwordPlayer(\App\Entity\Game\Player $currentSwordPlayer): void
+    public function addCurrentSwordPlayer(Player $currentSwordPlayer): void
     {
         $this->currentSwordPlayers[] = $currentSwordPlayer;
     }
     /**
      * Remove currentSwordPlayer.
      */
-    public function removeCurrentSwordPlayer(\App\Entity\Game\Player $currentSwordPlayer)
+    public function removeCurrentSwordPlayer(Player $currentSwordPlayer)
     {
         $this->currentSwordPlayers->removeElement($currentSwordPlayer);
     }

@@ -16,15 +16,15 @@ class AppContentType extends \Symfony\Component\Form\AbstractType
     /**
      * Build Form.
      */
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('slug', \Symfony\Component\Form\Extension\Core\Type\TextType::class);
-        $builder->add('title', \Symfony\Component\Form\Extension\Core\Type\TextType::class);
-        $builder->add('content', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, ['required' => false]);
+        $builder->add('slug', TextType::class);
+        $builder->add('title', TextType::class);
+        $builder->add('content', TextareaType::class, ['required' => false]);
     }
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => \App\Entity\AppContent::class]);
+        $resolver->setDefaults(['data_class' => AppContent::class]);
     }
     /**
      * Get name.

@@ -18,16 +18,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private \Symfony\Contracts\Translation\TranslatorInterface $translator, private \Knp\Component\Pager\PaginatorInterface $paginator, private \App\Services\AppService $appService, private \App\Services\PageService $pageService, private \App\Services\SiteService $siteService)
+    public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private AppService $appService, private PageService $pageService, private SiteService $siteService)
     {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->appService = $appService;
-        $this->pageService = $pageService;
-        $this->siteService = $siteService;
     }
     #[Route('/list', name: 'list')]
-    public function list(\Symfony\Component\HttpFoundation\Request $request)
+    public function list(Request $request)
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
@@ -38,12 +33,12 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
     private function createSearchForm()
     {
         $data = [];
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_app_list'))->setMethod('GET')->add('id', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_app_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
-    private function manage(\Symfony\Component\HttpFoundation\Request $request, \App\Entity\PageTranslation $entityTranslation)
+    private function manage(Request $request, PageTranslation $entityTranslation)
     {
         $mode = $entityTranslation->getId() ? 'edit' : 'create';
-        $form = $this->createForm(\App\Form\Admin\PageTranslationType::class, $entityTranslation, ['locale' => $request->getLocale()]);
+        $form = $this->createForm(PageTranslationType::class, $entityTranslation, ['locale' => $request->getLocale()]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -62,7 +57,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         return $this->render('admin/app/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
     }
     #[Route('/create', name: 'create')]
-    public function create(\Symfony\Component\HttpFoundation\Request $request)
+    public function create(Request $request)
     {
         $entity = new \App\Entity\App();
         $entity->setCreated(new \DateTime());
@@ -72,7 +67,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         return $this->manage($request, $entityTranslation);
     }
     #[Route('/edit/{id}', name: 'edit')]
-    public function edit(\Symfony\Component\HttpFoundation\Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->appService->findOneToEdit($id, $request->getLocale());
         if (!$entity) {
@@ -80,7 +75,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         }
         $entity->setUpdated(new \DateTime());
         $entityTranslation = $entity->getOneTranslation($request->getLocale());
-        if (!$entityTranslation instanceof \App\Entity\PageTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
+        if (!$entityTranslation instanceof PageTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
             $entityTranslation = new \App\Entity\PageTranslation();
             $entityTranslation->setLocale($request->getLocale());
             $entity->addTranslation($entityTranslation);
@@ -89,7 +84,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         return $this->manage($request, $entityTranslation);
     }
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(\Symfony\Component\HttpFoundation\Request $request, $id)
+    public function delete(Request $request, $id)
     {
         /** @var App $app */
         $app = $this->appService->findOneToEdit($id, $request->getLocale());

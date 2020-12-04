@@ -19,18 +19,18 @@ class CommentType extends \Symfony\Component\Form\AbstractType
     /**
      * Build Form.
      */
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $locale = $options['locale'];
-        $builder->add('content', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, ['required' => false]);
-        $builder->add('page', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => \App\Entity\Page::class, 'placeholder' => '- Choisissez une page -', 'query_builder' => function (\Doctrine\ORM\EntityRepository $er) use ($locale) {
+        $builder->add('content', TextareaType::class, ['required' => false]);
+        $builder->add('page', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => Page::class, 'placeholder' => '- Choisissez une page -', 'query_builder' => function (\Doctrine\ORM\EntityRepository $er) use ($locale) {
             return $er->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->andWhere('pts.locale = :locale OR pts.locale IS NULL')->setParameter('locale', $locale);
         }]);
-        $builder->add('active', \Symfony\Component\Form\Extension\Core\Type\CheckboxType::class, ['required' => false]);
+        $builder->add('active', CheckboxType::class, ['required' => false]);
     }
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => \App\Entity\Comment::class, 'locale' => null]);
+        $resolver->setDefaults(['data_class' => Comment::class, 'locale' => null]);
     }
     /**
      * Get name.

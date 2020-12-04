@@ -15,19 +15,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository implements \Symfony\Component\Security\Core\User\PasswordUpgraderInterface, \Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface
+class UserRepository extends ServiceEntityRepository implements \Symfony\Component\Security\Core\User\PasswordUpgraderInterface, \Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\User::class);
+        parent::__construct($registry, User::class);
     }
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
     public function upgradePassword(\Symfony\Component\Security\Core\User\UserInterface $user, string $newEncodedPassword): void
     {
-        if (!$user instanceof \App\Entity\User) {
-            throw new \Symfony\Component\Security\Core\Exception\UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);

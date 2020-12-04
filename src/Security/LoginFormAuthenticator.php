@@ -33,19 +33,16 @@ class LoginFormAuthenticator extends \Symfony\Component\Security\Guard\Authentic
         /**
          * @var SiteService
          */
-        private \App\Services\SiteService $siteService,
-        /**
-         * @var ParameterBagInterface
-         */
+        private SiteService $siteService,
         private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag
     )
     {
     }
-    public function supports(\Symfony\Component\HttpFoundation\Request $request)
+    public function supports(Request $request)
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
     }
-    public function getCredentials(\Symfony\Component\HttpFoundation\Request $request)
+    public function getCredentials(Request $request)
     {
         $credentials = ['username' => $request->request->get('username'), 'password' => $request->request->get('password'), 'csrf_token' => $request->request->get('_csrf_token')];
         $request->getSession()->set(\Symfony\Component\Security\Core\Security::LAST_USERNAME, $credentials['username']);
@@ -55,12 +52,12 @@ class LoginFormAuthenticator extends \Symfony\Component\Security\Guard\Authentic
     {
         $token = new \Symfony\Component\Security\Csrf\CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new \Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException();
+            throw new InvalidCsrfTokenException();
         }
-        $user = $this->entityManager->getRepository(\App\Entity\User::class)->loadUserByUsername($credentials['username']);
+        $user = $this->entityManager->getRepository(User::class)->loadUserByUsername($credentials['username']);
         if (!$user) {
             // fail authentication with a custom error
-            throw new \Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
         return $user;
     }
@@ -75,7 +72,7 @@ class LoginFormAuthenticator extends \Symfony\Component\Security\Guard\Authentic
     {
         return $credentials['password'];
     }
-    public function onAuthenticationSuccess(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new \Symfony\Component\HttpFoundation\RedirectResponse($targetPath);

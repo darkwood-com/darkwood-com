@@ -20,36 +20,21 @@ class SiteService
      */
     protected $siteRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em,
-        /**
-         * @var PageService
-         */
-        protected \App\Services\PageService $pageService,
-        /**
-         * @var ArticleService
-         */
-        protected \App\Services\ArticleService $articleService,
-        /**
-         * @var TranslatorInterface
-         */
-        protected \Symfony\Contracts\Translation\TranslatorInterface $translator,
-        /**
-         * @var Environment
-         */
-        protected \Twig\Environment $templating
+        protected EntityManagerInterface $em,
+        protected PageService $pageService,
+        protected ArticleService $articleService,
+        protected TranslatorInterface $translator,
+        protected Environment $templating
     )
     {
-        $this->siteRepository = $em->getRepository(\App\Entity\Site::class);
+        $this->siteRepository = $em->getRepository(Site::class);
     }
     /**
      * Update a site.
      *
      * @return Site
      */
-    public function save(\App\Entity\Site $site)
+    public function save(Site $site)
     {
         $site->setUpdated(new \DateTime('now'));
         $this->em->persist($site);
@@ -59,7 +44,7 @@ class SiteService
     /**
      * Remove one site.
      */
-    public function remove(\App\Entity\Site $site)
+    public function remove(Site $site)
     {
         $this->em->remove($site);
         $this->em->flush();

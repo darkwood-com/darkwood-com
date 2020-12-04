@@ -19,20 +19,17 @@ class AppContentService
      */
     protected $appContentRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em
+        protected EntityManagerInterface $em
     )
     {
-        $this->appContentRepository = $em->getRepository(\App\Entity\AppContent::class);
+        $this->appContentRepository = $em->getRepository(AppContent::class);
     }
     /**
      * Update a appTranslation.
      *
      * @return AppContent
      */
-    public function save(\App\Entity\AppContent $appContent, $invalidate = false)
+    public function save(AppContent $appContent, $invalidate = false)
     {
         $appContent->setUpdated(new \DateTime('now'));
         $this->em->persist($appContent);
@@ -42,7 +39,7 @@ class AppContentService
     /**
      * Remove one appTranslation.
      */
-    public function remove(\App\Entity\AppContent $appContent)
+    public function remove(AppContent $appContent)
     {
         $this->em->remove($appContent);
         $this->em->flush();

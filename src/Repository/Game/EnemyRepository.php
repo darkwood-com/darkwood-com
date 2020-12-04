@@ -8,11 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class EnemyRepository.
  */
-class EnemyRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class EnemyRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\Game\Enemy::class);
+        parent::__construct($registry, Enemy::class);
     }
     public function findOrdered()
     {
@@ -24,12 +24,12 @@ class EnemyRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\Service
         $qb = $this->createQueryBuilder('e')->select('e')->addOrderBy('e.xp', 'asc')->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findNext(\App\Entity\Game\Enemy $enemy)
+    public function findNext(Enemy $enemy)
     {
         $qb = $this->createQueryBuilder('e')->select('e')->addOrderBy('e.xp', 'asc')->andWhere('e.xp > :xp')->setParameter('xp', $enemy->getXp())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function findPrevious(\App\Entity\Game\Enemy $enemy)
+    public function findPrevious(Enemy $enemy)
     {
         $qb = $this->createQueryBuilder('e')->select('e')->addOrderBy('e.xp', 'desc')->andWhere('e.xp < :xp')->setParameter('xp', $enemy->getXp())->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();

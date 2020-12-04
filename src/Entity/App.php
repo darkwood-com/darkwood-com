@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class App extends \App\Entity\Page
+class App extends Page
 {
     /**
      * @var File
@@ -43,12 +43,12 @@ class App extends \App\Entity\Page
      */
     public function __construct()
     {
-        $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contents = new ArrayCollection();
     }
     /**
      * Add content.
      */
-    public function addContent(\App\Entity\AppContent $content): void
+    public function addContent(AppContent $content): void
     {
         $this->contents[] = $content;
         $content->setApp($this);
@@ -56,7 +56,7 @@ class App extends \App\Entity\Page
     /**
      * Remove content.
      */
-    public function removeContent(\App\Entity\AppContent $content)
+    public function removeContent(AppContent $content)
     {
         $this->contents->removeElement($content);
         $content->setApp(null);
@@ -80,7 +80,7 @@ class App extends \App\Entity\Page
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $banner
      */
-    public function setBanner(\Symfony\Component\HttpFoundation\File\File $banner)
+    public function setBanner(File $banner)
     {
         $this->banner = $banner;
         if ($banner) {

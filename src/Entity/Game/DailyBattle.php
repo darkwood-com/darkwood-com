@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class DailyBattle
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     const STATUS_DAILY_USER = 0;
     //user of the day
     const STATUS_NEW_WIN = 1;
@@ -71,7 +71,7 @@ class DailyBattle
      *
      * @param \App\Entity\Game\Player $player
      */
-    public function setPlayer(\App\Entity\Game\Player $player = null): void
+    public function setPlayer(Player $player = null): void
     {
         $this->player = $player;
     }

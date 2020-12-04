@@ -19,18 +19,15 @@ class UserService
      */
     protected $userRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em
+        protected EntityManagerInterface $em
     )
     {
-        $this->userRepository = $em->getRepository(\App\Entity\User::class);
+        $this->userRepository = $em->getRepository(User::class);
     }
     /**
      * Save a user.
      */
-    public function save(\App\Entity\User $user)
+    public function save(User $user)
     {
         $this->em->persist($user);
         $this->em->flush();
@@ -38,7 +35,7 @@ class UserService
     /**
      * Remove one user.
      */
-    public function remove(\App\Entity\User $user)
+    public function remove(User $user)
     {
         $this->em->remove($user);
         $this->em->flush();

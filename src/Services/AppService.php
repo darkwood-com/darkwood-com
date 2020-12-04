@@ -19,20 +19,17 @@ class AppService
      */
     protected $appRepository;
     public function __construct(
-        /**
-         * @var EntityManagerInterface
-         */
-        protected \Doctrine\ORM\EntityManagerInterface $em
+        protected EntityManagerInterface $em
     )
     {
-        $this->appRepository = $em->getRepository(\App\Entity\App::class);
+        $this->appRepository = $em->getRepository(App::class);
     }
     /**
      * Update a appTranslation.
      *
      * @return App
      */
-    public function save(\App\Entity\App $app, $invalidate = false)
+    public function save(App $app, $invalidate = false)
     {
         $app->setUpdated(new \DateTime('now'));
         $this->em->persist($app);
@@ -44,7 +41,7 @@ class AppService
      *
      * @param App $app
      */
-    public function remove(\App\Entity\App $app)
+    public function remove(App $app)
     {
         $this->em->remove($app);
         $this->em->flush();

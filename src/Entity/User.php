@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Game\Player;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable, \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * Id.
      *
@@ -159,8 +160,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -313,7 +314,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -366,7 +367,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     /**
      * Add comment.
      */
-    public function addComment(\App\Entity\Comment $comment): void
+    public function addComment(Comment $comment): void
     {
         $this->comments[] = $comment;
         $comment->setUser($this);
@@ -374,7 +375,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     /**
      * Remove comment.
      */
-    public function removeComment(\App\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
         $comment->setUser(null);
@@ -391,7 +392,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     /**
      * Add contact.
      */
-    public function addContact(\App\Entity\Contact $contact): void
+    public function addContact(Contact $contact): void
     {
         $this->contacts[] = $contact;
         $contact->setUser($this);
@@ -399,7 +400,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     /**
      * Remove contact.
      */
-    public function removeContact(\App\Entity\Contact $contact)
+    public function removeContact(Contact $contact)
     {
         $this->contacts->removeElement($contact);
         $contact->setUser(null);
@@ -418,7 +419,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      *
      * @param \App\Entity\Game\Player $player
      */
-    public function setPlayer(\App\Entity\Game\Player $player = null): void
+    public function setPlayer(Player $player = null): void
     {
         $this->player = $player;
     }

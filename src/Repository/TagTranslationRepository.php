@@ -8,10 +8,10 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class TagTranslationRepository.
  */
-class TagTranslationRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+class TagTranslationRepository extends ServiceEntityRepository
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, \App\Entity\TagTranslation::class);
+        parent::__construct($registry, TagTranslation::class);
     }
 }

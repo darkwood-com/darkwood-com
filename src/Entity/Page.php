@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -59,8 +59,8 @@ class Page implements \Stringable
      */
     public function __construct()
     {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
     /**
      * Get id.
@@ -74,7 +74,7 @@ class Page implements \Stringable
     /**
      * Add translations.
      */
-    public function addTranslation(\App\Entity\PageTranslation $translations): void
+    public function addTranslation(PageTranslation $translations): void
     {
         $this->translations[] = $translations;
         $translations->setPage($this);
@@ -82,7 +82,7 @@ class Page implements \Stringable
     /**
      * Remove translations.
      */
-    public function removeTranslation(\App\Entity\PageTranslation $translations)
+    public function removeTranslation(PageTranslation $translations)
     {
         $this->translations->removeElement($translations);
         $translations->setPage(null);
@@ -138,7 +138,7 @@ class Page implements \Stringable
      *
      * @param \App\Entity\Site $site
      */
-    public function setSite(\App\Entity\Site $site = null): void
+    public function setSite(Site $site = null): void
     {
         $this->site = $site;
     }
@@ -154,7 +154,7 @@ class Page implements \Stringable
     /**
      * Add comment.
      */
-    public function addComment(\App\Entity\Comment $comment): void
+    public function addComment(Comment $comment): void
     {
         $this->comments[] = $comment;
         $comment->setPage($this);
@@ -162,7 +162,7 @@ class Page implements \Stringable
     /**
      * Remove comment.
      */
-    public function removeComment(\App\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
         $comment->setPage(null);

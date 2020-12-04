@@ -17,40 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[\Symfony\Component\Routing\Annotation\Route('/', name: 'apps_', host: '%apps_host%')]
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @var CommonController
-     */
-    private $commonController;
-    /**
-     * @var AuthenticationUtils
-     */
-    private $authenticationUtils;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var PageService
-     */
-    private $pageService;
-    /**
-     * @var CommentService
-     */
-    private $commentService;
-    public function __construct(\App\Controller\CommonController $commonController, \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, \Symfony\Contracts\Translation\TranslatorInterface $translator, \Knp\Component\Pager\PaginatorInterface $paginator, \App\Services\PageService $pageService, \App\Services\CommentService $commentService)
+    public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private CommentService $commentService)
     {
-        $this->commonController = $commonController;
-        $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->commentService = $commentService;
     }
-    public function menu(\Symfony\Component\HttpFoundation\Request $request, $ref, $entity)
+    public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
@@ -63,37 +33,37 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks]);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function home(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('apps/pages/home.html.twig', ['page' => $page]);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
-    public function sitemap(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
-    public function sitemapXml(\Symfony\Component\HttpFoundation\Request $request)
+    public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
-    public function rss(\Symfony\Component\HttpFoundation\Request $request)
+    public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
-    public function contact(\Symfony\Component\HttpFoundation\Request $request, $ref)
+    public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
     #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/article/{ref}/{slug}', 'en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
-    public function app(\Symfony\Component\HttpFoundation\Request $request, $ref, $slug = null)
+    public function app(Request $request, $ref, $slug = null)
     {
         $page = $this->commonController->getPage($request, $ref);
         $app = $page->getPage();
-        if (!$app instanceof \App\Entity\App) {
+        if (!$app instanceof App) {
             throw $this->createNotFoundException('App not found !');
         }
         $contents = $app->getContents()->filter(function ($appContent) use ($request) {

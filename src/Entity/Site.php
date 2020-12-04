@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Site implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -86,7 +86,7 @@ class Site implements \Stringable
      */
     public function __construct()
     {
-        $this->pages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -187,14 +187,14 @@ class Site implements \Stringable
     /**
      * Add pages.
      */
-    public function addPage(\App\Entity\Page $pages): void
+    public function addPage(Page $pages): void
     {
         $this->pages[] = $pages;
     }
     /**
      * Remove pages.
      */
-    public function removePage(\App\Entity\Page $pages)
+    public function removePage(Page $pages)
     {
         $this->pages->removeElement($pages);
     }
@@ -217,7 +217,7 @@ class Site implements \Stringable
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {

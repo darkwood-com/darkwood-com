@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class PageTranslation implements \Stringable
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * Locale.
      *
@@ -247,7 +247,7 @@ class PageTranslation implements \Stringable
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(\Symfony\Component\HttpFoundation\File\File $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         if ($image) {
@@ -279,7 +279,7 @@ class PageTranslation implements \Stringable
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnailImage
      */
-    public function setThumbnailImage(\Symfony\Component\HttpFoundation\File\File $thumbnailImage)
+    public function setThumbnailImage(File $thumbnailImage)
     {
         $this->thumbnailImage = $thumbnailImage;
         if ($thumbnailImage) {
@@ -437,7 +437,7 @@ class PageTranslation implements \Stringable
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $twitterImage
      */
-    public function setTwitterImage(\Symfony\Component\HttpFoundation\File\File $twitterImage)
+    public function setTwitterImage(File $twitterImage)
     {
         $this->twitterImage = $twitterImage;
         if ($twitterImage) {
@@ -556,7 +556,7 @@ class PageTranslation implements \Stringable
      *
      * @param \App\Entity\Page $page
      */
-    public function setPage(\App\Entity\Page $page = null): void
+    public function setPage(Page $page = null): void
     {
         $this->page = $page;
     }

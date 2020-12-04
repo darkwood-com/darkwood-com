@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class Comment
 {
-    use \App\Entity\Traits\TimestampTrait;
+    use TimestampTrait;
     /**
      * @var int
      *
@@ -82,7 +82,7 @@ abstract class Comment
      *
      * @param \App\Entity\User $user
      */
-    public function setUser(\App\Entity\User $user = null): void
+    public function setUser(User $user = null): void
     {
         $this->user = $user;
     }
@@ -100,7 +100,7 @@ abstract class Comment
      *
      * @param \App\Entity\Page $page
      */
-    public function setPage(\App\Entity\Page $page = null): void
+    public function setPage(Page $page = null): void
     {
         $this->page = $page;
     }
