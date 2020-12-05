@@ -163,6 +163,13 @@
     margin: 10px 0px 10px 0px;
 }
 
+
+.theme-paper p img
+{
+    max-width: 100%;
+    height: auto;
+}
+
 /* -> user-box */
 .theme-paper div.user-box
 {
