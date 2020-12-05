@@ -180,7 +180,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return (string) $this->username;
     }
-    public function setUsername(string $username): self
+    public function setUsername($username): self
     {
         $this->username = $username;
         return $this;

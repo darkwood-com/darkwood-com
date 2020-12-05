@@ -36,8 +36,8 @@ class TagService
      */
     public function create($title, $locale)
     {
-        $tag = new \App\Entity\Tag();
-        $tagTranslation = new \App\Entity\TagTranslation();
+        $tag = new Tag();
+        $tagTranslation = new TagTranslation();
         $tagTranslation->setTitle($title);
         $tagTranslation->setLocale($locale);
         $tag->addTranslation($tagTranslation);

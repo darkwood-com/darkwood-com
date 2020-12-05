@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/pages', name: 'admin_page_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}/pages', name: 'admin_page_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private SiteService $siteService)
@@ -54,9 +54,9 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route('/create', name: 'create')]
     public function create(Request $request)
     {
-        $entity = new \App\Entity\Page();
+        $entity = new Page();
         $entity->setCreated(new \DateTime());
-        $entityTranslation = new \App\Entity\PageTranslation();
+        $entityTranslation = new PageTranslation();
         $entityTranslation->setLocale($request->getLocale());
         $entity->addTranslation($entityTranslation);
         return $this->manage($request, $entityTranslation);
@@ -71,7 +71,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $entity->setUpdated(new \DateTime());
         $entityTranslation = $entity->getOneTranslation($request->getLocale());
         if (!$entityTranslation instanceof PageTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
-            $entityTranslation = new \App\Entity\PageTranslation();
+            $entityTranslation = new PageTranslation();
             $entityTranslation->setLocale($request->getLocale());
             $entity->addTranslation($entityTranslation);
         }

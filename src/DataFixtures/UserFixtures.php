@@ -19,7 +19,7 @@ class UserFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
     }
     public function load(ObjectManager $manager)
     {
-        $user = new \App\Entity\User();
+        $user = new User();
         $user->setUsername('matyo');
         $user->setFirstName('Mathieu');
         $user->setLastName('Ledru');

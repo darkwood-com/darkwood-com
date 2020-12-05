@@ -66,7 +66,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         // 2) find or create new user
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $facebookUser->getEmail()]);
         if ($user === null) {
-            $user = new \App\Entity\User();
+            $user = new User();
             $user->setEmail($email);
             $user->setUsername($username);
             $user->setFirstname($facebookUser->getFirstName());

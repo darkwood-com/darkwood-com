@@ -14,13 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/', name: 'common_profile')]
+#[Route('/', name: 'common_profile')]
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder, private TranslatorInterface $translator, private CommonController $commonController, private UserService $userService, private GameService $gameService)
     {
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
+    #[Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -40,7 +40,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found !');
         }
-        $form = $this->createForm(\App\Form\ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);
+        $form = $this->createForm(ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->get('plainPassword')->getData()) {

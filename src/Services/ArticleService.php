@@ -66,7 +66,7 @@ class ArticleService
         $article = $articleTranslation->getArticle();
         $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
         if (!$duplicateArticleTranslation) {
-            $duplicateArticleTranslation = new \App\Entity\ArticleTranslation();
+            $duplicateArticleTranslation = new ArticleTranslation();
             $duplicateArticleTranslation->setArticle($article);
             $duplicateArticleTranslation->setLocale($locale);
         }

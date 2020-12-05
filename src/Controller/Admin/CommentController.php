@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/comments', name: 'admin_comment_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}/comments', name: 'admin_comment_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private CommentService $commentService)
@@ -53,7 +53,7 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     #[Route('/create', name: 'create')]
     public function create(Request $request)
     {
-        $entity = new \App\Entity\CommentPage();
+        $entity = new CommentPage();
         $entity->setCreated(new \DateTime());
         return $this->manage($request, $entity);
     }

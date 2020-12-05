@@ -30,11 +30,11 @@ class PageFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture implements \D
     {
         $sites = $this->siteService->findAll();
         foreach ($sites as $site) {
-            $page = new \App\Entity\Page();
+            $page = new Page();
             $page->setRef($params['ref']);
             $page->setSite($site);
             foreach ($this->parameterBagInterface->get('app_locales') as $locale) {
-                $pageTranslation = new \App\Entity\PageTranslation();
+                $pageTranslation = new PageTranslation();
                 $pageTranslation->setTitle($params['title']);
                 $pageTranslation->setLocale($locale);
                 $page->addTranslation($pageTranslation);

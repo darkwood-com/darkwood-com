@@ -25,27 +25,18 @@ use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Twig\Environment;
 
 class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private Environment $twig, private MailerInterface $mailer, private TranslatorInterface $translator, private PageService $pageService, private SiteService $siteService, private ContactService $contactService, private SeoService $seoService, private HtmlErrorRenderer $errorRenderer)
     {
-        $this->twig = $twig;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
-        $this->pageService = $pageService;
-        $this->siteService = $siteService;
-        $this->contactService = $contactService;
-        $this->seoService = $seoService;
-        $this->errorRenderer = $errorRenderer;
     }
     /**
      * Remove slash and redirect 301.
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeTrailingSlash(Request $request)
+    public function removeTrailingSlash(Request $request): RedirectResponse
     {
         $pathInfo = $request->getPathInfo();
         $requestUri = $request->getRequestUri();
@@ -69,10 +60,10 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
                 $site = $this->siteService->findOneByRef('darkwood');
             }
         }
-        $page = new \App\Entity\Page();
+        $page = new Page();
         $page->setRef('404');
         $page->setSite($site);
-        $pageTranslation = new \App\Entity\PageTranslation();
+        $pageTranslation = new PageTranslation();
         $pageTranslation->setTitle('404');
         $pageTranslation->setLocale($request->getLocale());
         $page->addTranslation($pageTranslation);
@@ -104,7 +95,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
-        $message = (new \Symfony\Component\Mime\Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
         if (!empty($htmlBody)) {
             $message->html($htmlBody)->text($textBody);
         } else {
@@ -150,8 +141,8 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-        $contact = new \App\Entity\Contact();
-        $form = $this->createForm(\App\Form\ContactType::class, $contact);
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {

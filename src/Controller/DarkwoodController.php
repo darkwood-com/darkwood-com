@@ -17,20 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/', name: 'darkwood_', host: '%darkwood_host%')]
+#[Route('/', name: 'darkwood_', host: '%darkwood_host%')]
 class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private CommonController $commonController, private ArticleService $articleService, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private CommentService $commentService, private UserService $userService, private GameService $gameService)
     {
-        $this->commonController = $commonController;
-        $this->articleService = $articleService;
-        $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->commentService = $commentService;
-        $this->userService = $userService;
-        $this->gameService = $gameService;
     }
     public function menu(Request $request, $ref, $entity)
     {
@@ -39,34 +30,34 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         return $this->render('darkwood/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findActives($request->getLocale(), 5);
         return $this->render('darkwood/pages/home.html.twig', ['page' => $page, 'news' => $articles, 'showLinks' => true]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
+    #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
+    #[Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
+    #[Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/news/{slug}', 'en' => '/en/news/{slug}', 'de' => '/de/news/{slug}'], name: 'news', defaults: ['ref' => 'news', 'slug' => null])]
+    #[Route(path: ['fr' => '/news/{slug}', 'en' => '/en/news/{slug}', 'de' => '/de/news/{slug}'], name: 'news', defaults: ['ref' => 'news', 'slug' => null])]
     public function news(Request $request, $ref, $slug)
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -76,7 +67,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         }
         return $this->render('darkwood/pages/news.html.twig', ['page' => $page, 'news' => $news, 'showLinks' => true]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/jouer/{display}', 'en' => '/en/play/{display}', 'de' => '/de/spiel/{display}'], name: 'play', defaults: ['ref' => 'play', 'display' => null])]
+    #[Route(path: ['fr' => '/jouer/{display}', 'en' => '/en/play/{display}', 'de' => '/de/spiel/{display}'], name: 'play', defaults: ['ref' => 'play', 'display' => null])]
     public function play(Request $request, $ref = 'play', $display = null)
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -90,14 +81,14 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         }
         return $this->render('darkwood/pages/play.html.twig', $parameters);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/chat', 'en' => '/en/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
+    #[Route(path: ['fr' => '/chat', 'en' => '/en/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
     public function chat(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
-        $comment = new \App\Entity\CommentPage();
+        $comment = new CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
-        $form = $this->createForm(\App\Form\CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -110,7 +101,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
         return $this->render('darkwood/pages/chat.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/liste-des-joueurs', 'en' => '/en/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
+    #[Route(path: ['fr' => '/liste-des-joueurs', 'en' => '/en/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
     public function users(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -118,20 +109,20 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $users = $this->paginator->paginate($query, $request->query->get('page', 1), 56);
         return $this->render('darkwood/pages/users.html.twig', ['page' => $page, 'users' => $users]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/regles-du-jeu', 'en' => '/en/rules-of-the-game', 'de' => '/de/regeln-des-spiels'], name: 'rules', defaults: ['ref' => 'rules'])]
+    #[Route(path: ['fr' => '/regles-du-jeu', 'en' => '/en/rules-of-the-game', 'de' => '/de/regeln-des-spiels'], name: 'rules', defaults: ['ref' => 'rules'])]
     public function rules(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('darkwood/pages/rules.html.twig', ['page' => $page]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/livre-d-or', 'en' => '/en/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
+    #[Route(path: ['fr' => '/livre-d-or', 'en' => '/en/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
     public function guestbook(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
-        $comment = new \App\Entity\CommentPage();
+        $comment = new CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
-        $form = $this->createForm(\App\Form\CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -144,13 +135,13 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
         return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/extra', 'en' => '/en/extra', 'de' => '/de/extra'], name: 'extra', defaults: ['ref' => 'extra'])]
+    #[Route(path: ['fr' => '/extra', 'en' => '/en/extra', 'de' => '/de/extra'], name: 'extra', defaults: ['ref' => 'extra'])]
     public function extra(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('darkwood/pages/extra.html.twig', ['page' => $page, 'showLinks' => true]);
     }
-    #[\Symfony\Component\Routing\Annotation\Route(path: ['fr' => '/classement', 'en' => '/en/rank', 'de' => '/de/rang'], name: 'rank', defaults: ['ref' => 'rank'])]
+    #[Route(path: ['fr' => '/classement', 'en' => '/en/rank', 'de' => '/de/rang'], name: 'rank', defaults: ['ref' => 'rank'])]
     public function rank(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);

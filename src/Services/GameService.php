@@ -140,7 +140,7 @@ class GameService
     {
         $player = $user->getPlayer();
         if (!$player) {
-            $player = new \App\Entity\Game\Player();
+            $player = new Game\Player();
             $player->setLifeMin(50);
             $player->setLifeMax(50);
             $player->setXp(0);
@@ -168,7 +168,7 @@ class GameService
         $player = $this->getOrCreate($user);
         $level = $this->levelUpRepository->findByXp($player->getXp());
         if (!$level) {
-            $level = new \App\Entity\Game\LevelUp();
+            $level = new Game\LevelUp();
             $level->setXp('MAX');
             $level->setLevel(100);
         }
@@ -642,7 +642,7 @@ class GameService
         } else {
             //search a random player
             $player = $this->playerRepository->findRand();
-            $dailyBattle = new \App\Entity\Game\DailyBattle();
+            $dailyBattle = new Game\DailyBattle();
             $dailyBattle->setStatus(DailyBattle::STATUS_DAILY_USER);
             $dailyBattle->setPlayer($player);
             $this->em->persist($dailyBattle);
@@ -720,7 +720,7 @@ class GameService
             $player->setDailyBattleDefeats($player->getDailyBattleDefeats() + 1);
             $enemy = $enemy;
             $enemy->getPlayer()->setDailyBattleVictories($enemy->getPlayer()->getDailyBattleVictories() + 1);
-            $dailyBattle = new \App\Entity\Game\DailyBattle();
+            $dailyBattle = new Game\DailyBattle();
             $dailyBattle->setPlayer($player);
             $dailyBattle->setStatus(DailyBattle::STATUS_NEW_LOSE);
             $this->em->persist($dailyBattle);
@@ -736,7 +736,7 @@ class GameService
             $result = ['mode' => 'player_win', 'result' => $result];
             $enemy->getPlayer()->setDailyBattleDefeats($enemy->getPlayer()->getDailyBattleDefeats() + 1);
             $player->setDailyBattleVictories($player->getDailyBattleVictories() + 1);
-            $dailyBattle = new \App\Entity\Game\DailyBattle();
+            $dailyBattle = new Game\DailyBattle();
             $dailyBattle->setPlayer($player);
             $dailyBattle->setStatus(DailyBattle::STATUS_NEW_WIN);
             $this->em->persist($dailyBattle);
@@ -835,10 +835,10 @@ class GameService
             return $parameters;
         } elseif ($parameters['state'] == 'chat' || $parameters['state'] == 'guestbook') {
             $page = $this->pageService->findOneActiveByRefAndHost($parameters['state'], $request->getHost());
-            $comment = new \App\Entity\CommentPage();
+            $comment = new CommentPage();
             $comment->setUser($user);
             $comment->setPage($page);
-            $form = $this->formFactory->create(\App\Form\CommentType::class, $comment);
+            $form = $this->formFactory->create(CommentType::class, $comment);
             if ($page && 'POST' === $request->getMethod()) {
                 $form->handleRequest($request);
                 if ($form->isValid()) {

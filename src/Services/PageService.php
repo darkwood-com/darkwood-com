@@ -90,7 +90,7 @@ class PageService
         $page = $entity->getPage();
         $duplicatePageTranslation = $this->entityRepository->findOneByPageAndLocale($page, $locale);
         if (!$duplicatePageTranslation) {
-            $duplicatePageTranslation = new \App\Entity\PageTranslation();
+            $duplicatePageTranslation = new PageTranslation();
             $duplicatePageTranslation->setPage($page);
             $duplicatePageTranslation->setLocale($locale);
         }
@@ -118,7 +118,7 @@ class PageService
             $this->em->flush();
             $contents = $this->appContentRepository->findByAppAndLocale($page, $entity->getLocale());
             foreach ($contents as $content) {
-                $duplicateContent = new \App\Entity\AppContent();
+                $duplicateContent = new AppContent();
                 $duplicateContent->setApp($page);
                 $duplicateContent->setLocale($locale);
                 $duplicateContent->setTitle($content->getTitle());

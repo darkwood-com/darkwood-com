@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/sites', name: 'admin_site_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}/sites', name: 'admin_site_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private SiteService $siteService)
@@ -52,7 +52,7 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route('/create', name: 'create')]
     public function create(Request $request)
     {
-        $entity = new \App\Entity\Site();
+        $entity = new Site();
         $entity->setCreated(new \DateTime());
         return $this->manage($request, $entity);
     }

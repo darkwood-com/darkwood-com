@@ -56,8 +56,8 @@ class TagTransformer implements DataTransformerInterface
         foreach ($arrayTags as $tag) {
             $tagPersisited = $this->tagService->findOneByTitle($tag);
             if (!$tagPersisited) {
-                $newTag = new \App\Entity\Tag();
-                $newTagTranslation = new \App\Entity\TagTranslation();
+                $newTag = new Tag();
+                $newTagTranslation = new TagTranslation();
                 $newTagTranslation->setTitle($tag);
                 $newTagTranslation->setLocale($this->locale);
                 $newTag->addTranslation($newTagTranslation);

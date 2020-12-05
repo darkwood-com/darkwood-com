@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[\Symfony\Component\Routing\Annotation\Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', requirements: ['_locale' => 'en|fr|de'])]
 class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private ArticleService $articleService, private TagService $tagService)
@@ -54,9 +54,9 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     #[Route('/create', name: 'create')]
     public function create(Request $request)
     {
-        $entity = new \App\Entity\Article();
+        $entity = new Article();
         $entity->setCreated(new \DateTime());
-        $entityTranslation = new \App\Entity\ArticleTranslation();
+        $entityTranslation = new ArticleTranslation();
         $entityTranslation->setLocale($request->getLocale());
         $entity->addTranslation($entityTranslation);
         return $this->manage($request, $entityTranslation);
@@ -71,7 +71,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $entity->setUpdated(new \DateTime());
         $entityTranslation = $entity->getOneTranslation($request->getLocale());
         if (!$entityTranslation instanceof ArticleTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
-            $entityTranslation = new \App\Entity\ArticleTranslation();
+            $entityTranslation = new ArticleTranslation();
             $entityTranslation->setLocale($request->getLocale());
             $entity->addTranslation($entityTranslation);
         }
