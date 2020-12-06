@@ -23,7 +23,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function queryForSearch($filters = [], $locale, $order = null)
+    public function queryForSearch($filters = [], $locale = 'en', $order = null)
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         if ($order == 'normal') {

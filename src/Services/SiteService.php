@@ -140,7 +140,7 @@ class SiteService
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.gallery'], 'children' => [['item' => ['host' => $host, 'ref' => 'show']], ['item' => ['host' => $host, 'ref' => 'demo']], ['item' => ['host' => $host, 'ref' => 'help']]]];
                 } elseif ($ref == 'blog') {
                     $children = [];
-                    $articles = $this->articleService->findActives($locale, 5, $host);
+                    $articles = $this->articleService->findActives($locale, 5);
                     foreach ($articles as $article) {
                         $children[] = ['item' => ['host' => $host, 'page_translation' => $article->getOneTranslation()]];
                     }

@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Services\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -27,15 +28,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     use \Symfony\Component\Security\Http\Util\TargetPathTrait;
     public const LOGIN_ROUTE = 'security_login';
     public function __construct(
-        private \Doctrine\ORM\EntityManagerInterface $entityManager,
-        private \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator,
-        private \Symfony\Component\Security\Csrf\CsrfTokenManagerInterface $csrfTokenManager,
-        private \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder,
-        /**
-         * @var SiteService
-         */
+        private EntityManagerInterface $entityManager,
+        private UrlGeneratorInterface $urlGenerator,
+        private CsrfTokenManagerInterface $csrfTokenManager,
+        private UserPasswordEncoderInterface $passwordEncoder,
         private SiteService $siteService,
-        private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag
+        private ParameterBagInterface $parameterBag,
+        private UserRepository $userRepository
     )
     {
     }
@@ -49,20 +48,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $request->getSession()->set(\Symfony\Component\Security\Core\Security::LAST_USERNAME, $credentials['username']);
         return $credentials;
     }
-    public function getUser($credentials, \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = new \Symfony\Component\Security\Csrf\CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-        $user = $this->entityManager->getRepository(User::class)->loadUserByUsername($credentials['username']);
+        $user = $this->userRepository->loadUserByUsername($credentials['username']);
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
         return $user;
     }
-    public function checkCredentials($credentials, \Symfony\Component\Security\Core\User\UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
@@ -76,7 +75,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new \Symfony\Component\HttpFoundation\RedirectResponse($targetPath);
+            return new RedirectResponse($targetPath);
         }
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
@@ -89,7 +88,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
-        return new \Symfony\Component\HttpFoundation\RedirectResponse($redirectUrl);
+        return new RedirectResponse($redirectUrl);
     }
     protected function getLoginUrl()
     {

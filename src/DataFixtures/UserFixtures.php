@@ -13,7 +13,7 @@ class UserFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
      * AppFixtures constructor.
      */
     public function __construct(
-        private \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+        private UserPasswordEncoderInterface $passwordEncoder
     )
     {
     }

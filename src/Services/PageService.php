@@ -105,7 +105,7 @@ class PageService
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
-                $image = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFile, $imageName, null, null, true);
+                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicatePageTranslation->setImage($image);
             }
         }
@@ -179,7 +179,7 @@ class PageService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = [], $type, $host, $locale, $order = 'normal')
+    public function getQueryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = 'normal')
     {
         return $this->pageRepository->queryForSearch($filters, $type, $host, $locale, $order);
     }

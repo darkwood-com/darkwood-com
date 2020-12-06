@@ -743,13 +743,13 @@ class GameService
                 $request->getSession()->invalidate();
                 $this->tokenStorage->setToken(null);
                 $parameters['mode'] = null;
-                return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('darkwood_play', $parameters));
+                return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
             } elseif ($parameters['mode'] == 'login' && $request->get('_username') && $request->get('_password')) {
-                $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main');
+                $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main');
                 //spacial case for apple validation
                 if ($request->get('_username') == 'apple' && $request->get('_password') == 'apple') {
                     $user = $this->userService->findOneByUsername('apple');
-                    $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main', $user->getRoles());
+                    $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
                     $session = $request->getSession();
@@ -764,7 +764,7 @@ class GameService
                     $this->authenticationManager->authenticate($token);
                     $this->tokenStorage->setToken($token);
                     $parameters['mode'] = null;
-                    return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('darkwood_play', $parameters));
+                    return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
                 } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException) {
                     $this->tokenStorage->setToken(null);
                 }
@@ -787,7 +787,7 @@ class GameService
                 $user = $token ? $token->getUser() : null;
             }
             if (!$user instanceof User) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('User not found !');
+                throw new NotFoundHttpException('User not found !');
             }
             $parameters['user'] = $user;
             return $parameters;
@@ -800,7 +800,7 @@ class GameService
                 $user = $token ? $token->getUser() : null;
             }
             if (!$user instanceof User) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('User not found !');
+                throw new NotFoundHttpException('User not found !');
             }
             $parameters['user'] = $user;
             $parameters['confirm'] = $request->get('confirm') == 'true';
@@ -826,7 +826,7 @@ class GameService
                 if ($form->isValid()) {
                     $this->commentService->save($comment);
                     $this->session->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
-                    return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('darkwood_play', $parameters));
+                    return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
                 }
             }
             $query = $this->commentService->findActiveCommentByPageQuery($page);

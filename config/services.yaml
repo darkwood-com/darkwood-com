@@ -44,3 +44,4 @@ services:
         class: Twig\Extension\StringLoaderExtension
         tags:
             - { name: twig.extension }
+

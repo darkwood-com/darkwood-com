@@ -50,7 +50,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         if (!$exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             $exception = $this->errorRenderer->render($exception);
-            return new \Symfony\Component\HttpFoundation\Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
+            return new Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
         }
         $host = $request->getHost();
         $site = $this->siteService->findOneByHost($host);
@@ -126,14 +126,14 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     public function sitemapXml(Request $request)
     {
         $sitemapXml = $this->siteService->getSitemapXml($request->getHost(), $request->getLocale());
-        $response = new \Symfony\Component\HttpFoundation\Response($sitemapXml);
+        $response = new Response($sitemapXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
         return $response;
     }
     public function rss(Request $request)
     {
         $rssXml = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
-        $response = new \Symfony\Component\HttpFoundation\Response($rssXml);
+        $response = new Response($rssXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
         return $response;
     }

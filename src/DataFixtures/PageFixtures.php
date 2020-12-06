@@ -42,7 +42,6 @@ class PageFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture implements \D
             }
             $manager->persist($page);
         }
-        return $page;
     }
     public function getDependencies()
     {

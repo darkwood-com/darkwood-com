@@ -23,7 +23,7 @@ class PageRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function queryForSearch($filters = [], $type, $host, $locale, $order = null)
+    public function queryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->leftJoin('p.site', 's')->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         if ($host) {

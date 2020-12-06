@@ -82,7 +82,7 @@ class ArticleService
                 $imageName = basename(md5(time()) . preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
-                $image = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFile, $imageName, null, null, true);
+                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicateArticleTranslation->setImage($image);
             }
         }
@@ -147,7 +147,7 @@ class ArticleService
      *
      * @return Query
      */
-    public function getQueryForSearch($filters = [], $locale, $order = 'normal')
+    public function getQueryForSearch($filters = [], $locale = 'en', $order = 'normal')
     {
         return $this->articleRepository->queryForSearch($filters, $locale, $order);
     }

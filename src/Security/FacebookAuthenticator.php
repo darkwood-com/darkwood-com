@@ -24,13 +24,13 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
 {
     public function __construct(
         private \KnpU\OAuth2ClientBundle\Client\ClientRegistry $clientRegistry,
-        private \Doctrine\ORM\EntityManagerInterface $em,
+        private EntityManagerInterface $em,
         private \Symfony\Component\Routing\RouterInterface $router,
         /**
          * @var UrlGeneratorInterface
          */
-        private \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator,
-        private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag,
+        private UrlGeneratorInterface $urlGenerator,
+        private ParameterBagInterface $parameterBag,
         /**
          * @var SiteService
          */
@@ -80,7 +80,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile = sys_get_temp_dir() . '/fb-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
-                $image = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFile, $imageName, null, null, true);
+                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $user->setImage($image);
             }
         }
@@ -108,14 +108,14 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
-        return new \Symfony\Component\HttpFoundation\RedirectResponse($redirectUrl);
+        return new RedirectResponse($redirectUrl);
         // or, on success, let the request continue to be handled by the controller
         //return null;
     }
     public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-        return new \Symfony\Component\HttpFoundation\Response($message, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        return new Response($message, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
     }
     /**
      * Called when authentication is needed, but it's not sent.
@@ -123,7 +123,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
      */
     public function start(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $authException = null)
     {
-        return new \Symfony\Component\HttpFoundation\RedirectResponse(
+        return new RedirectResponse(
             '/connect/',
             // might be the site, where users choose their oauth provider
             \Symfony\Component\HttpFoundation\Response::HTTP_TEMPORARY_REDIRECT

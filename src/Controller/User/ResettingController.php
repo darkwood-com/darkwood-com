@@ -50,6 +50,6 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
         $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $username = $request->request->get('username');
-        return new \Symfony\Component\HttpFoundation\RedirectResponse($this->generateUrl('common_resetting_check_email', ['email' => 'test@gmail.com']));
+        return new RedirectResponse($this->generateUrl('common_resetting_check_email', ['email' => 'test@gmail.com']));
     }
 }
