@@ -15,6 +15,8 @@ dev: ## Start symfony dev server
 	docker-compose up -d
 	$(SYMFONY) server:start --port=8092
 
+test: ## testing application
+	./bin/phpunit
 
 ##
 ##DevOps

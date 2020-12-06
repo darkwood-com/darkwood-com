@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'apps_', host: '%apps_host%')]
+#[Route('/', name: 'apps_', host: '%apps_host%', priority: -1)]
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private CommentService $commentService)
@@ -59,7 +59,7 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         return $this->commonController->contact($request, $ref);
     }
-    #[Route(path: ['fr' => '/article/{ref}/{slug}', 'en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
+    #[Route(path: ['en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'fr' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(Request $request, $ref, $slug = null)
     {
         $page = $this->commonController->getPage($request, $ref);

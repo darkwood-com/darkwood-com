@@ -76,8 +76,8 @@ class BlogTest extends CommonWebTestCase
             array('/de/kontakt'),
 
             array('/article/ecrire-ses-notes-et-les-synchroniser'),
-            array('/en/article/ecrire-ses-notes-et-les-synchroniser-2'),
-            array('/de/article/ecrire-ses-notes-et-les-synchroniser-1'),
+            array('/en/article/ecrire-ses-notes-et-les-synchroniser'),
+            array('/de/article/ecrire-ses-notes-et-les-synchroniser'),
         ));
     }
 }

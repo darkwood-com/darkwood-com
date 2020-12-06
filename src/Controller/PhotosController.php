@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[Route('/', name: 'photos_', host: '%photos_host%')]
+#[Route('/', name: 'photos_', host: '%photos_host%', priority: -1)]
 class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private PageService $pageService)

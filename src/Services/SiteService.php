@@ -8,11 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-/**
- * Class SiteService
- *
- * Object manager of site.
- */
+
 class SiteService
 {
     /**
@@ -183,7 +179,10 @@ class SiteService
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];
         }
         usort($feed, function ($item1, $item2) {
-            return $item1['date'] < $item2['date'];
+            if ($item1['date'] == $item2['date']) {
+                return 0;
+            }
+            return ($item1['date'] < $item2['date']) ? -1 : 1;
         });
         return $feed;
     }

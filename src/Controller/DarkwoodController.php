@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'darkwood_', host: '%darkwood_host%')]
+#[Route('/', name: 'darkwood_', host: '%darkwood_host%', priority: -1)]
 class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private CommonController $commonController, private ArticleService $articleService, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private CommentService $commentService, private UserService $userService, private GameService $gameService)

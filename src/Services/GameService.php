@@ -24,23 +24,24 @@ use App\Repository\Game\PlayerRepository;
 use App\Repository\Game\PotionRepository;
 use App\Repository\Game\SwordRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Paginator;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
-use Symfony\Component\Form\FormFactory;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Router;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+
 /**
  * Class GameService
  *
@@ -48,31 +49,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class GameService
 {
-    /**
-     * @var container
-     */
-    protected $container;
-    /**
-     * @var CsrfTokenManager
-     */
-    protected $tokenManager;
-    /**
-     * @var TokenStorage
-     */
-    protected $tokenStorage;
-    protected $eventDispatcher;
-    /**
-     * @var FormFactory
-     */
-    protected $formFactory;
-    /**
-     * @var Router
-     */
-    protected $router;
-    /**
-     * @var Paginator
-     */
-    protected $paginator;
     /**
      * @var ArmorRepository
      */
@@ -120,7 +96,13 @@ class GameService
         protected EntityManagerInterface $em,
         protected UserService $userService,
         protected PageService $pageService,
-        protected CommentService $commentService
+        protected CommentService $commentService,
+        protected PaginatorInterface $paginator,
+        protected FormFactoryInterface $formFactory,
+        protected AuthenticationManagerInterface $authenticationManager,
+        protected CsrfTokenManagerInterface $tokenManager,
+        protected RouterInterface $router,
+        protected TokenStorageInterface $tokenStorage
     )
     {
         $this->armorRepository = $em->getRepository(Armor::class);
@@ -140,7 +122,7 @@ class GameService
     {
         $player = $user->getPlayer();
         if (!$player) {
-            $player = new Game\Player();
+            $player = new Player();
             $player->setLifeMin(50);
             $player->setLifeMax(50);
             $player->setXp(0);
@@ -168,7 +150,7 @@ class GameService
         $player = $this->getOrCreate($user);
         $level = $this->levelUpRepository->findByXp($player->getXp());
         if (!$level) {
-            $level = new Game\LevelUp();
+            $level = new LevelUp();
             $level->setXp('MAX');
             $level->setLevel(100);
         }
@@ -642,7 +624,7 @@ class GameService
         } else {
             //search a random player
             $player = $this->playerRepository->findRand();
-            $dailyBattle = new Game\DailyBattle();
+            $dailyBattle = new DailyBattle();
             $dailyBattle->setStatus(DailyBattle::STATUS_DAILY_USER);
             $dailyBattle->setPlayer($player);
             $this->em->persist($dailyBattle);
@@ -720,7 +702,7 @@ class GameService
             $player->setDailyBattleDefeats($player->getDailyBattleDefeats() + 1);
             $enemy = $enemy;
             $enemy->getPlayer()->setDailyBattleVictories($enemy->getPlayer()->getDailyBattleVictories() + 1);
-            $dailyBattle = new Game\DailyBattle();
+            $dailyBattle = new DailyBattle();
             $dailyBattle->setPlayer($player);
             $dailyBattle->setStatus(DailyBattle::STATUS_NEW_LOSE);
             $this->em->persist($dailyBattle);
@@ -736,7 +718,7 @@ class GameService
             $result = ['mode' => 'player_win', 'result' => $result];
             $enemy->getPlayer()->setDailyBattleDefeats($enemy->getPlayer()->getDailyBattleDefeats() + 1);
             $player->setDailyBattleVictories($player->getDailyBattleVictories() + 1);
-            $dailyBattle = new Game\DailyBattle();
+            $dailyBattle = new DailyBattle();
             $dailyBattle->setPlayer($player);
             $dailyBattle->setStatus(DailyBattle::STATUS_NEW_WIN);
             $this->em->persist($dailyBattle);
@@ -779,7 +761,7 @@ class GameService
                     return $parameters;
                 }
                 try {
-                    $this->container->get('security.authentication.manager')->authenticate($token);
+                    $this->authenticationManager->authenticate($token);
                     $this->tokenStorage->setToken($token);
                     $parameters['mode'] = null;
                     return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('darkwood_play', $parameters));

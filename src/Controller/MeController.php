@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'me_', host: '%me_host%')]
+#[Route('/', name: 'me_', host: '%me_host%', priority: -1)]
 class MeController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(

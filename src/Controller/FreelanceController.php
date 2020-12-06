@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'freelance_', host: '%freelance_host%')]
+#[Route('/', name: 'freelance_', host: '%freelance_host%', priority: -1)]
 class FreelanceController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(

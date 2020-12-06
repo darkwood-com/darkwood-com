@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route('/', name: 'security_')]
 class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
@@ -16,7 +17,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     )
     {
     }
-    #[Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'home'])]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
     {
         if ($request->getHost() === $parameterBag->get('admin_host')) {
@@ -37,7 +38,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('common/pages/login.html.twig', ['page' => $page, 'site_ref' => $siteRef, 'last_username' => $lastUsername, 'error' => $error]);
     }
-    #[Route(path: ['fr' => '/logout', 'en' => '/en/logout', 'de' => '/de/logout'], name: 'security_logout')]
+    #[Route(path: ['fr' => '/logout', 'en' => '/en/logout', 'de' => '/de/logout'], name: 'logout')]
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

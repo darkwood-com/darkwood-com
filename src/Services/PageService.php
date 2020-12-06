@@ -51,7 +51,7 @@ class PageService
         protected EntityManagerInterface $em,
         protected ParameterBagInterface $parameterBagInterface,
         protected CacheInterface $appCache,
-        protected \Symfony\Component\Routing\RouterInterface $router,
+        protected RouterInterface $router,
         protected StorageInterface $storage
     )
     {
@@ -241,17 +241,16 @@ class PageService
     {
         return $this->pageRepository->findAllBySite($site);
     }
-    public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = false)
+    public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = true)
     {
         $cacheId = 'page_url-' . md5($entity->getId() . '-' . get_class($entity) . '-' . $referenceType);
-        return $this->appCache->get($cacheId, function (\Symfony\Contracts\Cache\ItemInterface $item) use ($entity, $referenceType) {
-            $item->expiresAfter(43200);
-            // 12 hours
+        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($entity, $referenceType) {
+            $item->expiresAfter(43200);// 12 hours
             if ($entity instanceof PageTranslation) {
                 $site = $entity->getPage()->getSite();
                 $routes = $this->router->getRouteCollection();
                 $routeData = null;
-                foreach ($routes as $name => $route) {
+                foreach ($routes as $route) {
                     $page = $entity->getPage();
                     /** @var Route $route */
                     if ($page instanceof App && $route->getDefault('_controller') === 'App\Controller\AppsController::app') {
@@ -279,10 +278,8 @@ class PageService
                 if ($routeData) {
                     return $this->router->generate($routeData['name'], $routeData['params'], $referenceType);
                 }
-            } else {
-                if ($entity instanceof ArticleTranslation) {
-                    return $this->router->generate('blog_article', ['_locale' => $entity->getLocale(), 'slug' => $entity->getSlug()], $referenceType);
-                }
+            } else if ($entity instanceof ArticleTranslation) {
+                return $this->router->generate('blog_article', ['_locale' => $entity->getLocale(), 'slug' => $entity->getSlug()], $referenceType);
             }
             return null;
         }, $force ? INF : null);

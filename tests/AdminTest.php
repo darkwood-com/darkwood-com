@@ -28,12 +28,12 @@ class AdminTest extends CommonWebTestCase
     /**
      * @dataProvider urlProviderAuth
      */
-    public function testPageIsAuth($url)
+    public function testPageIsAuth($url, $location)
     {
         $client = $this->getHostClient();
         $client->request('GET', $url);
 
-        $this->assertTrue($client->getResponse()->isRedirect('https://admin.darkwood.dev/login'));
+        $this->assertTrue($client->getResponse()->isRedirect($location));
     }
 
     public function urlProvider()
@@ -51,9 +51,9 @@ class AdminTest extends CommonWebTestCase
         );
 
         return array_merge($commonUrls, array(
-            array('/fr'),
-            array('/en'),
-            array('/de'),
+            array('/fr', '/login'),
+            array('/en', '/en/login'),
+            array('/de', '/de/login'),
         ));
     }
 

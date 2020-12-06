@@ -18,8 +18,8 @@ class SeoService
 {
     public function __construct(
         protected CacheInterface $appCache,
-        protected \Symfony\Component\Routing\RouterInterface $router,
-        protected \Vich\UploaderBundle\Templating\Helper\UploaderHelper $uploaderHelper
+        protected RouterInterface $router,
+        protected UploaderHelper $uploaderHelper
     )
     {
     }
@@ -32,9 +32,8 @@ class SeoService
             $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
             $cacheId .= '-article_' . $articleTranslation->getId();
         }
-        return $this->appCache->get($cacheId, function (\Symfony\Contracts\Cache\ItemInterface $item) use ($context) {
-            $item->expiresAfter(43200);
-            // 12 hours
+        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($context) {
+            $item->expiresAfter(43200);// 12 hours
             /** @var PageTranslation $pageTranslation */
             $pageTranslation = $context['page'];
             $data = ['title' => $pageTranslation->getTitle(), 'description' => $pageTranslation->getDescription(), 'keywords' => $pageTranslation->getSeoKeywords(), 'facebook' => ['title' => $pageTranslation->getOgTitle() != '' ? $pageTranslation->getOgTitle() : $pageTranslation->getTitle(), 'description' => $pageTranslation->getOgDescription() != '' ? $pageTranslation->getOgDescription() : $pageTranslation->getDescription(), 'type' => $pageTranslation->getOgType() ? $pageTranslation->getOgType() : 'article', 'url' => '', 'site_name' => $pageTranslation->getPage()->getSite()->getName(), 'src' => $this->uploaderHelper->asset($pageTranslation, 'ogImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image')], 'twitter' => ['card' => $pageTranslation->getTwitterCard() ? $pageTranslation->getTwitterCard() : 'summary', 'title' => $pageTranslation->getTwitterTitle() != '' ? $pageTranslation->getTwitterTitle() : $pageTranslation->getTitle(), 'description' => $pageTranslation->getTwitterDescription() != '' ? $pageTranslation->getTwitterDescription() : $pageTranslation->getDescription(), 'site' => $pageTranslation->getTwitterSite(), 'src' => $this->uploaderHelper->asset($pageTranslation, 'twitterImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image')]];

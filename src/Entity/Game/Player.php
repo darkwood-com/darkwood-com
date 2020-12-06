@@ -3,6 +3,7 @@
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\ArrayCollection;
