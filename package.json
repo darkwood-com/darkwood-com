@@ -1,11 +1,22 @@
 {
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.31.0",
-        "core-js": "^3.0.0",
-        "regenerator-runtime": "^0.13.2",
-        "webpack-notifier": "^1.6.0"
+    "name": "@darkwood-fr/darkwood-fr",
+    "version": "1.0.0",
+    "description": "Darkwood website",
+    "author": {
+      "name": "Mathieu Ledru",
+      "email": "matyo91@gmail.com"
     },
-    "license": "UNLICENSED",
+    "bugs": {
+      "url": "https://github.com/darkwood-fr/darkwood-fr/issues"
+    },
+    "homepage": "https://github.com/darkwood-fr/darkwood-fr#readme",
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.33.0",
+        "core-js": "^3.8.1",
+        "regenerator-runtime": "^0.13.7",
+        "webpack-notifier": "^1.11.0"
+    },
+    "license": "MIT",
     "private": true,
     "scripts": {
         "dev-server": "encore dev-server",
@@ -14,7 +25,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap": "^4.5.2",
+        "bootstrap": "^4.5.3",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1"
     }
