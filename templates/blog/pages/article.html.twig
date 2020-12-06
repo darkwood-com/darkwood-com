@@ -37,7 +37,7 @@
         {{ knp_pagination_render(comments, 'common/partials/sliding.html.twig') }}
     </li>
 </ul>
-<form id="comment_form" action="{{ path('blog_article', {'slug': articleTranslation.slug}) }}" method="post" novalidate="novalidate">
+<form id="comment_form" action="{{ path('blog_article', {'slug': articleTranslation.slug, '_fragment': 'comment_form'}) }}" method="post" novalidate="novalidate">
     {{ form_errors(form._token) }}
     {{ form_widget(form._token) }}
     {% for flashMessage in app.session.flashbag.get('success') %}<div class="alert_success">{{ flashMessage }}</div>{% endfor %}

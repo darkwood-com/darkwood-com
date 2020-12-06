@@ -720,6 +720,11 @@
     padding: 2px;
 }
 
+.theme-sky .theme-content .project .gallery label
+{
+    display: none;
+}
+
 /* project::yellow */
 .theme-sky .theme-content .project.yellow .banner a
 {
