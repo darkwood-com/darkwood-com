@@ -7,6 +7,8 @@ use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Twig\Environment;
 
 class SiteService
@@ -20,7 +22,8 @@ class SiteService
         protected PageService $pageService,
         protected ArticleService $articleService,
         protected TranslatorInterface $translator,
-        protected Environment $templating
+        protected Environment $templating,
+        protected CacheInterface $appCache
     )
     {
         $this->siteRepository = $em->getRepository(Site::class);
@@ -109,57 +112,71 @@ class SiteService
     {
         return $this->siteRepository->findActives();
     }
-    public function getSitemap($locale)
+    public function getSitemap($locale, $force = false)
     {
-        $sites = $this->findActives();
-        $sitemap = [];
-        foreach ($sites as $site) {
-            $ref = $site->getRef();
-            $host = $site->getHost();
-            if (in_array($ref, ['me', 'blog', 'freelance'])) {
-                continue;
-            }
-            $sitemap[$ref] = ['item' => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref], 'children' => [['item' => ['label' => 'common.sitemap.login'], 'children' => [['item' => ['host' => $host, 'ref' => 'register']], ['item' => ['host' => $host, 'ref' => 'profile']]]]]];
-            if ($ref == 'darkwood') {
-                $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.player'], 'children' => [['item' => ['host' => $host, 'ref' => 'play']], ['item' => ['host' => $host, 'ref' => 'chat']], ['item' => ['host' => $host, 'ref' => 'users']], ['item' => ['host' => $host, 'ref' => 'rules']], ['item' => ['host' => $host, 'ref' => 'guestbook']], ['item' => ['host' => $host, 'ref' => 'extra']]]];
-                $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.rank'], 'children' => [['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_general']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_by_class']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_daily_fight']]]];
-            } elseif ($ref == 'apps') {
-                $children = [];
-                $apps = $this->pageService->findActives($locale, 'app');
-                foreach ($apps as $app) {
-                    $children[] = ['item' => ['host' => $host, 'ref' => $app->getRef()]];
+        $cacheId = 'sitemap-' . md5($locale);
+        return $this->appCache->get($cacheId, function (ItemInterface $item) use ($locale) {
+            $item->expiresAfter(43200);// 12 hours
+            $sites = $this->findActives();
+            $sitemap = [];
+            foreach ($sites as $site) {
+                $ref = $site->getRef();
+                $host = $site->getHost();
+                if (in_array($ref, ['me', 'freelance'])) {
+                    continue;
                 }
-                $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.apps'], 'children' => $children];
-            } elseif ($ref == 'photos') {
-                $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.gallery'], 'children' => [['item' => ['host' => $host, 'ref' => 'show']], ['item' => ['host' => $host, 'ref' => 'demo']], ['item' => ['host' => $host, 'ref' => 'help']]]];
-            }
-        }
-        $formatSitemap = function ($items) use (&$formatSitemap, $locale) {
-            foreach ($items as $key => $child) {
-                if (!isset($child['children'])) {
-                    $child['children'] = [];
-                }
-                $child['label'] = null;
-                $child['link'] = null;
-                if (isset($child['item']['host'], $child['item']['ref'])) {
-                    $page = $this->pageService->findOneActiveByRefAndHost($child['item']['ref'], $child['item']['host']);
-                    if ($page !== null) {
-                        $pageTranslation = $page->getOneTranslation($locale);
-                        if ($pageTranslation) {
-                            $child['label'] = $pageTranslation->getTitle();
-                            $child['link'] = $this->pageService->getUrl($pageTranslation, true);
-                        }
+                $sitemap[$ref] = ['item' => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref], 'children' => [['item' => ['label' => 'common.sitemap.login'], 'children' => [['item' => ['host' => $host, 'ref' => 'register']], ['item' => ['host' => $host, 'ref' => 'profile']]]]]];
+                if ($ref == 'darkwood') {
+                    $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.player'], 'children' => [['item' => ['host' => $host, 'ref' => 'play']], ['item' => ['host' => $host, 'ref' => 'chat']], ['item' => ['host' => $host, 'ref' => 'users']], ['item' => ['host' => $host, 'ref' => 'rules']], ['item' => ['host' => $host, 'ref' => 'guestbook']], ['item' => ['host' => $host, 'ref' => 'extra']]]];
+                    $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.rank'], 'children' => [['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_general']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_by_class']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_daily_fight']]]];
+                } elseif ($ref == 'apps') {
+                    $children = [];
+                    $apps = $this->pageService->findActives($locale, 'app');
+                    foreach ($apps as $app) {
+                        $children[] = ['item' => ['host' => $host, 'ref' => $app->getRef()]];
                     }
+                    $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.apps'], 'children' => $children];
+                } elseif ($ref == 'photos') {
+                    $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.gallery'], 'children' => [['item' => ['host' => $host, 'ref' => 'show']], ['item' => ['host' => $host, 'ref' => 'demo']], ['item' => ['host' => $host, 'ref' => 'help']]]];
+                } elseif ($ref == 'blog') {
+                    $children = [];
+                    $articles = $this->articleService->findActives($locale, 5, $host);
+                    foreach ($articles as $article) {
+                        $children[] = ['item' => ['host' => $host, 'page_translation' => $article->getOneTranslation()]];
+                    }
+                    $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.articles'], 'children' => $children];
                 }
-                if (isset($child['item']['label'])) {
-                    $child['label'] = $this->translator->trans($child['item']['label']);
-                }
-                $child['children'] = $formatSitemap($child['children']);
-                $items[$key] = $child;
             }
-            return $items;
-        };
-        return $formatSitemap($sitemap);
+            $formatSitemap = function ($items) use (&$formatSitemap, $locale) {
+                foreach ($items as $key => $child) {
+                    if (!isset($child['children'])) {
+                        $child['children'] = [];
+                    }
+                    $child['label'] = null;
+                    $child['link'] = null;
+                    if (isset($child['item']['host'], $child['item']['ref'])) {
+                        $page = $this->pageService->findOneActiveByRefAndHost($child['item']['ref'], $child['item']['host']);
+                        if ($page !== null) {
+                            $pageTranslation = $page->getOneTranslation($locale);
+                            if ($pageTranslation) {
+                                $child['label'] = $pageTranslation->getTitle();
+                                $child['link'] = $this->pageService->getUrl($pageTranslation, true);
+                            }
+                        }
+                    } else if (isset($child['item']['host'], $child['item']['page_translation'])) {
+                        $child['label'] = $child['item']['page_translation']->getTitle();
+                        $child['link'] = $this->pageService->getUrl($child['item']['page_translation'], true);
+                    }
+                    if (isset($child['item']['label'])) {
+                        $child['label'] = $this->translator->trans($child['item']['label']);
+                    }
+                    $child['children'] = $formatSitemap($child['children']);
+                    $items[$key] = $child;
+                }
+                return $items;
+            };
+            return $formatSitemap($sitemap);
+        }, $force ? INF : null);
     }
     public function getSitemapXml($host, $locale)
     {

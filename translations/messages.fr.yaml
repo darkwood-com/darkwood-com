@@ -47,9 +47,11 @@ common:
     rank: Classement
     apps: Projets
     gallery: Galerie Photo
+    articles: Articles
     site_darkwood: Darkwood
     site_apps: Projets
     site_photos: Photos
+    site_blog: Blog
   contact:
     intro: Si vous avez des suggestions, critiques ou idées à émettre concernant le site, ou vous voulez tout simplement m'écrire, veuillez remplir le formulaire suivant.
     email: Email *

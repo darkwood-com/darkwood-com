@@ -2,7 +2,7 @@
 
 {% macro tree(item, level) %}
 {% if level == 0 %}
-<fieldset class="tree" style="width: 230px;">
+<fieldset class="tree" style="width: 180px;">
 <legend>
     <a href="{% if item.link %}{{ item.link }}{% endif %}"{% if item.children|length > 0 %} class="folder"{% endif %}>{{ item.label }}</a>
 </legend>

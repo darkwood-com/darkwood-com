@@ -241,7 +241,7 @@ class PageService
     {
         return $this->pageRepository->findAllBySite($site);
     }
-    public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = true)
+    public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
         $cacheId = 'page_url-' . md5($entity->getId() . '-' . get_class($entity) . '-' . $referenceType);
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($entity, $referenceType) {

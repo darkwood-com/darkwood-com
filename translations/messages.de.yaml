@@ -48,9 +48,11 @@ common:
     rank: Rang
     apps: Projekte
     gallery: Photogallerie
+    articles: Artikel
     site_darkwood: Darkwood
     site_apps: Projekte
     site_photos: Photos
+    site_blog: Blog
   contact:
     intro: Wenn Sie Anregungen, Kritik oder Ideen auf dem Gelände zu machen, oder Sie wollen einfach, mir zu schreiben, füllen Sie bitte das folgende Formular aus.
     email: Email *
