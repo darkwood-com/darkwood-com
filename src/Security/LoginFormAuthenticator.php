@@ -72,20 +72,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         return $credentials['password'];
     }
-    public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
-            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $host = $request->getHost();
             $site = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
-                $redirectUrl = $this->urlGenerator->generate('admin_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             } elseif ($site) {
-                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
         return new RedirectResponse($redirectUrl);

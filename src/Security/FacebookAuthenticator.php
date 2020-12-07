@@ -95,24 +95,24 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
     {
         return $this->clientRegistry->getClient('facebook_main');
     }
-    public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
-            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+            $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $host = $request->getHost();
             $site = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
-                $redirectUrl = $this->urlGenerator->generate('admin_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             } elseif ($site) {
-                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+                $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }
         return new RedirectResponse($redirectUrl);
         // or, on success, let the request continue to be handled by the controller
         //return null;
     }
-    public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
         return new Response($message, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
@@ -121,12 +121,12 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      */
-    public function start(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(
             '/connect/',
             // might be the site, where users choose their oauth provider
-            \Symfony\Component\HttpFoundation\Response::HTTP_TEMPORARY_REDIRECT
+            Response::HTTP_TEMPORARY_REDIRECT
         );
     }
 }

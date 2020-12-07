@@ -120,7 +120,7 @@ class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-        $sitemap = $this->siteService->getSitemap($request->getLocale());
+        $sitemap = $this->siteService->getSitemap($request->getHost(), $request->getLocale());
         return $this->render('common/pages/sitemap.html.twig', ['page' => $page, 'sitemap' => $sitemap, 'site_ref' => $siteRef]);
     }
     public function sitemapXml(Request $request)

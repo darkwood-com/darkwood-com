@@ -112,9 +112,9 @@ class SiteService
     {
         return $this->siteRepository->findActives();
     }
-    public function getSitemap($locale, $force = false)
+    public function getSitemap($host, $locale, $force = false)
     {
-        $cacheId = 'sitemap-' . md5($locale);
+        $cacheId = 'sitemap-' . md5($host) .'-' . md5($locale);
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($locale) {
             $item->expiresAfter(43200);// 12 hours
             $sites = $this->findActives();
@@ -184,7 +184,7 @@ class SiteService
         $urls = [];
         foreach ($pages as $page) {
             $pageTranslation = $page->getOneTranslation();
-            $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
+            $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
         }
         return $this->templating->render('common/partials/sitemapXml.html.twig', ['urls' => $urls]);
     }
