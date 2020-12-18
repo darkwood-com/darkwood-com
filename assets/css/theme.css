@@ -93,3 +93,5 @@ colgroup col.col-6 {
 .btn-youtube:active,.btn-youtube.active,.open>.dropdown-toggle.btn-youtube{background-image:none}
 .btn-youtube.disabled,.btn-youtube[disabled],fieldset[disabled] .btn-youtube,.btn-youtube.disabled:hover,.btn-youtube[disabled]:hover,fieldset[disabled] .btn-youtube:hover,.btn-youtube.disabled:focus,.btn-youtube[disabled]:focus,fieldset[disabled] .btn-youtube:focus,.btn-youtube.disabled.focus,.btn-youtube[disabled].focus,fieldset[disabled] .btn-youtube.focus,.btn-youtube.disabled:active,.btn-youtube[disabled]:active,fieldset[disabled] .btn-youtube:active,.btn-youtube.disabled.active,.btn-youtube[disabled].active,fieldset[disabled] .btn-youtube.active{background-color:#cb2027;border-color:rgba(0,0,0,0.2)}
 .btn-youtube .badge{color:#cb2027;background-color:#fff}
+.btn-twitch {background-color: #9146FF;}
+.btn-twitch:hover {background-color: #a168f8;}
