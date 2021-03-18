@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\CommentArticle;
 use App\Entity\CommentPage;
 use App\Entity\Page;
+use App\Repository\CommentArticleRepository;
 use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,16 +23,24 @@ class CommentService
      * @var CommentRepository
      */
     protected $commentRepository;
+
     /**
      * @var CommentPageRepository
      */
     protected $commentPageRepository;
+
+    /**
+     * @var CommentArticleRepository
+     */
+    protected $commentArticleRepository;
+
     public function __construct(
         protected EntityManagerInterface $em
     )
     {
         $this->commentRepository = $em->getRepository(Comment::class);
         $this->commentPageRepository = $em->getRepository(CommentPage::class);
+        $this->commentArticleRepository = $em->getRepository(CommentArticle::class);
     }
     /**
      * Update a commentTranslation.
@@ -78,5 +89,9 @@ class CommentService
     public function findActiveCommentByPageQuery(Page $page)
     {
         return $this->commentPageRepository->findActiveCommentByPageQuery($page);
+    }
+    public function findActiveCommentByArticleQuery(Article $article)
+    {
+        return $this->commentArticleRepository->findActiveCommentByArticleQuery($article);
     }
 }

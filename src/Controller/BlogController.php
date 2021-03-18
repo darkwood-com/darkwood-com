@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CommentArticle;
 use App\Entity\CommentPage;
 use App\Form\CommentType;
 use App\Services\ArticleService;
@@ -19,14 +20,8 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 {
     public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private ArticleService $articleService, private CommentService $commentService)
     {
-        $this->commonController = $commonController;
-        $this->authenticationUtils = $authenticationUtils;
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->pageService = $pageService;
-        $this->articleService = $articleService;
-        $this->commentService = $commentService;
     }
+
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
@@ -34,6 +29,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
+
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
     {
@@ -42,26 +38,31 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $articles = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }
+
     #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
+
     #[Route(path: ['fr' => '/sitemap.xml', 'en' => '/en/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
+
     #[Route(path: ['fr' => '/rss', 'en' => '/en/rss', 'de' => '/de/rss'], name: 'rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
+
     #[Route(path: ['fr' => '/contact', 'en' => '/en/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
+
     #[Route(path: ['fr' => '/article/{slug}', 'en' => '/en/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
@@ -70,9 +71,10 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         if (!$article) {
             throw $this->createNotFoundException('Article not found !');
         }
-        $comment = new CommentPage();
+        $comment = new CommentArticle();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
+        $comment->setArticle($article);
         $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -82,7 +84,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
             }
         }
-        $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
+        $query = $this->commentService->findActiveCommentByArticleQuery($article);
         $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
         return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
     }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"page" = "App\Entity\CommentPage"})
+ * @ORM\DiscriminatorMap({"page" = "App\Entity\CommentPage", "article" = "App\Entity\CommentArticle"})
  */
 abstract class Comment
 {
