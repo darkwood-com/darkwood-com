@@ -23,6 +23,7 @@ test: ## testing application
 ##-------------
 
 deploy: ## Deploy app on server
+	npm install
 	npm run build
 	composer install --no-dev --optimize-autoloader
 	bin/console doctrine:migration:migrate --no-interaction
