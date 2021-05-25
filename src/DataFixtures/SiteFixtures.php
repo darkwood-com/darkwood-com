@@ -40,12 +40,6 @@ class SiteFixtures extends Fixture
             'position' => 5,
         ], $manager);
 
-        $this->createSite([
-            'name'     => 'Freelance',
-            'host'     => 'freelance.darkwood.localhost',
-            'position' => 6,
-        ], $manager);
-
         $manager->flush();
     }
 

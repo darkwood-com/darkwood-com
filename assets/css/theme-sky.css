@@ -660,32 +660,6 @@
     margin-bottom: 4px;
 }
 
-/* -> freelance */
-
-.theme-sky .theme-content .freelance
-{
-    padding: 50px 50px 25px 50px;
-}
-
-@media(max-width:767px) {
-    .theme-sky .theme-content .freelance
-    {
-        padding: 0px;
-    }
-}
-
-.theme-sky .theme-content .freelance img.image_cv
-{
-    float:right;
-}
-
-.theme-sky .theme-content .freelance a.download_cv
-{
-    margin: 25px 0px 35px 0px;
-    display: block;
-    color: #66B8E2;
-}
-
 /* -> projects */
 
 .theme-sky .theme-content .project p.image
