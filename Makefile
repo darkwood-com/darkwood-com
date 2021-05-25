@@ -19,16 +19,6 @@ test: ## testing application
 	./bin/phpunit
 
 ##
-##DevOps
-##-------------
-
-deploy: ## Deploy app on server
-	npm install
-	npm run build
-	composer install --no-dev --optimize-autoloader
-	bin/console doctrine:migration:migrate --no-interaction
-
-##
 ##Symfony
 ##-------------
 
@@ -80,6 +70,12 @@ rector: ## instant upgrade PHP
 	
 phpstan: ## static analysis tool
 	vendor/bin/phpstan analyse
+
+deploy: ## Deploy app on server
+	npm install
+	npm run build
+	composer install --no-dev --optimize-autoloader
+	bin/console doctrine:migration:migrate --no-interaction
 
 # DEFAULT
 .DEFAULT_GOAL := help
