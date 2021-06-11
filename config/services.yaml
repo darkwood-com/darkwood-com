@@ -8,7 +8,7 @@ parameters:
     apps_host: '%env(APPS_HOST)%'
     photos_host: '%env(PHOTOS_HOST)%'
     blog_host: '%env(BLOG_HOST)%'
-    me_host: '%env(ME_HOST)%'
+    hello_host: '%env(HELLO_HOST)%'
     admin_host: '%env(ADMIN_HOST)%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app_locales: ['fr', 'en', 'de']

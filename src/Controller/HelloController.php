@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'me_', host: '%me_host%', priority: -1)]
-class MeController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+#[Route('/', name: 'hello_', host: '%hello_host%', priority: -1)]
+class HelloController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
         private CommonController $commonController
@@ -18,7 +18,7 @@ class MeController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractCo
     public function home(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
-        return $this->render('me/pages/home.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
+        return $this->render('hello/pages/home.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
     }
     #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)

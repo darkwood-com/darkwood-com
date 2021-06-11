@@ -6,7 +6,7 @@ class MeTest extends CommonWebTestCase
 {
     public function getHostParameter()
     {
-        return 'me_host';
+        return 'hello_host';
     }
 
     /**

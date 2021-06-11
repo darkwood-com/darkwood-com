@@ -71,7 +71,7 @@ common:
     profile: Profil
   footer:
     sitemap: Plan du Site
-    author: Auteur
+    hello: Hello
     blog: Blog
     apps: Apps
     photos: Photos
