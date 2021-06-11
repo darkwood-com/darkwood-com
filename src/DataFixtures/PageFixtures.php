@@ -4,14 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Page;
 use App\Entity\PageTranslation;
-use App\Entity\Site;
 use App\Services\SiteService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class PageFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture implements \Doctrine\Common\DataFixtures\DependentFixtureInterface
+class PageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         protected ParameterBagInterface $parameterBagInterface,
