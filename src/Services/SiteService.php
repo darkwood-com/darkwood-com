@@ -122,7 +122,7 @@ class SiteService
             foreach ($sites as $site) {
                 $ref = $site->getRef();
                 $host = $site->getHost();
-                if (in_array($ref, ['me'])) {
+                if (in_array($ref, ['hello'])) {
                     continue;
                 }
                 $sitemap[$ref] = ['item' => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref], 'children' => [['item' => ['label' => 'common.sitemap.login'], 'children' => [['item' => ['host' => $host, 'ref' => 'register']], ['item' => ['host' => $host, 'ref' => 'profile']]]]]];
