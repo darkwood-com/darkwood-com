@@ -251,6 +251,7 @@
 
 .theme-darkwood form fieldset legend
 {
+	float: none;
 	margin: 0px 10px 0px 10px;
 	padding: 0px 10px 0px 10px;
 	width: auto;
@@ -390,6 +391,7 @@
 
 .theme-darkwood .tree legend
 {
+	float: none;
 	margin: 10px;
 	padding: 0px 10px 0px 10px;
 	width: auto;
@@ -637,4 +639,26 @@
 .theme-darkwood .theme-content #actions #action_sort_by_panoramix
 {
 	background-image:url('../../public/common/images/components/theme-dark/site/icons/16x16/sort_by_human.png');
+}
+
+/* -> hello home */
+.theme-darkwood .theme-content.show_links .hello
+{
+	text-decoration: none;
+}
+
+.theme-darkwood .theme-content .hello ul.itemlist li
+{
+	padding: 5px;
+	text-align: center;
+}
+
+.theme-darkwood .theme-content .hello ul.itemlist li h3
+{
+	background: #101010 none;
+}
+
+.theme-darkwood .theme-content .hello ul.itemlist li span
+{
+	text-decoration: underline;
 }

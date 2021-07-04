@@ -299,6 +299,7 @@
 
 .theme-paper form fieldset legend
 {
+	float: none;
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
     width: auto;
@@ -439,6 +440,7 @@
 
 .theme-paper .tree legend
 {
+	float: none;
 	margin: 10px;
 	padding: 0px 10px 0px 10px;
 	width: auto;

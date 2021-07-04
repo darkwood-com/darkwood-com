@@ -12,6 +12,7 @@ import './bootstrap-social/bootstrap-social.css'
 import '../css/layout.css'
 import '../css/theme.css'
 import '../css/theme-darkwood.css'
+import '../css/theme-hello.css'
 import '../css/theme-sky.css'
 import '../css/theme-paper.css'
 import '../css/theme-photos.css'
@@ -28,3 +29,4 @@ global.$ = global.jQuery = $;
 
 import 'bootstrap';
 import './darkwood.js'
+import './hello.js'

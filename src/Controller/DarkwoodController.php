@@ -20,7 +20,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/', name: 'darkwood_', host: '%darkwood_host%', priority: -1)]
 class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private CommonController $commonController, private ArticleService $articleService, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private CommentService $commentService, private UserService $userService, private GameService $gameService)
+    public function __construct(
+        private CommonController $commonController,
+        private ArticleService $articleService,
+        private AuthenticationUtils $authenticationUtils,
+        private TranslatorInterface $translator,
+        private PaginatorInterface $paginator,
+        private PageService $pageService,
+        private CommentService $commentService,
+        private UserService $userService,
+        private GameService $gameService
+    )
     {
     }
     public function menu(Request $request, $ref, $entity)

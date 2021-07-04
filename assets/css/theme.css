@@ -22,7 +22,8 @@
 /* -> alert */
 .alert_info, .alert_success, .alert_warning, .alert_error, .alert_validation
 {
-	border: 1px solid;
+	border: 1px solid transparent;
+    border-radius: .25rem;
 	margin: 10px 0px 10px 0px;
 	padding:15px 10px 15px 50px;
 	background-repeat: no-repeat;
@@ -52,8 +53,9 @@
 
 .alert_error
 {
-	color: #D8000C;
-	background-color: #FFBABA;
+	color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
 	background-image: url('../../public/common/images/site/icons/32x32/cancel.png');
 }
 

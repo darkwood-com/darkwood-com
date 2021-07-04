@@ -1,195 +1,204 @@
 {% extends "hello/base.html.twig" %}
 
-{% block content %}
+{% block body %}
 
-{# page.content|markdown #}
-
-<div class="cv">
-    <img src="{{ asset('/me/images/cv/mathieu-ledru.jpg') }}" alt="Mathieu Ledru" class="image_cv">
-    <a class="download_cv" href="{{ asset('/me/images/cv/cv-mathieu-ledru.pdf') }}">Téléchargez mon CV (au format PDF)</a>
-    <h2>Mathieu LEDRU</h2>
-
-    <p><span class="fa fa-rocket"></span> French Developer <span class="fa fa-rocket"></span> and <span class="fa fa-heart"></span> Happy Hardcore DJ <span class="fa fa-heart"></span></p>
-
-    <p>
-        <b>Ville : </b>Paris<br>
-        <b>E-Mail : </b><a href="{{ path('hello_contact') }}">Contact</a><br>
-
-        <b>Mobilité : </b>Permis B + Voiture<br>
-        <b>Site : </b><a href="https://darkwood.fr">https://darkwood.fr</a><br />
-        <div class="social">
-            <a class="btn btn-social-icon btn-facebook" target="_blank" rel="noreferrer" href="https://www.facebook.com/matyo91"><span class="fab fa-facebook"></span></a>
-            <a class="btn btn-social-icon btn-twitter" target="_blank" rel="noreferrer" href="https://twitter.com/matyo91"><span class="fab fa-twitter"></span></a>
-            <a class="btn btn-social-icon btn-github" target="_blank" rel="noreferrer" href="https://github.com/matyo91"><span class="fab fa-github"></span></a>
-            <a class="btn btn-social-icon btn-twitch" target="_blank" rel="noreferrer" href="https://twitch.com/matyo91"><span class="fab fa-twitch"></span></a>
-            <a class="btn btn-social-icon btn-linkedin" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/mathieu-ledru"><span class="fab fa-linkedin"></span></a>
-            <a class="btn btn-social-icon btn-youtube" target="_blank" rel="noreferrer"  href="https://www.youtube.com/user/matyo91"><span class="fab fa-youtube"></span></a>
-            <a class="btn btn-social-icon btn-google" target="_blank" rel="noreferrer" href="https://plus.google.com/u/0/+MathieuLEDRU"><span class="fab fa-google"></span></a>
-            <a class="btn btn-social-icon btn-foursquare" target="_blank" rel="noreferrer"  href="https://fr.foursquare.com/matyo91"><span class="fab fa-foursquare"></span></a>
-            <a class="btn btn-social-icon btn-bitbucket" target="_blank" rel="noreferrer" href="https://bitbucket.org/matyo91"><span class="fab fa-bitbucket"></span></a>
-            <a class="btn btn-social-icon btn-reddit" style="background: #FC471E" target="_blank" rel="noreferrer" href="https://www.reddit.com/user/matyo91"><span class="fab fa-reddit"></span></a>
-            <a class="btn btn-social-icon btn-instagram" target="_blank" rel="noreferrer" href="https://www.instagram.com/matyo91"><span class="fab fa-instagram"></span></a>
-            <a class="btn btn-social-icon btn-pinterest" target="_blank" rel="noreferrer" href="https://fr.pinterest.com/matyo91"><span class="fab fa-pinterest"></span></a>
-            <a class="btn btn-social-icon btn-soundcloud" target="_blank" rel="noreferrer" href="https://soundcloud.com/matyo91"><span class="fab fa-soundcloud"></span></a>
-            <a class="btn btn-social-icon btn-soundcloud" target="_blank" rel="noreferrer" href="https://soundcloud.com/djmatyo91"><span class="fab fa-soundcloud"></span></a>
-            <a class="btn btn-social-icon btn-stack-overflow" target="_blank" rel="noreferrer" href="https://stackoverflow.com/story/matyo91"><span class="fab fa-stack-overflow"></span></a>
-            <a class="btn btn-social-icon bfa-medium" style="background: #000000" target="_blank" rel="noreferrer" href="https://medium.com/@matyo91"><span class="fab fa-medium"></span></a>
-            <a class="btn btn-social-icon btn-framagit" style="background: #fca225" target="_blank" rel="noreferrer" href="https://framagit.org/matyo91"><span class="fab fa-gitlab"></span></a>
-            <a class="btn btn-social-icon btn-dev" style="background: #000000" target="_blank" rel="noreferrer" href="https://dev.to/matyo91"><i class="fab fa-dev"></i></a>
-            <a class="btn btn-social-icon btn-mixcloud" style="background: #000000" target="_blank" rel="noreferrer" href="https://www.mixcloud.com/matyo91"><span class="fab fa-mixcloud"></span></a>
-            <a class="btn btn-social-icon btn-keybase" style="background: #4c8eff" target="_blank" rel="noreferrer" href="https://keybase.io/matyo91"><span class="fab fa-keybase"></span></a>
-            <a class="btn btn-social-icon btn-steam" style="background: #00adee" target="_blank" rel="noreferrer" href="https://steamcommunity.com/id/matyo91"><span class="fab fa-steam"></span></a>
-            <a class="btn btn-social-icon btn-disqus" style="background: #2e9fff" target="_blank" rel="noreferrer" href="https://disqus.com/matyo91"><span class="fab fa-discourse"></span></a>
-            <a class="btn btn-social-icon btn-vk" style="background: #4a76a8t" target="_blank" rel="noreferrer" href="https://vk.com/matyo91"><span class="fab fa-vk"></span></a>
-            <a class="btn btn-social-icon btn-spotify" style="background: #81b71a" target="_blank" rel="noreferrer" href="https://open.spotify.com/user/matyo91"><span class="fab fa-spotify"></span></a>
-            <a class="btn btn-social-icon btn-angellist" style="background: #4579b0" target="_blank" rel="noreferrer" href="https://angel.co/matyo91"><span class="fab fa-angellist"></span></a>
-            <a class="btn btn-social-icon btn-tripadvisor" style="background: #00af87" target="_blank" rel="noreferrer" href="https://tripadvisor.com/members/matyo91"><span class="fab fa-tripadvisor"></span></a>
-            <a class="btn btn-social-icon btn-bandcamp" style="background: #629aa9" target="_blank" rel="noreferrer" href="https://www.bandcamp.com/matyo91"><span class="fab fa-bandcamp"></span></a>
-
-            {#
-            
-            <a class="btn btn-social-icon btn-apple" target="_blank" rel="noreferrer" href="https://www.tripit.com/people/matyo91#/profile/basic-info"><span class="fab fa-apple"></span></a>
-            <a class="btn btn-social-icon btn-ebay" style="background: #89c507" target="_blank" rel="noreferrer" href="https://www.ebay.com/usr/matyo91"><span class="fab fa-ebay"></span></a>
-            <a class="btn btn-social-icon btn-apple" style="background: #33ccff" target="_blank" rel="noreferrer" href="https://www.ifttt.com/p/matyo91"><span class="fab fa-apple"></span></a>
-            <a class="btn btn-social-icon btn-houzz" style="background: #73ba37" target="_blank" rel="noreferrer" href="https://houzz.com/user/matyo91"><span class="fab fa-houzz"></span></a>
-            <a class="btn btn-social-icon btn-apple" target="_blank" rel="noreferrer" href="https://matyo91.newgrounds.com"><span class="fab fa-apple"></span></a>
-            <a class="btn btn-social-icon btn-blender" style="background: #00bdf6" target="_blank" rel="noreferrer" href="https://en.gravatar.com/matyo91"><span class="fab fa-blender"></span></a>
-            <a class="btn btn-social-icon btn-apple" target="_blank" rel="noreferrer" href="https://www.dailymotion.com/matyo91"><span class="fab fa-apple"></span></a>
-            <a class="btn btn-social-icon btn-apple" style="background: #85bf25" target="_blank" rel="noreferrer" href="https://imgur.com/user/matyo91"><span class="fab fa-apple"></span></a>
-            <a class="btn btn-social-icon btn-dailymotion" target="_blank" rel="noreferrer" href="https://www.dailymotion.com/matyo91"><span class="fab fa-dailymotion"></span></a>
-            <a class="btn btn-social-icon btn-hearthis" target="_blank" rel="noreferrer" href="https://hearthis.at/matyo91"><span class="fab fa-hearthis"></span></a>
-            <a class="btn btn-social-icon btn-house-mixes" target="_blank" rel="noreferrer" href="https://www.house-mixes.com/profile/matyo91"><span class="fab fa-house-mixes"></span></a>
-            <a class="btn btn-social-icon btn-mix-sets" target="_blank" rel="noreferrer" href="http://www.mix-sets.com/profile/mathieu_ledru"><span class="fab fa-mix-sets"></span></a>
-
-            <a class="btn btn-social-icon btn-flickr" target="_blank" rel="noreferrer"><span class="fab fa-flickr"></span></a>
-            <a class="btn btn-social-icon btn-adn" target="_blank" rel="noreferrer"><span class="fab fa-adn"></span></a>
-            <a class="btn btn-social-icon btn-dropbox" target="_blank" rel="noreferrer"><span class="fab fa-dropbox"></span></a>
-            <a class="btn btn-social-icon btn-microsoft" target="_blank" rel="noreferrer"><span class="fab fa-windows"></span></a>
-            <a class="btn btn-social-icon btn-odnoklassniki" target="_blank" rel="noreferrer"><span class="fab fa-odnoklassniki"></span></a>
-            <a class="btn btn-social-icon btn-openid" target="_blank" rel="noreferrer"><span class="fab fa-openid"></span></a>
-            <a class="btn btn-social-icon btn-tumblr" target="_blank" rel="noreferrer"><span class="fab fa-tumblr"></span></a>
-            <a class="btn btn-social-icon btn-vimeo" target="_blank" rel="noreferrer"><span class="fab fa-vimeo-square"></span></a>
-            <a class="btn btn-social-icon btn-vk" target="_blank" rel="noreferrer"><span class="fab fa-vk"></span></a>
-            <a class="btn btn-social-icon btn-yahoo" target="_blank" rel="noreferrer"><span class="fab fa-yahoo"></span></a>
-
-            #}
+<div class="container-fluid theme theme-hello">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top main-nav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#page-top"><img class="img-fluid" src="{{ asset('/hello/logo-uni-dark.png') }}" alt="darkwood logo" width="50px"></a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">{{ 'hello.menu.about'|trans }}</a></li>
+                    {#<li class="nav-item"><a class="nav-link" href="#projects">{{ 'hello.menu.projects'|trans }}</a></li>#}
+                    <li class="nav-item"><a class="nav-link" href="#blog">{{ 'hello.menu.blog'|trans }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">{{ 'hello.menu.contact'|trans }}</a></li>
+                </ul>
+            </div>
         </div>
-    </p>
-
-    <ul>
-        <li>
-            <fieldset>
-                <legend>Formation (Ingénieur Informaticien Bac + 5)</legend>
-                <p>
-                    <b>2005 - 2008</b><em>POLYTECH' PARIS-SUD<i>Orsay 91</i><br>
-                        Département Informatique</em>
-                    <b>2003 - 2005</b><em>LYCEE SAINTE MARIE<i>Antony 92</i><br>
-                        Cycle préparatoire option MP<br>
-                        Obtention du DEUG MIAS</em>
-                    <b>2002 - 2003</b><em>LYCEE FUSTEL DE COULANGES<i>Massy 91</i><br>
-                        Obtention du baccalauréat Scientifique option Mathématiques</em></p>
-            </fieldset>
-        </li>
-        <li>
-            <fieldset>
-                <legend>Langues étrangères</legend>
-                <p>
-                    <b>Anglais</b><em>Lu, Ecrit, Parlé</em>
-                    <b>Allemand</b><em>Echange linguistique avec un correspondant Allemand de 2001 à 2006.<br>
-                        Quatre séjours en Allemagne d'une durée de deux semaines.<br>
-                        Lu, Ecrit, Parlé</em>
-                </p>
-            </fieldset>
-        </li>
-        <li>
-            <fieldset>
-                <legend>Compétences en informatique</legend>
-                <p>
-                    <b>Programmation</b><em>- Développement : C / Objective-C / C++ - Java - VB.NET<br>
-                        - Internet : PHP - (X)HTML - JavaScript - CSS - Flash<br>
-                        - Bases de données : MySQL - Access<br>
-                        - Modélisation Objet : UML</em>
-                    <b>Librairies</b><em>- Graphique : OpenGL - SDL - JOGL - Java3D<br>
-                        - Réseau : Socket Unix</em>
-                    <b>Bureautique</b><em>Mac, Linux et Windows</em>
-                    <b>Logiciels</b><em>- Développement : xCode - Eclipse - Visual Studio - Dreamweaver - Adobe Flash<br>
-                        - Graphismes : Photoshop<br>
-                        - Traitement de Texte : LaTeX - Pages - Word<br>
-                        - Présentation : KeyNote, PowerPoint</em>
-                </p>
-            </fieldset>
-        </li>
-        <li>
-            <fieldset>
-                <legend>Expériences professionnelles</legend>
-                <p>
-                    <b>2019 - 2020</b><em>Développeur Symfony à Meero à <a href="https://www.meero.com">Meero</a>.<br>
-                        - Maintenance de la plateforme BtoB, ajout de fonctionnalités + tests.<br>
-                        - Participation au lancement de la plateforme photographe MyMeero.<br>
-                        - Développement sur Api-Platform en vue de passer sur du full SPA.<br>
-                        - Methodologie Agile Scrum.</em>
-                    <b>2012 - 2019</b><em>Développeur Symfony à <a href="https://bigyouth.fr">Big Youth</a>.<br>
-                        - Ricard : Backoffice et refonte du site institutionnel de la marque.<br>
-                        - NRJ Games : Backoffice générateur de sites multiple pour NRJ<br>
-                        - Decléor : Refonte du site internet de la marque.<br>
-                        - Grattaevinci : Front en Angular du site des jeux de la société.<br>
-                        - Skolltuborg / Kronenbourg : Backoffice et integration du front des sites.<br>
-                        - 150 Société-Générale : Algorithme d'attribution de cadeaux du site<br>
-                        sur une base conséquente de clients, tests et gestion de la charge du traffic.<br>
-                        - Mugler : Animation des pages front du site vitrine des parfums en javascript<br>
-                        - Paris-Turf : Gestion du contenu des courses, montée en charge via Varnish</em>
-                    <b>2008 - 2012</b><em>Développeur PHP R&amp;D et iPhone à <a href="https://www.les-argonautes.fr">Les-Argonautes</a>.<br>
-                        - Evolution du framework interne Délia : CRM, CMS, SEO, ORM, Backoffice, Gestion des utilisateurs, Système de template, API utilisateur.<br>
-                        - Véolia (Application Compodata, pôle recherche) : filtre et extraction d'une base de données métier, framework Symfony.<br>
-                        - <a href="http://www.mu.peugeot.fr">Mu By Peugeot</a> : back-office, module de paiement bancaire, web services.<br>
-                        - <a href="http://itunes.apple.com/fr/app/mubypeugeot/id361025589?mt=8">Mu By Peugeot iPhone (lien Apple Store)</a> : application iPhone du site internet.<br>
-                        - Back-office Peugeot Showroom : Module générique permettant de générer des contenus propre aux sites pays Peugeot et bornes tactiles des concessionnaires.<br>
-                        - <a href="https://www.fr.issworld.com">ISS</a> : back-office intranet, gestion des employés, des sites et des actualités.<br>
-                        - <a href="https://www.roquette.fr">Roquette</a> : gestion administrative (back-office) et recherche (front) des produits.</em>
-                    <b>Mars - Août 2008</b><em>Développeur C++ - HLSL à <a href="http://www.kylotonn.com">Kylotonn Entertainment</a> pour le moteur de jeu vidéo PlayAll, partie Graphique.<br>
-                        <a href="{{ asset('/me/images/cv/rapport-stage-2008.pdf') }}">Téléchargez mon rapport de stage (au format PDF)</a></em>
-                    <b>Mai - Août 2007</b><em>Analyste Programmeur VB.Net - Access, intégration d'une base de données dans un logiciel existant à <a href="http://www.anfr.fr">L'Agence Nationale des Fréquences</a>, chargée de gérer, de planifier et de contrôler le spectre des fréquences radioélectrique de l'Etat Français.</em>
-                    <b>Juillet 2006</b><em>Développeur PHP - MySQL à Picasoft, société informatique spécialisée dans le prototypage rapide et l'usinage de petites séries. Perfectionnement de l’administration du <a href="http://www.picasoft.com">site internet de Picasoft</a>.<br>
-                        <a href="{{ asset('/me/images/cv/rapport-stage-2006.pdf') }}">Téléchargez mon rapport de stage (au format PDF)</a></em>
-                    <b>2005 - 2007</b><em>Aide à domicile pour donner des cours de mathématiques.</em>
-                </p>
-            </fieldset>
-        </li>
-        <li>
-            <fieldset>
-                <legend>Projets</legend>
-                <p>
-                    <b>2011</b><em>- Projet zMesh : création d'<a href="{{ path('apps_app', {'ref': 'zmesh'}) }}">une application</a> cross-plateforme (iPhone, iPad, Mac) couplant Objective C++ et OpenGL, permettant d'ouvrir de nombreux modèles en 3D.</em>
-                    <b>2010</b><em>- Projet Darkwood : Refonte du <a href="{{ path('darkwood_home') }}">site internet</a>, nouveaux graphismes, gestion multi-langues, multi-sites, cross-plateforme (iPhone, iPad, Mac, Facebook).<br>
-                        - Projet Le Gardien du Savoir : Création d'<a href="{{ path('apps_app', {'ref': 'lgs'}) }}">un jeu</a> cross-plateforme (iPhone, iPad, Mac) en Cocoa.</em>
-                    <b>Janvier - Mars 2008</b><em>- Projet BattleField : Réalisation d'une <a href="{{ path('apps_app', {'ref': 'battlefield'}) }}">simulation d'un jeu</a> complexe par addition de comportements simples.<br>
-                        - Projet iTunes Visu : <a href="{{ path('apps_app', {'ref': 'itunesvisu'}) }}">Interface graphique</a> permettant à l'utilisateur de déduire des méta-informations sur les données affichées à l'écran.</em>
-                    <b>Juin 2007</b><em>Projet Personnel : Réalisation d'un <a href="{{ path('apps_app', {'ref': 'choc3d'}) }}">programme qui simule les collisions de particules</a>. Modélisation du problème, ainsi que la recherche des équations mises en oeuvre pour être en accord avec la théorie physique. Utilisation de Java3D implémenté dans une Applet Java.</em>
-                    <b>Avril 2007</b><em>Projet Intelligence Artificielle : Programmation d'un jeu (<a href="{{ path('apps_app', {'ref': 'hnefetafl'}) }}">Tablut d'Hnefetafl</a>) doté des techniques d'intelligence artificielles tels que l'algorithme Alpha-Beta et Iterative Deepening.</em>
-                    <b>Décembre 2006</b><em>Projet Galerie Photo : Création d'une <a href="{{ path('photos_home') }}">galerie photo</a> sur internet pour l'échange et le partage de photos. Utilisation des technologies flash pour créer des animations et effets visuels.</em>
-                    <b>Février - Juin 2006</b><em>- Projet Réseau : Création d'un serveur réseau de fichier en C connecté avec des clients en Java. Utilisation des librairies socket réseau.<br>
-                        - Projet OpenGL : Modélisation du campus d'Orsay en 3D. Manipulation des courbes de Bésier, textures, lumières et animations.<br>
-                        - Projet Java : Création d'un jeu Java (<a href="{{ path('apps_app', {'ref': 'gdm'}) }}">Guerre des Moutons</a>). Réalisation d'un diagramme UML et de l'interface de jeu ainsi que la possibilité de jouer en réseau.<br>
-                        - Projet de Logique : Création et résolution d'un sudoku par la méthode DPLL (Davis-Putnam-Logemann-Loveland)</em>
-                    <b>2005</b><em>Projet Personnel : Réalisation d'un <a href="https://darkwood.fr">site internet multijoueur</a> combinant PHP, MySQL et CSS.</em>
-                    <b>2004 - 2005</b><em>Projet Graphique : étude de la compression JPEG et implémentation sur Maple (DCT, Quantification, ZigZag, RLE, Codage de Huffman).</em>
-                    <b>2002 - 2003</b><em>Jeux Basiques sur Calculette : Création de <a href="{{ path('apps_app', {'ref': 'ti89'}) }}">divers jeux en Basic</a> sur TI89 et TI92.</em>
-                </p>
-            </fieldset>
-        </li>
-        <li>
-            <fieldset>
-                <legend>Centres d'intérêts</legend>
-                <p>
-                    <b>Loisirs</b><em>- Vélo Tout Terrain, Roller, Tennis<br>
-                        - Cinéma, Musique<br>
-                        - Informatique, Internet</em>
-                </p>
-            </fieldset>
-        </li>
-    </ul>
+    </nav>
+    <header class="masthead">
+        <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <h1 class="mx-auto my-0 text-uppercase">{{ 'hello.hero.title'|trans|raw }}</h1>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">{{ 'hello.hero.description'|trans|raw }}</h2>
+                    <a class="btn btn-primary" href="#about">{{ 'hello.hero.cta'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="about-section" id="about">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="text-white mb-4">{{ 'hello.about.title'|trans }}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 ml-auto text-white-50">
+                    <p>{{ 'hello.about.text1'|trans }}</p>
+                </div>
+                <div class="col-lg-6 mr-auto text-white-50">
+                    <p>{{ 'hello.about.text2'|trans }}</p>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-2">
+                    <a href="#contact" class="btn btn-lg btn-primary">
+                        <i class="fa fa-paper-plane"></i>
+                        {{ 'hello.about.cta_contact'|trans }}
+                    </a>
+                </div>
+                <div class="col col-lg-2">
+                    <a href="{{ path('hello_cv') }}" class="btn btn-lg btn-secondary">
+                        <i class="fa fa-file-alt"></i>
+                        {{ 'hello.about.cta_cv'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {#<section class="projects-section bg-light" id="projects">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/bg-masthead.jpg" /></div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Shoreline</h4>
+                        <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                <div class="col-lg-6"><img class="img-fluid" src="assets/img/demo-image-01.jpg" alt="..." /></div>
+                <div class="col-lg-6">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h4 class="text-white">Misty</h4>
+                                <p class="mb-0 text-white-50">An example of where you can put an image of a project, or anything else, along with a description.</p>
+                                <hr class="d-none d-lg-block mb-0 ms-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Project Two Row-->
+            <div class="row gx-0 justify-content-center">
+                <div class="col-lg-6"><img class="img-fluid" src="assets/img/demo-image-02.jpg" alt="..." /></div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Mountains</h4>
+                                <p class="mb-0 text-white-50">Another example of a project with its respective description. These sections work well responsively as well, try this theme on a small screen!</p>
+                                <hr class="d-none d-lg-block mb-0 me-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>#}
+    <section class="blog-area pt-125 pb-130" id="blog">
+        <div class="container">
+            <div class="row p-5 gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-white mb-4 text-center">{{ 'hello.blog.title'|trans }}</h2>
+                    <p class="text-white-50 text-center">{{ 'hello.blog.description'|trans }}</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                {% for article in articles %}
+                {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
+                <div class="col-lg-4 col-md-8 col-sm-9">
+                    <div class="single-blog mt-30">
+                        <div class="blog-image">
+                            <img src="{{ asset(vich_uploader_asset(articleTranslation, 'image'))|imagine_filter('hello_blog') }}" alt="Blog">
+                        </div>
+                        <div class="blog-content">
+                            <h4 class="blog-title"><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ articleTranslation.title }}</a></h4>
+                            <span>{{ articleTranslation.created|format_date('long') }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row pt-5">
+                <div class="col-lg-12">
+                    <div class="blog-more text-center mt-50">
+                        <a class="btn btn-primary" href="{{ path('blog_home') }}">{{ 'hello.blog.cta_more'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-section" id="contact">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-10 col-lg-8 mx-auto text-center">
+                    <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+                    <h2 class="text-white mb-5">{{ 'hello.contact.title'|trans }}</h2>
+                    <form id="contact_form" action="{{ path('hello_home') }}#contact_form" method="post" novalidate="novalidate">
+                        {{ form_errors(form._token) }}
+                        {{ form_widget(form._token) }}
+                        {% for flashMessage in app.session.flashbag.get('success') %}<div class="alert_success">{{ flashMessage }}</div>{% endfor %}
+                        {% for flashMessage in app.session.flashbag.get('error') %}<div class="alert_error">{{ flashMessage }}</div>{% endfor %}
+                        {% if form.vars['errors'] |length > 0 %}<div class="alert_error">{{ form_errors(form) }}</div>{% endif %}
+                        <div class="row">
+                            {% if form.email.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.email) }}</div></div></div>{% endif %}
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    {{ form_label(form.email, 'common.contact.email', {'label_attr':{'class': 'form-label text-white'}}) }}
+                                    {{ form_widget(form.email, {'attr':{'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+                            {% if form.website.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.website) }}</div></div></div>{% endif %}
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    {{ form_label(form.website, 'common.contact.website', {'label_attr':{'class': 'form-label text-white'}}) }}
+                                    {{ form_widget(form.website, {'attr':{'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+                            {% if form.content.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.content) }}</div></div></div>{% endif %}
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    {{ form_label(form.content, 'common.contact.message', {'label_attr':{'class': 'form-label text-white'}}) }}
+                                    {{ form_widget(form.content, {'attr':{'class': 'form-control', 'rows': '5', 'cols': '35'} }) }}
+                                </div>
+                            </div>
+                            {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
+                            {% if form.recaptcha.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></div></div>{% endif %}
+                            <li class="centered">
+                                <label class="required centered text-white">{{ 'common.contact.recaptcha'|trans }}</label>
+                                <div class="g-recaptcha centered" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+                            </li>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-end">
+                                    <button type="submit" id="submit" name="contact_contact" class="btn btn-primary">{{ 'hello.contact.btn_send'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row theme-footer theme-link">
+        {%- include "hello/partials/footer.html.twig" -%}
+    </div>
+    <div class="row theme-info theme-link p-2">
+        <div class="col-12 text-center">
+            {{ 'hello.footer.credit'|trans|raw }}
+        </div>
+    </div>
 </div>
-
-{#Le CV au format PDF à été généré automatiquement à l'aide de <a href="http://www.fpdf.org"><img src="/media/deliacms/media//0/21-d42c72.png" alt="fpdf"></a>#}
 
 {% endblock %}

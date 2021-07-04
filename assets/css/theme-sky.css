@@ -266,6 +266,7 @@
 
 .theme-sky form fieldset legend
 {
+	float: none;
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
     width: auto;
@@ -406,6 +407,7 @@
 
 .theme-sky .tree legend
 {
+	float: none;
     margin: 10px;
     padding: 0px 10px 0px 10px;
     width: auto;
@@ -629,6 +631,7 @@
 
 .theme-sky .theme-content .cv fieldset legend
 {
+	float: none;
     margin: 0px 10px 0px 10px;
     padding: 0px 10px 0px 10px;
     width: auto;

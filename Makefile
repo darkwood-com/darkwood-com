@@ -9,7 +9,7 @@ SYMFONY         = symfony
 
 encore: ## Start encore dev server
 	if [ ! -d "node_modules" ]; then npm install; fi
-	npm run dev-server
+	npm run dev
 
 dev: ## Start symfony dev server
 	docker-compose up -d

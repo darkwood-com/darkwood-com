@@ -1,0 +1,358 @@
+.theme-hello
+{
+	color: #808080;
+	background: #000000;
+}
+
+.theme-hello html {
+  scroll-padding-top: calc(4.5rem - 1px);
+}
+  
+.theme-hello body {
+  letter-spacing: 0.0625em;
+}
+
+.theme-hello .theme-link a {
+  color: #808080;
+  text-decoration: none;
+}
+
+.theme-hello .theme-link a:hover
+{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.theme-hello .main-nav {
+  min-height: 3.5rem;
+  background-color: #fff;
+}
+.theme-hello .main-nav .navbar-toggler {
+  font-size: 80%;
+  padding: 0.75rem;
+  color: #64a19d;
+  border: 1px solid #64a19d;
+}
+.theme-hello .main-nav .navbar-toggler:focus {
+  outline: none;
+}
+.theme-hello .main-nav .navbar-brand {
+  color: #000;
+  font-weight: 700;
+  padding: 0.9rem 0;
+}
+.theme-hello .main-nav .navbar-nav .nav-item:hover {
+  color: fade(#fff, 80%);
+  outline: none;
+  background-color: transparent;
+}
+.theme-hello .main-nav .navbar-nav .nav-item:active, .theme-hello .main-nav .navbar-nav .nav-item:focus {
+  outline: none;
+  background-color: transparent;
+}
+@media (min-width: 992px) {
+  .theme-hello .main-nav {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    background-color: transparent;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .theme-hello .main-nav .navbar-brand {
+    padding: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .theme-hello .main-nav .nav-link {
+    transition: none;
+    padding: 2rem 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .theme-hello .main-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .theme-hello .main-nav .nav-link:active {
+    color: #fff;
+  }
+  .theme-hello .main-nav.navbar-shrink {
+    background-color: #fff;
+  }
+  .theme-hello .main-nav.navbar-shrink .navbar-brand {
+    color: #000;
+  }
+  .theme-hello .main-nav.navbar-shrink .nav-link {
+    color: #000;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 0.25rem solid transparent;
+  }
+  .theme-hello .main-nav.navbar-shrink .nav-link:hover {
+    color: #64a19d;
+  }
+  .theme-hello .main-nav.navbar-shrink .nav-link:active {
+    color: #467370;
+  }
+  .theme-hello .main-nav.navbar-shrink .nav-link.active {
+    color: #64a19d;
+    outline: none;
+    border-bottom: 0.25rem solid #64a19d;
+  }
+}
+
+.theme-hello .btn {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1.25rem 2rem;
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+}
+
+.theme-hello .masthead {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 35rem;
+  padding: 15rem 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../images/theme-hello/bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+.theme-hello .masthead h1, .theme-hello .masthead .h1 {
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  letter-spacing: 0.8rem;
+  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+.theme-hello .masthead h2, .theme-hello .masthead .h2 {
+  max-width: 20rem;
+  font-size: 1rem;
+}
+@media (min-width: 768px) {
+  .theme-hello .masthead h1, .theme-hello .masthead .h1 {
+    font-size: 4rem;
+    line-height: 4rem;
+  }
+}
+@media (min-width: 992px) {
+  .theme-hello .masthead {
+    height: 100vh;
+    padding: 0;
+  }
+  .theme-hello .masthead h1, .theme-hello .masthead .h1 {
+    font-size: 6.5rem;
+    line-height: 6.5rem;
+    letter-spacing: 0.8rem;
+  }
+  .theme-hello .masthead h2, .theme-hello .masthead .h2 {
+    max-width: 30rem;
+    font-size: 1.25rem;
+  }
+}
+
+.theme-hello .about-section {
+  padding-top: 10rem;
+  padding-bottom: 5rem;
+  background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
+}
+.theme-hello .about-section p {
+  margin-bottom: 5rem;
+}
+
+.theme-hello .projects-section {
+  padding: 10rem 0;
+}
+.theme-hello .projects-section .featured-text {
+  padding: 2rem;
+}
+@media (min-width: 992px) {
+  .theme-hello .projects-section .featured-text {
+    padding: 0 0 0 2rem;
+    border-left: 0.5rem solid #64a19d;
+  }
+}
+.theme-hello .projects-section .project-text {
+  padding: 3rem;
+  font-size: 90%;
+}
+@media (min-width: 992px) {
+  .theme-hello .projects-section .project-text {
+    padding: 5rem;
+  }
+  .theme-hello .projects-section .project-text hr {
+    border-color: #64a19d;
+    border-width: 0.25rem;
+    width: 30%;
+  }
+}
+
+.theme-hello .blog-area {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+@media only screen and (min-width: 768px) and (max-width:991px) {
+  .theme-hello .blog-area {
+      padding-top:90px;
+      padding-bottom: 100px
+  }
+}
+
+@media(max-width: 767px) {
+  .theme-hello .blog-area {
+      padding-top:70px;
+      padding-bottom: 80px
+  }
+}
+
+.theme-hello .single-blog {
+  -webkit-box-shadow: 0 0 15px 0 rgba(152,152,152,.25);
+  -moz-box-shadow: 0 0 15px 0 rgba(152,152,152,.25);
+  box-shadow: 0 0 15px 0 rgba(152,152,152,.25);
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden
+}
+
+.theme-hello .single-blog .blog-image {
+  overflow: hidden
+}
+
+.theme-hello .single-blog .blog-image img {
+  width: 100%;
+  -webkit-transition: all .3s ease-out 0s;
+  -moz-transition: all .3s ease-out 0s;
+  -ms-transition: all .3s ease-out 0s;
+  -o-transition: all .3s ease-out 0s;
+  transition: all .3s ease-out 0s
+}
+
+.theme-hello .single-blog .blog-content {
+  width: 75%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  padding: 25px;
+  -webkit-transition: all .3s ease-out 0s;
+  -moz-transition: all .3s ease-out 0s;
+  -ms-transition: all .3s ease-out 0s;
+  -o-transition: all .3s ease-out 0s;
+  transition: all .3s ease-out 0s
+}
+
+@media(max-width: 767px) {
+  .theme-hello .single-blog .blog-content {
+      padding:20px
+  }
+}
+
+.theme-hello .single-blog .blog-content .blog-title a {
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 5px;
+  -webkit-transition: all .3s ease-out 0s;
+  -moz-transition: all .3s ease-out 0s;
+  -ms-transition: all .3s ease-out 0s;
+  -o-transition: all .3s ease-out 0s;
+  transition: all .3s ease-out 0s;
+  color: #32333c
+}
+
+@media(max-width: 767px) {
+  .theme-hello .single-blog .blog-content .blog-title a {
+      font-size:18px
+  }
+}
+
+.theme-hello .single-blog .blog-content span {
+  font-size: 16px;
+  color: #8a8fa3;
+  -webkit-transition: all .3s ease-out 0s;
+  -moz-transition: all .3s ease-out 0s;
+  -ms-transition: all .3s ease-out 0s;
+  -o-transition: all .3s ease-out 0s;
+  transition: all .3s ease-out 0s
+}
+
+.theme-hello .single-blog:hover .blog-image img {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2)
+}
+
+.theme-hello .single-blog:hover .blog-content {
+  background-color: #0a58ca
+}
+
+.theme-hello .single-blog:hover .blog-content .blog-title a {
+  color: #fff
+}
+
+.theme-hello .single-blog:hover .blog-content span {
+  color: #fff
+}
+
+.theme-hello .contact-section {
+  padding: 10rem 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000 100%), url("../images/theme-hello/bg-signup.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+.theme-hello .contact-section .form-contact input {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1.25rem 2rem;
+  height: auto;
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+}
+.theme-hello .contact-section form fieldset li
+{
+    list-style-type: none;
+}
+
+.theme-hello .contact-section form ul, .theme-hello .contact-section form li
+{
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+    clear: both;
+}
+
+.theme-hello .footer {
+  padding: 5rem 0;
+}
+
+/* -> footer */
+.theme-hello .theme-footer
+{
+	margin: 0;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+	.theme-hello .theme-footer ul
+	{
+		list-style-type: none;
+		padding: 10px 0px 10px 0px;
+	}
+
+	.theme-hello .theme-footer .btn-github,
+	.theme-hello .theme-footer .btn-twitter
+	{
+		background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+	}

@@ -249,6 +249,7 @@
 
 .theme-photos form fieldset legend
 {
+	float: none;
 	margin: 0px 10px 0px 10px;
 	padding: 0px 10px 0px 10px;
 	width: auto;
@@ -390,6 +391,7 @@
 
 .theme-photos .tree legend
 {
+	float: none;
 	margin: 10px;
 	padding: 0px 10px 0px 10px;
 	width: auto;

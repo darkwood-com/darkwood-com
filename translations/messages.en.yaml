@@ -75,7 +75,7 @@ common:
     apps: Apps
     photos: Photos
     contact: Contact
-    copyright: "Darkwood %year%, all rights reserved, site certified :"
+    copyright: "Darkwood %year%, all rights reserved"
     valid:
       html: Validate XHTML 1.1 page
       css: Validate CSS sheet
@@ -105,6 +105,8 @@ darkwood:
     news_on: on
     news_rss: in RSS format
     show_more: Read more...
+    hello_title: Hello !
+    hello_content: Do you have an idea or a project? <br /> Let's meet! <br /> <br /> <span> Click here to find out more <span>
 
   play:
     not_logged:
@@ -268,3 +270,29 @@ blog:
   home:
     article_on: on
     show_more: Read more...
+
+hello:
+  menu:
+    about: About
+    blog: Blog
+    projects: Projects
+    contact: Contact
+  hero:
+    title: Hello !<br />I'm Mathieu
+    description: A Freelance Developer specialized in<br />Symfony and React.
+    cta: Get in touch
+  about:
+    title: About me
+    text1: Lead développeur sénior en PHP et confirmé en Symfony, je suis spécialisé dans le développement de sites web et d'API. J'ai travaillé en agence web et pour de grandes enseignes qui m'a permis d'acquérir mon expérience. Désormais, je désire me consacrer aux projets qui m'intéressent vraiment et avoir de l'autonomie en tant que développeur Freelance.
+    text2: Je recherche des missions freelances de courtes et moyennes durées en Symfony. Je suis autonome et motivé. N'hésitez pas à me contacter pour un projet ou si vous avez besoin d'aide en Symfony ou PHP en générale, je serai ravi de vous apporter mon expertise.
+    cta_contact: Hire me
+    cta_cv: See my CV
+  blog:
+    title: From the blog
+    description: Read my last articles from the blog
+    cta_more: More posts
+  contact:
+    title: Do you wish contact me ?
+    btn_send: Send Message
+  footer:
+    credit: Theme by <a href="https://github.com/StartBootstrap/startbootstrap-grayscale" target="_blank" rel="nofollow noopener noreferrer">Startbootstrap</a>

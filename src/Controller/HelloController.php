@@ -2,20 +2,51 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Services\ArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/', name: 'hello_', host: '%hello_host%', priority: -1)]
-class HelloController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class HelloController extends AbstractController
 {
     public function __construct(
-        private CommonController $commonController
+        private CommonController $commonController,
+        private ArticleService $articleService
     )
     {
     }
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
+    {
+        $page = $this->commonController->getPage($request, $ref);
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        if ('POST' === $request->getMethod()) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $contact->setUser($this->getUser());
+                $this->contactService->save($contact);
+                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
+                try {
+                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], $contact->getEmail(), 'mathieu@darkwood.fr');
+                    $contact->setEmailSent(true);
+                } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
+                    $contact->setEmailSent(false);
+                }
+                $this->contactService->save($contact);
+                return $this->redirect($this->generateUrl('hello_home', ['ref' => 'contact']));
+            }
+        }
+
+        $articles = $this->articleService->findActives($request->getLocale(), 3);
+        return $this->render('hello/pages/home.html.twig', ['form' => $form->createView(), 'page' => $page, 'showLinks' => true, 'cv' => true, 'articles' => $articles]);
+    }
+    #[Route(path: ['fr' => '/cv', 'en' => '/en/cv', 'de' => '/de/cv'], name: 'cv', defaults: ['ref' => 'cv'])]
+    public function cv(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
         return $this->render('hello/pages/home.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
@@ -39,5 +70,28 @@ class HelloController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
+    }
+
+    /**
+     * @param string $templateName
+     * @param array $context
+     * @param string $fromEmail
+     * @param string $toEmail
+     *
+     * @throws \Throwable
+     */
+    private function sendMail($templateName, $context, $fromEmail, $toEmail): void
+    {
+        $template = $this->twig->load($templateName);
+        $subject = $template->renderBlock('subject', $context);
+        $textBody = $template->renderBlock('body_text', $context);
+        $htmlBody = $template->renderBlock('body_html', $context);
+        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        if (!empty($htmlBody)) {
+            $message->html($htmlBody)->text($textBody);
+        } else {
+            $message->html($textBody);
+        }
+        $this->mailer->send($message);
     }
 }

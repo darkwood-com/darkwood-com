@@ -7,12 +7,12 @@
             {{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}
         </li>
     </ul>
-    <ul>
+    {#<ul>
         <li>
             <a href="https://validator.w3.org/nu/?doc={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-dark/site/footer/valid_xhtml11.jpg') }}" alt="Valid XHTML 1.1" title="{{ 'common.footer.valid.html'|trans }}" /></a>
             <a href="http://jigsaw.w3.org/css-validator/validator?uri={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-dark/site/footer/valid_css.jpg') }}" alt="Valid CSS" title="{{ 'common.footer.valid.css'|trans }}" /></a>
             <a href="https://validator.w3.org/feed/check.cgi?url={{ url(page.page.site.ref ~ '_rss') }}"><img src="{{ asset('/common/images/components/theme-dark/site/footer/valid_rss.jpg') }}" alt="Valid RSS" title="{{ 'common.footer.valid.rss'|trans }}" /></a>
         </li>
-    </ul>
+    </ul>#}
 </div>
 

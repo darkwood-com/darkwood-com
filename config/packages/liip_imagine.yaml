@@ -37,3 +37,7 @@ liip_imagine:
         app_cover:
             filters:
                 thumbnail: { size: [ 768, 115 ], mode: outbound }
+        
+        hello_blog:
+            filters:
+                thumbnail: { size: [ 350, 350 ], mode: outbound }

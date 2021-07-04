@@ -76,7 +76,7 @@ common:
     apps: Apps
     photos: Photos
     contact: Kontakt
-    copyright: "Darkwood %year%, alle Rechte vorbehalten, Website zertifiziert :"
+    copyright: "Darkwood %year%, alle Rechte vorbehalten"
     valid:
       html: Überprüfen Sie die Seite XHTML 1.1
       css: Überprüfen Sie die CSS
@@ -105,6 +105,8 @@ darkwood:
     news_on: der
     news_rss: im RSS format
     show_more: Lesen Sie mehr...
+    hello_title: Hallo !
+    hello_content: Sie haben eine Idee oder ein Projekt? <br /> Treffen wir uns! <br /> <br /> <span> Klicken Sie hier, um mehr zu erfahren <span>
 
   play:
     not_logged:
