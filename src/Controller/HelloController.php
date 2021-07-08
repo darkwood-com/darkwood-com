@@ -49,7 +49,7 @@ class HelloController extends AbstractController
     public function cv(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
-        return $this->render('hello/pages/home.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
+        return $this->render('hello/pages/cv.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
     }
     #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
