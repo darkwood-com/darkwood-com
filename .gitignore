@@ -9,6 +9,7 @@
 /var/
 /vendor/
 /docker-compose.override.yml
+/.php-cs-fixer.cache
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

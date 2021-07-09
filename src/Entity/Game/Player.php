@@ -4,9 +4,10 @@ namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="game_player")
  * @ORM\Entity(repositoryClass="App\Repository\Game\PlayerRepository")
@@ -167,6 +168,7 @@ class Player
      * @ORM\Column(name="daily_battle_defeats", type="integer")
      */
     private $dailyBattleDefeats;
+
     /**
      * Constructor.
      */
@@ -174,6 +176,7 @@ class Player
     {
         $this->dailyBattles = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -183,6 +186,7 @@ class Player
     {
         return $this->id;
     }
+
     /**
      * Set lifeMin.
      *
@@ -192,6 +196,7 @@ class Player
     {
         $this->lifeMin = $lifeMin;
     }
+
     /**
      * Get lifeMin.
      *
@@ -201,6 +206,7 @@ class Player
     {
         return $this->lifeMin;
     }
+
     /**
      * Set lifeMax.
      *
@@ -210,6 +216,7 @@ class Player
     {
         $this->lifeMax = $lifeMax;
     }
+
     /**
      * Get lifeMax.
      *
@@ -219,6 +226,7 @@ class Player
     {
         return $this->lifeMax;
     }
+
     /**
      * Set xp.
      *
@@ -228,6 +236,7 @@ class Player
     {
         $this->xp = $xp;
     }
+
     /**
      * Get xp.
      *
@@ -237,6 +246,7 @@ class Player
     {
         return $this->xp;
     }
+
     /**
      * Set gold.
      *
@@ -246,6 +256,7 @@ class Player
     {
         $this->gold = $gold;
     }
+
     /**
      * Get gold.
      *
@@ -255,6 +266,7 @@ class Player
     {
         return $this->gold;
     }
+
     /**
      * Set strength.
      *
@@ -264,6 +276,7 @@ class Player
     {
         $this->strength = $strength;
     }
+
     /**
      * Get strength.
      *
@@ -273,6 +286,7 @@ class Player
     {
         return $this->strength;
     }
+
     /**
      * Set dexterity.
      *
@@ -282,6 +296,7 @@ class Player
     {
         $this->dexterity = $dexterity;
     }
+
     /**
      * Get dexterity.
      *
@@ -291,6 +306,7 @@ class Player
     {
         return $this->dexterity;
     }
+
     /**
      * Set vitality.
      *
@@ -300,6 +316,7 @@ class Player
     {
         $this->vitality = $vitality;
     }
+
     /**
      * Get vitality.
      *
@@ -309,6 +326,7 @@ class Player
     {
         return $this->vitality;
     }
+
     /**
      * Set equipment1IsUse.
      *
@@ -318,6 +336,7 @@ class Player
     {
         $this->equipment1IsUse = $equipment1IsUse;
     }
+
     /**
      * Get equipment1IsUse.
      *
@@ -327,6 +346,7 @@ class Player
     {
         return $this->equipment1IsUse;
     }
+
     /**
      * Set equipment2IsUse.
      *
@@ -336,6 +356,7 @@ class Player
     {
         $this->equipment2IsUse = $equipment2IsUse;
     }
+
     /**
      * Get equipment2IsUse.
      *
@@ -345,6 +366,7 @@ class Player
     {
         return $this->equipment2IsUse;
     }
+
     /**
      * Set equipment3IsUse.
      *
@@ -354,6 +376,7 @@ class Player
     {
         $this->equipment3IsUse = $equipment3IsUse;
     }
+
     /**
      * Get equipment3IsUse.
      *
@@ -363,6 +386,7 @@ class Player
     {
         return $this->equipment3IsUse;
     }
+
     /**
      * Set sword.
      *
@@ -372,6 +396,7 @@ class Player
     {
         $this->sword = $sword;
     }
+
     /**
      * Get sword.
      *
@@ -381,6 +406,7 @@ class Player
     {
         return $this->sword;
     }
+
     /**
      * Set armor.
      *
@@ -390,6 +416,7 @@ class Player
     {
         $this->armor = $armor;
     }
+
     /**
      * Get armor.
      *
@@ -399,6 +426,7 @@ class Player
     {
         return $this->armor;
     }
+
     /**
      * Set potion.
      *
@@ -408,6 +436,7 @@ class Player
     {
         $this->potion = $potion;
     }
+
     /**
      * Get potion.
      *
@@ -417,6 +446,7 @@ class Player
     {
         return $this->potion;
     }
+
     /**
      * Set lastFight.
      *
@@ -426,6 +456,7 @@ class Player
     {
         $this->lastFight = $lastFight;
     }
+
     /**
      * Get lastFight.
      *
@@ -435,6 +466,7 @@ class Player
     {
         return $this->lastFight;
     }
+
     /**
      * Set currentEnemy.
      *
@@ -444,6 +476,7 @@ class Player
     {
         $this->currentEnemy = $currentEnemy;
     }
+
     /**
      * Get currentEnemy.
      *
@@ -453,6 +486,7 @@ class Player
     {
         return $this->currentEnemy;
     }
+
     /**
      * Set classe.
      *
@@ -462,6 +496,7 @@ class Player
     {
         $this->classe = $classe;
     }
+
     /**
      * Get classe.
      *
@@ -471,6 +506,7 @@ class Player
     {
         return $this->classe;
     }
+
     /**
      * Set user.
      *
@@ -480,6 +516,7 @@ class Player
     {
         $this->user = $user;
     }
+
     /**
      * Get user.
      *
@@ -489,6 +526,7 @@ class Player
     {
         return $this->user;
     }
+
     /**
      * Add dailyBattle.
      */
@@ -496,6 +534,7 @@ class Player
     {
         $this->dailyBattles[] = $dailyBattle;
     }
+
     /**
      * Remove dailyBattle.
      */
@@ -503,6 +542,7 @@ class Player
     {
         $this->dailyBattles->removeElement($dailyBattle);
     }
+
     /**
      * Get dailyBattles.
      *
@@ -512,6 +552,7 @@ class Player
     {
         return $this->dailyBattles;
     }
+
     /**
      * Set equipment1.
      *
@@ -521,6 +562,7 @@ class Player
     {
         $this->equipment1 = $equipment1;
     }
+
     /**
      * Get equipment1.
      *
@@ -530,6 +572,7 @@ class Player
     {
         return $this->equipment1;
     }
+
     /**
      * Set equipment2.
      *
@@ -539,6 +582,7 @@ class Player
     {
         $this->equipment2 = $equipment2;
     }
+
     /**
      * Get equipment2.
      *
@@ -548,6 +592,7 @@ class Player
     {
         return $this->equipment2;
     }
+
     /**
      * Set equipment3.
      *
@@ -557,6 +602,7 @@ class Player
     {
         $this->equipment3 = $equipment3;
     }
+
     /**
      * Get equipment3.
      *
@@ -566,6 +612,7 @@ class Player
     {
         return $this->equipment3;
     }
+
     /**
      * Set dailyBattleVictories.
      *
@@ -575,6 +622,7 @@ class Player
     {
         $this->dailyBattleVictories = $dailyBattleVictories;
     }
+
     /**
      * Get dailyBattleVictories.
      *
@@ -584,6 +632,7 @@ class Player
     {
         return $this->dailyBattleVictories;
     }
+
     /**
      * Set dailyBattleDefeats.
      *
@@ -593,6 +642,7 @@ class Player
     {
         $this->dailyBattleDefeats = $dailyBattleDefeats;
     }
+
     /**
      * Get dailyBattleDefeats.
      *
@@ -602,6 +652,7 @@ class Player
     {
         return $this->dailyBattleDefeats;
     }
+
     /**
      * Set currentSword.
      *
@@ -611,6 +662,7 @@ class Player
     {
         $this->currentSword = $currentSword;
     }
+
     /**
      * Get currentSword.
      *
@@ -620,6 +672,7 @@ class Player
     {
         return $this->currentSword;
     }
+
     /**
      * @return Sword
      */
@@ -627,6 +680,7 @@ class Player
     {
         return $this->getCurrentSword() ? $this->getCurrentSword() : $this->getSword();
     }
+
     /**
      * Set currentPotion.
      *
@@ -636,6 +690,7 @@ class Player
     {
         $this->currentPotion = $currentPotion;
     }
+
     /**
      * Get currentPotion.
      *
@@ -645,6 +700,7 @@ class Player
     {
         return $this->currentPotion;
     }
+
     /**
      * @return Potion
      */
@@ -652,6 +708,7 @@ class Player
     {
         return $this->getCurrentPotion() ? $this->getCurrentPotion() : $this->getPotion();
     }
+
     /**
      * Set currentArmor.
      *
@@ -661,6 +718,7 @@ class Player
     {
         $this->currentArmor = $currentArmor;
     }
+
     /**
      * Get currentArmor.
      *
@@ -670,6 +728,7 @@ class Player
     {
         return $this->currentArmor;
     }
+
     /**
      * @return Armor
      */

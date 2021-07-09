@@ -6,6 +6,7 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AppContentRepository")
  * @ORM\Table(name="app_content", uniqueConstraints={
@@ -61,6 +62,7 @@ class AppContent
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
+
     /**
      * Get id.
      *
@@ -70,6 +72,7 @@ class AppContent
     {
         return $this->id;
     }
+
     /**
      * Set locale.
      *
@@ -79,6 +82,7 @@ class AppContent
     {
         $this->locale = $locale;
     }
+
     /**
      * Get locale.
      *
@@ -88,6 +92,7 @@ class AppContent
     {
         return $this->locale;
     }
+
     /**
      * Set title.
      *
@@ -97,6 +102,7 @@ class AppContent
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -106,6 +112,7 @@ class AppContent
     {
         return $this->title;
     }
+
     /**
      * Set slug.
      *
@@ -115,6 +122,7 @@ class AppContent
     {
         $this->slug = $slug;
     }
+
     /**
      * Get slug.
      *
@@ -124,6 +132,7 @@ class AppContent
     {
         return $this->slug;
     }
+
     /**
      * Set content.
      *
@@ -133,6 +142,7 @@ class AppContent
     {
         $this->content = $content;
     }
+
     /**
      * Get content.
      *
@@ -142,6 +152,7 @@ class AppContent
     {
         return $this->content;
     }
+
     /**
      * Set app.
      *
@@ -151,6 +162,7 @@ class AppContent
     {
         $this->app = $app;
     }
+
     /**
      * Get app.
      *
@@ -160,6 +172,7 @@ class AppContent
     {
         return $this->app;
     }
+
     /**
      * @return int
      */
@@ -167,6 +180,7 @@ class AppContent
     {
         return $this->position;
     }
+
     /**
      * @param int $position
      */

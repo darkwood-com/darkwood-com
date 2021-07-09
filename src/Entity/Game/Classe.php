@@ -3,10 +3,11 @@
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="game_classe")
  * @ORM\Entity(repositoryClass="App\Repository\Game\ClasseRepository")
@@ -66,6 +67,7 @@ class Classe
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="classe", cascade={"persist", "remove"})
      */
     protected $players;
+
     /**
      * Constructor.
      */
@@ -73,6 +75,7 @@ class Classe
     {
         $this->players = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -82,6 +85,7 @@ class Classe
     {
         return $this->id;
     }
+
     /**
      * @return int
      */
@@ -89,6 +93,7 @@ class Classe
     {
         return $this->strength;
     }
+
     /**
      * @param int $strength
      */
@@ -96,6 +101,7 @@ class Classe
     {
         $this->strength = $strength;
     }
+
     /**
      * @return int
      */
@@ -103,6 +109,7 @@ class Classe
     {
         return $this->dexterity;
     }
+
     /**
      * @param int $dexterity
      */
@@ -110,6 +117,7 @@ class Classe
     {
         $this->dexterity = $dexterity;
     }
+
     /**
      * @return int
      */
@@ -117,6 +125,7 @@ class Classe
     {
         return $this->vitality;
     }
+
     /**
      * @param int $vitality
      */
@@ -124,6 +133,7 @@ class Classe
     {
         $this->vitality = $vitality;
     }
+
     /**
      * @return mixed
      */
@@ -131,6 +141,7 @@ class Classe
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -142,6 +153,7 @@ class Classe
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -149,6 +161,7 @@ class Classe
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -156,6 +169,7 @@ class Classe
     {
         $this->imageName = $imageName;
     }
+
     /**
      * Set title.
      *
@@ -165,6 +179,7 @@ class Classe
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -174,6 +189,7 @@ class Classe
     {
         return $this->title;
     }
+
     /**
      * Add player.
      */
@@ -181,6 +197,7 @@ class Classe
     {
         $this->players[] = $player;
     }
+
     /**
      * Remove player.
      */
@@ -188,6 +205,7 @@ class Classe
     {
         $this->players->removeElement($player);
     }
+
     /**
      * Get players.
      *

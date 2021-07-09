@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         return $this->render('admin/home/index.html.twig');
     }
+
     #[Route('/upload', name: 'upload')]
     public function upload(Request $request)
     {
@@ -25,8 +26,10 @@ class HomeController extends AbstractController
         $html .= 'Copy & Paste this link in tab picture informations.</p>';
         $html .= "<p style='font: normal normal normal 12px Arial,Helvetica,Tahoma; color: #69b10b;'>";
         $html .= '/uploads/ckeditor/' . $name . '</p>';
+
         return new Response($html);
     }
+
     #[Route('/browser', name: 'browser')]
     public function browser()
     {
@@ -45,12 +48,15 @@ class HomeController extends AbstractController
         }
         closedir($dir);
         $results .= '</ul></div>';
+
         return new Response($results);
     }
+
     #[Route('/imagine/flush', name: 'imagine_flush')]
     public function imagineFlush()
     {
     }
+
     #[Route('/imagine/generate', name: 'imagine_generate')]
     public function imagineGenerate()
     {

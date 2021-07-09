@@ -12,6 +12,7 @@ use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+
 /**
  * Class CommentService.
  *
@@ -36,12 +37,12 @@ class CommentService
 
     public function __construct(
         protected EntityManagerInterface $em
-    )
-    {
-        $this->commentRepository = $em->getRepository(Comment::class);
-        $this->commentPageRepository = $em->getRepository(CommentPage::class);
+    ) {
+        $this->commentRepository        = $em->getRepository(Comment::class);
+        $this->commentPageRepository    = $em->getRepository(CommentPage::class);
         $this->commentArticleRepository = $em->getRepository(CommentArticle::class);
     }
+
     /**
      * Update a commentTranslation.
      *
@@ -52,18 +53,19 @@ class CommentService
         $comment->setUpdated(new \DateTime('now'));
         $this->em->persist($comment);
         $this->em->flush();
+
         return $comment;
     }
+
     /**
      * Remove one commentTranslation.
-     *
-     * @param Comment $comment
      */
     public function remove(Comment $comment)
     {
         $this->em->remove($comment);
         $this->em->flush();
     }
+
     /**
      * Search.
      *
@@ -75,6 +77,7 @@ class CommentService
     {
         return $this->commentRepository->queryForSearch($filters, $order);
     }
+
     /**
      * Find one to edit.
      *
@@ -86,10 +89,12 @@ class CommentService
     {
         return $this->commentRepository->findOneToEdit($id);
     }
+
     public function findActiveCommentByPageQuery(Page $page)
     {
         return $this->commentPageRepository->findActiveCommentByPageQuery($page);
     }
+
     public function findActiveCommentByArticleQuery(Article $article)
     {
         return $this->commentArticleRepository->findActiveCommentByArticleQuery($article);

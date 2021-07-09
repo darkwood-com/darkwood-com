@@ -8,10 +8,10 @@ use App\Repository\ArticleRepository;
 use App\Repository\ArticleTranslationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Storage\StorageInterface;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+
 /**
  * Class ArticleService
  *
@@ -27,15 +27,16 @@ class ArticleService
      * @var ArticleTranslationRepository
      */
     protected $articleTranslationRepository;
+
     public function __construct(
         protected EntityManagerInterface $em,
         protected ParameterBagInterface $parameterBagInterface,
         protected StorageInterface $storage
-    )
-    {
-        $this->articleRepository = $em->getRepository(Article::class);
+    ) {
+        $this->articleRepository            = $em->getRepository(Article::class);
         $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
     }
+
     /**
      * Update a articleTranslation.
      *
@@ -49,21 +50,22 @@ class ArticleService
         }
         $this->em->persist($article);
         $this->em->flush();
+
         return $article;
     }
+
     /**
      * Remove one articleTranslation.
-     *
-     * @param Article $article
      */
     public function remove(Article $article)
     {
         $this->em->remove($article);
         $this->em->flush();
     }
+
     public function duplicate(ArticleTranslation $articleTranslation, $locale)
     {
-        $article = $articleTranslation->getArticle();
+        $article                     = $articleTranslation->getArticle();
         $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
         if (!$duplicateArticleTranslation) {
             $duplicateArticleTranslation = new ArticleTranslation();
@@ -76,18 +78,20 @@ class ArticleService
         $duplicateArticleTranslation->setContent($articleTranslation->getContent());
         $duplicateArticleTranslation->setActive($articleTranslation->getActive());
         if ($articleTranslation->getImageName()) {
-            $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
+            $imageUrl     = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(md5(time()) . preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
+                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicateArticleTranslation->setImage($image);
             }
         }
+
         return $duplicateArticleTranslation;
     }
+
     /**
      * Update a articleTranslation.
      *
@@ -107,18 +111,22 @@ class ArticleService
                 }
             }
         }
+
         return $articleTranslation;
     }
+
     public function removeTranslation(ArticleTranslation $articleTs)
     {
         $nbT = count($articleTs->getArticle()->getTranslations());
         if ($nbT <= 1) {
             $this->remove($articleTs->getArticle());
+
             return;
         }
         $this->em->remove($articleTs);
         $this->em->flush();
     }
+
     /**
      * Find one by filters.
      *
@@ -130,6 +138,7 @@ class ArticleService
     {
         return $this->articleRepository->findOneBy($filters);
     }
+
     /**
      * @param string $slug
      * @param string $locale
@@ -140,6 +149,7 @@ class ArticleService
     {
         return $this->articleRepository->findOneBySlug($slug, $locale);
     }
+
     /**
      * Search.
      *
@@ -151,6 +161,7 @@ class ArticleService
     {
         return $this->articleRepository->queryForSearch($filters, $locale, $order);
     }
+
     /**
      * Find one to edit.
      *
@@ -162,8 +173,9 @@ class ArticleService
     {
         return $this->articleRepository->findOneToEdit($id);
     }
+
     /**
-     * @param integer $id
+     * @param int $id
      *
      * @return ArticleTranslation|null
      */
@@ -171,6 +183,7 @@ class ArticleService
     {
         return $this->articleRepository->find($id);
     }
+
     /**
      * Find all.
      */
@@ -178,10 +191,12 @@ class ArticleService
     {
         return $this->articleRepository->findAll();
     }
+
     public function findActivesQueryBuilder($locale = null, $limit = null)
     {
         return $this->articleRepository->findActivesQueryBuilder($locale, $limit);
     }
+
     /**
      * @param null $locale
      * @param null $limit

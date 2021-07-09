@@ -14,9 +14,9 @@ class UserFixtures extends Fixture
      */
     public function __construct(
         private UserPasswordEncoderInterface $passwordEncoder
-    )
-    {
+    ) {
     }
+
     public function load(ObjectManager $manager)
     {
         $user = new User();

@@ -8,7 +8,6 @@ use App\Form\Admin\ArticleTranslationType;
 use App\Services\ArticleService;
 use App\Services\TagService;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,20 +20,25 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private ArticleService $articleService, private TagService $tagService)
     {
     }
+
     #[Route('/list', name: 'list')]
     public function list(Request $request)
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
-        $query = $this->articleService->getQueryForSearch($form->getData(), $request->getLocale());
+        $query    = $this->articleService->getQueryForSearch($form->getData(), $request->getLocale());
         $entities = $this->paginator->paginate($query, $request->query->get('page', 1), 20);
+
         return $this->render('admin/article/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
+
     private function createSearchForm()
     {
         $data = [];
+
         return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_article_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
+
     private function manage(Request $request, ArticleTranslation $entityTranslation)
     {
         $mode = $entityTranslation->getId() ? 'edit' : 'create';
@@ -45,12 +49,15 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
                 $this->articleService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
                 // Launch the message flash
                 $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
+
                 return $this->redirect($this->generateUrl('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]));
             }
             $this->get('session')->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
+
         return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
     }
+
     #[Route('/create', name: 'create')]
     public function create(Request $request)
     {
@@ -59,8 +66,10 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $entityTranslation = new ArticleTranslation();
         $entityTranslation->setLocale($request->getLocale());
         $entity->addTranslation($entityTranslation);
+
         return $this->manage($request, $entityTranslation);
     }
+
     #[Route('/edit/{id}', name: 'edit')]
     public function edit(Request $request, $id)
     {
@@ -76,8 +85,10 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             $entity->addTranslation($entityTranslation);
         }
         $entityTranslation->setUpdated(new \DateTime());
+
         return $this->manage($request, $entityTranslation);
     }
+
     #[Route('/delete/{id}', name: 'delete')]
     public function delete(Request $request, $id)
     {
@@ -89,6 +100,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $this->articleService->remove($article);
         // Launch the message flash
         $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+
         return $this->redirect($request->headers->get('referer'));
     }
 }

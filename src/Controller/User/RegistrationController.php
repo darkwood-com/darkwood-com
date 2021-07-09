@@ -8,10 +8,8 @@ use App\Form\RegistrationType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -24,13 +22,14 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
     public function __construct(private EmailVerifier $emailVerifier, private CommonController $commonController)
     {
     }
+
     #[Route(path: ['fr' => '/inscription', 'en' => '/en/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, $ref): Response
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
-        $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+        $user    = new User();
+        $form    = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -48,12 +47,14 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
             // do anything else you need here, like send an email
             return $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
         }
+
         return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
     }
+
     #[Route(path: ['fr' => '/inscription/confimer-email', 'en' => '/en/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
     public function checkUserEmail(Request $request, $ref): Response
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // validate email confirmation link, sets User::isVerified=true and persists
@@ -61,10 +62,12 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
+
             return $this->redirectToRoute('common_register');
         }
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
+
         return $this->redirectToRoute('common_register');
     }
 }

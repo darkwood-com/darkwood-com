@@ -3,10 +3,11 @@
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="game_gem")
  * @ORM\Entity(repositoryClass="App\Repository\Game\GemRepository")
@@ -60,6 +61,7 @@ class Gem
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment3", cascade={"persist", "remove"})
      */
     protected $equipment3Players;
+
     /**
      * Constructor.
      */
@@ -69,6 +71,7 @@ class Gem
         $this->equipment2Players = new ArrayCollection();
         $this->equipment3Players = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -78,6 +81,7 @@ class Gem
     {
         return $this->id;
     }
+
     /**
      * Set power.
      *
@@ -87,6 +91,7 @@ class Gem
     {
         $this->power = $power;
     }
+
     /**
      * Get power.
      *
@@ -96,6 +101,7 @@ class Gem
     {
         return $this->power;
     }
+
     /**
      * @return mixed
      */
@@ -103,6 +109,7 @@ class Gem
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -114,6 +121,7 @@ class Gem
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -121,6 +129,7 @@ class Gem
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -128,6 +137,7 @@ class Gem
     {
         $this->imageName = $imageName;
     }
+
     /**
      * Add equipment1Player.
      */
@@ -135,6 +145,7 @@ class Gem
     {
         $this->equipment1Players[] = $equipment1Player;
     }
+
     /**
      * Remove equipment1Player.
      */
@@ -142,6 +153,7 @@ class Gem
     {
         $this->equipment1Players->removeElement($equipment1Player);
     }
+
     /**
      * Get equipment1Players.
      *
@@ -151,6 +163,7 @@ class Gem
     {
         return $this->equipment1Players;
     }
+
     /**
      * Add equipment2Player.
      */
@@ -158,6 +171,7 @@ class Gem
     {
         $this->equipment2Players[] = $equipment2Player;
     }
+
     /**
      * Remove equipment2Player.
      */
@@ -165,6 +179,7 @@ class Gem
     {
         $this->equipment2Players->removeElement($equipment2Player);
     }
+
     /**
      * Get equipment2Players.
      *
@@ -174,6 +189,7 @@ class Gem
     {
         return $this->equipment2Players;
     }
+
     /**
      * Add equipment3Player.
      */
@@ -181,6 +197,7 @@ class Gem
     {
         $this->equipment3Players[] = $equipment3Player;
     }
+
     /**
      * Remove equipment3Player.
      */
@@ -188,6 +205,7 @@ class Gem
     {
         $this->equipment3Players->removeElement($equipment3Player);
     }
+
     /**
      * Get equipment3Players.
      *

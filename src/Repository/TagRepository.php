@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class TagRepository.
  */
@@ -15,17 +16,20 @@ class TagRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Tag::class);
     }
+
     public function findCachedById($id, $ttl)
     {
         $qb = $this->createQueryBuilder('t')->select('t, ts')->leftJoin('t.translations', 'ts')->where('t.id = :id')->orderBy('t.id', 'asc')->leftjoin('t.articles', 'p')->addSelect('p')->setParameter('id', $id);
         //$qb->getQuery()->useResultCache(true, $ttl, 'TagRepository::findCachedById' . ($id ? 'id' : ''));
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
+
     /**
      * Find one for edit.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -34,12 +38,14 @@ class TagRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t')->select('t')->leftJoin('t.translations', 'ts')->where('t.id = :id')->orderBy('t.id', 'asc')->leftjoin('t.articles', 'p')->addSelect('p')->setParameter('id', $id);
         //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
+
     /**
      * Get one article.
      *
-     * @param string $title
+     * @param string      $title
      * @param string|null $locale
      *
      * @return mixed
@@ -53,6 +59,7 @@ class TagRepository extends ServiceEntityRepository
         //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
         return $qb->getQuery()->getOneOrNullResult();
     }
+
     /**
      * Get all tags.
      *

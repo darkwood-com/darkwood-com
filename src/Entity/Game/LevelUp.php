@@ -5,6 +5,7 @@ namespace App\Entity\Game;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="game_level_up")
  * @ORM\Entity(repositoryClass="App\Repository\Game\LevelUpRepository")
@@ -34,6 +35,7 @@ class LevelUp
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
+
     /**
      * Get id.
      *
@@ -43,6 +45,7 @@ class LevelUp
     {
         return $this->id;
     }
+
     /**
      * Set level.
      *
@@ -52,6 +55,7 @@ class LevelUp
     {
         $this->level = $level;
     }
+
     /**
      * Get level.
      *
@@ -61,6 +65,7 @@ class LevelUp
     {
         return $this->level;
     }
+
     /**
      * Set xp.
      *
@@ -70,6 +75,7 @@ class LevelUp
     {
         $this->xp = $xp;
     }
+
     /**
      * Get xp.
      *

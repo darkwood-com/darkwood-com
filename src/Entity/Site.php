@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="site")
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
@@ -81,6 +82,7 @@ class Site implements \Stringable
      * @ORM\Column(name="ga_id", type="string", length=255, nullable=true)
      */
     protected $gaId;
+
     /**
      * Constructor.
      */
@@ -88,10 +90,12 @@ class Site implements \Stringable
     {
         $this->pages = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->getName();
     }
+
     /**
      * Get id.
      *
@@ -101,6 +105,7 @@ class Site implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * @return mixed
      */
@@ -108,6 +113,7 @@ class Site implements \Stringable
     {
         return $this->active;
     }
+
     /**
      * @param mixed $active
      */
@@ -115,6 +121,7 @@ class Site implements \Stringable
     {
         $this->active = $active;
     }
+
     /**
      * Set name.
      *
@@ -124,6 +131,7 @@ class Site implements \Stringable
     {
         $this->name = $name;
     }
+
     /**
      * Get name.
      *
@@ -133,6 +141,7 @@ class Site implements \Stringable
     {
         return $this->name;
     }
+
     /**
      * Set ref.
      *
@@ -142,6 +151,7 @@ class Site implements \Stringable
     {
         $this->ref = $ref;
     }
+
     /**
      * Get ref.
      *
@@ -151,6 +161,7 @@ class Site implements \Stringable
     {
         return $this->ref;
     }
+
     /**
      * Set host.
      *
@@ -160,6 +171,7 @@ class Site implements \Stringable
     {
         $this->host = $host;
     }
+
     /**
      * Get host.
      *
@@ -169,6 +181,7 @@ class Site implements \Stringable
     {
         return $this->host;
     }
+
     /**
      * @return int
      */
@@ -176,6 +189,7 @@ class Site implements \Stringable
     {
         return $this->position;
     }
+
     /**
      * @param int $position
      */
@@ -183,7 +197,9 @@ class Site implements \Stringable
     {
         $this->position = $position;
     }
+
     //PAGES
+
     /**
      * Add pages.
      */
@@ -191,6 +207,7 @@ class Site implements \Stringable
     {
         $this->pages[] = $pages;
     }
+
     /**
      * Remove pages.
      */
@@ -198,6 +215,7 @@ class Site implements \Stringable
     {
         $this->pages->removeElement($pages);
     }
+
     /**
      * Get pages.
      *
@@ -207,6 +225,7 @@ class Site implements \Stringable
     {
         return $this->pages;
     }
+
     /**
      * @return mixed
      */
@@ -214,6 +233,7 @@ class Site implements \Stringable
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -225,6 +245,7 @@ class Site implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -232,6 +253,7 @@ class Site implements \Stringable
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -239,6 +261,7 @@ class Site implements \Stringable
     {
         $this->imageName = $imageName;
     }
+
     /**
      * Set gaId
      *
@@ -248,6 +271,7 @@ class Site implements \Stringable
     {
         $this->gaId = $gaId;
     }
+
     /**
      * Get gaId
      *

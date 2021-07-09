@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -50,6 +51,7 @@ abstract class Comment
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
      **/
     protected $page;
+
     /**
      * Get id.
      *
@@ -59,6 +61,7 @@ abstract class Comment
     {
         return $this->id;
     }
+
     /**
      * Set content.
      *
@@ -68,6 +71,7 @@ abstract class Comment
     {
         $this->content = $content;
     }
+
     /**
      * Get content.
      *
@@ -77,6 +81,7 @@ abstract class Comment
     {
         return $this->content;
     }
+
     /**
      * Set user.
      *
@@ -86,6 +91,7 @@ abstract class Comment
     {
         $this->user = $user;
     }
+
     /**
      * Get user.
      *
@@ -95,6 +101,7 @@ abstract class Comment
     {
         return $this->user;
     }
+
     /**
      * Set page.
      *
@@ -104,6 +111,7 @@ abstract class Comment
     {
         $this->page = $page;
     }
+
     /**
      * Get page.
      *
@@ -113,6 +121,7 @@ abstract class Comment
     {
         return $this->page;
     }
+
     /**
      * Set active.
      *
@@ -122,6 +131,7 @@ abstract class Comment
     {
         $this->active = $active;
     }
+
     /**
      * Get active.
      *

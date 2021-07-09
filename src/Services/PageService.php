@@ -4,26 +4,24 @@ namespace App\Services;
 
 use App\Entity\App;
 use App\Entity\AppContent;
-use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Entity\Site;
 use App\Repository\AppContentRepository;
+use App\Repository\ArticleTranslationRepository;
 use App\Repository\PageRepository;
 use App\Repository\PageTranslationRepository;
-use App\Repository\ArticleTranslationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+
 /**
  * Class PageService
  *
@@ -47,19 +45,20 @@ class PageService
      * @var AppContentRepository
      */
     protected $appContentRepository;
+
     public function __construct(
         protected EntityManagerInterface $em,
         protected ParameterBagInterface $parameterBagInterface,
         protected CacheInterface $appCache,
         protected RouterInterface $router,
         protected StorageInterface $storage
-    )
-    {
-        $this->pageRepository = $em->getRepository(Page::class);
-        $this->entityRepository = $em->getRepository(PageTranslation::class);
+    ) {
+        $this->pageRepository               = $em->getRepository(Page::class);
+        $this->entityRepository             = $em->getRepository(PageTranslation::class);
         $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
-        $this->appContentRepository = $em->getRepository(AppContent::class);
+        $this->appContentRepository         = $em->getRepository(AppContent::class);
     }
+
     /**
      * Update a entity.
      *
@@ -73,21 +72,22 @@ class PageService
         }
         $this->em->persist($page);
         $this->em->flush();
+
         return $page;
     }
+
     /**
      * Remove one entity.
-     *
-     * @param Page $page
      */
     public function remove(Page $page)
     {
         $this->em->remove($page);
         $this->em->flush();
     }
+
     public function duplicate(PageTranslation $entity, $locale)
     {
-        $page = $entity->getPage();
+        $page                     = $entity->getPage();
         $duplicatePageTranslation = $this->entityRepository->findOneByPageAndLocale($page, $locale);
         if (!$duplicatePageTranslation) {
             $duplicatePageTranslation = new PageTranslation();
@@ -99,11 +99,11 @@ class PageService
         $duplicatePageTranslation->setContent($entity->getContent());
         $duplicatePageTranslation->setActive($entity->getActive());
         if ($entity->getImageName()) {
-            $imageUrl = $this->storage->resolvePath($entity, 'image');
+            $imageUrl     = $this->storage->resolvePath($entity, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
+                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicatePageTranslation->setImage($image);
@@ -128,8 +128,10 @@ class PageService
             }
             $this->em->flush();
         }
+
         return $duplicatePageTranslation;
     }
+
     /**
      * Update a entity.
      *
@@ -149,18 +151,22 @@ class PageService
                 }
             }
         }
+
         return $entity;
     }
+
     public function removeTranslation(PageTranslation $pageTs)
     {
         $nbT = count($pageTs->getPage()->getTranslations());
         if ($nbT <= 1) {
             $this->remove($pageTs->getPage());
+
             return;
         }
         $this->em->remove($pageTs);
         $this->em->flush();
     }
+
     /**
      * Find one by filters.
      *
@@ -172,6 +178,7 @@ class PageService
     {
         return $this->pageRepository->findOneBy($filters);
     }
+
     /**
      * Search.
      *
@@ -183,6 +190,7 @@ class PageService
     {
         return $this->pageRepository->queryForSearch($filters, $type, $host, $locale, $order);
     }
+
     /**
      * Find one to edit.
      *
@@ -194,10 +202,11 @@ class PageService
     {
         return $this->pageRepository->findOneToEdit($id);
     }
+
     /**
      * @param string $ref
      * @param string $host
-     * @param null $locale
+     * @param null   $locale
      *
      * @return Page|null
      */
@@ -205,9 +214,10 @@ class PageService
     {
         return $this->pageRepository->findOneActiveByRefAndHost($ref, $host, $locale);
     }
+
     /**
      * @param string $ref
-     * @param null $locale
+     * @param null   $locale
      *
      * @return Page|null
      */
@@ -215,6 +225,7 @@ class PageService
     {
         return $this->pageRepository->findOneByRef($ref, $locale);
     }
+
     /**
      * @param null $locale
      * @param null $type
@@ -225,8 +236,9 @@ class PageService
     {
         return $this->pageRepository->findActives($locale, $type, $host);
     }
+
     /**
-     * @param integer $id
+     * @param int $id
      *
      * @return PageTranslation|null
      */
@@ -234,6 +246,7 @@ class PageService
     {
         return $this->pageRepository->find($id);
     }
+
     /**
      * Find all.
      */
@@ -241,11 +254,13 @@ class PageService
     {
         return $this->pageRepository->findAllBySite($site);
     }
+
     public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
         $cacheId = 'page_url-' . md5($entity->getId() . '-' . get_class($entity) . '-' . $referenceType);
+
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($entity, $referenceType) {
-            $item->expiresAfter(43200);// 12 hours
+            $item->expiresAfter(43200); // 12 hours
             if ($entity instanceof PageTranslation) {
                 $site = $entity->getPage()->getSite();
                 $routes = $this->router->getRouteCollection();
@@ -278,20 +293,24 @@ class PageService
                 if ($routeData) {
                     return $this->router->generate($routeData['name'], $routeData['params'], $referenceType);
                 }
-            } else if ($entity instanceof ArticleTranslation) {
+            } elseif ($entity instanceof ArticleTranslation) {
                 return $this->router->generate('blog_article', ['_locale' => $entity->getLocale(), 'slug' => $entity->getSlug()], $referenceType);
             }
+
             return null;
         }, $force ? INF : null);
     }
+
     public function getPageUrl($ref, $host, $locale = null)
     {
         $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host, $locale);
         if ($page === null) {
             return null;
         }
+
         return $this->getUrl($page->getOneTranslation($locale));
     }
+
     public function getPageLinks($ref, $entity, $host, $locale = null)
     {
         $pageLinks = [];
@@ -314,6 +333,7 @@ class PageService
                 }
             }
         }
+
         return $pageLinks;
     }
 }

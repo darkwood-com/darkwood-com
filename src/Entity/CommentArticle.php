@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentArticleRepository")
  */
@@ -15,6 +16,7 @@ class CommentArticle extends \App\Entity\Comment
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      **/
     protected $article;
+
     /**
      * Set article.
      *
@@ -24,6 +26,7 @@ class CommentArticle extends \App\Entity\Comment
     {
         $this->article = $article;
     }
+
     /**
      * Get article.
      *

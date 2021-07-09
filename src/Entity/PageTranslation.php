@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="page_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_page_unique",columns={"locale","page_id"})
@@ -150,16 +151,19 @@ class PageTranslation implements \Stringable
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
+
     public function __toString(): string
     {
         return $this->getTitle();
     }
+
     /**
      * Set locale.
      *
@@ -169,6 +173,7 @@ class PageTranslation implements \Stringable
     {
         $this->locale = $locale;
     }
+
     /**
      * Get locale.
      *
@@ -178,6 +183,7 @@ class PageTranslation implements \Stringable
     {
         return $this->locale;
     }
+
     /**
      * Get id.
      *
@@ -187,6 +193,7 @@ class PageTranslation implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * Set title.
      *
@@ -196,6 +203,7 @@ class PageTranslation implements \Stringable
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -205,6 +213,7 @@ class PageTranslation implements \Stringable
     {
         return $this->title;
     }
+
     /**
      * Set description.
      *
@@ -214,6 +223,7 @@ class PageTranslation implements \Stringable
     {
         $this->description = $description;
     }
+
     /**
      * Get description.
      *
@@ -223,6 +233,7 @@ class PageTranslation implements \Stringable
     {
         return $this->description;
     }
+
     /**
      * @return mixed
      */
@@ -230,6 +241,7 @@ class PageTranslation implements \Stringable
     {
         return $this->content;
     }
+
     /**
      * @param mixed $content
      */
@@ -237,6 +249,7 @@ class PageTranslation implements \Stringable
     {
         $this->content = $content;
     }
+
     /**
      * @return mixed
      */
@@ -244,6 +257,7 @@ class PageTranslation implements \Stringable
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -255,6 +269,7 @@ class PageTranslation implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -262,6 +277,7 @@ class PageTranslation implements \Stringable
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -269,6 +285,7 @@ class PageTranslation implements \Stringable
     {
         $this->imageName = $imageName;
     }
+
     /**
      * @return File
      */
@@ -276,6 +293,7 @@ class PageTranslation implements \Stringable
     {
         return $this->thumbnailImage;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnailImage
      */
@@ -287,6 +305,7 @@ class PageTranslation implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -294,6 +313,7 @@ class PageTranslation implements \Stringable
     {
         return $this->thumbnailImageName;
     }
+
     /**
      * @param string $thumbnailImageName
      */
@@ -301,6 +321,7 @@ class PageTranslation implements \Stringable
     {
         $this->thumbnailImageName = $thumbnailImageName;
     }
+
     /**
      * @param mixed $imgAlt
      */
@@ -308,6 +329,7 @@ class PageTranslation implements \Stringable
     {
         $this->imgAlt = $imgAlt;
     }
+
     /**
      * @return mixed
      */
@@ -315,6 +337,7 @@ class PageTranslation implements \Stringable
     {
         return $this->imgAlt;
     }
+
     /**
      * @param mixed $imgTitle
      */
@@ -322,6 +345,7 @@ class PageTranslation implements \Stringable
     {
         $this->imgTitle = $imgTitle;
     }
+
     /**
      * @return mixed
      */
@@ -329,6 +353,7 @@ class PageTranslation implements \Stringable
     {
         return $this->imgTitle;
     }
+
     /**
      * @param mixed $seoTitle
      */
@@ -336,6 +361,7 @@ class PageTranslation implements \Stringable
     {
         $this->seoTitle = $seoTitle;
     }
+
     /**
      * @return mixed
      */
@@ -343,6 +369,7 @@ class PageTranslation implements \Stringable
     {
         return $this->seoTitle;
     }
+
     /**
      * @param mixed $seoDescription
      */
@@ -350,6 +377,7 @@ class PageTranslation implements \Stringable
     {
         $this->seoDescription = $seoDescription;
     }
+
     /**
      * @return mixed
      */
@@ -357,6 +385,7 @@ class PageTranslation implements \Stringable
     {
         return $this->seoDescription;
     }
+
     /**
      * @param mixed $seoKeywords
      */
@@ -364,6 +393,7 @@ class PageTranslation implements \Stringable
     {
         $this->seoKeywords = $seoKeywords;
     }
+
     /**
      * @return mixed
      */
@@ -371,6 +401,7 @@ class PageTranslation implements \Stringable
     {
         return $this->seoKeywords;
     }
+
     /**
      * @param mixed $twitterTitle
      */
@@ -378,6 +409,7 @@ class PageTranslation implements \Stringable
     {
         $this->twitterTitle = $twitterTitle;
     }
+
     /**
      * @return mixed
      */
@@ -385,6 +417,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterTitle;
     }
+
     /**
      * @param mixed $twitterCard
      */
@@ -392,6 +425,7 @@ class PageTranslation implements \Stringable
     {
         $this->twitterCard = $twitterCard;
     }
+
     /**
      * @return mixed
      */
@@ -399,6 +433,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterCard;
     }
+
     /**
      * @param mixed $twitterDescription
      */
@@ -406,6 +441,7 @@ class PageTranslation implements \Stringable
     {
         $this->twitterDescription = $twitterDescription;
     }
+
     /**
      * @return mixed
      */
@@ -413,6 +449,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterDescription;
     }
+
     /**
      * @param mixed $twitterSite
      */
@@ -420,6 +457,7 @@ class PageTranslation implements \Stringable
     {
         $this->twitterSite = $twitterSite;
     }
+
     /**
      * @return mixed
      */
@@ -427,6 +465,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterSite;
     }
+
     /**
      * @return File
      */
@@ -434,6 +473,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterImage;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $twitterImage
      */
@@ -445,6 +485,7 @@ class PageTranslation implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -452,6 +493,7 @@ class PageTranslation implements \Stringable
     {
         return $this->twitterImageName;
     }
+
     /**
      * @param string $twitterImageName
      */
@@ -459,6 +501,7 @@ class PageTranslation implements \Stringable
     {
         $this->twitterImageName = $twitterImageName;
     }
+
     /**
      * @param mixed $ogTitle
      */
@@ -466,6 +509,7 @@ class PageTranslation implements \Stringable
     {
         $this->ogTitle = $ogTitle;
     }
+
     /**
      * @return mixed
      */
@@ -473,6 +517,7 @@ class PageTranslation implements \Stringable
     {
         return $this->ogTitle;
     }
+
     /**
      * @param mixed $ogDescription
      */
@@ -480,6 +525,7 @@ class PageTranslation implements \Stringable
     {
         $this->ogDescription = $ogDescription;
     }
+
     /**
      * @return mixed
      */
@@ -487,6 +533,7 @@ class PageTranslation implements \Stringable
     {
         return $this->ogDescription;
     }
+
     /**
      * @param mixed $ogType
      */
@@ -494,6 +541,7 @@ class PageTranslation implements \Stringable
     {
         $this->ogType = $ogType;
     }
+
     /**
      * @return mixed
      */
@@ -501,6 +549,7 @@ class PageTranslation implements \Stringable
     {
         return $this->ogType;
     }
+
     /**
      * @return File
      */
@@ -508,6 +557,7 @@ class PageTranslation implements \Stringable
     {
         return $this->ogImage;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $ogImage
      */
@@ -519,6 +569,7 @@ class PageTranslation implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -526,6 +577,7 @@ class PageTranslation implements \Stringable
     {
         return $this->ogImageName;
     }
+
     /**
      * @param string $ogImageName
      */
@@ -533,6 +585,7 @@ class PageTranslation implements \Stringable
     {
         $this->ogImageName = $ogImageName;
     }
+
     /**
      * Set active.
      *
@@ -542,6 +595,7 @@ class PageTranslation implements \Stringable
     {
         $this->active = $active;
     }
+
     /**
      * Get active.
      *
@@ -551,6 +605,7 @@ class PageTranslation implements \Stringable
     {
         return $this->active;
     }
+
     /**
      * Set page.
      *
@@ -560,6 +615,7 @@ class PageTranslation implements \Stringable
     {
         $this->page = $page;
     }
+
     /**
      * Get page.
      *

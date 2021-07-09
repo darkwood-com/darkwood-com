@@ -6,6 +6,7 @@ use App\Entity\CommentPage;
 use App\Entity\Page;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class CommentPageRepository.
  */
@@ -15,6 +16,7 @@ class CommentPageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CommentPage::class);
     }
+
     public function findActiveCommentByPageQuery(Page $page)
     {
         $qb = $this->createQueryBuilder('c')->select('c')->andWhere('c.active = true')->andWhere('c.page = :page')->setParameter('page', $page)->addOrderBy('c.created', 'desc');

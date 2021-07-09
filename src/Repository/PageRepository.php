@@ -7,6 +7,7 @@ use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class PageRepository.
  */
@@ -16,6 +17,7 @@ class PageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Page::class);
     }
+
     /**
      * Get all user query, using for pagination.
      *
@@ -63,12 +65,14 @@ class PageRepository extends ServiceEntityRepository
         }
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
         $query = $qb->getQuery();
+
         return $query;
     }
+
     /**
      * Find one for edit.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -77,8 +81,10 @@ class PageRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->where('p.id = :id')->orderBy('p.id', 'asc')->setParameter('id', $id);
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
+
     /**
      * Find one for edit.
      *
@@ -94,39 +100,45 @@ class PageRepository extends ServiceEntityRepository
         }
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
         $query = $qb->getQuery();
+
         return $query->getResult();
     }
+
     /**
      * Find content by site.
      *
-     * @param integer $siteId
+     * @param int $siteId
      *
      * @return array
      */
     public function findContentBySite($siteId)
     {
-        $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = TRUE')->setParameter('siteId', $siteId);
+        $qb    = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = TRUE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
+
         return $query->getResult();
     }
+
     /**
      * Find no content by site.
      *
-     * @param integer $siteId
+     * @param int $siteId
      *
      * @return array
      */
     public function findNoContentBySite($siteId)
     {
-        $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = FALSE')->setParameter('siteId', $siteId);
+        $qb    = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = FALSE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
+
         return $query->getResult();
     }
+
     /**
      * @param string $ref
      * @param string $host
-     * @param null $locale
-     * @param null $ttl
+     * @param null   $locale
+     * @param null   $ttl
      *
      * @return Page|null
      *
@@ -142,12 +154,13 @@ class PageRepository extends ServiceEntityRepository
         //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOneActiveByRefAndHost'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
     }
+
     /**
      * Find one public.
      *
-     * @param string $ref
-     * @param string $locale
-     * @param null|integer $ttl
+     * @param string   $ref
+     * @param string   $locale
+     * @param int|null $ttl
      */
     public function findOneByRef($ref, $locale = null, $ttl = null)
     {
@@ -159,6 +172,7 @@ class PageRepository extends ServiceEntityRepository
         //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
     }
+
     public function findActives($locale = null, $type = null, $host = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->addOrderBy('p.created', 'desc')->andWhere('pts.active = TRUE');

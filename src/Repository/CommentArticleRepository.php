@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\CommentArticle;
 use App\Entity\Article;
+use App\Entity\CommentArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class CommentArticleRepository.
  */
@@ -15,6 +16,7 @@ class CommentArticleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CommentArticle::class);
     }
+
     public function findActiveCommentByArticleQuery(Article $article)
     {
         $qb = $this->createQueryBuilder('c')->select('c')->andWhere('c.active = true')->andWhere('c.article = :article')->setParameter('article', $article)->addOrderBy('c.created', 'desc');

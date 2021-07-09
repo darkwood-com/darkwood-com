@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table(name="tag_translation", indexes={@ORM\Index(name="index_search", columns={"title"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_tag_unique",columns={"locale","tag_id"})
@@ -34,16 +35,19 @@ class TagTranslation implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
+
     public function __toString(): string
     {
         return $this->getTitle();
     }
+
     /**
      * Set locale.
      *
@@ -53,6 +57,7 @@ class TagTranslation implements \Stringable
     {
         $this->locale = $locale;
     }
+
     /**
      * Get locale.
      *
@@ -62,6 +67,7 @@ class TagTranslation implements \Stringable
     {
         return $this->locale;
     }
+
     /**
      * Get id.
      *
@@ -71,6 +77,7 @@ class TagTranslation implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * Set title.
      *
@@ -80,6 +87,7 @@ class TagTranslation implements \Stringable
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -89,6 +97,7 @@ class TagTranslation implements \Stringable
     {
         return $this->title;
     }
+
     /**
      * Set tag.
      *
@@ -98,6 +107,7 @@ class TagTranslation implements \Stringable
     {
         $this->tag = $tag;
     }
+
     /**
      * Get tag.
      *

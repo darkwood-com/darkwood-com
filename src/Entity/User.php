@@ -5,13 +5,14 @@ namespace App\Entity;
 use App\Entity\Game\Player;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -155,6 +156,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
     /**
      * Constructor.
      */
@@ -163,14 +165,17 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->comments = new ArrayCollection();
         $this->contacts = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->firstname . ' ' . $this->lastname;
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -180,11 +185,14 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return (string) $this->username;
     }
+
     public function setUsername($username): self
     {
         $this->username = $username;
+
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -192,6 +200,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->email;
     }
+
     /**
      * @param mixed $email
      */
@@ -199,6 +208,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->email = $email;
     }
+
     /**
      * @see UserInterface
      */
@@ -207,13 +217,17 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
         return array_unique($roles);
     }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
+
     /**
      * @see UserInterface
      */
@@ -221,11 +235,14 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return (string) $this->password;
     }
+
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
     }
+
     /**
      * Set firstname.
      *
@@ -235,6 +252,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->firstname = $firstname;
     }
+
     /**
      * Get firstname.
      *
@@ -244,6 +262,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->firstname;
     }
+
     /**
      * Set lastname.
      *
@@ -253,6 +272,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->lastname = $lastname;
     }
+
     /**
      * Get lastname.
      *
@@ -262,6 +282,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->lastname;
     }
+
     /**
      * @param \DateTime $birthday
      */
@@ -269,6 +290,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->birthday = $birthday;
     }
+
     /**
      * @return \DateTime
      */
@@ -276,6 +298,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->birthday;
     }
+
     /**
      * @return mixed
      */
@@ -283,6 +306,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->city;
     }
+
     /**
      * @param mixed $city
      */
@@ -290,6 +314,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->city = $city;
     }
+
     /**
      * @return mixed
      */
@@ -297,6 +322,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->comment;
     }
+
     /**
      * @param mixed $comment
      */
@@ -304,6 +330,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->comment = $comment;
     }
+
     /**
      * @return mixed
      */
@@ -311,6 +338,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -322,6 +350,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -329,6 +358,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -336,6 +366,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->imageName = $imageName;
     }
+
     /**
      * @return string
      */
@@ -343,6 +374,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->facebookId;
     }
+
     /**
      * @param string $facebookId
      */
@@ -350,6 +382,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->facebookId = $facebookId;
     }
+
     /**
      * @param mixed $civility
      */
@@ -357,6 +390,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->civility = $civility;
     }
+
     /**
      * @return mixed
      */
@@ -364,6 +398,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->civility;
     }
+
     /**
      * Add comment.
      */
@@ -372,6 +407,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->comments[] = $comment;
         $comment->setUser($this);
     }
+
     /**
      * Remove comment.
      */
@@ -380,6 +416,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->comments->removeElement($comment);
         $comment->setUser(null);
     }
+
     /**
      * Get comments.
      *
@@ -389,6 +426,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->comments;
     }
+
     /**
      * Add contact.
      */
@@ -397,6 +435,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->contacts[] = $contact;
         $contact->setUser($this);
     }
+
     /**
      * Remove contact.
      */
@@ -405,6 +444,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->contacts->removeElement($contact);
         $contact->setUser(null);
     }
+
     /**
      * Get contacts.
      *
@@ -414,6 +454,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->contacts;
     }
+
     /**
      * Set player.
      *
@@ -423,6 +464,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         $this->player = $player;
     }
+
     /**
      * Get player.
      *
@@ -432,6 +474,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return $this->player;
     }
+
     /**
      * @see UserInterface
      */
@@ -440,6 +483,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         // not needed when using the "bcrypt" algorithm in security.yaml
         return null;
     }
+
     /**
      * @see UserInterface
      */
@@ -448,6 +492,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
     /**
      * String representation of object
      *
@@ -461,6 +506,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     {
         return serialize([$this->id, $this->username, $this->email, $this->password]);
     }
+
     /**
      * Constructs the object
      *
@@ -476,24 +522,30 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      */
     public function unserialize($serialized)
     {
-        list($this->id, $this->username, $this->email, $this->password, ) = unserialize($serialized, ['allowed_classes' => false]);
+        list($this->id, $this->username, $this->email, $this->password) = unserialize($serialized, ['allowed_classes' => false]);
     }
+
     public function getEmailSent(): ?bool
     {
         return $this->emailSent;
     }
+
     public function setEmailSent(bool $emailSent): self
     {
         $this->emailSent = $emailSent;
+
         return $this;
     }
+
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
+
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
         return $this;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\AppTranslation;
 use App\Repository\AppContentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+
 /**
  * Class AppContentService
  *
@@ -18,12 +19,13 @@ class AppContentService
      * @var AppContentRepository
      */
     protected $appContentRepository;
+
     public function __construct(
         protected EntityManagerInterface $em
-    )
-    {
+    ) {
         $this->appContentRepository = $em->getRepository(AppContent::class);
     }
+
     /**
      * Update a appTranslation.
      *
@@ -34,8 +36,10 @@ class AppContentService
         $appContent->setUpdated(new \DateTime('now'));
         $this->em->persist($appContent);
         $this->em->flush();
+
         return $appContent;
     }
+
     /**
      * Remove one appTranslation.
      */
@@ -44,6 +48,7 @@ class AppContentService
         $this->em->remove($appContent);
         $this->em->flush();
     }
+
     /**
      * Find one by filters.
      *
@@ -55,6 +60,7 @@ class AppContentService
     {
         return $this->appContentRepository->findOneBy($filters);
     }
+
     /**
      * Search.
      *
@@ -66,6 +72,7 @@ class AppContentService
     {
         return $this->appContentRepository->queryForSearch($filters, $order);
     }
+
     /**
      * Find one to edit.
      *
@@ -77,8 +84,9 @@ class AppContentService
     {
         return $this->appContentRepository->findOneToEdit($id);
     }
+
     /**
-     * @param integer $id
+     * @param int $id
      *
      * @return AppContent|null
      */
@@ -86,6 +94,7 @@ class AppContentService
     {
         return $this->appContentRepository->find($id);
     }
+
     /**
      * Find all.
      */
@@ -93,6 +102,7 @@ class AppContentService
     {
         return $this->appContentRepository->findAll();
     }
+
     public function findActives($limit = null)
     {
         return $this->appContentRepository->findActives($limit);

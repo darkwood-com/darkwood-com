@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="app")
  * @ORM\Entity(repositoryClass="App\Repository\AppRepository")
@@ -38,6 +39,7 @@ class App extends Page
      * @ORM\OneToMany(targetEntity="App\Entity\AppContent", mappedBy="app", cascade={"persist", "remove"})
      */
     protected $contents;
+
     /**
      * Constructor.
      */
@@ -45,6 +47,7 @@ class App extends Page
     {
         $this->contents = new ArrayCollection();
     }
+
     /**
      * Add content.
      */
@@ -53,6 +56,7 @@ class App extends Page
         $this->contents[] = $content;
         $content->setApp($this);
     }
+
     /**
      * Remove content.
      */
@@ -61,6 +65,7 @@ class App extends Page
         $this->contents->removeElement($content);
         $content->setApp(null);
     }
+
     /**
      * Get contents.
      *
@@ -70,6 +75,7 @@ class App extends Page
     {
         return $this->contents;
     }
+
     /**
      * @return mixed
      */
@@ -77,6 +83,7 @@ class App extends Page
     {
         return $this->banner;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $banner
      */
@@ -88,6 +95,7 @@ class App extends Page
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -95,6 +103,7 @@ class App extends Page
     {
         return $this->bannerName;
     }
+
     /**
      * @param string $bannerName
      */
@@ -102,6 +111,7 @@ class App extends Page
     {
         $this->bannerName = $bannerName;
     }
+
     /**
      * @return string
      */
@@ -109,6 +119,7 @@ class App extends Page
     {
         return $this->theme;
     }
+
     /**
      * @param string $theme
      */

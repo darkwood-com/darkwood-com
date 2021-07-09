@@ -6,8 +6,8 @@ use App\Entity\App;
 use App\Entity\AppContent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class AppContentRepository.
  */
@@ -17,10 +17,12 @@ class AppContentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, AppContent::class);
     }
+
     public function findByAppAndLocale(App $app, $locale)
     {
         return $this->createQueryBuilder('ac')->andWhere('ac.app = :app')->setParameter('app', $app)->andWhere('ac.locale = :locale')->setParameter('locale', $locale)->getQuery()->getResult();
     }
+
     /**
      * Get all user query, using for paginatioac.
      *
@@ -52,12 +54,14 @@ class AppContentRepository extends ServiceEntityRepository
         }
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::queryForSearch');
         $query = $qb->getQuery();
+
         return $query;
     }
+
     /**
      * Find one for edit.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -66,8 +70,10 @@ class AppContentRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('ac')->select('ac')->where('ac.id = :id')->orderBy('ac.id', 'asc')->setParameter('id', $id);
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
+
     /**
      * Find one for edit.
      *
@@ -80,8 +86,10 @@ class AppContentRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('ac')->select('ac');
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findAll');
         $query = $qb->getQuery();
+
         return $query->getResult();
     }
+
     public function findActives($limit = null)
     {
         $qb = $this->createQueryBuilder('ac')->select('ac')->addOrderBy('ac.created', 'desc');
@@ -90,6 +98,7 @@ class AppContentRepository extends ServiceEntityRepository
         }
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findActives');
         $query = $qb->getQuery();
+
         return new \Doctrine\ORM\Tools\Pagination\Paginator($query);
     }
 }

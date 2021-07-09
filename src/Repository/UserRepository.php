@@ -5,10 +5,9 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -21,10 +20,11 @@ class UserRepository extends ServiceEntityRepository implements \Symfony\Compone
     {
         parent::__construct($registry, User::class);
     }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(\Symfony\Component\Security\Core\User\UserInterface $user, string $newEncodedPassword): void
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
@@ -33,12 +33,15 @@ class UserRepository extends ServiceEntityRepository implements \Symfony\Compone
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
     public function loadUserByUsername($usernameOrEmail)
     {
         $qb = $this->createQueryBuilder('u')->select('u');
         $qb->where($qb->expr()->orX('u.username = :query', 'u.email = :query'))->setParameter('query', $usernameOrEmail);
+
         return $qb->getQuery()->getOneOrNullResult();
     }
+
     /**
      * Get all user query, using for pagination.
      *
@@ -55,24 +58,29 @@ class UserRepository extends ServiceEntityRepository implements \Symfony\Compone
                 $qb->setParameter($key, '%' . $filter . '%');
             }
         }
+
         return $qb->getQuery();
     }
+
     /**
      * Find one for edit profile.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      */
     public function findOneToEdit($id)
     {
-        $qb = $this->createQueryBuilder('u')->select('u')->where('u.id = :id')->setParameter('id', $id);
+        $qb    = $this->createQueryBuilder('u')->select('u')->where('u.id = :id')->setParameter('id', $id);
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
+
     public function findActiveQuery()
     {
         $qb = $this->createQueryBuilder('u')->select('u')->addOrderBy('u.created', 'desc');
+
         return $qb->getQuery();
     }
 }

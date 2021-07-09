@@ -7,8 +7,6 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Services\GameService;
 use App\Services\UserService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,10 +18,11 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder, private TranslatorInterface $translator, private CommonController $commonController, private UserService $userService, private GameService $gameService)
     {
     }
+
     #[Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)
     {
-        $page = $this->commonController->getPage($request, $ref);
+        $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         if ($username) {
             $user = $this->userService->findOneByUsername($username);
@@ -34,6 +33,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             if ($page->getPage()->getSite()->getRef() === 'darkwood' && $user->getPlayer()) {
                 $playerInfo = $this->gameService->getInfo($user);
             }
+
             return $this->render('common/pages/profileShow.html.twig', ['page' => $page, 'user' => $user, 'playerInfo' => $playerInfo, 'site_ref' => $page->getPage()->getSite()->getRef()]);
         }
         $user = $this->getUser();
@@ -52,9 +52,11 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userService->save($user);
                 $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.profile.submit_valid'));
+
                 return $this->redirect($this->generateUrl('common_profile'));
             }
         }
+
         return $this->render('common/pages/profile.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
     }
 }

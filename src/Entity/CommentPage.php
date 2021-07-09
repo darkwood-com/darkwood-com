@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentPageRepository")
  */
@@ -15,6 +16,7 @@ class CommentPage extends \App\Entity\Comment
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
      **/
     protected $page;
+
     /**
      * Set page.
      *
@@ -24,6 +26,7 @@ class CommentPage extends \App\Entity\Comment
     {
         $this->page = $page;
     }
+
     /**
      * Get page.
      *

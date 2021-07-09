@@ -4,11 +4,11 @@ namespace App\Form\Admin;
 
 use App\Entity\Contact;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 /**
  *  Form Type.
  */
@@ -29,10 +29,12 @@ class ContactType extends \Symfony\Component\Form\AbstractType
               'required' => false,
           ));*/
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => Contact::class, 'locale' => null]);
     }
+
     /**
      * Get name.
      *

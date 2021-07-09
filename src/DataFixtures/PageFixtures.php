@@ -15,9 +15,9 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(
         protected ParameterBagInterface $parameterBagInterface,
         private SiteService $siteService
-    )
-    {
+    ) {
     }
+
     public function load(ObjectManager $manager)
     {
         $this->createPage(['ref' => 'home', 'title' => 'Home'], $manager);
@@ -25,7 +25,8 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
         $this->createPage(['ref' => 'sitemap', 'title' => 'Sitemap'], $manager);
         $manager->flush();
     }
-    public function createPage($params,ObjectManager $manager)
+
+    public function createPage($params, ObjectManager $manager)
     {
         $sites = $this->siteService->findAll();
         foreach ($sites as $site) {
@@ -42,6 +43,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($page);
         }
     }
+
     public function getDependencies()
     {
         return [\App\DataFixtures\SiteFixtures::class];

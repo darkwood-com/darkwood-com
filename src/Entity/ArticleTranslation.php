@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="article_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
  *      @ORM\UniqueConstraint(name="locale_article_unique",columns={"locale","article_id"})
@@ -70,12 +71,14 @@ class ArticleTranslation implements \Stringable
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
     }
+
     /**
      * Set locale.
      *
@@ -85,6 +88,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->locale = $locale;
     }
+
     /**
      * Get locale.
      *
@@ -94,6 +98,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->locale;
     }
+
     /**
      * Get id.
      *
@@ -103,6 +108,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * Set title.
      *
@@ -112,6 +118,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -121,6 +128,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->title;
     }
+
     /**
      * @return mixed
      */
@@ -128,6 +136,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->slug;
     }
+
     /**
      * @param mixed $slug
      */
@@ -135,6 +144,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->slug = $slug;
     }
+
     /**
      * @return mixed
      */
@@ -142,6 +152,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->content;
     }
+
     /**
      * @param mixed $content
      */
@@ -149,6 +160,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->content = $content;
     }
+
     /**
      * @return mixed
      */
@@ -156,6 +168,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -167,6 +180,7 @@ class ArticleTranslation implements \Stringable
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -174,6 +188,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -181,6 +196,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->imageName = $imageName;
     }
+
     /**
      * Set active.
      *
@@ -190,6 +206,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->active = $active;
     }
+
     /**
      * Get active.
      *
@@ -199,6 +216,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->active;
     }
+
     /**
      * Set article.
      *
@@ -208,6 +226,7 @@ class ArticleTranslation implements \Stringable
     {
         $this->article = $article;
     }
+
     /**
      * Get article.
      *
@@ -217,6 +236,7 @@ class ArticleTranslation implements \Stringable
     {
         return $this->article;
     }
+
     public function __toString(): string
     {
         return $this->getTitle();

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
@@ -55,6 +56,7 @@ class Contact
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $emailSent;
+
     /**
      * Get id.
      *
@@ -64,6 +66,7 @@ class Contact
     {
         return $this->id;
     }
+
     /**
      * Set email.
      *
@@ -73,6 +76,7 @@ class Contact
     {
         $this->email = $email;
     }
+
     /**
      * Get email.
      *
@@ -82,6 +86,7 @@ class Contact
     {
         return $this->email;
     }
+
     /**
      * Set website.
      *
@@ -91,6 +96,7 @@ class Contact
     {
         $this->website = $website;
     }
+
     /**
      * Get website.
      *
@@ -100,6 +106,7 @@ class Contact
     {
         return $this->website;
     }
+
     /**
      * Set content.
      *
@@ -109,6 +116,7 @@ class Contact
     {
         $this->content = $content;
     }
+
     /**
      * Get content.
      *
@@ -118,6 +126,7 @@ class Contact
     {
         return $this->content;
     }
+
     /**
      * Set user.
      *
@@ -127,6 +136,7 @@ class Contact
     {
         $this->user = $user;
     }
+
     /**
      * Get user.
      *
@@ -136,13 +146,16 @@ class Contact
     {
         return $this->user;
     }
+
     public function getEmailSent(): ?bool
     {
         return $this->emailSent;
     }
+
     public function setEmailSent(bool $emailSent): self
     {
         $this->emailSent = $emailSent;
+
         return $this;
     }
 }

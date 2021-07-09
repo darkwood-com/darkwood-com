@@ -3,10 +3,11 @@
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="game_enemy")
  * @ORM\Entity(repositoryClass="App\Repository\Game\EnemyRepository")
@@ -96,14 +97,16 @@ class Enemy
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentEnemy", cascade={"persist", "remove"})
      */
     protected $currentEnemyPlayers;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->lastFightPlayers = new ArrayCollection();
+        $this->lastFightPlayers    = new ArrayCollection();
         $this->currentEnemyPlayers = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -113,6 +116,7 @@ class Enemy
     {
         return $this->id;
     }
+
     /**
      * Set gold.
      *
@@ -122,6 +126,7 @@ class Enemy
     {
         $this->gold = $gold;
     }
+
     /**
      * Get gold.
      *
@@ -131,6 +136,7 @@ class Enemy
     {
         return $this->gold;
     }
+
     /**
      * Set xp.
      *
@@ -140,6 +146,7 @@ class Enemy
     {
         $this->xp = $xp;
     }
+
     /**
      * Get xp.
      *
@@ -149,6 +156,7 @@ class Enemy
     {
         return $this->xp;
     }
+
     /**
      * Set life.
      *
@@ -158,6 +166,7 @@ class Enemy
     {
         $this->life = $life;
     }
+
     /**
      * Get life.
      *
@@ -167,6 +176,7 @@ class Enemy
     {
         return $this->life;
     }
+
     /**
      * Set armor.
      *
@@ -176,6 +186,7 @@ class Enemy
     {
         $this->armor = $armor;
     }
+
     /**
      * Get armor.
      *
@@ -185,6 +196,7 @@ class Enemy
     {
         return $this->armor;
     }
+
     /**
      * Set damageMin.
      *
@@ -194,6 +206,7 @@ class Enemy
     {
         $this->damageMin = $damageMin;
     }
+
     /**
      * Get damageMin.
      *
@@ -203,6 +216,7 @@ class Enemy
     {
         return $this->damageMin;
     }
+
     /**
      * Set damageMax.
      *
@@ -212,6 +226,7 @@ class Enemy
     {
         $this->damageMax = $damageMax;
     }
+
     /**
      * Get damageMax.
      *
@@ -221,6 +236,7 @@ class Enemy
     {
         return $this->damageMax;
     }
+
     /**
      * Set hitLuck.
      *
@@ -230,6 +246,7 @@ class Enemy
     {
         $this->hitLuck = $hitLuck;
     }
+
     /**
      * Get hitLuck.
      *
@@ -239,6 +256,7 @@ class Enemy
     {
         return $this->hitLuck;
     }
+
     /**
      * @return mixed
      */
@@ -246,6 +264,7 @@ class Enemy
     {
         return $this->image;
     }
+
     /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
@@ -257,6 +276,7 @@ class Enemy
             $this->updated = new \DateTime('now');
         }
     }
+
     /**
      * @return string
      */
@@ -264,6 +284,7 @@ class Enemy
     {
         return $this->imageName;
     }
+
     /**
      * @param string $imageName
      */
@@ -271,6 +292,7 @@ class Enemy
     {
         $this->imageName = $imageName;
     }
+
     /**
      * Set title.
      *
@@ -280,6 +302,7 @@ class Enemy
     {
         $this->title = $title;
     }
+
     /**
      * Get title.
      *
@@ -289,6 +312,7 @@ class Enemy
     {
         return $this->title;
     }
+
     /**
      * Add lastFightPlayer.
      */
@@ -296,6 +320,7 @@ class Enemy
     {
         $this->lastFightPlayers[] = $lastFightPlayer;
     }
+
     /**
      * Remove lastFightPlayer.
      */
@@ -303,6 +328,7 @@ class Enemy
     {
         $this->lastFightPlayers->removeElement($lastFightPlayer);
     }
+
     /**
      * Get lastFightPlayers.
      *
@@ -312,6 +338,7 @@ class Enemy
     {
         return $this->lastFightPlayers;
     }
+
     /**
      * Add currentEnemyPlayer.
      */
@@ -319,6 +346,7 @@ class Enemy
     {
         $this->currentEnemyPlayers[] = $currentEnemyPlayer;
     }
+
     /**
      * Remove currentEnemyPlayer.
      */
@@ -326,6 +354,7 @@ class Enemy
     {
         $this->currentEnemyPlayers->removeElement($currentEnemyPlayer);
     }
+
     /**
      * Get currentEnemyPlayers.
      *

@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Traits\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -34,14 +35,16 @@ class Article implements \Stringable
      * @ORM\JoinTable(name="article_tag")
      */
     protected $tags;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
         $this->translations = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->tags         = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -51,6 +54,7 @@ class Article implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * Add translations.
      */
@@ -59,6 +63,7 @@ class Article implements \Stringable
         $this->translations[] = $translations;
         $translations->setArticle($this);
     }
+
     /**
      * Remove translations.
      */
@@ -67,6 +72,7 @@ class Article implements \Stringable
         $this->translations->removeElement($translations);
         $translations->setArticle(null);
     }
+
     /**
      * Get translations.
      *
@@ -76,6 +82,7 @@ class Article implements \Stringable
     {
         return $this->translations;
     }
+
     /**
      * Get one translation.
      *
@@ -91,14 +98,19 @@ class Article implements \Stringable
                 return $translation;
             }
         }
+
         return $this->getTranslations()->current();
     }
+
     public function __toString(): string
     {
         $articleTs = $this->getOneTranslation();
+
         return $articleTs ? $articleTs->getTitle() : '';
     }
+
     // KEYWORDS
+
     /**
      * Add tags.
      */
@@ -107,6 +119,7 @@ class Article implements \Stringable
         $this->tags[] = $tag;
         $tag->addArticle($this);
     }
+
     /**
      * Remove tags.
      */
@@ -115,12 +128,14 @@ class Article implements \Stringable
         $this->tags->removeElement($tag);
         $tag->removeArticle($this);
     }
+
     public function removeAllTags()
     {
         foreach ($this->getTags() as $tag) {
             $this->removeTag($tag);
         }
     }
+
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -128,12 +143,14 @@ class Article implements \Stringable
     {
         return $this->tags;
     }
+
     public function getAllTagTitles()
     {
         $tagTitles = [];
         foreach ($this->tags as $tag) {
             $tagTitles[] = $tag->getOneTranslation()->getTitle();
         }
+
         return $tagTitles;
     }
 }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="page",uniqueConstraints={
  *      @ORM\UniqueConstraint(name="ref_site_unique",columns={"ref","site_id"})
@@ -54,14 +55,16 @@ class Page implements \Stringable
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $comments;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
         $this->translations = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->comments     = new ArrayCollection();
     }
+
     /**
      * Get id.
      *
@@ -71,6 +74,7 @@ class Page implements \Stringable
     {
         return $this->id;
     }
+
     /**
      * Add translations.
      */
@@ -79,6 +83,7 @@ class Page implements \Stringable
         $this->translations[] = $translations;
         $translations->setPage($this);
     }
+
     /**
      * Remove translations.
      */
@@ -87,6 +92,7 @@ class Page implements \Stringable
         $this->translations->removeElement($translations);
         $translations->setPage(null);
     }
+
     /**
      * Get translations.
      *
@@ -96,6 +102,7 @@ class Page implements \Stringable
     {
         return $this->translations;
     }
+
     /**
      * Get one translation.
      *
@@ -111,8 +118,10 @@ class Page implements \Stringable
                 return $translation;
             }
         }
+
         return $this->getTranslations()->current();
     }
+
     /**
      * @return mixed
      */
@@ -120,6 +129,7 @@ class Page implements \Stringable
     {
         return $this->ref;
     }
+
     /**
      * @param mixed $ref
      */
@@ -127,12 +137,16 @@ class Page implements \Stringable
     {
         $this->ref = $ref;
     }
+
     public function __toString(): string
     {
         $pageTs = $this->getOneTranslation();
+
         return $pageTs ? $pageTs->getTitle() : '';
     }
+
     /* SITE */
+
     /**
      * Set site.
      *
@@ -142,6 +156,7 @@ class Page implements \Stringable
     {
         $this->site = $site;
     }
+
     /**
      * Get page.
      *
@@ -151,6 +166,7 @@ class Page implements \Stringable
     {
         return $this->site;
     }
+
     /**
      * Add comment.
      */
@@ -159,6 +175,7 @@ class Page implements \Stringable
         $this->comments[] = $comment;
         $comment->setPage($this);
     }
+
     /**
      * Remove comment.
      */
@@ -167,6 +184,7 @@ class Page implements \Stringable
         $this->comments->removeElement($comment);
         $comment->setPage(null);
     }
+
     /**
      * Get comments.
      *

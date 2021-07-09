@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,6 +18,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         // will redirect to Facebook!
         return $clientRegistry->getClient('facebook_main')->redirect(['public_profile', 'email'], []);
     }
+
     /**
      * After going to Facebook, you're redirected back here
      * because this is the "redirect_route" you configured
@@ -40,13 +39,13 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             // do something with all this new power!
             // e.g. $name = $user->getFirstName();
             var_dump($user);
-            die;
+            exit;
             // ...
         } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
             // something went wrong!
             // probably you should return the reason to the user
             var_dump($e->getMessage());
-            die;
+            exit;
         }
     }
 }

@@ -6,9 +6,9 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class SiteService
@@ -17,6 +17,7 @@ class SiteService
      * @var SiteRepository
      */
     protected $siteRepository;
+
     public function __construct(
         protected EntityManagerInterface $em,
         protected PageService $pageService,
@@ -24,10 +25,10 @@ class SiteService
         protected TranslatorInterface $translator,
         protected Environment $templating,
         protected CacheInterface $appCache
-    )
-    {
+    ) {
         $this->siteRepository = $em->getRepository(Site::class);
     }
+
     /**
      * Update a site.
      *
@@ -38,8 +39,10 @@ class SiteService
         $site->setUpdated(new \DateTime('now'));
         $this->em->persist($site);
         $this->em->flush();
+
         return $site;
     }
+
     /**
      * Remove one site.
      */
@@ -48,10 +51,12 @@ class SiteService
         $this->em->remove($site);
         $this->em->flush();
     }
+
     public function searchQuery($filters = [])
     {
         return $this->siteRepository->createQueryBuilder('s');
     }
+
     /**
      * Search.
      *
@@ -63,6 +68,7 @@ class SiteService
     {
         return $this->siteRepository->queryForSearch($filters);
     }
+
     /**
      * Find one to edit.
      *
@@ -74,6 +80,7 @@ class SiteService
     {
         return $this->siteRepository->findOneToEdit($id);
     }
+
     /**
      * Find one by host.
      *
@@ -85,6 +92,7 @@ class SiteService
     {
         return $this->siteRepository->findOneByHost($host);
     }
+
     /**
      * Find one by ref.
      *
@@ -96,6 +104,7 @@ class SiteService
     {
         return $this->siteRepository->findOneByRef($ref);
     }
+
     /**
      * Find all.
      *
@@ -105,6 +114,7 @@ class SiteService
     {
         return $this->siteRepository->findAll();
     }
+
     /**
      * @return Site[]
      */
@@ -112,11 +122,13 @@ class SiteService
     {
         return $this->siteRepository->findActives();
     }
+
     public function getSitemap($host, $locale, $force = false)
     {
-        $cacheId = 'sitemap-' . md5($host) .'-' . md5($locale);
+        $cacheId = 'sitemap-' . md5($host) . '-' . md5($locale);
+
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($locale) {
-            $item->expiresAfter(43200);// 12 hours
+            $item->expiresAfter(43200); // 12 hours
             $sites = $this->findActives();
             $sitemap = [];
             foreach ($sites as $site) {
@@ -163,7 +175,7 @@ class SiteService
                                 $child['link'] = $this->pageService->getUrl($pageTranslation, true);
                             }
                         }
-                    } else if (isset($child['item']['host'], $child['item']['page_translation'])) {
+                    } elseif (isset($child['item']['host'], $child['item']['page_translation'])) {
                         $child['label'] = $child['item']['page_translation']->getTitle();
                         $child['link'] = $this->pageService->getUrl($child['item']['page_translation'], true);
                     }
@@ -173,24 +185,29 @@ class SiteService
                     $child['children'] = $formatSitemap($child['children']);
                     $items[$key] = $child;
                 }
+
                 return $items;
             };
+
             return $formatSitemap($sitemap);
         }, $force ? INF : null);
     }
+
     public function getSitemapXml($host, $locale)
     {
         $pages = $this->pageService->findActives($locale, null, $host);
-        $urls = [];
+        $urls  = [];
         foreach ($pages as $page) {
             $pageTranslation = $page->getOneTranslation();
-            $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
+            $urls[]          = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
         }
+
         return $this->templating->render('common/partials/sitemapXml.html.twig', ['urls' => $urls]);
     }
+
     public function getFeed($host, $locale)
     {
-        $feed = [];
+        $feed     = [];
         $articles = $this->articleService->findActives($locale);
         foreach ($articles as $article) {
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];
@@ -199,13 +216,17 @@ class SiteService
             if ($item1['date'] == $item2['date']) {
                 return 0;
             }
+
             return ($item1['date'] < $item2['date']) ? -1 : 1;
         });
+
         return $feed;
     }
+
     public function getRssXml($host, $locale)
     {
         $feed = $this->getFeed($host, $locale);
+
         return $this->templating->render('common/partials/rssXml.html.twig', ['feed' => $feed, 'locale' => $locale, 'host' => $host]);
     }
 }

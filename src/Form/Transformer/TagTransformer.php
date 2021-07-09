@@ -11,21 +11,23 @@ use Symfony\Component\Form\DataTransformerInterface;
 class TagTransformer implements DataTransformerInterface
 {
     public function __construct(
-        /**
+        /*
          * @var TagService
          */
         private TagService $tagService
-    )
-    {
+    ) {
     }
+
     /**
      * @var string
      */
     protected $locale;
+
     public function setLocale($locale)
     {
         $this->locale = $locale;
     }
+
     /**
      * @param mixed $tags
      *
@@ -41,8 +43,10 @@ class TagTransformer implements DataTransformerInterface
         foreach ($tags as $tag) {
             $arrayTags[] = $tag->getOneTranslation($this->locale)->getTitle();
         }
+
         return implode(', ', $arrayTags);
     }
+
     /**
      * Transforms the value the users has typed to a value that suits the field in the Document.
      */
@@ -56,7 +60,7 @@ class TagTransformer implements DataTransformerInterface
         foreach ($arrayTags as $tag) {
             $tagPersisited = $this->tagService->findOneByTitle($tag);
             if (!$tagPersisited) {
-                $newTag = new Tag();
+                $newTag            = new Tag();
                 $newTagTranslation = new TagTranslation();
                 $newTagTranslation->setTitle($tag);
                 $newTagTranslation->setLocale($this->locale);
@@ -67,6 +71,7 @@ class TagTransformer implements DataTransformerInterface
                 $tagLinked->add($tagPersisited);
             }
         }
+
         return $tagLinked;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class CommentRepository.
  */
@@ -16,6 +17,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
+
     /**
      * Get all user query, using for pagination.
      *
@@ -31,12 +33,14 @@ class CommentRepository extends ServiceEntityRepository
         }
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
         $query = $qb->getQuery();
+
         return $query;
     }
+
     /**
      * Find one for edit.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -45,6 +49,7 @@ class CommentRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('c')->select('c')->where('c.id = :id')->setParameter('id', $id);
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
+
         return $query->getOneOrNullResult();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Repository\Game;
 use App\Entity\Game\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * Class PlayerRepository.
  */
@@ -14,11 +15,14 @@ class PlayerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Player::class);
     }
+
     public function findRand()
     {
         $qb = $this->createQueryBuilder('p')->select('p')->addSelect('RAND() as HIDDEN rand')->orderBy('rand')->andWhere('p.user IS NOT NULL')->setMaxResults(1);
+
         return $qb->getQuery()->getOneOrNullResult();
     }
+
     public function findActiveQuery($mode = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p')->andWhere('p.user IS NOT NULL');
@@ -43,6 +47,7 @@ class PlayerRepository extends ServiceEntityRepository
         } else {
             $qb->addOrderBy('p.xp', 'desc');
         }
+
         return $qb->getQuery();
     }
 }
