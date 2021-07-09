@@ -30,7 +30,16 @@ use Twig\Environment;
 
 class CommonController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private Environment $twig, private MailerInterface $mailer, private TranslatorInterface $translator, private PageService $pageService, private SiteService $siteService, private ContactService $contactService, private SeoService $seoService, private HtmlErrorRenderer $errorRenderer)
+    public function __construct(
+        private Environment $twig,
+        private MailerInterface $mailer,
+        private TranslatorInterface $translator,
+        private PageService $pageService,
+        private SiteService $siteService,
+        private ContactService $contactService,
+        private SeoService $seoService,
+        private HtmlErrorRenderer $errorRenderer
+    )
     {
     }
     /**

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Services\ArticleService;
+use App\Services\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mime\Email;
@@ -15,6 +16,7 @@ class HelloController extends AbstractController
 {
     public function __construct(
         private CommonController $commonController,
+        private ContactService $contactService,
         private ArticleService $articleService
     )
     {
