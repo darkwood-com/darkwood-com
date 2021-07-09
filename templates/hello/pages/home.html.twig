@@ -1,5 +1,10 @@
 {% extends "hello/base.html.twig" %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="container-fluid theme theme-hello">
@@ -31,7 +36,7 @@
             </div>
         </div>
     </header>
-    <section class="about-section" id="about">
+    <section class="section about-section" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -39,11 +44,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 ml-auto text-white-50">
-                    <p>{{ 'hello.about.text1'|trans }}</p>
-                </div>
-                <div class="col-lg-6 mr-auto text-white-50">
-                    <p>{{ 'hello.about.text2'|trans }}</p>
+                <div class="col-lg-12 ml-auto text-white-50">
+                    <p>{{ 'hello.about.text'|trans }}</p>
                 </div>
             </div>
             <div class="row justify-content-md-center">
@@ -62,7 +64,7 @@
             </div>
         </div>
     </section>
-    {#<section class="projects-section bg-light" id="projects">
+    {#<section class="section projects-section bg-light" id="projects">
         <div class="container px-4 px-lg-5">
             <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                 <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/bg-masthead.jpg" /></div>
@@ -104,7 +106,7 @@
             </div>
         </div>
     </section>#}
-    <section class="blog-area pt-125 pb-130" id="blog">
+    <section class="section blog-area pt-125 pb-130" id="blog">
         <div class="container">
             <div class="row p-5 gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
@@ -137,7 +139,7 @@
             </div>
         </div>
     </section>
-    <section class="contact-section" id="contact">
+    <section class="section contact-section" id="contact">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
                 <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -173,10 +175,10 @@
                             </div>
                             {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
                             {% if form.recaptcha.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></div></div>{% endif %}
-                            <li class="centered">
-                                <label class="required centered text-white">{{ 'common.contact.recaptcha'|trans }}</label>
-                                <div class="g-recaptcha centered" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
-                            </li>
+                            <div class="col-12">
+                                <label class="required text-white">{{ 'common.contact.recaptcha'|trans }}</label>
+                                <div class="g-recaptcha" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+                            </div>
                             {% endif %}
                         </div>
                         <div class="row">

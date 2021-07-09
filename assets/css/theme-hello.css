@@ -30,11 +30,14 @@
 .theme-hello .main-nav .navbar-toggler {
   font-size: 80%;
   padding: 0.75rem;
-  color: #64a19d;
-  border: 1px solid #64a19d;
+  color: #0d6efd;
+  border: 1px solid #0d6efd;
 }
 .theme-hello .main-nav .navbar-toggler:focus {
   outline: none;
+}
+.theme-hello .navbar-light .navbar-nav .nav-link.active, .theme-hello .navbar-light .navbar-nav .show>.nav-link {
+  color: rgba(255, 255, 255, 0.5);
 }
 .theme-hello .main-nav .navbar-brand {
   color: #000;
@@ -85,15 +88,15 @@
     border-bottom: 0.25rem solid transparent;
   }
   .theme-hello .main-nav.navbar-shrink .nav-link:hover {
-    color: #64a19d;
+    color: #0a58ca;
   }
   .theme-hello .main-nav.navbar-shrink .nav-link:active {
-    color: #467370;
+    color: #0d6efd;
   }
   .theme-hello .main-nav.navbar-shrink .nav-link.active {
-    color: #64a19d;
+    color: #0d6efd;
     outline: none;
-    border-bottom: 0.25rem solid #64a19d;
+    border-bottom: 0.25rem solid #0d6efd;
   }
 }
 

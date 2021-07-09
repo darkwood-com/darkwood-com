@@ -283,8 +283,9 @@ hello:
     cta: Get in touch
   about:
     title: About me
-    text1: Lead développeur sénior en PHP et confirmé en Symfony, je suis spécialisé dans le développement de sites web et d'API. J'ai travaillé en agence web et pour de grandes enseignes qui m'a permis d'acquérir mon expérience. Désormais, je désire me consacrer aux projets qui m'intéressent vraiment et avoir de l'autonomie en tant que développeur Freelance.
-    text2: Je recherche des missions freelances de courtes et moyennes durées en Symfony. Je suis autonome et motivé. N'hésitez pas à me contacter pour un projet ou si vous avez besoin d'aide en Symfony ou PHP en générale, je serai ravi de vous apporter mon expertise.
+    text: |
+      Développeur FullStack PHP depuis plus de 10 ans, je suis disponible pour concevoir avec vous votre site web, vous accompagner dans le développement d'un projet existant ou simplement renforcer une équipe technique.
+      Je maitrise le framework Symfony côté back-end et React côté front-end. Je suis sensible à la qualité du code, utiliser des bonnes pratiques et à sa maintenabilité.
     cta_contact: Hire me
     cta_cv: See my CV
   blog:

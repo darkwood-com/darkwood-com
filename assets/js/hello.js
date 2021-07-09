@@ -23,4 +23,30 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // Shrink the navbar when page is scrolled
     document.addEventListener('scroll', navbarShrink);
+
+    // scroll section
+    var section = document.querySelectorAll(".section");
+    var sections = {};
+    var i = 0;
+
+    Array.prototype.forEach.call(section, function(e) {
+        sections[e.id] = e.offsetTop;
+    });
+
+    window.onscroll = function() {
+        var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (i in sections) {
+            if (sections[i] - 500 /* custom offest */ <= scrollPosition) {
+                var active = document.querySelector('.active');
+                if(active) {
+                    active.setAttribute('class', 'nav-link')
+                }
+                active = document.querySelector('.navbar a.nav-link[href*=' + i + ']');
+                if(active) {
+                    active.setAttribute('class', 'nav-link active')
+                }
+            }
+        }
+    };
 });
