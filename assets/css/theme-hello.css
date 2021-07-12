@@ -37,7 +37,10 @@
   outline: none;
 }
 .theme-hello .navbar-light .navbar-nav .nav-link.active, .theme-hello .navbar-light .navbar-nav .show>.nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: #0d6efd;
+}
+.theme-hello .navbar-light .navbar-nav .nav-link:focus, .theme-hello .navbar-light .navbar-nav .nav-link:hover {
+  color: #0a58ca;
 }
 .theme-hello .main-nav .navbar-brand {
   color: #000;
