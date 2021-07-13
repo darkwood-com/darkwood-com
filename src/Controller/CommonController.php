@@ -169,7 +169,7 @@ class CommonController extends AbstractController
                 $this->contactService->save($contact);
                 $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
                 try {
-                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], $contact->getEmail(), 'mathieu@darkwood.fr');
+                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /*$contact->getEmail()*/, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                     $contact->setEmailSent(false);

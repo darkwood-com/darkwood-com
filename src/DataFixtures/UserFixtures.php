@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
         $user->setFirstName('Mathieu');
         $user->setLastName('Ledru');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
-        $user->setEmail('matyo@darkwood.fr');
+        $user->setEmail('mathieu@darkwood.fr');
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
         $manager->flush();
