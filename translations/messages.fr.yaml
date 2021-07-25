@@ -279,7 +279,7 @@ hello:
     contact: Contact
   hero:
     title: Hello !<br />I'm Mathieu
-    description: Un developpeur Frelance spécialisé en<br />Symfony et React.
+    description: Un developpeur Freelance spécialisé en<br />Symfony et React.
     cta: Se rencontrer
   about:
     title: A propos
