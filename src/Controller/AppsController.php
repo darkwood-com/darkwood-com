@@ -104,7 +104,7 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             }
         }
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('apps/pages/app.html.twig', ['page' => $page, 'slug' => $slug, 'contents' => $contents, 'content' => $content, 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
     }

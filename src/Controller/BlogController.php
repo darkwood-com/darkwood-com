@@ -34,7 +34,8 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         $page     = $this->commonController->getPage($request, $ref);
         $query    = $this->articleService->findActivesQueryBuilder($request->getLocale());
-        $articles = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $articles = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }
@@ -86,7 +87,8 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             }
         }
         $query    = $this->commentService->findActiveCommentByArticleQuery($article);
-        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
     }

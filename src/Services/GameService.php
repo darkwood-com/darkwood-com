@@ -862,13 +862,15 @@ class GameService
             return $parameters;
         } elseif ($parameters['state'] == 'users') {
             $query               = $this->userService->findActiveQuery();
-            $users               = $this->paginator->paginate($query, $request->query->get('page', 1), 56);
+            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $users               = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
             $parameters['users'] = $users;
 
             return $parameters;
         } elseif ($parameters['state'] == 'rank') {
             $query                 = $this->findActiveQuery($parameters['mode']);
-            $players               = $this->paginator->paginate($query, $request->query->get('page', 1), 56);
+            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $players               = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
             $parameters['players'] = $players;
 
             return $parameters;
@@ -888,7 +890,8 @@ class GameService
                 }
             }
             $query                  = $this->commentService->findActiveCommentByPageQuery($page);
-            $comments               = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $comments               = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
             $parameters['form']     = $form->createView();
             $parameters['comments'] = $comments;
 

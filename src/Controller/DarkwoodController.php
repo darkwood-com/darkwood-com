@@ -119,7 +119,8 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             }
         }
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('darkwood/pages/chat.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
     }
@@ -129,7 +130,8 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     {
         $page  = $this->commonController->getPage($request, $ref);
         $query = $this->userService->findActiveQuery();
-        $users = $this->paginator->paginate($query, $request->query->get('page', 1), 56);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $users = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
 
         return $this->render('darkwood/pages/users.html.twig', ['page' => $page, 'users' => $users]);
     }
@@ -160,7 +162,8 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             }
         }
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $comments = $this->paginator->paginate($query, $request->query->get('page', 1), 10);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
     }
@@ -179,7 +182,8 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $page    = $this->commonController->getPage($request, $ref);
         $mode    = $request->get('mode');
         $query   = $this->gameService->findActiveQuery($mode);
-        $players = $this->paginator->paginate($query, $request->query->get('page', 1), 56);
+        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $players = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
 
         return $this->render('darkwood/pages/rank.html.twig', ['page' => $page, 'players' => $players, 'mode' => $mode]);
     }

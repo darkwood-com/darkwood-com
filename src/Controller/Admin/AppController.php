@@ -28,7 +28,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         $form = $this->createSearchForm();
         $form->handleRequest($request);
         $query    = $this->appService->getQueryForSearch($form->getData(), 'app');
-        $entities = $this->paginator->paginate($query, $request->query->get('page', 1), 20);
+        $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/app/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }

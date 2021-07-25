@@ -26,7 +26,7 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $form = $this->createSearchForm();
         $form->handleRequest($request);
         $query    = $this->commentService->getQueryForSearch($form->getData());
-        $entities = $this->paginator->paginate($query, $request->query->get('page', 1), 20);
+        $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/comment/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
