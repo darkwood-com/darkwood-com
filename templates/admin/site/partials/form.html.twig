@@ -15,7 +15,6 @@
                 {{ form_row(form.image) }}
                 {{ form_row(form.host) }}
                 {{ form_row(form.position) }}
-                {{ form_row(form.gaId) }}
 
                 {% if form.active.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.active) }}</div></div>{% endif %}
                 <div class="form-group {% if form.active.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">

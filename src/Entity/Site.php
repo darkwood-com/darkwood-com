@@ -76,12 +76,6 @@ class Site implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ga_id", type="string", length=255, nullable=true)
-     */
-    protected $gaId;
 
     /**
      * Constructor.
@@ -260,25 +254,5 @@ class Site implements \Stringable
     public function setImageName($imageName)
     {
         $this->imageName = $imageName;
-    }
-
-    /**
-     * Set gaId
-     *
-     * @param string $gaId
-     */
-    public function setGaId($gaId): void
-    {
-        $this->gaId = $gaId;
-    }
-
-    /**
-     * Get gaId
-     *
-     * @return string
-     */
-    public function getGaId()
-    {
-        return $this->gaId;
     }
 }

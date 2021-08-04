@@ -25,7 +25,6 @@ class SiteType extends \Symfony\Component\Form\AbstractType
         $builder->add('active', CheckboxType::class, ['label' => 'Activé', 'required' => false]);
         $builder->add('position', IntegerType::class, ['label' => 'Position']);
         $builder->add('image', VichImageType::class, ['label' => 'Image', 'required' => false]);
-        $builder->add('gaId', TextType::class, ['label' => 'Google Analytics']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
