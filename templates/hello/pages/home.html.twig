@@ -48,18 +48,22 @@
                     <p>{{ 'hello.about.text'|trans }}</p>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col col-lg-2">
-                    <a href="#contact" class="btn btn-lg btn-primary">
-                        <i class="fa fa-paper-plane"></i>
-                        {{ 'hello.about.cta_contact'|trans }}
-                    </a>
+            <div class="row justify-content-center g-4">
+                <div class="col-6 col-xs-4 col-xl-2">
+                    <div class="d-grid gap-2 h-100">
+                        <a href="#contact" class="btn btn-lg btn-primary">
+                            <i class="fa fa-paper-plane"></i>
+                            {{ 'hello.about.cta_contact'|trans }}
+                        </a>
+                    </div>
                 </div>
-                <div class="col col-lg-2">
-                    <a href="{{ path('hello_cv') }}" class="btn btn-lg btn-secondary">
-                        <i class="fa fa-file-alt"></i>
-                        {{ 'hello.about.cta_cv'|trans }}
-                    </a>
+                <div class="col-6 col-xs-4 col-xl-2">
+                    <div class="d-grid gap-2 h-100">
+                        <a href="{{ path('hello_cv') }}" class="btn btn-lg btn-secondary">
+                            <i class="fa fa-file-alt"></i>
+                            {{ 'hello.about.cta_cv'|trans }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,7 +118,7 @@
                     <p class="text-white-50 text-center">{{ 'hello.blog.description'|trans }}</p>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center g-4">
                 {% for article in articles %}
                 {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
                 <div class="col-lg-4 col-md-8 col-sm-9">
