@@ -75,6 +75,7 @@ common:
     apps: Apps
     photos: Photos
     contact: Contact
+    legal_mention: "Legal mentions"
     copyright: "Darkwood %year%, all rights reserved"
     valid:
       html: Validate XHTML 1.1 page

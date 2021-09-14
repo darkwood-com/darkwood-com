@@ -4,7 +4,7 @@
             <a href="{{ path('hello_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a> - <a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a> - <a href="{{ path('blog_home') }}">{{ 'common.footer.blog'|trans }}</a> - <a href="{{ path('apps_home') }}">{{ 'common.footer.apps'|trans }}</a> - <a href="{{ path('photos_home') }}">{{ 'common.footer.photos'|trans }}</a> - <a href="{{ path('hello_contact') }}">{{ 'common.footer.contact'|trans }}</a> -
             <a class="btn btn-social-icon btn-github" href="https://github.com/darkwood-fr/darkwood-fr" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a> -
             <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/darkwood_fr" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a> -
-            {{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}
+            <a href="{{ path('hello_legal_mention') }}">{{ 'common.footer.legal_mention'|trans }}</a> - {{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}
         </li>
     </ul>
     {#<ul>

@@ -31,6 +31,12 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         return $this->render('photos/pages/home.html.twig', ['page' => $page]);
     }
 
+    #[Route(path: ['fr' => '/mentions-legales', 'en' => '/en/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    public function legalMention(Request $request, $ref)
+    {
+        return $this->commonController->legalMention($request, $ref);
+    }
+
     #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {

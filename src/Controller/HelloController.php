@@ -63,6 +63,12 @@ class HelloController extends AbstractController
 
         return $this->render('hello/pages/cv.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
     }
+    
+    #[Route(path: ['fr' => '/mentions-legales', 'en' => '/en/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    public function legalMention(Request $request, $ref)
+    {
+        return $this->commonController->legalMention($request, $ref);
+    }
 
     #[Route(path: ['fr' => '/plan-du-site', 'en' => '/en/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)

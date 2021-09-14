@@ -129,6 +129,14 @@ class CommonController extends AbstractController
         return $page->getOneTranslation($request->getLocale());
     }
 
+    public function legalMention(Request $request, $ref)
+    {
+        $page    = $this->getPage($request, $ref);
+        $siteRef = $page->getPage()->getSite()->getRef();
+
+        return $this->render('common/pages/legalMention.html.twig', ['page' => $page, 'site_ref' => $siteRef]);
+    }
+
     public function sitemap(Request $request, $ref)
     {
         $page    = $this->getPage($request, $ref);
