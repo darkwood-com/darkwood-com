@@ -12,14 +12,36 @@
   letter-spacing: 0.0625em;
 }
 
-.theme-hello .theme-link a {
-  color: #808080;
-  text-decoration: none;
+.theme-hello .show_links a
+{
+	color: #808080;
 }
 
-.theme-hello .theme-link a:hover
+.theme-hello .show_links a:hover
 {
 	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.theme-hello .show_links a:active
+{
+	cursor: pointer;
+}
+
+.theme-hello .no_link a
+{
+  text-decoration: none;
+	color: #808080;
+}
+
+.theme-hello .no_link a:hover
+{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.theme-hello .no_link a:active
+{
 	cursor: pointer;
 }
 

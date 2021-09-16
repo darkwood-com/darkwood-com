@@ -44,8 +44,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 ml-auto text-white-50">
-                    <p>{{ 'hello.about.text'|trans }}</p>
+                <div class="col-lg-12 ml-auto text-white-50 show_links">
+                    <p>{{ 'hello.about.text'|trans|raw|nl2br }}</p>
                 </div>
             </div>
             <div class="row justify-content-center g-4">
@@ -197,10 +197,10 @@
             </div>
         </div>
     </section>
-    <div class="row theme-footer theme-link">
+    <div class="row theme-footer no_link">
         {%- include "hello/partials/footer.html.twig" -%}
     </div>
-    <div class="row theme-info theme-link p-2">
+    <div class="row theme-info no_ink p-2">
         <div class="col-12 text-center">
             {{ 'hello.footer.credit'|trans|raw }}
         </div>
