@@ -280,7 +280,7 @@ hello:
     contact: Contact
   hero:
     title: Hello !<br />I'm Mathieu
-    description: Un developpeur Freelance spécialisé en<br />Symfony et React.
+    description: Un developpeur Freelance spécialisé en<br /><a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React</a> et <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a>.
     cta: Se rencontrer
   about:
     title: A propos
