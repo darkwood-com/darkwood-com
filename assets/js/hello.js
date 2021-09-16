@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', event => {
         var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
 
         for (i in sections) {
-            if (sections[i] - 500 /* custom offest */ <= scrollPosition) {
+            if (sections[i] - 200 /* custom offest */ <= scrollPosition) {
                 var active = document.querySelector('.active');
                 if(active) {
                     active.setAttribute('class', 'nav-link')
