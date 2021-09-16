@@ -180,9 +180,11 @@
                             {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
                             {% if form.recaptcha.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></div></div>{% endif %}
                             <div class="col-12">
-                                <label class="required text-white">{{ 'common.contact.recaptcha'|trans }}</label>
-                                <div class="d-flex justify-content-center">
-                                    <div class="g-recaptcha" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+                                <div class="mb-3">
+                                    <label class="required text-white">{{ 'common.contact.recaptcha'|trans }}</label>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="g-recaptcha" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+                                    </div>
                                 </div>
                             </div>
                             {% endif %}
