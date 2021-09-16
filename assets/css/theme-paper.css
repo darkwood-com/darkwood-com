@@ -105,9 +105,12 @@
     }
 
     .theme-paper .theme-footer .btn-github,
-    .theme-paper .theme-footer .btn-twitter
+    .theme-paper .theme-footer .btn-twitter,
+	.theme-paper .theme-footer .btn-linkedin,
+	.theme-paper .theme-footer .btn-discord
     {
         background-color: transparent;
+        border: 0 none;
     }
 
 .theme-paper h1

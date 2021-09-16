@@ -80,9 +80,12 @@
 	}
 
 	.theme-darkwood .theme-footer .btn-github,
-	.theme-darkwood .theme-footer .btn-twitter
+	.theme-darkwood .theme-footer .btn-twitter,
+	.theme-darkwood .theme-footer .btn-linkedin,
+	.theme-darkwood .theme-footer .btn-discord
 	{
 		background-color: transparent;
+		border: 0 none;
 	}
 
 /* -> basics */

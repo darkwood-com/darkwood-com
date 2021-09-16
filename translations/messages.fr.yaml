@@ -301,6 +301,9 @@ hello:
       - Méthodes agiles : Scrum, Kanban
     cta_contact: Me contacter
     cta_cv: Voir mon CV
+  projects:
+    title: Projets
+    description: Consultez mon travail
   blog:
     title: Blog
     description: Lire les derniers articles du blog

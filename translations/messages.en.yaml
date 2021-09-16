@@ -289,6 +289,9 @@ hello:
       Je maitrise le framework Symfony côté back-end et React côté front-end. Je suis sensible à la qualité du code, utiliser des bonnes pratiques et à sa maintenabilité.
     cta_contact: Hire me
     cta_cv: See my CV
+  projects:
+    title: Projects
+    description: See my work
   blog:
     title: From the blog
     description: Read my last articles from the blog

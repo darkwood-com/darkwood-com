@@ -77,9 +77,12 @@
 	}
 
 	.theme-photos .theme-footer .btn-github,
-	.theme-photos .theme-footer .btn-twitter
+	.theme-photos .theme-footer .btn-twitter,
+	.theme-photos .theme-footer .btn-linkedin,
+	.theme-photos .theme-footer .btn-discord
 	{
 		background-color: transparent;
+		border: 0 none;
 	}
 
 
