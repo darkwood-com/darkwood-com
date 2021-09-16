@@ -285,8 +285,9 @@ hello:
   about:
     title: A propos
     text: |
-      Développeur FullStack PHP depuis plus de 10 ans, je suis disponible pour concevoir avec vous votre site web, vous accompagner dans le développement d'un projet existant ou simplement renforcer une équipe technique.
-      Je maitrise le framework Symfony côté back-end, React côté front-end et n8n pour l'automation.
+      Développeur FullStack depuis plus de 10 ans, je vous accompagne dans le développement de vos projets.
+      Je vous aide à mettre en place de nouvelles idées, évoluer des solutions existantes ou renforcer une équipe technique.
+      Je maitrise le framework <a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a> côté back-end, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React.js</a> côté front-end ainsi que <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a> pour l'automation.
       Je suis sensible à la qualité du code, utiliser des bonnes pratiques et à sa maintenabilité.
 
       Compétences clés :
