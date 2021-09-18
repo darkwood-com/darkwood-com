@@ -31,7 +31,16 @@
                 <div class="text-center">
                     <h1 class="mx-auto my-0 text-uppercase">{{ 'hello.hero.title'|trans|raw }}</h1>
                     <h2 class="text-white-50 mx-auto mt-2 mb-5 no_link">{{ 'hello.hero.description'|trans|raw }}</h2>
-                    <a class="btn btn-primary" href="#about">{{ 'hello.hero.cta'|trans }}</a>
+                    {#<a class="btn btn-primary" href="#about">{{ 'hello.hero.cta'|trans }}</a>#}
+                    <div id="newsletter-optin" class="col-md-8 offset-md-2">
+                        <form action="https://digest.darkwood.fr/add_subscriber" method="post" id="revue-form" name="revue-form"  target="_blank">
+                            <div class="input-group input-group-lg pb-2">
+                                <input type="email" name="member[email]" class="form-control" id="newsletter-email" value="" placeholder="{{ 'hello.hero.newsletter.email'|trans }}">
+                                <button type="submit" name="member[subscribe]" class="btn btn-primary input-group-text">{{ 'hello.hero.newsletter.submit'|trans }}</button>
+                            </div>
+                            <div class="text-white-50 show_links">{{ 'hello.hero.newsletter.footer'|trans|raw }}</div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

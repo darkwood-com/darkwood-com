@@ -143,6 +143,10 @@
   border: 0;
 }
 
+.theme-hello .input-group-lg>.form-control {
+  padding: 1rem 2rem;
+}
+
 .theme-hello .masthead {
   position: relative;
   width: 100%;
@@ -188,6 +192,22 @@
   .theme-hello .masthead h2, .theme-hello .masthead .h2 {
     max-width: 30rem;
     font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  #newsletter-optin .input-group {
+    flex-direction: column !important;
+  }
+
+  #newsletter-optin .input-group input,
+  #newsletter-optin .input-group button {
+    border-radius: 0;
+    width: 100%;
+  }
+
+  #newsletter-optin .input-group .input-group-text {
+    margin-left: 0;
   }
 }
 
