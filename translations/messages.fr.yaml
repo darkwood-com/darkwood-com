@@ -76,6 +76,7 @@ common:
     apps: Apps
     photos: Photos
     contact: Contact
+    digest: Digest
     legal_mention: "Mentions légales"
     cookies: "Cookies"
     copyright: "Darkwood %year%, tous droits réservés"
