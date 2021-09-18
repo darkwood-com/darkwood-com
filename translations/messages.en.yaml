@@ -76,6 +76,7 @@ common:
     photos: Photos
     contact: Contact
     legal_mention: "Legal mentions"
+    cookies: "Cookies"
     copyright: "Darkwood %year%, all rights reserved"
     valid:
       html: Validate XHTML 1.1 page
