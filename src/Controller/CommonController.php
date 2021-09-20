@@ -86,9 +86,10 @@ class CommonController extends AbstractController
 
     public function hreflangs(Request $request, $ref, $entity)
     {
+        $canonical = $this->pageService->getPageCanonical($ref, $entity, $request->getHost());
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
-        return $this->render('common/partials/hreflangs.html.twig', ['pageLinks' => $pageLinks]);
+        return $this->render('common/partials/hreflangs.html.twig', ['canonical' => $canonical, 'pageLinks' => $pageLinks]);
     }
 
     /**

@@ -311,6 +311,16 @@ class PageService
         return $this->getUrl($page->getOneTranslation($locale));
     }
 
+    public function getPageCanonical($ref, $entity, $host)
+    {
+        $pageLinks = $this->getPageLinks($ref, $entity, $host);
+        foreach($pageLinks as $locale => $url) {
+            return ['locale' => $locale, 'url' => $url];
+        }
+
+        return null;
+    }
+
     public function getPageLinks($ref, $entity, $host, $locale = null)
     {
         $pageLinks = [];

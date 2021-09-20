@@ -16,7 +16,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     ) {
     }
 
-    #[Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/login', 'en' => '/en/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'login'])]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
     {
         if ($request->getHost() === $parameterBag->get('admin_host')) {
