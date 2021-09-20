@@ -1,7 +1,7 @@
 common:
   seo:
     title: Darkwood
-    description: Darkwood vous accompagne dans vos projets Symfony / ReactJS / n8n
+    description: Darkwood vous accompagne dans la réalisation de vos projets Symfony / ReactJS / n8n
   404:
     error: Cette page n'existe pas !
   login:
