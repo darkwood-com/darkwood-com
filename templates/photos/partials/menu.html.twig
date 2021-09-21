@@ -32,11 +32,11 @@
                         <ul>
                             <li>
                                 <label for="username">{{ 'common.menu.login_username'|trans }}</label>
-                                <input type="text" id="username" name="username" title="{{ 'common.menu.login_username'|trans }}" class="validate['required']" value="{{ last_username }}">
+                                <input type="text" id="username" name="username" autocomplete="username" title="{{ 'common.menu.login_username'|trans }}" class="validate['required']" value="{{ last_username }}">
                             </li>
                             <li>
                                 <label for="password">{{ 'common.menu.login_password'|trans }}</label>
-                                <input type="password" id="password" name="password" title="{{ 'common.menu.login_password'|trans }}" class="validate['required']" value="">
+                                <input type="password" id="password" name="password" autocomplete="current-password" title="{{ 'common.menu.login_password'|trans }}" class="validate['required']" value="">
                             </li>
                         </ul>
                         <ul>
