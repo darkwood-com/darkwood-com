@@ -19,6 +19,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class CommonController extends AbstractController
@@ -87,7 +88,7 @@ class CommonController extends AbstractController
     public function hreflangs(Request $request, $ref, $entity)
     {
         $canonical = $this->pageService->getPageCanonical($ref, $entity, $request->getHost());
-        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         return $this->render('common/partials/hreflangs.html.twig', ['canonical' => $canonical, 'pageLinks' => $pageLinks]);
     }
