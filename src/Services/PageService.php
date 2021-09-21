@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -313,7 +314,7 @@ class PageService
 
     public function getPageCanonical($ref, $entity, $host)
     {
-        $pageLinks = $this->getPageLinks($ref, $entity, $host);
+        $pageLinks = $this->getPageLinks($ref, $entity, $host, null, UrlGeneratorInterface::ABSOLUTE_URL);
         foreach($pageLinks as $locale => $url) {
             return ['locale' => $locale, 'url' => $url];
         }
@@ -321,7 +322,7 @@ class PageService
         return null;
     }
 
-    public function getPageLinks($ref, $entity, $host, $locale = null)
+    public function getPageLinks($ref, $entity, $host, $locale = null, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH)
     {
         $pageLinks = [];
         if ($entity instanceof ArticleTranslation) {
@@ -330,7 +331,7 @@ class PageService
                 if ($articleTranslation->getLocale() == $locale) {
                     continue;
                 }
-                $pageLinks[$articleTranslation->getLocale()] = $this->getUrl($articleTranslation);
+                $pageLinks[$articleTranslation->getLocale()] = $this->getUrl($articleTranslation, $referenceType);
             }
         } else {
             $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host);
@@ -339,7 +340,7 @@ class PageService
                     if ($pageTranslation->getLocale() == $locale) {
                         continue;
                     }
-                    $pageLinks[$pageTranslation->getLocale()] = $this->getUrl($pageTranslation);
+                    $pageLinks[$pageTranslation->getLocale()] = $this->getUrl($pageTranslation, $referenceType);
                 }
             }
         }
