@@ -290,7 +290,7 @@ hello:
     newsletter:
       email: Tapez votre adresse email
       submit: S'inscrire
-      intro: Abonnez vous à ma newsletter.
+      intro: Abonnez vous à la newsletter.
       footer: En vous abonnant, vous acceptez les <a target="_blank" href="https://www.getrevue.co/terms?locale=fr">Conditions d'utilisation</a> et la <a target="_blank" href="https://www.getrevue.co/privacy?locale=fr">Politique de confidentialité</a> du service Revue.
   about:
     title: A propos
