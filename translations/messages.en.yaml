@@ -288,9 +288,10 @@ hello:
     description: A Freelance Developer specialized in<br />Symfony and React.
     cta: Get in touch
     newsletter:
-      email: Your email address
+      email: Write your email address
       submit: Subscribe
-      footer: By subscribing, you agree with Revue’s <a target="_blank" href="https://www.getrevue.co/terms">Terms of Service</a> and <a target="_blank" href="https://www.getrevue.co/privacy">Privacy Policy</a>.
+      intro: Abonnez vous à ma newsletter.
+      footer: By subscribing to the newsletter, you agree with Revue’s <a target="_blank" href="https://www.getrevue.co/terms">Terms of Service</a> and <a target="_blank" href="https://www.getrevue.co/privacy">Privacy Policy</a>.
   about:
     title: About me
     text: |

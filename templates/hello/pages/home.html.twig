@@ -34,6 +34,7 @@
                     {#<a class="btn btn-primary" href="#about">{{ 'hello.hero.cta'|trans }}</a>#}
                     <div id="newsletter-optin" class="col-md-8 offset-md-2">
                         <form action="https://digest.darkwood.fr/add_subscriber" method="post" id="revue-form" name="revue-form"  target="_blank">
+                            <h2 class="text-white-50 show_links">{{ 'hello.hero.newsletter.intro'|trans|raw }}</h2>
                             <div class="input-group input-group-lg pb-2">
                                 <input type="email" name="member[email]" class="form-control" id="newsletter-email" value="" placeholder="{{ 'hello.hero.newsletter.email'|trans }}">
                                 <button type="submit" name="member[subscribe]" class="btn btn-primary input-group-text">{{ 'hello.hero.newsletter.submit'|trans }}</button>
@@ -143,7 +144,7 @@
                     <a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}" target="_blank" rel="noreferrer" class="single-block">
                         <div class="mt-30">
                             <div class="block-image">
-                                <img src="{{ asset(vich_uploader_asset(articleTranslation, 'image'))|imagine_filter('hello_blog') }}" alt="Blog">
+                                <img src="{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('hello_blog') }}" alt="Blog">
                             </div>
                             <div class="block-content">
                                 <h4 class="block-title">{{ articleTranslation.title }}</h4>

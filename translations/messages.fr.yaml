@@ -288,8 +288,9 @@ hello:
     description: Un developpeur Freelance spécialisé en<br /><a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React</a> et <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a>.
     cta: Se rencontrer
     newsletter:
-      email: Votre adresse email
+      email: Tapez votre adresse email
       submit: S'inscrire
+      intro: Abonnez vous à ma newsletter.
       footer: En vous abonnant, vous acceptez les <a target="_blank" href="https://www.getrevue.co/terms?locale=fr">Conditions d'utilisation</a> et la <a target="_blank" href="https://www.getrevue.co/privacy?locale=fr">Politique de confidentialité</a> du service Revue.
   about:
     title: A propos
