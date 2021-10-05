@@ -35,7 +35,7 @@
         {% if form.recaptcha.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></li>{% endif %}
         <li class="centered">
             <label class="required centered">{{ 'common.contact.recaptcha'|trans }}</label>
-            <div class="g-recaptcha centered" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+            <div class="g-recaptcha centered d-flex justify-content-center" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
         </li>
         {% endif %}
     </ul>

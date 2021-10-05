@@ -41,7 +41,7 @@
         {% if form.recaptcha.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></li>{% endif %}
         <li>
             <label class="required">{{ 'common.register.recaptcha'|trans }}</label>
-            <div class="g-recaptcha" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
+            <div class="g-recaptcha d-flex justify-content-center" data-sitekey="{{ form.recaptcha.vars.public_key }}"></div>
         </li>
         {% endif %}
     </ul>
