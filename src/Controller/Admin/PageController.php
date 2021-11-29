@@ -48,11 +48,11 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->pageService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
                 // Launch the message flash
-                $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
                 return $this->redirect($this->generateUrl('admin_page_edit', ['id' => $entityTranslation->getPage()->getId()]));
             }
-            $this->get('session')->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
+            $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/page/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
@@ -99,7 +99,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         }
         $this->pageService->remove($page);
         // Launch the message flash
-        $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
 
         return $this->redirect($request->headers->get('referer'));
     }

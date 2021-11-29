@@ -10,20 +10,30 @@ use App\Services\PageService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'blog_', host: '%blog_host%', priority: -1)]
 class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private TranslatorInterface $translator, private PaginatorInterface $paginator, private PageService $pageService, private ArticleService $articleService, private CommentService $commentService)
+    public function __construct(
+        private CommonController $commonController,
+        private AuthenticationUtils $authenticationUtils,
+        private TranslatorInterface $translator,
+        private PaginatorInterface $paginator,
+        private PageService $pageService,
+        private ArticleService $articleService,
+        private CommentService $commentService,
+        private CsrfTokenManagerInterface $tokenManager
+    )
     {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks    = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
@@ -87,7 +97,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($comment);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
 
                 return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
             }

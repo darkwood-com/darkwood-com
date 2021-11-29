@@ -8,6 +8,7 @@ use App\Form\ProfileType;
 use App\Services\GameService;
 use App\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,7 +16,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/', name: 'common_profile')]
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder, private TranslatorInterface $translator, private CommonController $commonController, private UserService $userService, private GameService $gameService)
+    public function __construct(
+        private TranslatorInterface $translator,
+        private CommonController $commonController,
+        private UserService $userService,
+        private GameService $gameService
+    )
     {
     }
 
@@ -43,15 +49,9 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $form = $this->createForm(ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
-            if ($form->get('plainPassword')->getData()) {
-                if (!$this->userPasswordEncoder->isPasswordValid($user, $form)) {
-                    $form->get('current_password');
-                    $form->addError(new \Symfony\Component\Form\FormError('This value should be the user\'s current password.'));
-                }
-            }
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userService->save($user);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.profile.submit_valid'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.profile.submit_valid'));
 
                 return $this->redirect($this->generateUrl('common_profile'));
             }

@@ -2,13 +2,13 @@
 
 namespace App\Security;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Services\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -17,10 +17,16 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
+use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use \Symfony\Component\Security\Http\Util\TargetPathTrait;
     public const LOGIN_ROUTE = 'security_login';
@@ -29,16 +35,36 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         private EntityManagerInterface $entityManager,
         private UrlGeneratorInterface $urlGenerator,
         private CsrfTokenManagerInterface $csrfTokenManager,
-        private UserPasswordEncoderInterface $passwordEncoder,
         private SiteService $siteService,
         private ParameterBagInterface $parameterBag,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private UserProviderInterface $userProvider
     ) {
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
+    }
+
+    public function authenticate(Request $request): Passport
+    {
+        $credentials = $this->getCredentials($request);
+
+        $passport = new Passport(
+            new UserBadge($credentials['username'], [$this->userProvider, 'loadUserByIdentifier']),
+            new PasswordCredentials($credentials['password']),
+            [new RememberMeBadge()]
+        );
+        /*if ($this->options['enable_csrf']) {
+            $passport->addBadge(new CsrfTokenBadge($this->options['csrf_token_id'], $credentials['csrf_token']));
+        }*/
+
+        if ($this->userProvider instanceof PasswordUpgraderInterface) {
+            $passport->addBadge(new PasswordUpgradeBadge($credentials['password'], $this->userProvider));
+        }
+
+        return $passport;
     }
 
     public function getCredentials(Request $request)
@@ -64,11 +90,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
-    }
-
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
@@ -77,7 +98,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -97,7 +118,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return new RedirectResponse($redirectUrl);
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }

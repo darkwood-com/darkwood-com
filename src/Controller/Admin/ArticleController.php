@@ -48,11 +48,11 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->articleService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);
                 // Launch the message flash
-                $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
                 return $this->redirect($this->generateUrl('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]));
             }
-            $this->get('session')->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
+            $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
@@ -99,7 +99,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         }
         $this->articleService->remove($article);
         // Launch the message flash
-        $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
 
         return $this->redirect($request->headers->get('referer'));
     }

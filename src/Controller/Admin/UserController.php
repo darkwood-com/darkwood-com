@@ -46,11 +46,11 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userService->save($entity);
                 // Launch the message flash
-                $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
                 return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $entity->getId()]));
             }
-            $this->get('session')->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
+            $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/user/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
@@ -88,7 +88,7 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         }
         $this->userService->remove($user);
         // Launch the message flash
-        $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
 
         return $this->redirect($request->headers->get('referer'));
     }

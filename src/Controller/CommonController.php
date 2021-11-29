@@ -19,6 +19,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
@@ -61,7 +62,7 @@ class CommonController extends AbstractController
         $host = $request->getHost();
         $site = $this->siteService->findOneByHost($host);
         if (!$site) {
-            $site = $this->siteService->findOneToEdit($this->get('session')->get('siteId'));
+            $site = $this->siteService->findOneToEdit($this->container->get('request_stack')->getSession()->get('siteId'));
             if (!$site) {
                 $site = $this->siteService->findOneByRef('darkwood');
             }
@@ -177,7 +178,7 @@ class CommonController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /*$contact->getEmail()*/, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);

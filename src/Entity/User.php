@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Table(name="user")
@@ -21,7 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable, \Stringable
+class User implements UserInterface, \Serializable, \Stringable, PasswordAuthenticatedUserInterface
 {
     use TimestampTrait;
     /**
@@ -226,6 +227,11 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->id;
     }
 
     /**

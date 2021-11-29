@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -23,7 +24,8 @@ class HelloController extends AbstractController
         private TranslatorInterface $translator,
         private CommonController $commonController,
         private ContactService $contactService,
-        private ArticleService $articleService
+        private ArticleService $articleService,
+        private CsrfTokenManagerInterface $tokenManager
     ) {
     }
 
@@ -38,7 +40,7 @@ class HelloController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /*$contact->getEmail()*/, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
