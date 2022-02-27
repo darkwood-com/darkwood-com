@@ -305,7 +305,6 @@ hello:
       - Frontend: <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React.js</a>, <a href="https://www.typescriptlang.org "target="_blank" rel="nofollow noopener noreferrer">Typescript</a>, <a href="https://getbootstrap.com" target="_blank" rel="nofollow noopener noreferrer">Bootstrap</a>
       - Automation: <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a>
       - CMS: <a href="https://sulu.io" target="_blank" rel="nofollow noopener noreferrer">Sulu</a>
-      - Ecommerce: <a href="https://sylius.com" target="_blank" rel="nofollow noopener noreferrer">Sylius</a>, <a href="https://stripe.com" target="_blank" rel="nofollow noopener noreferrer">Stripe</a>
       - Dev stack: <a href="https://git-scm.com" target="_blank" rel="nofollow noopener noreferrer">Git</a>, <a href="https://www.docker.com "target="_blank" rel="nofollow noopener noreferrer">Docker</a>
       - Quality: Continuous integration, unit tests, code review
       - Agile methods: Scrum, Kanban
