@@ -8,9 +8,7 @@ use App\Form\ProfileType;
 use App\Services\GameService;
 use App\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'common_profile')]
