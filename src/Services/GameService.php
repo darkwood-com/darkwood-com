@@ -88,7 +88,7 @@ class GameService
     public const DEATH_LOSE_STATS = 10.0;
 
     public function __construct(
-        protected SessionInterface $session,
+        //protected SessionInterface $session,
         protected TranslatorInterface $translator,
         protected EntityManagerInterface $em,
         protected UserService $userService,
@@ -96,7 +96,7 @@ class GameService
         protected CommentService $commentService,
         protected PaginatorInterface $paginator,
         protected FormFactoryInterface $formFactory,
-        protected AuthenticationManagerInterface $authenticationManager,
+        //protected AuthenticationManagerInterface $authenticationManager,
         protected CsrfTokenManagerInterface $tokenManager,
         protected RouterInterface $router,
         protected TokenStorageInterface $tokenStorage
@@ -812,7 +812,7 @@ class GameService
                     return $parameters;
                 }
                 try {
-                    $this->authenticationManager->authenticate($token);
+                    //$this->authenticationManager->authenticate($token);
                     $this->tokenStorage->setToken($token);
                     $parameters['mode'] = null;
 

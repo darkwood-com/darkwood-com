@@ -12,6 +12,7 @@ use App\Services\UserService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,14 +28,15 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         private PageService $pageService,
         private CommentService $commentService,
         private UserService $userService,
-        private GameService $gameService
+        private GameService $gameService,
+        private CsrfTokenManagerInterface $tokenManager
     ) {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks    = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('darkwood/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
@@ -119,7 +121,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($comment);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
 
                 return $this->redirect($this->generateUrl('darkwood_chat', ['ref' => $ref]));
             }
@@ -162,7 +164,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($comment);
-                $this->get('session')->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
 
                 return $this->redirect($this->generateUrl('darkwood_guestbook', ['ref' => $ref]));
             }

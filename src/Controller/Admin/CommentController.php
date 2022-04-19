@@ -47,11 +47,11 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->commentService->save($entity);
                 // Launch the message flash
-                $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
+                $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
                 return $this->redirect($this->generateUrl('admin_comment_edit', ['id' => $entity->getId()]));
             }
-            $this->get('session')->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
+            $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/comment/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
@@ -88,7 +88,7 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         }
         $this->commentService->remove($comment);
         // Launch the message flash
-        $this->get('session')->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
 
         return $this->redirect($request->headers->get('referer'));
     }

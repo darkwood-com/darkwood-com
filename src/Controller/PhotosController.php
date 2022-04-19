@@ -5,19 +5,25 @@ namespace App\Controller;
 use App\Services\PageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/', name: 'photos_', host: '%photos_host%', priority: -1)]
 class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private CommonController $commonController, private AuthenticationUtils $authenticationUtils, private PageService $pageService)
+    public function __construct(
+        private CommonController $commonController,
+        private AuthenticationUtils $authenticationUtils,
+        private PageService $pageService,
+        private CsrfTokenManagerInterface $tokenManager
+    )
     {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks    = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('photos/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
