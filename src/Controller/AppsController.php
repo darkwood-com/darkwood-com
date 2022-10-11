@@ -85,6 +85,10 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'fr' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(Request $request, $ref, $slug = null)
     {
+        if($request->get('sort') && !in_array($request->get('sort'), ['c.created'])) {
+            throw $this->createNotFoundException('Sort query is not allowed');
+        }
+
         $page = $this->commonController->getPage($request, $ref);
         $app  = $page->getPage();
         if (!$app instanceof App) {

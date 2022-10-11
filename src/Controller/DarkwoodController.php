@@ -112,6 +112,10 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/chat', 'en' => '/en/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
     public function chat(Request $request, $ref)
     {
+        if($request->get('sort') && !in_array($request->get('sort'), ['c.created'])) {
+            throw $this->createNotFoundException('Sort query is not allowed');
+        }
+
         $page    = $this->commonController->getPage($request, $ref);
         $comment = new CommentPage();
         $comment->setUser($this->getUser());
@@ -127,7 +131,6 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             }
         }
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('darkwood/pages/chat.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
@@ -136,9 +139,12 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/liste-des-joueurs', 'en' => '/en/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
     public function users(Request $request, $ref)
     {
+        if($request->get('sort') && !in_array($request->get('sort'), ['u.created', 'u.username'])) {
+            throw $this->createNotFoundException('Sort query is not allowed');
+        }
+
         $page  = $this->commonController->getPage($request, $ref);
         $query = $this->userService->findActiveQuery();
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
         $users = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
 
         return $this->render('darkwood/pages/users.html.twig', ['page' => $page, 'users' => $users]);
@@ -155,6 +161,10 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/livre-d-or', 'en' => '/en/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
     public function guestbook(Request $request, $ref)
     {
+        if($request->get('sort') && !in_array($request->get('sort'), ['c.created'])) {
+            throw $this->createNotFoundException('Sort query is not allowed');
+        }
+
         $page    = $this->commonController->getPage($request, $ref);
         $comment = new CommentPage();
         $comment->setUser($this->getUser());
@@ -170,7 +180,6 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             }
         }
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);

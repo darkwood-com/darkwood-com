@@ -83,6 +83,10 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['fr' => '/article/{slug}', 'en' => '/en/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
+        if($request->get('sort') && !in_array($request->get('sort'), ['a.created'])) {
+            throw $this->createNotFoundException('Sort query is not allowed');
+        }
+
         $page    = $this->commonController->getPage($request, $ref);
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
         if (!$article) {
@@ -103,7 +107,6 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             }
         }
         $query    = $this->commentService->findActiveCommentByArticleQuery($article);
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
