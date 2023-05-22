@@ -1,7 +1,7 @@
 common:
   seo:
     title: Darkwood
-    description: Darkwood vous accompagne dans la réalisation de vos projets Symfony / ReactJS / n8n
+    description: Darkwood vous accompagne dans la réalisation de vos projets Symfony / ReactJS / Flow
   404:
     error: Cette page n'existe pas !
   login:
@@ -285,7 +285,7 @@ hello:
     contact: Contact
   hero:
     title: Hello !<br />I'm Mathieu
-    description: Un developpeur Freelance spécialisé en<br /><a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React</a> et <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a>.
+    description: Un developpeur Freelance spécialisé en<br /><a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React</a> et <a href="https://darkwood-fr.github.io/flow" target="_blank" rel="nofollow noopener noreferrer">Flow</a>.
     cta: Se rencontrer
     newsletter:
       email: Inscrire votre adresse email
