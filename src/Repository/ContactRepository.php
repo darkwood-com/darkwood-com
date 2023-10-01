@@ -31,6 +31,7 @@ class ContactRepository extends ServiceEntityRepository
         if ($order == 'normal') {
             $qb->addOrderBy('c.created', 'desc');
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
         $query = $qb->getQuery();
 

@@ -27,6 +27,7 @@ class Site implements \Stringable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @var string
      *
@@ -35,11 +36,13 @@ class Site implements \Stringable
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
+
     /**
      * @Gedmo\Slug(fields={"name"}, separator="-", unique=true, updatable=false)
      * @ORM\Column(length=255, unique=true)
      */
     protected $ref;
+
     /**
      * @var string
      *
@@ -48,28 +51,33 @@ class Site implements \Stringable
      * @ORM\Column(name="host", type="string", length=255)
      */
     protected $host;
+
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer")
      */
     protected $position;
+
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="site", cascade={"all"})
      **/
     protected $pages;
+
     /**
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="sites", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *

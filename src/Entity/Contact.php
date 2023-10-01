@@ -21,6 +21,7 @@ class Contact
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
@@ -32,12 +33,14 @@ class Contact
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
+
     /**
      * @var string
      *
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
     private $website;
+
     /**
      * @var string
      *
@@ -45,6 +48,7 @@ class Contact
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+
     /**
      * @var User
      *
@@ -52,6 +56,7 @@ class Contact
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
     protected $user;
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */

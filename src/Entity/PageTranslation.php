@@ -25,128 +25,154 @@ class PageTranslation implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
+
     /**
      * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $page;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="pages", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="thumbnailPages", fileNameProperty="thumbnailImageName")
      */
     protected $thumbnailImage;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $thumbnailImageName;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $imgAlt;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $imgTitle;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoTitle;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoDescription;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoKeywords;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterCard;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterSite;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterTitle;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $twitterDescription;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="twitterPages", fileNameProperty="twitterImageName")
      */
     protected $twitterImage;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $twitterImageName;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogTitle;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogType;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="ogPages", fileNameProperty="ogImageName")
      */
     protected $ogImage;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $ogImageName;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $ogDescription;
+
     /**
      * @ORM\Column(type="boolean")
      */

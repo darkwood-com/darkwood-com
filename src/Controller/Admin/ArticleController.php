@@ -22,10 +22,11 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     }
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request)
+    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
+
         $query    = $this->articleService->getQueryForSearch($form->getData(), $request->getLocale());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
@@ -36,7 +37,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_article_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_article_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, ArticleTranslation $entityTranslation)
@@ -52,10 +53,11 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
                 return $this->redirect($this->generateUrl('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]));
             }
+
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
+        return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
     }
 
     #[Route('/create', name: 'create')]
@@ -63,8 +65,10 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     {
         $entity = new Article();
         $entity->setCreated(new \DateTime());
+
         $entityTranslation = new ArticleTranslation();
         $entityTranslation->setLocale($request->getLocale());
+
         $entity->addTranslation($entityTranslation);
 
         return $this->manage($request, $entityTranslation);
@@ -74,9 +78,10 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     public function edit(Request $request, $id)
     {
         $entity = $this->articleService->findOneToEdit($id);
-        if (!$entity) {
+        if ($entity === null) {
             throw $this->createNotFoundException('Article not found');
         }
+
         $entity->setUpdated(new \DateTime());
         $entityTranslation = $entity->getOneTranslation($request->getLocale());
         if (!$entityTranslation instanceof ArticleTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
@@ -84,19 +89,21 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             $entityTranslation->setLocale($request->getLocale());
             $entity->addTranslation($entityTranslation);
         }
+
         $entityTranslation->setUpdated(new \DateTime());
 
         return $this->manage($request, $entityTranslation);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Article $article */
         $article = $this->articleService->findOneToEdit($id);
         if (!$article) {
             throw $this->createNotFoundException('Article not found');
         }
+
         $this->articleService->remove($article);
         // Launch the message flash
         $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));

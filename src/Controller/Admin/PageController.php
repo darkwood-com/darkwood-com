@@ -22,10 +22,11 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request)
+    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
+
         $query    = $this->pageService->getQueryForSearch($form->getData(), 'page', null, $request->getLocale());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
@@ -36,7 +37,7 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_page_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_page_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, PageTranslation $entityTranslation)
@@ -52,10 +53,11 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 
                 return $this->redirect($this->generateUrl('admin_page_edit', ['id' => $entityTranslation->getPage()->getId()]));
             }
+
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/page/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
+        return $this->render('admin/page/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
     }
 
     #[Route('/create', name: 'create')]
@@ -63,8 +65,10 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         $entity = new Page();
         $entity->setCreated(new \DateTime());
+
         $entityTranslation = new PageTranslation();
         $entityTranslation->setLocale($request->getLocale());
+
         $entity->addTranslation($entityTranslation);
 
         return $this->manage($request, $entityTranslation);
@@ -74,9 +78,10 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     public function edit(Request $request, $id)
     {
         $entity = $this->pageService->findOneToEdit($id);
-        if (!$entity) {
+        if ($entity === null) {
             throw $this->createNotFoundException('Page not found');
         }
+
         $entity->setUpdated(new \DateTime());
         $entityTranslation = $entity->getOneTranslation($request->getLocale());
         if (!$entityTranslation instanceof PageTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
@@ -84,19 +89,21 @@ class PageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             $entityTranslation->setLocale($request->getLocale());
             $entity->addTranslation($entityTranslation);
         }
+
         $entityTranslation->setUpdated(new \DateTime());
 
         return $this->manage($request, $entityTranslation);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Page $page */
         $page = $this->pageService->findOneToEdit($id);
         if (!$page) {
             throw $this->createNotFoundException('Page not found');
         }
+
         $this->pageService->remove($page);
         // Launch the message flash
         $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));

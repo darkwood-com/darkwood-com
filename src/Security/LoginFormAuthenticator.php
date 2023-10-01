@@ -69,7 +69,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = ['username' => $request->request->get('username'), 'password' => $request->request->get('password'), 'csrf_token' => $request->request->get('_csrf_token')];
-        $request->getSession()->set(\Symfony\Component\Security\Core\Security::LAST_USERNAME, $credentials['username']);
+        $request->getSession()->set(\Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME, $credentials['username']);
 
         return $credentials;
     }
@@ -80,6 +80,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
+
         $user = $this->userRepository->loadUserByUsername($credentials['username']);
         if (!$user) {
             // fail authentication with a custom error
@@ -102,6 +103,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
             $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);

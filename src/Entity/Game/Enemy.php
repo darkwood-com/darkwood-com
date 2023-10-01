@@ -25,72 +25,84 @@ class Enemy
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
+
     /**
      * @var int
      *
      * @ORM\Column(name="gold", type="integer")
      */
     private $gold;
+
     /**
      * @var int
      *
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
+
     /**
      * @var int
      *
      * @ORM\Column(name="life", type="integer")
      */
     private $life;
+
     /**
      * @var int
      *
      * @ORM\Column(name="armor", type="integer")
      */
     private $armor;
+
     /**
      * @var int
      *
      * @ORM\Column(name="damageMin", type="integer")
      */
     private $damageMin;
+
     /**
      * @var int
      *
      * @ORM\Column(name="damageMax", type="integer")
      */
     private $damageMax;
+
     /**
      * @var int
      *
      * @ORM\Column(name="hitLuck", type="integer")
      */
     private $hitLuck;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="enemies", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="lastFight", cascade={"persist", "remove"})
      */
     protected $lastFightPlayers;
+
     /**
      * Players.
      *

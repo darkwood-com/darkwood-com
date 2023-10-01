@@ -33,6 +33,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             if (!$user instanceof User) {
                 throw $this->createNotFoundException('User not found !');
             }
+
             $playerInfo = null;
             if ($page->getPage()->getSite()->getRef() === 'darkwood' && $user->getPlayer()) {
                 $playerInfo = $this->gameService->getInfo($user);
@@ -40,10 +41,12 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
             return $this->render('common/pages/profileShow.html.twig', ['page' => $page, 'user' => $user, 'playerInfo' => $playerInfo, 'site_ref' => $page->getPage()->getSite()->getRef()]);
         }
+
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found !');
         }
+
         $form = $this->createForm(ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -55,6 +58,6 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             }
         }
 
-        return $this->render('common/pages/profile.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
+        return $this->render('common/pages/profile.html.twig', ['page' => $page, 'form' => $form, 'site_ref' => $siteRef]);
     }
 }

@@ -27,8 +27,10 @@ class DailyBattleRepository extends ServiceEntityRepository
     {
         $beginDate = clone $date;
         $beginDate->setTime(0, 0, 0);
+
         $endDate = clone $date;
         $endDate->setTime(23, 59, 59);
+
         $qb = $this->createQueryBuilder('db')->select('db')->addOrderBy('db.created', 'asc')->andWhere('db.status = :status')->setParameter('status', DailyBattle::STATUS_DAILY_USER)->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)->andWhere('db.created <= :end')->setParameter('end', $endDate)->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -43,8 +45,10 @@ class DailyBattleRepository extends ServiceEntityRepository
     {
         $beginDate = clone $date;
         $beginDate->setTime(0, 0, 0);
+
         $endDate = clone $date;
         $endDate->setTime(23, 59, 59);
+
         $qb = $this->createQueryBuilder('db')->select('db')->addOrderBy('db.created', 'asc')->andWhere('db.created >= :begin')->setParameter('begin', $beginDate)->andWhere('db.created <= :end')->setParameter('end', $endDate);
         $qb->andWhere($qb->expr()->in('db.status', [DailyBattle::STATUS_NEW_WIN, DailyBattle::STATUS_NEW_LOSE]));
 

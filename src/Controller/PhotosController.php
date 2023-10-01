@@ -30,7 +30,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref)
+    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -68,7 +68,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/visualisez', 'en' => '/en/show', 'de' => '/de/anzeigen'], name: 'show', defaults: ['ref' => 'show'])]
-    public function show(Request $request, $ref)
+    public function show(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -76,7 +76,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/demonstration', 'en' => '/en/demo', 'de' => '/de/demonstration'], name: 'demo', defaults: ['ref' => 'demo'])]
-    public function demo(Request $request, $ref)
+    public function demo(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -84,7 +84,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/aide', 'en' => '/en/help', 'de' => '/de/hilfe'], name: 'help', defaults: ['ref' => 'help'])]
-    public function help(Request $request, $ref)
+    public function help(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 

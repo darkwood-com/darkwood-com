@@ -2,15 +2,28 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
-use Rector\Core\ValueObject\PhpVersion;
+use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
-use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
-use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
+use Rector\Symfony\Set\SymfonySetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+return static function (RectorConfig $rectorConfig): void {
+    // register single rule
+    $rectorConfig->rule(TypedPropertyFromStrictConstructorRector::class);
+
+    // here we can define, what sets of rules will be applied
+    // tip: use "SetList" class to autocomplete sets with your IDE
+    $rectorConfig->sets([
+        SetList::CODING_STYLE,
+        SetList::PHP_82,
+        SymfonySetList::SYMFONY_62,
+        SymfonySetList::SYMFONY_CODE_QUALITY,
+        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+    ]);
+
+    //$rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
+
+    /*$parameters = $containerConfigurator->parameters();
 
     // paths to refactor; solid alternative to CLI arguments
     $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
@@ -19,20 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/bin/.phpunit/phpunit',
     ]);
 
-    $parameters->set(Option::SETS, [
-        SetList::CODING_STYLE,
-        SetList::PHP_80,
-        SetList::SYMFONY_CODE_QUALITY,
-        SetList::SYMFONY_CONSTRUCTOR_INJECTION,
-        SetList::SYMFONY_PHPUNIT,
-        SetList::SYMFONY_AUTOWIRE,
-        SetList::CONTRIBUTTE_TO_SYMFONY,
-        SetList::SYMFONY_50,
-        SetList::SYMFONY_50_TYPES,
-        SetList::TWIG_240
-    ]);
-
     // register single rule
     $services = $containerConfigurator->services();
-    $services->set(NullableCompareToNullRector::class);
+    $services->set(NullableCompareToNullRector::class);*/
 };

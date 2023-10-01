@@ -47,6 +47,7 @@ class HelloController extends AbstractController
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                     $contact->setEmailSent(false);
                 }
+
                 $this->contactService->save($contact);
 
                 return $this->redirect($this->generateUrl('hello_home', ['ref' => 'contact']));
@@ -55,11 +56,11 @@ class HelloController extends AbstractController
 
         $articles = $this->articleService->findActives($request->getLocale(), 3);
 
-        return $this->render('hello/pages/home.html.twig', ['form' => $form->createView(), 'page' => $page, 'showLinks' => true, 'cv' => true, 'articles' => $articles]);
+        return $this->render('hello/pages/home.html.twig', ['form' => $form, 'page' => $page, 'showLinks' => true, 'cv' => true, 'articles' => $articles]);
     }
 
     #[Route(path: ['fr' => '/cv', 'en' => '/en/cv', 'de' => '/de/cv'], name: 'cv', defaults: ['ref' => 'cv'])]
-    public function cv(Request $request, $ref)
+    public function cv(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -116,6 +117,7 @@ class HelloController extends AbstractController
         } else {
             $message->html($textBody);
         }
+
         $this->mailer->send($message);
     }
 }

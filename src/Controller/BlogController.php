@@ -40,11 +40,12 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref)
+    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page     = $this->commonController->getPage($request, $ref);
         $query    = $this->articleService->findActivesQueryBuilder($request->getLocale());
         $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+
         $articles = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
@@ -92,10 +93,12 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         if (!$article) {
             throw $this->createNotFoundException('Article not found !');
         }
+
         $comment = new CommentArticle();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
         $comment->setArticle($article);
+
         $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -106,9 +109,10 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
             }
         }
+
         $query    = $this->commentService->findActiveCommentByArticleQuery($article);
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
-        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
+        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments]);
     }
 }

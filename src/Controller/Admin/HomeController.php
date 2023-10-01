@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index()
+    public function index(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('admin/home/index.html.twig');
     }
@@ -46,6 +46,7 @@ class HomeController extends AbstractController
                 $results .= '<p style="color: black;">/uploads/ckeditor/' . $file . '</p></li>';
             }
         }
+
         closedir($dir);
         $results .= '</ul></div>';
 

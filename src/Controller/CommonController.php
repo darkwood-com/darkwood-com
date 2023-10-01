@@ -46,7 +46,7 @@ class CommonController extends AbstractController
         $requestUri = $request->getRequestUri();
         $url        = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
 
-        return $this->redirect($url, 301);
+        return $this->redirect($url, \Symfony\Component\HttpFoundation\Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**
@@ -59,24 +59,28 @@ class CommonController extends AbstractController
 
             return new Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
         }
+
         $host = $request->getHost();
         $site = $this->siteService->findOneByHost($host);
-        if (!$site) {
+        if ($site === null) {
             $site = $this->siteService->findOneToEdit($this->container->get('request_stack')->getSession()->get('siteId'));
             if (!$site) {
                 $site = $this->siteService->findOneByRef('darkwood');
             }
         }
+
         $page = new Page();
         $page->setRef('404');
         $page->setSite($site);
+
         $pageTranslation = new PageTranslation();
         $pageTranslation->setTitle('404');
         $pageTranslation->setLocale($request->getLocale());
+
         $page->addTranslation($pageTranslation);
         $response = $this->render('common/pages/404.html.twig', ['page' => $pageTranslation, 'site_ref' => $site->getRef()]);
         $response->headers->set('X-Status-Code', 404);
-        $response->setStatusCode(404);
+        $response->setStatusCode(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
 
         return $response;
     }
@@ -114,6 +118,7 @@ class CommonController extends AbstractController
         } else {
             $message->html($textBody);
         }
+
         $this->mailer->send($message);
     }
 
@@ -125,7 +130,7 @@ class CommonController extends AbstractController
     public function getPage(Request $request, $ref)
     {
         $page = $this->pageService->findOneActiveByRefAndHost($ref, $request->getHost());
-        if (!$page) {
+        if ($page === null) {
             throw $this->createNotFoundException('Page not found !');
         }
 
@@ -185,12 +190,13 @@ class CommonController extends AbstractController
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                     $contact->setEmailSent(false);
                 }
+
                 $this->contactService->save($contact);
 
                 return $this->redirect($this->generateUrl($siteRef . '_contact', ['ref' => $ref]));
             }
         }
 
-        return $this->render('common/pages/contact.html.twig', ['form' => $form->createView(), 'page' => $page, 'site_ref' => $siteRef]);
+        return $this->render('common/pages/contact.html.twig', ['form' => $form, 'page' => $page, 'site_ref' => $siteRef]);
     }
 }

@@ -62,6 +62,7 @@ class SeoService
             if ($page instanceof App) {
                 $data = array_replace_recursive($data, ['facebook' => ['src' => $this->uploaderHelper->asset($page, 'banner')], 'twitter' => ['src' => $this->uploaderHelper->asset($page, 'banner')]]);
             }
+
             if (isset($context['article']) && $context['article'] instanceof Article) {
                 $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
                 $data = array_replace_recursive($data, ['title' => $articleTranslation->getTitle(), 'facebook' => ['src' => $this->uploaderHelper->asset($articleTranslation, 'image'), 'title' => $articleTranslation->getTitle()], 'twitter' => ['src' => $this->uploaderHelper->asset($articleTranslation, 'image'), 'title' => $articleTranslation->getTitle()]]);

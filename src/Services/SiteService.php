@@ -137,6 +137,7 @@ class SiteService
                 if (in_array($ref, ['hello'])) {
                     continue;
                 }
+
                 $sitemap[$ref] = ['item' => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref], 'children' => [['item' => ['label' => 'common.sitemap.login'], 'children' => [['item' => ['host' => $host, 'ref' => 'register']], ['item' => ['host' => $host, 'ref' => 'profile']]]]]];
                 if ($ref == 'darkwood') {
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.player'], 'children' => [['item' => ['host' => $host, 'ref' => 'play']], ['item' => ['host' => $host, 'ref' => 'chat']], ['item' => ['host' => $host, 'ref' => 'users']], ['item' => ['host' => $host, 'ref' => 'rules']], ['item' => ['host' => $host, 'ref' => 'guestbook']], ['item' => ['host' => $host, 'ref' => 'extra']]]];
@@ -147,6 +148,7 @@ class SiteService
                     foreach ($apps as $app) {
                         $children[] = ['item' => ['host' => $host, 'ref' => $app->getRef()]];
                     }
+
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.apps'], 'children' => $children];
                 } elseif ($ref == 'photos') {
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.gallery'], 'children' => [['item' => ['host' => $host, 'ref' => 'show']], ['item' => ['host' => $host, 'ref' => 'demo']], ['item' => ['host' => $host, 'ref' => 'help']]]];
@@ -156,14 +158,17 @@ class SiteService
                     foreach ($articles as $article) {
                         $children[] = ['item' => ['host' => $host, 'page_translation' => $article->getOneTranslation()]];
                     }
+
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.articles'], 'children' => $children];
                 }
             }
+
             $formatSitemap = function ($items) use (&$formatSitemap, $locale) {
                 foreach ($items as $key => $child) {
                     if (!isset($child['children'])) {
                         $child['children'] = [];
                     }
+
                     $child['label'] = null;
                     $child['link'] = null;
                     if (isset($child['item']['host'], $child['item']['ref'])) {
@@ -179,9 +184,11 @@ class SiteService
                         $child['label'] = $child['item']['page_translation']->getTitle();
                         $child['link'] = $this->pageService->getUrl($child['item']['page_translation'], true);
                     }
+
                     if (isset($child['item']['label'])) {
                         $child['label'] = $this->translator->trans($child['item']['label']);
                     }
+
                     $child['children'] = $formatSitemap($child['children']);
                     $items[$key] = $child;
                 }
@@ -212,11 +219,11 @@ class SiteService
         foreach ($articles as $article) {
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];
         }
-        usort($feed, function ($item1, $item2) {
+
+        usort($feed, static function ($item1, $item2) {
             if ($item1['date'] == $item2['date']) {
                 return 0;
             }
-
             return ($item1['date'] < $item2['date']) ? -1 : 1;
         });
 

@@ -33,7 +33,7 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
      * Request reset user password: show form.
      */
     #[Route(path: ['fr' => '/resetting/request', 'en' => '/en/resetting/request', 'de' => '/de/resetting/request'], name: '_request', defaults: ['ref' => 'resetting'])]
-    public function request(Request $request, $ref)
+    public function request(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();

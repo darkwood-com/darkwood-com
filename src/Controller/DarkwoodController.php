@@ -43,7 +43,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref)
+    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page     = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findActives($request->getLocale(), 5);
@@ -82,7 +82,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/news/{slug}', 'en' => '/en/news/{slug}', 'de' => '/de/news/{slug}'], name: 'news', defaults: ['ref' => 'news', 'slug' => null])]
-    public function news(Request $request, $ref, $slug)
+    public function news(Request $request, $ref, $slug): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $news = $this->articleService->findOneBySlug($slug, $request->getLocale());
@@ -101,6 +101,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         if ($parameters instanceof \Symfony\Component\HttpFoundation\Response) {
             return $parameters;
         }
+
         $parameters['page'] = $page;
         if ($request->isXmlHttpRequest()) {
             return $this->render('darkwood/partials/play/' . $parameters['display'] . '/' . $parameters['state'] . '.html.twig', $parameters);
@@ -120,6 +121,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $comment = new CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
+
         $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -130,14 +132,15 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
                 return $this->redirect($this->generateUrl('darkwood_chat', ['ref' => $ref]));
             }
         }
+
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
-        return $this->render('darkwood/pages/chat.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
+        return $this->render('darkwood/pages/chat.html.twig', ['form' => $form, 'page' => $page, 'comments' => $comments]);
     }
 
     #[Route(path: ['fr' => '/liste-des-joueurs', 'en' => '/en/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
-    public function users(Request $request, $ref)
+    public function users(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         if($request->get('sort') && !in_array($request->get('sort'), ['u.created', 'u.username'])) {
             throw $this->createNotFoundException('Sort query is not allowed');
@@ -151,7 +154,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/regles-du-jeu', 'en' => '/en/rules-of-the-game', 'de' => '/de/regeln-des-spiels'], name: 'rules', defaults: ['ref' => 'rules'])]
-    public function rules(Request $request, $ref)
+    public function rules(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -169,6 +172,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $comment = new CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
+
         $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -179,14 +183,15 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
                 return $this->redirect($this->generateUrl('darkwood_guestbook', ['ref' => $ref]));
             }
         }
+
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
-        return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form->createView(), 'page' => $page, 'comments' => $comments]);
+        return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form, 'page' => $page, 'comments' => $comments]);
     }
 
     #[Route(path: ['fr' => '/extra', 'en' => '/en/extra', 'de' => '/de/extra'], name: 'extra', defaults: ['ref' => 'extra'])]
-    public function extra(Request $request, $ref)
+    public function extra(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -194,12 +199,13 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/classement', 'en' => '/en/rank', 'de' => '/de/rang'], name: 'rank', defaults: ['ref' => 'rank'])]
-    public function rank(Request $request, $ref)
+    public function rank(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page    = $this->commonController->getPage($request, $ref);
         $mode    = $request->get('mode');
         $query   = $this->gameService->findActiveQuery($mode);
         $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+
         $players = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
 
         return $this->render('darkwood/pages/rank.html.twig', ['page' => $page, 'players' => $players, 'mode' => $mode]);

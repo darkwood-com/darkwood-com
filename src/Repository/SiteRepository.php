@@ -27,7 +27,7 @@ class SiteRepository extends ServiceEntityRepository
     public function queryForSearch($filters = [])
     {
         $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.id', 'asc');
-        if (count($filters) > 0) {
+        if ($filters !== []) {
             foreach ($filters as $key => $filter) {
                 $qb->andWhere('s.' . $key . ' LIKE :' . $key);
                 $qb->setParameter($key, '%' . $filter . '%');

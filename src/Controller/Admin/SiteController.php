@@ -20,10 +20,11 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request)
+    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
+
         $query    = $this->siteService->searchQuery($form->getData())->addOrderBy('s.position', 'asc');
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
@@ -34,7 +35,7 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_site_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_site_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, Site $entity)
@@ -50,10 +51,11 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 
                 return $this->redirect($this->generateUrl('admin_site_edit', ['id' => $entity->getId()]));
             }
+
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/site/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
+        return $this->render('admin/site/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entity]);
     }
 
     #[Route('/create', name: 'create')]
@@ -72,19 +74,21 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         if (!$entity) {
             throw $this->createNotFoundException('Site not found');
         }
+
         $entity->setUpdated(new \DateTime());
 
         return $this->manage($request, $entity);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Site $site */
         $site = $this->siteService->findOneToEdit($id);
         if (!$site) {
             throw $this->createNotFoundException('Site not found');
         }
+
         $this->siteService->remove($site);
         // Launch the message flash
         $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));

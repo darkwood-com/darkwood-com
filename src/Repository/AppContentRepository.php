@@ -36,22 +36,26 @@ class AppContentRepository extends ServiceEntityRepository
         if ($order == 'normal') {
             $qb->addOrderBy('ac.created', 'desc');
         }
-        if (count($filters) > 0) {
+
+        if ($filters !== []) {
             foreach ($filters as $key => $filter) {
                 if ($key == 'limit_low') {
                     $qb->andWhere('ac.created >= :low');
                     $qb->setParameter('low', $filter);
                     continue;
                 }
+
                 if ($key == 'limit_high') {
                     $qb->andWhere('ac.created <= :high');
                     $qb->setParameter('high', $filter);
                     continue;
                 }
+
                 $qb->andWhere('ac.' . $key . ' LIKE :' . $key);
                 $qb->setParameter($key, '%' . $filter . '%');
             }
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::queryForSearch');
         $query = $qb->getQuery();
 
@@ -96,6 +100,7 @@ class AppContentRepository extends ServiceEntityRepository
         if ($limit) {
             $qb->setMaxResults($limit);
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findActives');
         $query = $qb->getQuery();
 

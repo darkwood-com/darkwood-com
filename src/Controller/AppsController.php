@@ -39,13 +39,14 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         foreach ($apps as $app) {
             $appLinks[] = ['label' => $app->getOneTranslation()->getTitle(), 'link' => $this->pageService->getUrl($app->getOneTranslation())];
         }
+
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks]);
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref)
+    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -94,24 +95,28 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         if (!$app instanceof App) {
             throw $this->createNotFoundException('App not found !');
         }
-        $contents = $app->getContents()->filter(function ($appContent) use ($request) {
+
+        $contents = $app->getContents()->filter(static function ($appContent) use ($request) {
             /* @var AppContent $appContent */
             return $appContent->getLocale() == $request->getLocale();
         });
         $content = $page->getContent();
         if (!is_null($slug)) {
-            $content = $contents->filter(function ($appContent) use ($slug) {
+            $content = $contents->filter(static function ($appContent) use ($slug) {
                 /* @var AppContent $appContent */
                 return $appContent->getSlug() == $slug;
             })->current();
             if (!$content) {
                 throw $this->createNotFoundException('App slug not found !');
             }
+
             $content = $content->getContent();
         }
+
         $comment = new CommentPage();
         $comment->setUser($this->getUser());
         $comment->setPage($page->getPage());
+
         $form = $this->createForm(CommentType::class, $comment);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -122,9 +127,10 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 return $this->redirect($this->generateUrl('apps_app', ['ref' => $ref, 'slug' => $slug]));
             }
         }
+
         $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
-        return $this->render('apps/pages/app.html.twig', ['page' => $page, 'slug' => $slug, 'contents' => $contents, 'content' => $content, 'showLinks' => true, 'form' => $form->createView(), 'comments' => $comments]);
+        return $this->render('apps/pages/app.html.twig', ['page' => $page, 'slug' => $slug, 'contents' => $contents, 'content' => $content, 'showLinks' => true, 'form' => $form, 'comments' => $comments]);
     }
 }

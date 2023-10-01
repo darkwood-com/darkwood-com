@@ -41,6 +41,7 @@ class TagService
         $tagTranslation = new TagTranslation();
         $tagTranslation->setTitle($title);
         $tagTranslation->setLocale($locale);
+
         $tag->addTranslation($tagTranslation);
         $this->em->persist($tag);
 

@@ -20,17 +20,20 @@ class TagTranslation implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $tag;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */

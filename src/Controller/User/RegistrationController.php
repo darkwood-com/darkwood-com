@@ -45,11 +45,12 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
             } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                 $user->setEmailSent(false);
             }
+
             // do anything else you need here, like send an email
             return $userAuthenticator->authenticateUser($user, $authenticator, $request);
         }
 
-        return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form->createView(), 'site_ref' => $siteRef]);
+        return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form, 'site_ref' => $siteRef]);
     }
 
     #[Route(path: ['fr' => '/inscription/confimer-email', 'en' => '/en/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
@@ -61,11 +62,12 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+        } catch (VerifyEmailExceptionInterface $verifyEmailException) {
+            $this->addFlash('verify_email_error', $verifyEmailException->getReason());
 
             return $this->redirectToRoute('common_register');
         }
+
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 

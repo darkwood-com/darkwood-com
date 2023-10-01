@@ -49,42 +49,55 @@ class GameService
      * @var ArmorRepository
      */
     protected $armorRepository;
+
     /**
      * @var ClasseRepository
      */
     protected $classeRepository;
+
     /**
      * @var DailyBattleRepository
      */
     protected $dailyBattleRepository;
+
     /**
      * @var EnemyRepository
      */
     protected $enemyRepository;
+
     /**
      * @var GemRepository
      */
     protected $gemRepository;
+
     /**
      * @var LevelUpRepository
      */
     protected $levelUpRepository;
+
     /**
      * @var PlayerRepository
      */
     protected $playerRepository;
+
     /**
      * @var PotionRepository
      */
     protected $potionRepository;
+
     /**
      * @var SwordRepository
      */
     protected $swordRepository;
+
     public const RATIO_EQUIPMENT  = 4.0;
+
     public const RATIO_HIT_LUCK   = 5.0;
+
     public const POINTS_BY_LEVEL  = 15;
+
     public const LIFE_BY_VITALITY = 25;
+
     public const DEATH_LOSE_STATS = 10.0;
 
     public function __construct(
@@ -153,6 +166,7 @@ class GameService
             $level->setXp('MAX');
             $level->setLevel(100);
         }
+
         $damage          = ['min' => ceil($player->getSword()->getDamageMin() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))), 'max' => ceil($player->getSword()->getDamageMax() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)))];
         $equipmentDamage = 0;
         if ($player->getEquipment1IsUse()) {
@@ -161,18 +175,21 @@ class GameService
                 $equipmentDamage += $gem->getPower();
             }
         }
+
         if ($player->getEquipment2IsUse()) {
             $gem = $player->getEquipment2();
             if ($gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
+
         if ($player->getEquipment3IsUse()) {
             $gem = $player->getEquipment3();
             if ($gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
+
         $damage['min'] += $equipmentDamage;
         $damage['max'] += $equipmentDamage;
         $swordDamage    = ceil($player->getStrength() / self::RATIO_EQUIPMENT);
@@ -237,6 +254,7 @@ class GameService
                     $price /= 40;
                     break;
             }
+
             $regeneration['regeneration' . $i] = ['life' => ceil($life), 'price' => ceil($price)];
         }
 
@@ -247,14 +265,16 @@ class GameService
     {
         $classeId = intval($classeId);
         $classe   = $this->getClasses();
-        $classe   = current(array_filter($classe['list'], function ($c) use ($classeId) {
+        $classe   = current(array_filter($classe['list'], static function ($c) use ($classeId) {
             return $c->getId() == $classeId;
         }));
         if (!$classe) {
             return;
         }
+
         $player = $this->getOrCreate($user);
         $player->setClasse($classe);
+
         $this->em->flush();
     }
 
@@ -265,21 +285,26 @@ class GameService
         if (!in_array($type, ['strength', 'dexterity', 'vitality']) || $points['diff'] <= 0) {
             return;
         }
+
         $player = $this->getOrCreate($user);
         if ($type == 'strength') {
             $player->setStrength($player->getStrength() + 1);
         }
+
         if ($type == 'dexterity') {
             $player->setDexterity($player->getDexterity() + 1);
         }
+
         if ($type == 'vitality') {
             $player->setVitality($player->getVitality() + 1);
         }
+
         if ($type == 'vitality') {
             $classe = $player->getClasse();
             $player->setLifeMin($player->getLifeMin() + $classe->getVitality() * self::LIFE_BY_VITALITY);
             $player->setLifeMax($player->getLifeMax() + $classe->getVitality() * self::LIFE_BY_VITALITY);
         }
+
         $this->em->flush();
     }
 
@@ -294,6 +319,7 @@ class GameService
         } elseif ($index == 3 && $player->getEquipment3()) {
             $player->setEquipment3IsUse(true);
         }
+
         $this->em->flush();
     }
 
@@ -311,6 +337,7 @@ class GameService
             $player->setEquipment3(null);
             $player->setEquipment3IsUse(false);
         }
+
         $this->em->flush();
     }
 
@@ -321,6 +348,7 @@ class GameService
         if (!isset($regeneration[$key])) {
             return;
         }
+
         $regeneration = $regeneration[$key];
         $newGold      = $player->getGold() - $regeneration['price'];
         if ($newGold < 0) {
@@ -328,11 +356,13 @@ class GameService
 
             return;
         }
+
         $newLife = $player->getLifeMin() + $regeneration['life'];
         $player->setLifeMin($newLife);
         if ($newLife > $player->getLifeMax()) {
             $player->setLifeMin($player->getLifeMax());
         }
+
         $player->setGold($newGold);
         $this->em->flush();
     }
@@ -344,6 +374,7 @@ class GameService
         if ($armorInfo['next']) {
             $player->setCurrentArmor($armorInfo['next']);
         }
+
         $this->em->flush();
     }
 
@@ -354,6 +385,7 @@ class GameService
         if ($armorInfo['previous']) {
             $player->setCurrentArmor($armorInfo['previous']);
         }
+
         $this->em->flush();
     }
 
@@ -366,14 +398,17 @@ class GameService
 
             return;
         }
+
         $newGold = $player->getGold() - $armor->getPrice();
         if ($newGold < 0) {
             $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
+
         $player->setGold($newGold);
         $player->setArmor($armor);
+
         $this->em->flush();
     }
 
@@ -384,6 +419,7 @@ class GameService
         $newGold   = $player->getGold() + $armorInfo['sellPrice'];
         $player->setGold($newGold);
         $player->setArmor($this->armorRepository->findDefault());
+
         $this->em->flush();
     }
 
@@ -394,6 +430,7 @@ class GameService
         if ($potionInfo['next']) {
             $player->setCurrentPotion($potionInfo['next']);
         }
+
         $this->em->flush();
     }
 
@@ -404,6 +441,7 @@ class GameService
         if ($potionInfo['previous']) {
             $player->setCurrentPotion($potionInfo['previous']);
         }
+
         $this->em->flush();
     }
 
@@ -417,8 +455,10 @@ class GameService
 
             return;
         }
+
         $player->setGold($newGold);
         $player->setPotion($potion);
+
         $this->em->flush();
     }
 
@@ -429,6 +469,7 @@ class GameService
         if ($swordInfo['next']) {
             $player->setCurrentSword($swordInfo['next']);
         }
+
         $this->em->flush();
     }
 
@@ -439,6 +480,7 @@ class GameService
         if ($swordInfo['previous']) {
             $player->setCurrentSword($swordInfo['previous']);
         }
+
         $this->em->flush();
     }
 
@@ -451,12 +493,14 @@ class GameService
 
             return;
         }
+
         $newGold = $player->getGold() - $sword->getPrice();
         if ($newGold < 0) {
             $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
+
         $player->setGold($newGold);
         $player->setSword($sword);
         $player->setEquipment1(null);
@@ -465,6 +509,7 @@ class GameService
         $player->setEquipment2IsUse(false);
         $player->setEquipment3(null);
         $player->setEquipment3IsUse(false);
+
         $this->em->flush();
     }
 
@@ -481,6 +526,7 @@ class GameService
         $player->setEquipment2IsUse(false);
         $player->setEquipment3(null);
         $player->setEquipment3IsUse(false);
+
         $this->em->flush();
     }
 
@@ -491,6 +537,7 @@ class GameService
         if ($enemyInfo['next']) {
             $player->setCurrentEnemy($enemyInfo['next']);
         }
+
         $this->em->flush();
     }
 
@@ -501,6 +548,7 @@ class GameService
         if ($enemyInfo['previous']) {
             $player->setCurrentEnemy($enemyInfo['previous']);
         }
+
         $this->em->flush();
     }
 
@@ -549,11 +597,13 @@ class GameService
             } else {
                 $player->setLifeMin($lifeAdd);
             }
+
             $player->setPotion($this->potionRepository->findDefault());
         } else {
             //player attack
             $playerAttack = rand($playerInfo['damage']['min'], $playerInfo['damage']['max']) - rand(0, $enemy->getArmor());
         }
+
         //enemy attack
         $enemyAttack = rand($enemy->getDamageMin(), $enemy->getDamageMax()) - rand(0, $playerInfo['armor']);
         if ($enemyAttack > 0) {
@@ -561,6 +611,7 @@ class GameService
         } else {
             $enemyAttack = 0;
         }
+
         $luck    = rand(1, 100);
         $hitLuck = $enemy->getHitLuck() + $playerInfo['hitLuck'];
         if ($luck > $hitLuck && $action != 'potion') {
@@ -568,6 +619,7 @@ class GameService
         } else {
             $session['enemy_current_life'] = $session['enemy_current_life'] - $playerAttack;
         }
+
         $session['player_life_lose'] = $enemyAttack;
         $session['enemy_life_lose']  = $playerAttack;
         $this->em->flush();
@@ -593,9 +645,11 @@ class GameService
             if ($player->getXp() < 0) {
                 $player->setXp(0);
             }
+
             if ($player->getGold() < 0) {
                 $player->setGold(0);
             }
+
             $result = ['mode' => 'player_death', 'result' => $result];
         } elseif ($session['enemy_current_life'] <= 0) {
             $player->setLastFight(null);
@@ -617,8 +671,10 @@ class GameService
                     if ($e->getId() == $enemy->getId()) {
                         break;
                     }
+
                     ++$enemyPosition;
                 }
+
                 $gemPosition = ceil((count($gems) - 1) * rand(1, $enemyPosition) / count($enemies));
                 //find gem
                 $gem = current($gems);
@@ -627,8 +683,10 @@ class GameService
                     if ($gemPosition <= 0) {
                         break;
                     }
+
                     --$gemPosition;
                 }
+
                 $result['gem']      = 'found';
                 $result['gem_item'] = $gem;
                 if (!$player->getEquipment1()) {
@@ -643,8 +701,10 @@ class GameService
                     $result['gem_item'] = $this->gemRepository->findDefault();
                 }
             }
+
             $result = ['mode' => 'player_win', 'result' => $result];
         }
+
         $this->em->flush();
         $this->setSession($user, $session);
 
@@ -720,11 +780,13 @@ class GameService
         } else {
             $playerAttack = 0;
         }
+
         if ($enemyAttack > 0) {
             $sessionDaily['player_current_life'] -= $enemyAttack;
         } else {
             $enemyAttack = 0;
         }
+
         $sessionDaily['player_life_lose'] = $enemyAttack;
         $sessionDaily['enemy_life_lose']  = $playerAttack;
         $this->em->flush();
@@ -745,6 +807,7 @@ class GameService
             if ($player->getXp() < 0) {
                 $player->setXp(0);
             }
+
             $result = ['mode' => 'player_death', 'result' => $result];
             $player->setDailyBattleDefeats($player->getDailyBattleDefeats() + 1);
             $enemy = $enemy;
@@ -762,6 +825,7 @@ class GameService
                 $enemy = $enemy;
                 $enemy->getPlayer()->setXp(0);
             }
+
             $result = ['mode' => 'player_win', 'result' => $result];
             $enemy->getPlayer()->setDailyBattleDefeats($enemy->getPlayer()->getDailyBattleDefeats() + 1);
             $player->setDailyBattleVictories($player->getDailyBattleVictories() + 1);
@@ -770,6 +834,7 @@ class GameService
             $dailyBattle->setStatus(DailyBattle::STATUS_NEW_WIN);
             $this->em->persist($dailyBattle);
         }
+
         $this->em->flush();
         $this->setSessionDaily($user, $sessionDaily);
 
@@ -787,6 +852,7 @@ class GameService
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'])) {
             $parameters['display'] = 'web';
         }
+
         if ($parameters['state'] == 'login') {
             if ($parameters['mode'] == 'logout') {
                 $request->getSession()->invalidate();
@@ -803,7 +869,7 @@ class GameService
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
                     $session                     = $request->getSession();
-                    $lastUsernameKey             = \Symfony\Component\Security\Core\Security::LAST_USERNAME;
+                    $lastUsernameKey             = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
                     $lastUsername                = null === $session ? '' : $session->get($lastUsernameKey);
                     $csrfToken                   = $this->tokenManager->getToken('authenticate')->getValue();
                     $parameters['last_username'] = $lastUsername;
@@ -811,6 +877,7 @@ class GameService
 
                     return $parameters;
                 }
+
                 try {
                     //$this->authenticationManager->authenticate($token);
                     $this->tokenStorage->setToken($token);
@@ -821,8 +888,9 @@ class GameService
                     $this->tokenStorage->setToken(null);
                 }
             }
+
             $session                     = $request->getSession();
-            $lastUsernameKey             = \Symfony\Component\Security\Core\Security::LAST_USERNAME;
+            $lastUsernameKey             = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
             $lastUsername                = null === $session ? '' : $session->get($lastUsernameKey);
             $csrfToken                   = $this->tokenManager->getToken('authenticate')->getValue();
             $parameters['last_username'] = $lastUsername;
@@ -839,9 +907,11 @@ class GameService
                 $token = $this->tokenStorage->getToken();
                 $user  = $token ? $token->getUser() : null;
             }
+
             if (!$user instanceof User) {
                 throw new NotFoundHttpException('User not found !');
             }
+
             $parameters['user'] = $user;
 
             return $parameters;
@@ -853,9 +923,11 @@ class GameService
                 $token = $this->tokenStorage->getToken();
                 $user  = $token ? $token->getUser() : null;
             }
+
             if (!$user instanceof User) {
                 throw new NotFoundHttpException('User not found !');
             }
+
             $parameters['user']    = $user;
             $parameters['confirm'] = $request->get('confirm') == 'true';
 
@@ -889,6 +961,7 @@ class GameService
                     return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
                 }
             }
+
             $query                  = $this->commentService->findActiveCommentByPageQuery($page);
             $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
             $comments               = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
@@ -897,6 +970,7 @@ class GameService
 
             return $parameters;
         }
+
         if ($user !== null) {
             $player = $this->getOrCreate($user);
             if ($player->getLastFight() && $parameters['state'] != 'combat' && $parameters['mode'] != 'combat') {
@@ -917,6 +991,7 @@ class GameService
                             $parameters['mode'] = 'combat';
                         }
                     }
+
                     $parameters['data']['info']    = $this->getInfo($user);
                     $parameters['data']['session'] = $this->getSession($user);
                 } else {
@@ -930,6 +1005,7 @@ class GameService
 
                         return $this->play($request, $user);
                     }
+
                     $parameters['data']['info']         = $this->getInfo($user);
                     $parameters['data']['currentEnemy'] = $this->getEnemyInfo($player->getCurrentEnemy() ? $player->getCurrentEnemy() : $this->enemyRepository->findDefault());
                 }
@@ -946,6 +1022,7 @@ class GameService
                             $parameters['mode'] = 'combat';
                         }
                     }
+
                     $parameters['data']['session'] = $this->getSessionDaily($user);
                 } else {
                     if ($request->get('actionBeginFight')) {
@@ -953,8 +1030,10 @@ class GameService
 
                         return $this->play($request, $user);
                     }
+
                     $parameters['data']['dailyBattles'] = $this->getDailyBattles();
                 }
+
                 $parameters['data']['info']           = $this->getInfo($user);
                 $parameters['data']['dailyEnemyInfo'] = $this->getInfo($this->getOrCreateDailyEnemy());
             } elseif ($parameters['state'] == 'info') {
@@ -963,6 +1042,7 @@ class GameService
                 } elseif ($request->get('actionAddPoint')) {
                     $this->addPoint($user, $request->get('actionAddPoint'));
                 }
+
                 $parameters['data']['info']    = $this->getInfo($user);
                 $parameters['data']['classes'] = $this->getClasses();
             } elseif ($parameters['state'] == 'equipment') {
@@ -971,11 +1051,13 @@ class GameService
                 } elseif ($request->get('actionThrowGem')) {
                     $this->throwGem($user, $request->get('actionThrowGem'));
                 }
+
                 $parameters['data']['info'] = $this->getInfo($user);
             } elseif ($parameters['state'] == 'hostel') {
                 if ($request->get('actionRegeneration')) {
                     $this->regen($user, $request->get('actionRegeneration'));
                 }
+
                 $parameters['data']['info']          = $this->getInfo($user);
                 $parameters['data']['regenerations'] = $this->getRegenerations($user);
             } elseif ($parameters['state'] == 'armor') {
@@ -988,6 +1070,7 @@ class GameService
                 } elseif ($request->get('actionArmorSell')) {
                     $this->sellArmor($user);
                 }
+
                 $parameters['data']['info']         = $this->getInfo($user);
                 $parameters['data']['armor']        = $this->getArmorInfo($player->getArmor());
                 $parameters['data']['currentArmor'] = $this->getArmorInfo($player->getCurrentDefaultArmor());
@@ -999,6 +1082,7 @@ class GameService
                 } elseif ($request->get('actionPotionBuy')) {
                     $this->buyPotion($user);
                 }
+
                 $parameters['data']['info']          = $this->getInfo($user);
                 $parameters['data']['potion']        = $this->getPotionInfo($player->getPotion());
                 $parameters['data']['currentPotion'] = $this->getPotionInfo($player->getCurrentDefaultPotion());
@@ -1012,6 +1096,7 @@ class GameService
                 } elseif ($request->get('actionSwordSell')) {
                     $this->sellSword($user);
                 }
+
                 $parameters['data']['info']         = $this->getInfo($user);
                 $parameters['data']['sword']        = $this->getSwordInfo($player->getSword());
                 $parameters['data']['currentSword'] = $this->getSwordInfo($player->getCurrentDefaultSword());

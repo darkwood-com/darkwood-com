@@ -19,12 +19,14 @@ class Tag implements \Stringable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\TagTranslation", mappedBy="tag", cascade={"persist", "remove"})
      */
     protected $translations;
+
     /**
      * @var ArrayCollection
      *

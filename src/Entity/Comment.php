@@ -24,6 +24,7 @@ abstract class Comment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
@@ -31,10 +32,12 @@ abstract class Comment
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+
     /**
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
+
     /**
      * @var User
      *
@@ -43,6 +46,7 @@ abstract class Comment
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
     protected $user;
+
     /**
      * @var Page
      *

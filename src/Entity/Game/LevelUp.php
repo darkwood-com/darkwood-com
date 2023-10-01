@@ -23,12 +23,14 @@ class LevelUp
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var int
      *
      * @ORM\Column(name="level", type="integer")
      */
     private $level;
+
     /**
      * @var int
      *

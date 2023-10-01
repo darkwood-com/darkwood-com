@@ -25,36 +25,42 @@ class Gem
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var int
      *
      * @ORM\Column(name="power", type="integer")
      */
     private $power;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="gems", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment1", cascade={"persist", "remove"})
      */
     protected $equipment1Players;
+
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment2", cascade={"persist", "remove"})
      */
     protected $equipment2Players;
+
     /**
      * Players.
      *

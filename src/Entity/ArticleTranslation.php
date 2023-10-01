@@ -26,24 +26,28 @@ class ArticleTranslation implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $locale;
+
     /**
      * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="translations", cascade={"persist"})
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $article;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
+
     /**
      * Slug.
      *
@@ -51,22 +55,26 @@ class ArticleTranslation implements \Stringable
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="articles", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * @ORM\Column(type="boolean")
      */

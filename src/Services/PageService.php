@@ -34,14 +34,17 @@ class PageService
      * @var PageRepository
      */
     protected $pageRepository;
+
     /**
      * @var PageTranslationRepository
      */
     protected $entityRepository;
+
     /**
      * @var ArticleTranslationRepository
      */
     protected $articleTranslationRepository;
+
     /**
      * @var AppContentRepository
      */
@@ -71,6 +74,7 @@ class PageService
         foreach ($page->getTranslations() as $translation) {
             $translation->setUpdated(new \DateTime('now'));
         }
+
         $this->em->persist($page);
         $this->em->flush();
 
@@ -95,6 +99,7 @@ class PageService
             $duplicatePageTranslation->setPage($page);
             $duplicatePageTranslation->setLocale($locale);
         }
+
         $duplicatePageTranslation->setTitle($entity->getTitle());
         $duplicatePageTranslation->setDescription($entity->getDescription());
         $duplicatePageTranslation->setContent($entity->getContent());
@@ -110,12 +115,14 @@ class PageService
                 $duplicatePageTranslation->setImage($image);
             }
         }
+
         if ($page instanceof App) {
             $oldContents = $this->appContentRepository->findByAppAndLocale($page, $locale);
             foreach ($oldContents as $oldContent) {
                 $oldContent->setApp(null);
                 $this->em->remove($oldContent);
             }
+
             $this->em->flush();
             $contents = $this->appContentRepository->findByAppAndLocale($page, $entity->getLocale());
             foreach ($contents as $content) {
@@ -127,6 +134,7 @@ class PageService
                 $duplicateContent->setPosition($content->getPosition());
                 $this->em->persist($duplicateContent);
             }
+
             $this->em->flush();
         }
 
@@ -164,6 +172,7 @@ class PageService
 
             return;
         }
+
         $this->em->remove($pageTs);
         $this->em->flush();
     }
@@ -269,12 +278,13 @@ class PageService
                 foreach ($routes as $route) {
                     $page = $entity->getPage();
                     /** @var Route $route */
-                    if ($page instanceof App && $route->getDefault('_controller') === 'App\Controller\AppsController::app') {
+                    if ($page instanceof App && $route->getDefault('_controller') === \App\Controller\AppsController::class . '::app') {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
                         if ($route->getHost() && $route->getHost() != $host) {
                             continue;
                         }
+
                         if ($routeLocale === $entity->getLocale()) {
                             $routeData = ['route' => $route, 'name' => $route->getDefault('_canonical_route'), 'params' => array_merge($route->getDefaults(), ['_locale' => $routeLocale, 'ref' => $page->getRef()])];
                             break;
@@ -285,12 +295,14 @@ class PageService
                         if ($route->getHost() && $route->getHost() != $host) {
                             continue;
                         }
+
                         if ($routeLocale === $entity->getLocale()) {
                             $routeData = ['route' => $route, 'name' => $route->getDefault('_canonical_route'), 'params' => array_merge($route->getDefaults(), ['_locale' => $routeLocale])];
                             break;
                         }
                     }
                 }
+
                 if ($routeData) {
                     return $this->router->generate($routeData['name'], $routeData['params'], $referenceType);
                 }
@@ -331,6 +343,7 @@ class PageService
                 if ($articleTranslation->getLocale() == $locale) {
                     continue;
                 }
+
                 $pageLinks[$articleTranslation->getLocale()] = $this->getUrl($articleTranslation, $referenceType);
             }
         } else {
@@ -340,6 +353,7 @@ class PageService
                     if ($pageTranslation->getLocale() == $locale) {
                         continue;
                     }
+
                     $pageLinks[$pageTranslation->getLocale()] = $this->getUrl($pageTranslation, $referenceType);
                 }
             }

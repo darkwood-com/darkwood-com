@@ -21,18 +21,21 @@ class App extends Page
      * @Vich\UploadableField(mapping="bannerApps", fileNameProperty="bannerName")
      */
     protected $banner;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $bannerName;
+
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $theme;
+
     /**
      * Contents.
      *

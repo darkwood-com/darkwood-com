@@ -31,38 +31,46 @@ class PageRepository extends ServiceEntityRepository
         if ($host) {
             $qb->andWhere('s.host = :host')->setParameter('host', $host);
         }
+
         if ($type == 'app') {
             $qb->andWhere('p INSTANCE OF App\Entity\App');
         } elseif ($type == 'page') {
             $qb->andWhere('p INSTANCE OF App\Entity\Page');
         }
+
         if ($order == 'normal') {
             $qb->addOrderBy('p.created', 'desc');
         }
-        if (count($filters) > 0) {
+
+        if ($filters !== []) {
             foreach ($filters as $key => $filter) {
                 if ($key == 'host') {
                     $qb->andWhere('s.host', $filter);
                 }
+
                 if ($key == 'limit_low') {
                     $qb->andWhere('p.created >= :low');
                     $qb->setParameter('low', $filter);
                     continue;
                 }
+
                 if ($key == 'limit_high') {
                     $qb->andWhere('p.created <= :high');
                     $qb->setParameter('high', $filter);
                     continue;
                 }
+
                 if ($key == 'allowEdit') {
                     $qb->andWhere('p.allowEdit = :allowEdit');
                     $qb->setParameter('allowEdit', $filter);
                     continue;
                 }
+
                 $qb->andWhere('p.' . $key . ' LIKE :' . $key);
                 $qb->setParameter($key, '%' . $filter . '%');
             }
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
         $query = $qb->getQuery();
 
@@ -98,6 +106,7 @@ class PageRepository extends ServiceEntityRepository
             $qb->andWhere('s.id = :id');
             $qb->setParameter('id', $site->getId());
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
         $query = $qb->getQuery();
 
@@ -150,6 +159,7 @@ class PageRepository extends ServiceEntityRepository
         if (!is_null($locale)) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
+
         $query = $qb->getQuery();
         //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOneActiveByRefAndHost'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
@@ -168,6 +178,7 @@ class PageRepository extends ServiceEntityRepository
         if (!is_null($locale)) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
+
         $query = $qb->getQuery();
         //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
@@ -179,15 +190,18 @@ class PageRepository extends ServiceEntityRepository
         if (!is_null($locale)) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
+
         if (!is_null($host)) {
             $qb->leftJoin('p.site', 's');
             $qb->andWhere('s.host = :host')->setParameter('host', $host);
         }
+
         if ($type == 'app') {
             $qb->andWhere('p INSTANCE OF App\Entity\App');
         } elseif ($type == 'page') {
             $qb->andWhere('p INSTANCE OF App\Entity\Page');
         }
+
         $query = $qb->getQuery();
         //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getResult();

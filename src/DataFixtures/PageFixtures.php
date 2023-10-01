@@ -40,6 +40,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
                 $page->addTranslation($pageTranslation);
                 $manager->persist($pageTranslation);
             }
+
             $manager->persist($page);
         }
     }

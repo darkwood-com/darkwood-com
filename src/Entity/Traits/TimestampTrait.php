@@ -17,6 +17,7 @@ trait TimestampTrait
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
     protected $created;
+
     /**
      * @var \DateTime
      *

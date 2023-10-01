@@ -22,12 +22,14 @@ class Article implements \Stringable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\ArticleTranslation", mappedBy="article", cascade={"persist", "remove"})
      */
     protected $translations;
+
     /**
      * @var ArrayCollection<Tag>
      *

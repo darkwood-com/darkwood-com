@@ -23,6 +23,7 @@ class ArticleService
      * @var ArticleRepository
      */
     protected $articleRepository;
+
     /**
      * @var ArticleTranslationRepository
      */
@@ -48,6 +49,7 @@ class ArticleService
         foreach ($article->getTranslations() as $translation) {
             $translation->setUpdated(new \DateTime('now'));
         }
+
         $this->em->persist($article);
         $this->em->flush();
 
@@ -72,6 +74,7 @@ class ArticleService
             $duplicateArticleTranslation->setArticle($article);
             $duplicateArticleTranslation->setLocale($locale);
         }
+
         $duplicateArticleTranslation->setCreated($articleTranslation->getCreated());
         $duplicateArticleTranslation->setTitle($articleTranslation->getTitle());
         $duplicateArticleTranslation->setSlug($articleTranslation->getSlug());
@@ -123,6 +126,7 @@ class ArticleService
 
             return;
         }
+
         $this->em->remove($articleTs);
         $this->em->flush();
     }

@@ -12,7 +12,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
      * Link to this controller to start the "connect" process
      */
     #[Route('/connect/facebook', name: 'connect_facebook_start')]
-    public function connectAction(ClientRegistry $clientRegistry)
+    public function connect(ClientRegistry $clientRegistry)
     {
         // on Symfony 3.3 or lower, $clientRegistry = $this->get('knpu.oauth2.registry');
         // will redirect to Facebook!
@@ -25,7 +25,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
      * in config/packages/knpu_oauth2_client.yaml
      */
     #[Route('/connect/facebook/check', name: 'connect_facebook_check')]
-    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
+    public function connectCheck(ClientRegistry $clientRegistry)
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
@@ -40,7 +40,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             // e.g. $name = $user->getFirstName();
             exit;
             // ...
-        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $identityProviderException) {
             // something went wrong!
             // probably you should return the reason to the user
             exit;

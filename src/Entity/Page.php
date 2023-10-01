@@ -28,12 +28,14 @@ class Page implements \Stringable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\PageTranslation", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $translations;
+
     /**
      * @var string
      *
@@ -41,6 +43,7 @@ class Page implements \Stringable
      * @ORM\Column(type="string", length=255)
      */
     protected $ref;
+
     /**
      * @var Site
      *
@@ -49,6 +52,7 @@ class Page implements \Stringable
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      **/
     protected $site;
+
     /**
      * Comments.
      *

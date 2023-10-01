@@ -27,6 +27,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
 
             return $this->render('admin/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
+
         $page    = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         // if ($this->getUser()) {

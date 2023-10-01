@@ -21,10 +21,11 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     }
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request)
+    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
+
         $query    = $this->commentService->getQueryForSearch($form->getData());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
@@ -35,7 +36,7 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_comment_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_comment_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, Comment $entity)
@@ -51,10 +52,11 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
                 return $this->redirect($this->generateUrl('admin_comment_edit', ['id' => $entity->getId()]));
             }
+
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/comment/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
+        return $this->render('admin/comment/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entity]);
     }
 
     #[Route('/create', name: 'create')]
@@ -73,19 +75,21 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         if (!$entity) {
             throw $this->createNotFoundException('Comment not found');
         }
+
         $entity->setUpdated(new \DateTime());
 
         return $this->manage($request, $entity);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Comment $comment */
         $comment = $this->commentService->findOneToEdit($id);
         if (!$comment) {
             throw $this->createNotFoundException('Comment not found');
         }
+
         $this->commentService->remove($comment);
         // Launch the message flash
         $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));

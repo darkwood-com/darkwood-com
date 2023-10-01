@@ -33,6 +33,7 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @Assert\Length(
      *      min = 2,
@@ -43,6 +44,7 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
+
     /**
      * @Assert\NotBlank(
      *     message="form.general.required"
@@ -54,21 +56,25 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     protected $email;
+
     /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
     /**
      * @var string The hashed password
      * @ORM\Column(type="string", nullable=true)
      */
     private $password;
+
     /**
      * Civility.
      *
      * @ORM\Column(length=255, nullable=true)
      */
     protected $civility = 'm';
+
     /**
      * Firstname.
      *
@@ -81,6 +87,7 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(length=255, nullable=true)
      */
     protected $firstname;
+
     /**
      * Lastname.
      *
@@ -93,6 +100,7 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(length=255, nullable=true)
      */
     protected $lastname;
+
     /**
      * Edit.
      *
@@ -101,58 +109,68 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $birthday;
+
     /**
      * City.
      *
      * @ORM\Column(length=255, nullable=true)
      */
     protected $city;
+
     /**
      * Comment.
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
+
     /**
      * Players.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Game\Player", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $player;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * @var string
      *
      * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
     protected $facebookId;
+
     /**
      * Comments.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $comments;
+
     /**
      * Contacts.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $contacts;
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $emailSent;
+
     /**
      * @ORM\Column(type="boolean")
      */

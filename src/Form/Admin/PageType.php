@@ -26,7 +26,7 @@ class PageType extends \Symfony\Component\Form\AbstractType
         $locale = $options['locale'];
         $builder->add('ref', TextType::class);
         $builder->add('site', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => Site::class]);
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
             if ($data instanceof App) {

@@ -16,10 +16,13 @@ class DailyBattle
 {
     use TimestampTrait;
     public const STATUS_DAILY_USER = 0;
+
     //user of the day
     public const STATUS_NEW_WIN = 1;
+
     //user that win the fight
     public const STATUS_NEW_LOSE = 2;
+
     //user that lose the fight
     /**
      * @var int
@@ -29,11 +32,13 @@ class DailyBattle
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Player", inversedBy="dailyBattles", cascade={"persist"})
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $player;
+
     /**
      * @var int
      *

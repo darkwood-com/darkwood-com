@@ -25,42 +25,49 @@ class Potion
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
+
     /**
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
+
     /**
      * @var int
      *
      * @ORM\Column(name="life", type="integer")
      */
     private $life;
+
     /**
      * @var File
      *
      * @Vich\UploadableField(mapping="potions", fileNameProperty="imageName")
      */
     protected $image;
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imageName;
+
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="potion", cascade={"persist", "remove"})
      */
     protected $players;
+
     /**
      * Players.
      *

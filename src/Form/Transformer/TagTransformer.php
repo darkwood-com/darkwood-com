@@ -39,6 +39,7 @@ class TagTransformer implements DataTransformerInterface
         if (!$tags) {
             return implode(', ', $arrayTags);
         }
+
         /** @var Tag $tag */
         foreach ($tags as $tag) {
             $arrayTags[] = $tag->getOneTranslation($this->locale)->getTitle();
@@ -56,6 +57,7 @@ class TagTransformer implements DataTransformerInterface
         if (!$tags) {
             $tags = '';
         }
+
         $arrayTags = array_filter(array_map('trim', explode(',', $tags)));
         foreach ($arrayTags as $tag) {
             $tagPersisited = $this->tagService->findOneByTitle($tag);

@@ -30,22 +30,26 @@ class ArticleRepository extends ServiceEntityRepository
         if ($order == 'normal') {
             $qb->addOrderBy('n.created', 'desc');
         }
-        if (count($filters) > 0) {
+
+        if ($filters !== []) {
             foreach ($filters as $key => $filter) {
                 if ($key == 'limit_low') {
                     $qb->andWhere('n.created >= :low');
                     $qb->setParameter('low', $filter);
                     continue;
                 }
+
                 if ($key == 'limit_high') {
                     $qb->andWhere('n.created <= :high');
                     $qb->setParameter('high', $filter);
                     continue;
                 }
+
                 $qb->andWhere('n.' . $key . ' LIKE :' . $key);
                 $qb->setParameter($key, '%' . $filter . '%');
             }
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::queryForSearch');
         $query = $qb->getQuery();
 
@@ -99,6 +103,7 @@ class ArticleRepository extends ServiceEntityRepository
         if ($locale) {
             $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         }
+
         if ($limit) {
             $qb->setMaxResults($limit);
         }
@@ -112,9 +117,11 @@ class ArticleRepository extends ServiceEntityRepository
         if ($locale) {
             $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         }
+
         if ($limit) {
             $qb->setMaxResults($limit);
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
         $query = $qb->getQuery();
 

@@ -25,143 +25,169 @@ class Player
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var int
      *
      * @ORM\Column(name="lifeMin", type="integer")
      */
     private $lifeMin;
+
     /**
      * @var int
      *
      * @ORM\Column(name="lifeMax", type="integer")
      */
     private $lifeMax;
+
     /**
      * @var int
      *
      * @ORM\Column(name="xp", type="integer")
      */
     private $xp;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="sword_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $sword;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="armor_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $armor;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="potion_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $potion;
+
     /**
      * @var int
      *
      * @ORM\Column(name="gold", type="integer")
      */
     private $gold;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="lastFightPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="last_fight_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $lastFight;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="currentEnemyPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_enemy_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentEnemy;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Classe", inversedBy="players", cascade={"persist"})
      * @ORM\JoinColumn(name="classe_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $classe;
+
     /**
      * @var int
      *
      * @ORM\Column(name="strength", type="integer")
      */
     private $strength;
+
     /**
      * @var int
      *
      * @ORM\Column(name="dexterity", type="integer")
      */
     private $dexterity;
+
     /**
      * @var int
      *
      * @ORM\Column(name="vitality", type="integer")
      */
     private $vitality;
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $user;
+
     /**
      * DailyBattles.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\DailyBattle", mappedBy="player", cascade={"persist", "remove"})
      */
     protected $dailyBattles;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment1Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment1_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment1;
+
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment1_is_use", type="boolean")
      */
     private $equipment1IsUse;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment2Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment2_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment2;
+
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment2_is_use", type="boolean")
      */
     private $equipment2IsUse;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment3Players", cascade={"persist"})
      * @ORM\JoinColumn(name="equipment3_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $equipment3;
+
     /**
      * @var bool
      *
      * @ORM\Column(name="equipment3_is_use", type="boolean")
      */
     private $equipment3IsUse;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="currentSwordPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_sword_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentSword;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="currentPotionPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_potion_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentPotion;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="currentArmorPlayers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_armor_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $currentArmor;
+
     /**
      * @var int
      *
      * @ORM\Column(name="daily_battle_victories", type="integer")
      */
     private $dailyBattleVictories;
+
     /**
      * @var int
      *

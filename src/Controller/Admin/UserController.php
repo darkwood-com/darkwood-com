@@ -20,10 +20,11 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request)
+    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
+
         $query    = $this->userService->searchQuery($form->getData());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
@@ -34,7 +35,7 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_user_list'))->setMethod('GET')->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('firstname', TextType::class, ['required' => false, 'label' => 'Prénom'])->add('lastname', TextType::class, ['required' => false, 'label' => 'Nom'])->add('email', TextType::class, ['required' => false, 'label' => 'Email'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_user_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('firstname', TextType::class, ['required' => false, 'label' => 'Prénom'])->add('lastname', TextType::class, ['required' => false, 'label' => 'Nom'])->add('email', TextType::class, ['required' => false, 'label' => 'Email'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, User $entity)
@@ -50,10 +51,11 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 
                 return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $entity->getId()]));
             }
+
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/user/' . $mode . '.html.twig', ['form' => $form->createView(), 'entity' => $entity]);
+        return $this->render('admin/user/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entity]);
     }
 
     #[Route('/create', name: 'create')]
@@ -73,19 +75,21 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         if (!$entity) {
             throw $this->createNotFoundException('User not found');
         }
+
         $entity->setUpdated(new \DateTime());
 
         return $this->manage($request, $entity);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var User $user */
         $user = $this->userService->findOneToEdit($id);
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
+
         $this->userService->remove($user);
         // Launch the message flash
         $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));

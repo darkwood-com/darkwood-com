@@ -63,6 +63,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         if ($existingUser !== null) {
             return $existingUser;
         }
+
         $username = $facebookUser->getName();
         // 2) find or create new user
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $facebookUser->getEmail()]);
@@ -73,6 +74,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
             $user->setFirstname($facebookUser->getFirstName());
             $user->setLastname($facebookUser->getLastName());
         }
+
         $user->setFacebookId($facebookUser->getId());
         $imageUrl = $facebookUser->getPictureUrl();
         if ($imageUrl && !$user->getImageName()) {
@@ -85,6 +87,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
                 $user->setImage($image);
             }
         }
+
         $this->em->persist($user);
         $this->em->flush();
 

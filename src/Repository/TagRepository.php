@@ -56,6 +56,7 @@ class TagRepository extends ServiceEntityRepository
         if ($locale) {
             $qb->andWhere('ts.locale = :locale')->setParameter('locale', $locale);
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -73,6 +74,7 @@ class TagRepository extends ServiceEntityRepository
         if ($locale) {
             $qb->andWhere('ts.locale = :locale')->setParameter('locale', $locale);
         }
+
         //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findAllAsArray');
         return $qb->getQuery()->getResult();
     }
