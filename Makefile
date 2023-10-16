@@ -11,7 +11,7 @@ encore: ## Start encore dev server
 	if [ ! -d "node_modules" ]; then npm install; fi
 	npm run dev
 
-dev: ## Start symfony dev server
+env: ## Start symfony dev server
 	docker-compose up -d
 	$(SYMFONY) server:start --port=8092
 
