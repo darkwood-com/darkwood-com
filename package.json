@@ -21,7 +21,8 @@
     "dependencies": {
         "bootstrap": "^5.0.1",
         "jquery": "^3.6.0",
-        "popper.js": "^1.16.1"
+        "popper.js": "^1.16.1",
+        "serverless": "^3.35.2"
     },
     "devDependencies": {
         "@symfony/webpack-encore": "^4.1.1",

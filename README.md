@@ -51,3 +51,14 @@ For more customizations, feel free to edit the `flake.nix` file and add your own
 changes; the possibilities are endless.
 
 Happy hacking !
+
+## Nix Node
+
+https://github.com/svanderburg/node2nix
+
+```sh
+$ nix-env -f '<nixpkgs>' -iA nodePackages.node2nix
+node2nix
+nix-env -iA nixpkgs.nodejs-18_x
+```
+

@@ -1,11 +1,12 @@
-; top-most EditorConfig file
-root = true
+root = true # https://editorconfig.org
 
-; Unix-style newlines
 [*]
 end_of_line = lf
 insert_final_newline = true
-
-[*.{php,yml}]
+trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
+charset = utf-8
+
+[*.md]
+max_line_length = 80
