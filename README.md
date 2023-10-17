@@ -61,4 +61,3 @@ $ nix-env -f '<nixpkgs>' -iA nodePackages.node2nix
 node2nix
 nix-env -iA nixpkgs.nodejs-18_x
 ```
-
