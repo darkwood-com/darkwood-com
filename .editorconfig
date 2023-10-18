@@ -10,3 +10,6 @@ charset = utf-8
 
 [*.md]
 max_line_length = 80
+
+[serverless.yml]
+indent_style = space
