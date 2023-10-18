@@ -25,11 +25,9 @@ class Enemy
     use TimestampTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * @var File
@@ -39,84 +37,71 @@ class Enemy
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="lastFight", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    protected $lastFightPlayers;
+    protected \Doctrine\Common\Collections\Collection $lastFightPlayers;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentEnemy", cascade={"persist", "remove"})
-     */
-    protected $currentEnemyPlayers;
-    /**
-     * @var int
      *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
+    protected \Doctrine\Common\Collections\Collection $currentEnemyPlayers;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="gold", type="integer")
      */
-    private $gold;
+    private ?int $gold = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="xp", type="integer")
      */
-    private $xp;
+    private ?int $xp = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="life", type="integer")
      */
-    private $life;
+    private ?int $life = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="armor", type="integer")
      */
-    private $armor;
+    private ?int $armor = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="damageMin", type="integer")
      */
-    private $damageMin;
+    private ?int $damageMin = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="damageMax", type="integer")
      */
-    private $damageMax;
+    private ?int $damageMax = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="hitLuck", type="integer")
      */
-    private $hitLuck;
+    private ?int $hitLuck = null;
 
     /**
      * Constructor.

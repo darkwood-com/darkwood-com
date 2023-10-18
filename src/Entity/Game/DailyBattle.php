@@ -33,26 +33,22 @@ class DailyBattle
      *
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id", onDelete="cascade")
      */
-    protected $player;
+    protected ?\App\Entity\Game\Player $player = null;
 
     // user that lose the fight
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    private ?int $status = null;
 
     /**
      * Get id.

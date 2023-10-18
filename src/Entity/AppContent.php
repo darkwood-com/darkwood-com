@@ -27,14 +27,14 @@ class AppContent
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $locale;
+    protected string $locale;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\App", inversedBy="contents", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="app_id", referencedColumnName="id", onDelete="cascade")
      */
-    protected $app;
+    protected ?\App\Entity\App $app = null;
 
     /**
      * Slug.
@@ -44,39 +44,33 @@ class AppContent
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank]
-    protected $slug;
+    protected string $slug;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    protected $title;
+    protected string $title;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
+    protected ?string $content = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $position;
+    protected ?int $position = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * Get id.

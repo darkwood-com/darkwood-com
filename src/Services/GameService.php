@@ -61,6 +61,7 @@ class GameService
     public const LIFE_BY_VITALITY = 25;
 
     public const DEATH_LOSE_STATS = 10.0;
+
     public $session;
 
     /**
@@ -733,11 +734,13 @@ class GameService
         if ($dailyBattle) {
             return $dailyBattle->getPlayer()->getUser();
         }
+
         // search a random player
         $player = $this->playerRepository->findRand();
         $dailyBattle = new DailyBattle();
         $dailyBattle->setStatus(DailyBattle::STATUS_DAILY_USER);
         $dailyBattle->setPlayer($player);
+
         $this->em->persist($dailyBattle);
         $this->em->flush();
 
@@ -869,6 +872,7 @@ class GameService
 
                 return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
             }
+
             if ($parameters['mode'] === 'login' && $request->get('_username') && $request->get('_password')) {
                 $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main');
                 // spacial case for apple validation
@@ -907,9 +911,11 @@ class GameService
 
             return $parameters;
         }
+
         if ($parameters['state'] === 'eula') {
             return $parameters;
         }
+
         if ($parameters['state'] === 'profile') {
             $username = $request->get('username');
             if ($username) {
@@ -927,6 +933,7 @@ class GameService
 
             return $parameters;
         }
+
         if ($parameters['state'] === 'report') {
             $username = $request->get('username');
             if ($username) {
@@ -945,6 +952,7 @@ class GameService
 
             return $parameters;
         }
+
         if ($parameters['state'] === 'users') {
             $query = $this->userService->findActiveQuery();
             $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
@@ -953,6 +961,7 @@ class GameService
 
             return $parameters;
         }
+
         if ($parameters['state'] === 'rank') {
             $query = $this->findActiveQuery($parameters['mode']);
             $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
@@ -961,6 +970,7 @@ class GameService
 
             return $parameters;
         }
+
         if ($parameters['state'] === 'chat' || $parameters['state'] === 'guestbook') {
             $page = $this->pageService->findOneActiveByRefAndHost($parameters['state'], $request->getHost());
             $comment = new CommentPage();

@@ -12,13 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 class CommentArticle extends \App\Entity\Comment
 {
     /**
-     * @var Article
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      */
-    protected $article;
+    protected ?\App\Entity\Article $article = null;
 
     /**
      * Set article.

@@ -25,11 +25,9 @@ class Sword
     use TimestampTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * @var File
@@ -39,63 +37,56 @@ class Sword
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="sword", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    protected $players;
+    protected \Doctrine\Common\Collections\Collection $players;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentSword", cascade={"persist", "remove"})
-     */
-    protected $currentSwordPlayers;
-    /**
-     * @var int
      *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
+    protected \Doctrine\Common\Collections\Collection $currentSwordPlayers;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="price", type="integer")
      */
-    private $price;
+    private ?int $price = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="damageMin", type="integer")
      */
-    private $damageMin;
+    private ?int $damageMin = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="damageMax", type="integer")
      */
-    private $damageMax;
+    private ?int $damageMax = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="requiredStrength", type="integer")
      */
-    private $requiredStrength;
+    private ?int $requiredStrength = null;
 
     /**
      * Constructor.

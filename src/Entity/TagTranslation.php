@@ -24,14 +24,14 @@ class TagTranslation implements Stringable
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $locale;
+    protected string $locale;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="translations", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
      */
-    protected $tag;
+    protected ?\App\Entity\Tag $tag = null;
 
     /**
      * @ORM\Id
@@ -40,12 +40,12 @@ class TagTranslation implements Stringable
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $title;
+    protected string $title;
 
     /**
      * Constructor.

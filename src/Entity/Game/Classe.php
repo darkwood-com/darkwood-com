@@ -25,11 +25,9 @@ class Classe
     use TimestampTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * @var File
@@ -39,49 +37,42 @@ class Classe
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="classe", cascade={"persist", "remove"})
-     */
-    protected $players;
-    /**
-     * @var int
      *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
+    protected \Doctrine\Common\Collections\Collection $players;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="strength", type="integer")
      */
-    private $strength;
+    private ?int $strength = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="dexterity", type="integer")
      */
-    private $dexterity;
+    private ?int $dexterity = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="vitality", type="integer")
      */
-    private $vitality;
+    private ?int $vitality = null;
 
     /**
      * Constructor.

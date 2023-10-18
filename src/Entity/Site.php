@@ -27,24 +27,20 @@ class Site implements Stringable
 {
     use TimestampTrait;
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * @Gedmo\Slug(fields={"name"}, separator="-", unique=true, updatable=false)
@@ -54,32 +50,28 @@ class Site implements Stringable
     protected $ref;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="host", type="string", length=255)
      */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    protected $host;
+    protected ?string $host = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="position", type="integer")
      */
-    protected $position;
+    protected ?int $position = null;
 
     /**
-     * @var ArrayCollection
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Page>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="site", cascade={"all"})
      */
-    protected $pages;
+    protected \Doctrine\Common\Collections\Collection $pages;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $active = true;
+    protected ?bool $active = true;
 
     /**
      * @var File
@@ -89,11 +81,9 @@ class Site implements Stringable
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Constructor.

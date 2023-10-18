@@ -29,25 +29,23 @@ class App extends Page
     protected $banner;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $bannerName;
+    protected ?string $bannerName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $theme;
+    protected ?string $theme = null;
 
     /**
      * Contents.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\AppContent", mappedBy="app", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\AppContent>
      */
-    protected $contents;
+    protected \Doctrine\Common\Collections\Collection $contents;
 
     /**
      * Constructor.

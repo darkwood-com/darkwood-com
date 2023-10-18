@@ -33,7 +33,7 @@ class ArticleTranslation implements Stringable
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $locale;
+    protected string $locale;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="translations", cascade={"persist"})
@@ -41,7 +41,7 @@ class ArticleTranslation implements Stringable
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
      */
     #[Assert\Valid]
-    protected $article;
+    protected ?\App\Entity\Article $article = null;
 
     /**
      * @ORM\Id
@@ -50,14 +50,14 @@ class ArticleTranslation implements Stringable
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    protected $title;
+    protected string $title;
 
     /**
      * Slug.
@@ -66,12 +66,12 @@ class ArticleTranslation implements Stringable
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $slug;
+    protected string $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
+    protected ?string $content = null;
 
     /**
      * @var File
@@ -81,16 +81,14 @@ class ArticleTranslation implements Stringable
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $active = true;
+    protected ?bool $active = true;
 
     /**
      * Constructor.

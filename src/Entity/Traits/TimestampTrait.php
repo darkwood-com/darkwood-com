@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Traits;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -14,22 +15,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait TimestampTrait
 {
     /**
-     * @var DateTime
-     *
      * @Gedmo\Timestampable(on="create")
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
-    protected $created;
+    protected DateTimeInterface $created;
 
     /**
-     * @var DateTime
-     *
      * @Gedmo\Timestampable(on="update")
      *
      * @ORM\Column(name="updated", type="datetime", nullable=false)
      */
-    protected $updated;
+    protected DateTimeInterface $updated;
 
     /**
      * Set created.

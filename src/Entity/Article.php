@@ -24,38 +24,42 @@ class Article implements Stringable
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\ArticleTranslation", mappedBy="article", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\ArticleTranslation>
      */
-    protected $translations;
+    protected \Doctrine\Common\Collections\Collection $translations;
 
     /**
-     * @var ArrayCollection<Tag>
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Tag>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
      *
      * @ORM\JoinTable(name="article_tag")
      */
-    protected $tags;
+    protected \Doctrine\Common\Collections\Collection $tags;
+
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\CommentArticle>
      */
-    private $comments;
+    private \Doctrine\Common\Collections\Collection $comments;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }

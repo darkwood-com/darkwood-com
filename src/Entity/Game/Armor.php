@@ -25,11 +25,9 @@ class Armor
     use TimestampTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * @var File
@@ -39,56 +37,51 @@ class Armor
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="armor", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    protected $players;
+    protected \Doctrine\Common\Collections\Collection $players;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentArmor", cascade={"persist", "remove"})
-     */
-    protected $currentArmorPlayers;
-    /**
-     * @var int
      *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
+    protected \Doctrine\Common\Collections\Collection $currentArmorPlayers;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="price", type="integer")
      */
-    private $price;
+    private ?int $price = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="armor", type="integer")
      */
-    private $armor;
+    private ?int $armor = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="requiredStrength", type="integer")
      */
-    private $requiredStrength;
+    private ?int $requiredStrength = null;
 
     /**
      * Constructor.

@@ -26,45 +26,38 @@ abstract class Comment
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $active = true;
+    protected ?bool $active = true;
 
     /**
-     * @var User
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     #[Assert\NotNull(message: 'common.comment.required_user')]
-    protected $user;
+    protected ?\App\Entity\User $user = null;
 
     /**
-     * @var Page
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="comments", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
      */
     #[Assert\NotNull(message: 'common.comment.required_page')]
-    protected $page;
+    protected ?\App\Entity\Page $page = null;
+
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text")
      */
     #[Assert\NotNull(message: 'common.comment.required_content')]
-    private $content;
+    private ?string $content = null;
 
     /**
      * Get id.

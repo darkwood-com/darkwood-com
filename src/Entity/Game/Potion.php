@@ -25,11 +25,9 @@ class Potion
     use TimestampTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * @var File
@@ -39,49 +37,46 @@ class Potion
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="potion", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    protected $players;
+    protected \Doctrine\Common\Collections\Collection $players;
 
     /**
      * Players.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentPotion", cascade={"persist", "remove"})
-     */
-    protected $currentPotionPlayers;
-    /**
-     * @var int
      *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
+    protected \Doctrine\Common\Collections\Collection $currentPotionPlayers;
+
+    /**
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="price", type="integer")
      */
-    private $price;
+    private ?int $price = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="life", type="integer")
      */
-    private $life;
+    private ?int $life = null;
 
     /**
      * Constructor.

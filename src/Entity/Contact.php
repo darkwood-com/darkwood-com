@@ -18,52 +18,43 @@ class Contact
     use TimestampTrait;
 
     /**
-     * @var User
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $user;
+    protected ?\App\Entity\User $user = null;
+
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=255)
      */
     #[Assert\NotBlank(message: 'common.comment.required_email')]
     #[Assert\Email(message: '{{ value }} is invalid.', mode: 'strict')]
-    private $email;
+    private ?string $email = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
-    private $website;
+    private ?string $website = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text")
      */
     #[Assert\NotBlank(message: 'common.comment.required_content')]
-    private $content;
+    private ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $emailSent;
+    private ?bool $emailSent = null;
 
     /**
      * Get id.

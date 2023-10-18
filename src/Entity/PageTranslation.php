@@ -32,7 +32,7 @@ class PageTranslation implements Stringable
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $locale;
+    protected string $locale;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="translations", cascade={"persist"})
@@ -40,7 +40,7 @@ class PageTranslation implements Stringable
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
      */
     #[Assert\Valid]
-    protected $page;
+    protected ?\App\Entity\Page $page = null;
 
     /**
      * @ORM\Id
@@ -49,24 +49,24 @@ class PageTranslation implements Stringable
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    protected $title;
+    protected string $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $description;
+    protected ?string $description = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
+    protected ?string $content = null;
 
     /**
      * @var File
@@ -76,11 +76,9 @@ class PageTranslation implements Stringable
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
      * @var File
@@ -90,56 +88,54 @@ class PageTranslation implements Stringable
     protected $thumbnailImage;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $thumbnailImageName;
+    protected ?string $thumbnailImageName = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $imgAlt;
+    protected ?string $imgAlt = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $imgTitle;
+    protected ?string $imgTitle = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $seoTitle;
+    protected ?string $seoTitle = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $seoDescription;
+    protected ?string $seoDescription = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $seoKeywords;
+    protected ?string $seoKeywords = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $twitterCard;
+    protected ?string $twitterCard = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $twitterSite;
+    protected ?string $twitterSite = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $twitterTitle;
+    protected ?string $twitterTitle = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $twitterDescription;
+    protected ?string $twitterDescription = null;
 
     /**
      * @var File
@@ -149,21 +145,19 @@ class PageTranslation implements Stringable
     protected $twitterImage;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $twitterImageName;
+    protected ?string $twitterImageName = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $ogTitle;
+    protected ?string $ogTitle = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $ogType;
+    protected ?string $ogType = null;
 
     /**
      * @var File
@@ -173,21 +167,19 @@ class PageTranslation implements Stringable
     protected $ogImage;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $ogImageName;
+    protected ?string $ogImageName = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $ogDescription;
+    protected ?string $ogDescription = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $active = true;
+    protected ?bool $active = true;
 
     /**
      * Constructor.

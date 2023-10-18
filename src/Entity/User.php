@@ -8,6 +8,7 @@ use App\Entity\Game\Player;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\UserRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
@@ -38,7 +39,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
-    protected $email;
+    protected string $email;
 
     /**
      * Civility.
@@ -66,11 +67,9 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Edit.
      *
-     * @var DateTime
-     *
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $birthday;
+    protected ?DateTimeInterface $birthday = null;
 
     /**
      * City.
@@ -84,14 +83,14 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $comment;
+    protected ?string $comment = null;
 
     /**
      * Players.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Game\Player", mappedBy="user", cascade={"persist", "remove"})
      */
-    protected $player;
+    protected ?\App\Entity\Game\Player $player = null;
 
     /**
      * @var File
@@ -101,32 +100,33 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     protected $image;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $imageName;
+    protected ?string $imageName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
-    protected $facebookId;
+    protected ?string $facebookId = null;
 
     /**
      * Comments.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
-    protected $comments;
+    protected \Doctrine\Common\Collections\Collection $comments;
 
     /**
      * Contacts.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Contact>
      */
-    protected $contacts;
+    protected \Doctrine\Common\Collections\Collection $contacts;
+
     /**
      * Id.
      *
@@ -136,13 +136,13 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
-    private $username;
+    private ?string $username = null;
 
     /**
      * @ORM\Column(type="json")
@@ -154,17 +154,17 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $emailSent;
+    private ?bool $emailSent = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private ?bool $isVerified = false;
 
     /**
      * Constructor.

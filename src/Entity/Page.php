@@ -38,39 +38,39 @@ class Page implements Stringable
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * Translations.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\PageTranslation", mappedBy="page", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\PageTranslation>
      */
-    protected $translations;
+    protected \Doctrine\Common\Collections\Collection $translations;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
     #[Assert\NotBlank]
-    protected $ref;
+    protected ?string $ref = null;
 
     /**
-     * @var Site
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="pages", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     #[Assert\NotBlank]
-    protected $site;
+    protected ?\App\Entity\Site $site = null;
 
     /**
      * Comments.
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="page", cascade={"persist", "remove"})
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
-    protected $comments;
+    protected \Doctrine\Common\Collections\Collection $comments;
 
     /**
      * Constructor.

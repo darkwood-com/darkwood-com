@@ -21,29 +21,23 @@ class LevelUp
 {
     use TimestampTrait;
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="level", type="integer")
      */
-    private $level;
+    private ?int $level = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="xp", type="integer")
      */
-    private $xp;
+    private ?int $xp = null;
 
     /**
      * Get id.
