@@ -24,7 +24,7 @@ class Page implements Stringable
     use TimestampTrait;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
@@ -37,7 +37,7 @@ class Page implements Stringable
     protected \Doctrine\Common\Collections\Collection $translations;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $ref = null;
 
     #[Assert\NotBlank]
@@ -134,10 +134,7 @@ class Page implements Stringable
         return $this->ref;
     }
 
-    /**
-     * @param mixed $ref
-     */
-    public function setRef($ref)
+    public function setRef(mixed $ref)
     {
         $this->ref = $ref;
     }

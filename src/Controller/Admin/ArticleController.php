@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', priority : -1, requirements: ['_locale' => 'en|fr|de'])]
 class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private ArticleService $articleService, private TagService $tagService)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly ArticleService $articleService, private readonly TagService $tagService)
     {
     }
 

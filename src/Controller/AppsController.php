@@ -21,13 +21,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController,
-        private AuthenticationUtils $authenticationUtils,
-        private TranslatorInterface $translator,
-        private PaginatorInterface $paginator,
-        private PageService $pageService,
-        private CommentService $commentService,
-        private CsrfTokenManagerInterface $tokenManager
+        private readonly CommonController $commonController,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly TranslatorInterface $translator,
+        private readonly PaginatorInterface $paginator,
+        private readonly PageService $pageService,
+        private readonly CommentService $commentService,
+        private readonly CsrfTokenManagerInterface $tokenManager
     ) {
     }
 
@@ -97,16 +97,14 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
             throw $this->createNotFoundException('App not found !');
         }
 
-        $contents = $app->getContents()->filter(static function ($appContent) use ($request) {
+        $contents = $app->getContents()->filter(static fn ($appContent) =>
             // @var AppContent $appContent
-            return $appContent->getLocale() === $request->getLocale();
-        });
+            $appContent->getLocale() === $request->getLocale());
         $content = $page->getContent();
         if (null !== $slug) {
-            $content = $contents->filter(static function ($appContent) use ($slug) {
+            $content = $contents->filter(static fn ($appContent) =>
                 // @var AppContent $appContent
-                return $appContent->getSlug() === $slug;
-            })->current();
+                $appContent->getSlug() === $slug)->current();
             if (!$content) {
                 throw $this->createNotFoundException('App slug not found !');
             }

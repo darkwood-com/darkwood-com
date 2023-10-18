@@ -21,7 +21,7 @@ class Potion
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -31,7 +31,7 @@ class Potion
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -50,15 +50,15 @@ class Potion
     #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentPotion', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $currentPotionPlayers;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'price', type: 'integer')]
+    #[ORM\Column(name: 'price', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $price = null;
 
-    #[ORM\Column(name: 'life', type: 'integer')]
+    #[ORM\Column(name: 'life', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $life = null;
 
     /**

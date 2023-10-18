@@ -24,16 +24,16 @@ use function in_array;
 class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController,
-        private ArticleService $articleService,
-        private AuthenticationUtils $authenticationUtils,
-        private TranslatorInterface $translator,
-        private PaginatorInterface $paginator,
-        private PageService $pageService,
-        private CommentService $commentService,
-        private UserService $userService,
-        private GameService $gameService,
-        private CsrfTokenManagerInterface $tokenManager
+        private readonly CommonController $commonController,
+        private readonly ArticleService $articleService,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly TranslatorInterface $translator,
+        private readonly PaginatorInterface $paginator,
+        private readonly PageService $pageService,
+        private readonly CommentService $commentService,
+        private readonly UserService $userService,
+        private readonly GameService $gameService,
+        private readonly CsrfTokenManagerInterface $tokenManager
     ) {
     }
 

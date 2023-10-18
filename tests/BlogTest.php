@@ -60,26 +60,6 @@ class BlogTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return array_merge($commonUrls, [
-            ['/'],
-            ['/en'],
-            ['/de'],
-            ['/plan-du-site'],
-            ['/en/sitemap'],
-            ['/de/sitemap'],
-            ['/sitemap.xml'],
-            ['/en/sitemap.xml'],
-            ['/de/sitemap.xml'],
-            ['/rss'],
-            ['/en/rss'],
-            ['/de/rss'],
-            ['/contact'],
-            ['/en/contact'],
-            ['/de/kontakt'],
-
-            ['/article/ecrire-ses-notes-et-les-synchroniser'],
-            ['/en/article/ecrire-ses-notes-et-les-synchroniser'],
-            ['/de/article/ecrire-ses-notes-et-les-synchroniser'],
-        ]);
+        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/article/ecrire-ses-notes-et-les-synchroniser'], ['/en/article/ecrire-ses-notes-et-les-synchroniser'], ['/de/article/ecrire-ses-notes-et-les-synchroniser']];
     }
 }

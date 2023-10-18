@@ -22,7 +22,7 @@ class HomeController extends AbstractController
     public function upload(Request $request)
     {
         $file = $request->files->get('upload');
-        $name = mt_rand(0, 9999) . time() . '.' . $file->guessExtension();
+        $name = random_int(0, 9999) . time() . '.' . $file->guessExtension();
         $file->move($this->get('kernel')->getRootDir() . '/../web/uploads/ckeditor', $name);
         $html = "<br/><br/><p style='font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;'>";
         $html .= 'Copy & Paste this link in tab picture informations.</p>';

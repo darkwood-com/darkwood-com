@@ -42,7 +42,7 @@ class FacebookController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             // e.g. $name = $user->getFirstName();
             exit;
             // ...
-        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $identityProviderException) {
+        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException) {
             // something went wrong!
             // probably you should return the reason to the user
             exit;

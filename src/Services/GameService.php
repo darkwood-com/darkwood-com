@@ -52,15 +52,15 @@ use function is_array;
  */
 class GameService
 {
-    public const RATIO_EQUIPMENT = 4.0;
+    final public const RATIO_EQUIPMENT = 4.0;
 
-    public const RATIO_HIT_LUCK = 5.0;
+    final public const RATIO_HIT_LUCK = 5.0;
 
-    public const POINTS_BY_LEVEL = 15;
+    final public const POINTS_BY_LEVEL = 15;
 
-    public const LIFE_BY_VITALITY = 25;
+    final public const LIFE_BY_VITALITY = 25;
 
-    public const DEATH_LOSE_STATS = 10.0;
+    final public const DEATH_LOSE_STATS = 10.0;
 
     public $session;
 
@@ -278,9 +278,7 @@ class GameService
     {
         $classeId = (int) $classeId;
         $classe = $this->getClasses();
-        $classe = current(array_filter($classe['list'], static function ($c) use ($classeId) {
-            return $c->getId() === $classeId;
-        }));
+        $classe = current(array_filter($classe['list'], static fn ($c) => $c->getId() === $classeId));
         if (!$classe) {
             return;
         }
@@ -614,18 +612,18 @@ class GameService
             $player->setPotion($this->potionRepository->findDefault());
         } else {
             // player attack
-            $playerAttack = rand($playerInfo['damage']['min'], $playerInfo['damage']['max']) - rand(0, $enemy->getArmor());
+            $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getArmor());
         }
 
         // enemy attack
-        $enemyAttack = rand($enemy->getDamageMin(), $enemy->getDamageMax()) - rand(0, $playerInfo['armor']);
+        $enemyAttack = random_int($enemy->getDamageMin(), $enemy->getDamageMax()) - random_int(0, $playerInfo['armor']);
         if ($enemyAttack > 0) {
             $player->setLifeMin($player->getLifeMin() - $enemyAttack);
         } else {
             $enemyAttack = 0;
         }
 
-        $luck = rand(1, 100);
+        $luck = random_int(1, 100);
         $hitLuck = $enemy->getHitLuck() + $playerInfo['hitLuck'];
         if ($luck > $hitLuck && $action !== 'potion') {
             $playerAttack = -1;
@@ -673,7 +671,7 @@ class GameService
             $player->setGold($player->getGold() + $enemy->getGold());
             $newLevel = $this->levelUpRepository->findByXp($player->getXp());
             $result['level_up'] = !$newLevel || $newLevel->getLevel() - $oldLevel->getLevel() > 0;
-            $findGemLuck = rand(0, 2);
+            $findGemLuck = random_int(0, 2);
             // 1 chance on 3 to find a gem
             if ($findGemLuck === 0) {
                 // random select a gem proportionnal to enemy level
@@ -688,7 +686,7 @@ class GameService
                     $enemyPosition++;
                 }
 
-                $gemPosition = ceil((count($gems) - 1) * rand(1, $enemyPosition) / count($enemies));
+                $gemPosition = ceil((count($gems) - 1) * random_int(1, $enemyPosition) / count($enemies));
                 // find gem
                 $gem = current($gems);
                 foreach ($gems as $g) {
@@ -752,9 +750,7 @@ class GameService
         $now = new DateTime();
         $dailyBattles = $this->dailyBattleRepository->findDailyBattles($now);
 
-        return array_map(function ($dailyBattle) {
-            return ['info' => $this->getInfo($dailyBattle->getPlayer()->getUser()), 'dailyBattle' => $dailyBattle];
-        }, $dailyBattles);
+        return array_map(fn ($dailyBattle) => ['info' => $this->getInfo($dailyBattle->getPlayer()->getUser()), 'dailyBattle' => $dailyBattle], $dailyBattles);
     }
 
     public function getSessionDaily(User $user)
@@ -785,9 +781,9 @@ class GameService
         $enemyInfo = $this->getInfo($enemy);
         $sessionDaily = $this->getSessionDaily($user);
         // player attack
-        $playerAttack = rand($playerInfo['damage']['min'], $playerInfo['damage']['max']) - rand(0, $enemy->getPlayer()->getArmor()->getArmor());
+        $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getPlayer()->getArmor()->getArmor());
         // enemy attack
-        $enemyAttack = rand($enemyInfo['damage']['min'], $enemyInfo['damage']['max']) - rand(0, $player->getArmor()->getArmor());
+        $enemyAttack = random_int($enemyInfo['damage']['min'], $enemyInfo['damage']['max']) - random_int(0, $player->getArmor()->getArmor());
         if ($playerAttack > 0) {
             $sessionDaily['enemy_current_life'] -= $playerAttack;
         } else {
@@ -859,7 +855,7 @@ class GameService
      */
     public function play(Request $request, User $user = null, $display = null)
     {
-        $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => null === $display ? 'web' : $display];
+        $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {
             $parameters['display'] = 'web';
         }

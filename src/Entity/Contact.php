@@ -18,24 +18,24 @@ class Contact
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected ?\App\Entity\User $user = null;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     #[Assert\NotBlank(message: 'common.comment.required_email')]
     #[Assert\Email(message: '{{ value }} is invalid.', mode: 'strict')]
-    #[ORM\Column(name: 'email', type: 'string', length: 255)]
+    #[ORM\Column(name: 'email', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'website', type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(name: 'website', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     private ?string $website = null;
 
     #[Assert\NotBlank(message: 'common.comment.required_content')]
-    #[ORM\Column(name: 'content', type: 'text')]
+    #[ORM\Column(name: 'content', type: \Doctrine\DBAL\Types\Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true)]
     private ?bool $emailSent = null;
 
     /**

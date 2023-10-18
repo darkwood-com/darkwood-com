@@ -17,7 +17,7 @@ abstract class Comment
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     protected ?bool $active = true;
 
     #[Assert\NotNull(message: 'common.comment.required_user')]
@@ -30,13 +30,13 @@ abstract class Comment
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id')]
     protected ?\App\Entity\Page $page = null;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     #[Assert\NotNull(message: 'common.comment.required_content')]
-    #[ORM\Column(name: 'content', type: 'text')]
+    #[ORM\Column(name: 'content', type: \Doctrine\DBAL\Types\Types::TEXT)]
     private ?string $content = null;
 
     /**

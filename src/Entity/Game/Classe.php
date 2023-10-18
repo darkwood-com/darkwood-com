@@ -21,7 +21,7 @@ class Classe
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -31,7 +31,7 @@ class Classe
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -42,18 +42,18 @@ class Classe
     #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'classe', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $players;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'strength', type: 'integer')]
+    #[ORM\Column(name: 'strength', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $strength = null;
 
-    #[ORM\Column(name: 'dexterity', type: 'integer')]
+    #[ORM\Column(name: 'dexterity', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $dexterity = null;
 
-    #[ORM\Column(name: 'vitality', type: 'integer')]
+    #[ORM\Column(name: 'vitality', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $vitality = null;
 
     /**

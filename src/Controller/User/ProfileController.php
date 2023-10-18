@@ -17,10 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private CommonController $commonController,
-        private UserService $userService,
-        private GameService $gameService
+        private readonly TranslatorInterface $translator,
+        private readonly CommonController $commonController,
+        private readonly UserService $userService,
+        private readonly GameService $gameService
     ) {
     }
 

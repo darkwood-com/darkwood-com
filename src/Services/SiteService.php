@@ -128,7 +128,7 @@ class SiteService
 
     public function getSitemap($host, $locale, $force = false)
     {
-        $cacheId = 'sitemap-' . md5($host) . '-' . md5($locale);
+        $cacheId = 'sitemap-' . md5((string) $host) . '-' . md5((string) $locale);
 
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($locale) {
             $item->expiresAfter(43200); // 12 hours
@@ -223,13 +223,7 @@ class SiteService
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];
         }
 
-        usort($feed, static function ($item1, $item2) {
-            if ($item1['date'] === $item2['date']) {
-                return 0;
-            }
-
-            return ($item1['date'] < $item2['date']) ? -1 : 1;
-        });
+        usort($feed, static fn ($item1, $item2) => $item1['date'] <=> $item2['date']);
 
         return $feed;
     }

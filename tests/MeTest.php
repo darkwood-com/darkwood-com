@@ -57,22 +57,6 @@ class MeTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return array_merge($commonUrls, [
-            ['/'],
-            ['/en'],
-            ['/de'],
-            ['/plan-du-site'],
-            ['/en/sitemap'],
-            ['/de/sitemap'],
-            ['/sitemap.xml'],
-            ['/en/sitemap.xml'],
-            ['/de/sitemap.xml'],
-            ['/rss'],
-            ['/en/rss'],
-            ['/de/rss'],
-            ['/contact'],
-            ['/en/contact'],
-            ['/de/kontakt'],
-        ]);
+        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt']];
     }
 }

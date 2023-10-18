@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', priority : -1, requirements: ['_locale' => 'en|fr|de'])]
 class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private AppService $appService, private PageService $pageService, private SiteService $siteService)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly AppService $appService, private readonly PageService $pageService, private readonly SiteService $siteService)
     {
     }
 

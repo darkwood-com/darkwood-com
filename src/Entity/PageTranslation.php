@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[ORM\Entity(repositoryClass: \App\Repository\PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
 #[ORM\UniqueConstraint(name: 'locale_page_unique', columns: ['locale', 'page_id'])]
@@ -21,7 +22,7 @@ class PageTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
     #[Assert\Valid]
@@ -30,19 +31,19 @@ class PageTranslation implements Stringable
     protected ?\App\Entity\Page $page = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $description = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -52,7 +53,7 @@ class PageTranslation implements Stringable
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -62,34 +63,34 @@ class PageTranslation implements Stringable
      */
     protected $thumbnailImage;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $thumbnailImageName = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $imgAlt = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $imgTitle = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $seoTitle = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $seoDescription = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $seoKeywords = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $twitterCard = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $twitterSite = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $twitterTitle = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $twitterDescription = null;
 
     /**
@@ -99,13 +100,13 @@ class PageTranslation implements Stringable
      */
     protected $twitterImage;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $twitterImageName = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $ogTitle = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $ogType = null;
 
     /**
@@ -115,13 +116,13 @@ class PageTranslation implements Stringable
      */
     protected $ogImage;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $ogImageName = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $ogDescription = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
@@ -214,10 +215,7 @@ class PageTranslation implements Stringable
         return $this->content;
     }
 
-    /**
-     * @param mixed $content
-     */
-    public function setContent($content)
+    public function setContent(mixed $content)
     {
         $this->content = $content;
     }
@@ -294,10 +292,7 @@ class PageTranslation implements Stringable
         $this->thumbnailImageName = $thumbnailImageName;
     }
 
-    /**
-     * @param mixed $imgAlt
-     */
-    public function setImgAlt($imgAlt)
+    public function setImgAlt(mixed $imgAlt)
     {
         $this->imgAlt = $imgAlt;
     }
@@ -310,10 +305,7 @@ class PageTranslation implements Stringable
         return $this->imgAlt;
     }
 
-    /**
-     * @param mixed $imgTitle
-     */
-    public function setImgTitle($imgTitle)
+    public function setImgTitle(mixed $imgTitle)
     {
         $this->imgTitle = $imgTitle;
     }
@@ -326,10 +318,7 @@ class PageTranslation implements Stringable
         return $this->imgTitle;
     }
 
-    /**
-     * @param mixed $seoTitle
-     */
-    public function setSeoTitle($seoTitle)
+    public function setSeoTitle(mixed $seoTitle)
     {
         $this->seoTitle = $seoTitle;
     }
@@ -342,10 +331,7 @@ class PageTranslation implements Stringable
         return $this->seoTitle;
     }
 
-    /**
-     * @param mixed $seoDescription
-     */
-    public function setSeoDescription($seoDescription)
+    public function setSeoDescription(mixed $seoDescription)
     {
         $this->seoDescription = $seoDescription;
     }
@@ -358,10 +344,7 @@ class PageTranslation implements Stringable
         return $this->seoDescription;
     }
 
-    /**
-     * @param mixed $seoKeywords
-     */
-    public function setSeoKeywords($seoKeywords)
+    public function setSeoKeywords(mixed $seoKeywords)
     {
         $this->seoKeywords = $seoKeywords;
     }
@@ -374,10 +357,7 @@ class PageTranslation implements Stringable
         return $this->seoKeywords;
     }
 
-    /**
-     * @param mixed $twitterTitle
-     */
-    public function setTwitterTitle($twitterTitle)
+    public function setTwitterTitle(mixed $twitterTitle)
     {
         $this->twitterTitle = $twitterTitle;
     }
@@ -390,10 +370,7 @@ class PageTranslation implements Stringable
         return $this->twitterTitle;
     }
 
-    /**
-     * @param mixed $twitterCard
-     */
-    public function setTwitterCard($twitterCard)
+    public function setTwitterCard(mixed $twitterCard)
     {
         $this->twitterCard = $twitterCard;
     }
@@ -406,10 +383,7 @@ class PageTranslation implements Stringable
         return $this->twitterCard;
     }
 
-    /**
-     * @param mixed $twitterDescription
-     */
-    public function setTwitterDescription($twitterDescription)
+    public function setTwitterDescription(mixed $twitterDescription)
     {
         $this->twitterDescription = $twitterDescription;
     }
@@ -422,10 +396,7 @@ class PageTranslation implements Stringable
         return $this->twitterDescription;
     }
 
-    /**
-     * @param mixed $twitterSite
-     */
-    public function setTwitterSite($twitterSite)
+    public function setTwitterSite(mixed $twitterSite)
     {
         $this->twitterSite = $twitterSite;
     }
@@ -474,10 +445,7 @@ class PageTranslation implements Stringable
         $this->twitterImageName = $twitterImageName;
     }
 
-    /**
-     * @param mixed $ogTitle
-     */
-    public function setOgTitle($ogTitle)
+    public function setOgTitle(mixed $ogTitle)
     {
         $this->ogTitle = $ogTitle;
     }
@@ -490,10 +458,7 @@ class PageTranslation implements Stringable
         return $this->ogTitle;
     }
 
-    /**
-     * @param mixed $ogDescription
-     */
-    public function setOgDescription($ogDescription)
+    public function setOgDescription(mixed $ogDescription)
     {
         $this->ogDescription = $ogDescription;
     }
@@ -506,10 +471,7 @@ class PageTranslation implements Stringable
         return $this->ogDescription;
     }
 
-    /**
-     * @param mixed $ogType
-     */
-    public function setOgType($ogType)
+    public function setOgType(mixed $ogType)
     {
         $this->ogType = $ogType;
     }

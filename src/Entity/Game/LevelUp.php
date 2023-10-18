@@ -18,15 +18,15 @@ class LevelUp
 {
     use TimestampTrait;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'level', type: 'integer')]
+    #[ORM\Column(name: 'level', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $level = null;
 
-    #[ORM\Column(name: 'xp', type: 'integer')]
+    #[ORM\Column(name: 'xp', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $xp = null;
 
     /**

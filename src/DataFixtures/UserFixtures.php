@@ -14,7 +14,7 @@ class UserFixtures extends Fixture
      * AppFixtures constructor.
      */
     public function __construct(
-        private \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder
+        private readonly \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder
     ) {
     }
 

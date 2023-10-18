@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController
+        private readonly CommonController $commonController
     ) {
     }
 

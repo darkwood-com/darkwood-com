@@ -22,13 +22,13 @@ use Twig\Environment;
 class HelloController extends AbstractController
 {
     public function __construct(
-        private Environment $twig,
-        private MailerInterface $mailer,
-        private TranslatorInterface $translator,
-        private CommonController $commonController,
-        private ContactService $contactService,
-        private ArticleService $articleService,
-        private CsrfTokenManagerInterface $tokenManager
+        private readonly Environment $twig,
+        private readonly MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
+        private readonly CommonController $commonController,
+        private readonly ContactService $contactService,
+        private readonly ArticleService $articleService,
+        private readonly CsrfTokenManagerInterface $tokenManager
     ) {
     }
 
@@ -48,7 +48,7 @@ class HelloController extends AbstractController
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
-                } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
+                } catch (\Symfony\Component\Mailer\Exception\TransportException) {
                     $contact->setEmailSent(false);
                 }
 

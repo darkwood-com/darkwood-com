@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[ORM\Entity(repositoryClass: \App\Repository\ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
 #[ORM\UniqueConstraint(name: 'locale_article_unique', columns: ['locale', 'article_id'])]
@@ -22,7 +23,7 @@ class ArticleTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
     #[Assert\Valid]
@@ -31,13 +32,13 @@ class ArticleTranslation implements Stringable
     protected ?\App\Entity\Article $article = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
     /**
@@ -45,10 +46,10 @@ class ArticleTranslation implements Stringable
      *
      * @Gedmo\Slug(fields={"title"})
      */
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $slug;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -58,10 +59,10 @@ class ArticleTranslation implements Stringable
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
@@ -134,10 +135,7 @@ class ArticleTranslation implements Stringable
         return $this->slug;
     }
 
-    /**
-     * @param mixed $slug
-     */
-    public function setSlug($slug)
+    public function setSlug(mixed $slug)
     {
         $this->slug = $slug;
     }
@@ -150,10 +148,7 @@ class ArticleTranslation implements Stringable
         return $this->content;
     }
 
-    /**
-     * @param mixed $content
-     */
-    public function setContent($content)
+    public function setContent(mixed $content)
     {
         $this->content = $content;
     }

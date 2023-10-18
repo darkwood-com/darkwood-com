@@ -24,9 +24,7 @@ class CommentType extends \Symfony\Component\Form\AbstractType
     {
         $locale = $options['locale'];
         $builder->add('content', TextareaType::class, ['required' => false]);
-        $builder->add('page', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => Page::class, 'placeholder' => '- Choisissez une page -', 'query_builder' => static function (EntityRepository $er) use ($locale) {
-            return $er->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->andWhere('pts.locale = :locale OR pts.locale IS NULL')->setParameter('locale', $locale);
-        }]);
+        $builder->add('page', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, ['class' => Page::class, 'placeholder' => '- Choisissez une page -', 'query_builder' => static fn (EntityRepository $er) => $er->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->andWhere('pts.locale = :locale OR pts.locale IS NULL')->setParameter('locale', $locale)]);
         $builder->add('active', CheckboxType::class, ['required' => false]);
     }
 

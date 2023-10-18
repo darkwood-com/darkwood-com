@@ -14,10 +14,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController,
-        private AuthenticationUtils $authenticationUtils,
-        private PageService $pageService,
-        private CsrfTokenManagerInterface $tokenManager
+        private readonly CommonController $commonController,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly PageService $pageService,
+        private readonly CsrfTokenManagerInterface $tokenManager
     ) {
     }
 

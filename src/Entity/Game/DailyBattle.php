@@ -17,13 +17,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class DailyBattle
 {
     use TimestampTrait;
-    public const STATUS_DAILY_USER = 0;
+    final public const STATUS_DAILY_USER = 0;
 
     // user of the day
-    public const STATUS_NEW_WIN = 1;
+    final public const STATUS_NEW_WIN = 1;
 
     // user that win the fight
-    public const STATUS_NEW_LOSE = 2;
+    final public const STATUS_NEW_LOSE = 2;
 
     #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Player::class, inversedBy: 'dailyBattles', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'id', onDelete: 'cascade')]
@@ -31,12 +31,12 @@ class DailyBattle
 
     // user that lose the fight
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'status', type: 'integer')]
+    #[ORM\Column(name: 'status', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $status = null;
 
     /**

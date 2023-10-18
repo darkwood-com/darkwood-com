@@ -16,7 +16,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         protected ParameterBagInterface $parameterBagInterface,
-        private SiteService $siteService
+        private readonly SiteService $siteService
     ) {
     }
 

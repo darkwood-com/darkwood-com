@@ -22,7 +22,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 #[Route('/', name: 'common_register')]
 class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier, private CommonController $commonController)
+    public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController)
     {
     }
 
@@ -44,7 +44,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
             try {
                 $this->emailVerifier->sendEmailConfirmation('common_register_check', $user, (new TemplatedEmail())->from(new Address('no-reply@darkwood.fr', 'Darkwood'))->to($user->getEmail())->subject('Please Confirm your Email')->htmlTemplate('common/mails/registration.html.twig')->context(['user' => $user]));
                 $user->setEmailSent(true);
-            } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
+            } catch (\Symfony\Component\Mailer\Exception\TransportException) {
                 $user->setEmailSent(false);
             }
 

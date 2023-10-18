@@ -21,7 +21,7 @@ class Enemy
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -31,7 +31,7 @@ class Enemy
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -50,30 +50,30 @@ class Enemy
     #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentEnemy', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $currentEnemyPlayers;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'gold', type: 'integer')]
+    #[ORM\Column(name: 'gold', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $gold = null;
 
-    #[ORM\Column(name: 'xp', type: 'integer')]
+    #[ORM\Column(name: 'xp', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $xp = null;
 
-    #[ORM\Column(name: 'life', type: 'integer')]
+    #[ORM\Column(name: 'life', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $life = null;
 
-    #[ORM\Column(name: 'armor', type: 'integer')]
+    #[ORM\Column(name: 'armor', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $armor = null;
 
-    #[ORM\Column(name: 'damageMin', type: 'integer')]
+    #[ORM\Column(name: 'damageMin', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $damageMin = null;
 
-    #[ORM\Column(name: 'damageMax', type: 'integer')]
+    #[ORM\Column(name: 'damageMax', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $damageMax = null;
 
-    #[ORM\Column(name: 'hitLuck', type: 'integer')]
+    #[ORM\Column(name: 'hitLuck', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $hitLuck = null;
 
     /**

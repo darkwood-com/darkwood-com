@@ -30,16 +30,16 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use \Symfony\Component\Security\Http\Util\TargetPathTrait;
-    public const LOGIN_ROUTE = 'security_login';
+    final public const LOGIN_ROUTE = 'security_login';
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UrlGeneratorInterface $urlGenerator,
-        private CsrfTokenManagerInterface $csrfTokenManager,
-        private SiteService $siteService,
-        private ParameterBagInterface $parameterBag,
-        private UserRepository $userRepository,
-        private UserProviderInterface $userProvider
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly CsrfTokenManagerInterface $csrfTokenManager,
+        private readonly SiteService $siteService,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly UserRepository $userRepository,
+        private readonly UserProviderInterface $userProvider
     ) {
     }
 
@@ -53,9 +53,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $credentials = $this->getCredentials($request);
 
         $passport = new Passport(
-            new UserBadge($credentials['username'], function (string $identifier): UserInterface {
-                return $this->userProvider->loadUserByIdentifier($identifier);
-            }),
+            new UserBadge($credentials['username'], fn (string $identifier): UserInterface => $this->userProvider->loadUserByIdentifier($identifier)),
             new PasswordCredentials($credentials['password']),
             [new RememberMeBadge()]
         );

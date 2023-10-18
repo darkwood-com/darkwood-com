@@ -33,7 +33,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, unique: true, nullable: false)]
     protected string $email;
 
     /**
@@ -59,7 +59,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Edit.
      */
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE, nullable: true)]
     protected ?DateTimeInterface $birthday = null;
 
     /**
@@ -71,7 +71,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Comment.
      */
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $comment = null;
 
     /**
@@ -87,10 +87,10 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    #[ORM\Column(name: 'facebook_id', type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(name: 'facebook_id', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $facebookId = null;
 
     /**
@@ -114,26 +114,26 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $id = null;
 
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 180, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::JSON)]
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, nullable: true)]
     private ?string $password = null;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true)]
     private ?bool $emailSent = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private ?bool $isVerified = false;
 
     /**
@@ -205,10 +205,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
+    public function setEmail(mixed $email)
     {
         $this->email = $email;
     }
@@ -254,10 +251,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Set firstname.
-     *
-     * @param mixed $firstname
      */
-    public function setFirstname($firstname)
+    public function setFirstname(mixed $firstname)
     {
         $this->firstname = $firstname;
     }
@@ -274,10 +269,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Set lastname.
-     *
-     * @param mixed $lastname
      */
-    public function setLastname($lastname)
+    public function setLastname(mixed $lastname)
     {
         $this->lastname = $lastname;
     }
@@ -316,10 +309,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         return $this->city;
     }
 
-    /**
-     * @param mixed $city
-     */
-    public function setCity($city)
+    public function setCity(mixed $city)
     {
         $this->city = $city;
     }
@@ -332,10 +322,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         return $this->comment;
     }
 
-    /**
-     * @param mixed $comment
-     */
-    public function setComment($comment)
+    public function setComment(mixed $comment)
     {
         $this->comment = $comment;
     }
@@ -392,10 +379,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->facebookId = $facebookId;
     }
 
-    /**
-     * @param mixed $civility
-     */
-    public function setCivility($civility)
+    public function setCivility(mixed $civility)
     {
         $this->civility = $civility;
     }

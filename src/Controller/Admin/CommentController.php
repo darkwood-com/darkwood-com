@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/comments', name: 'admin_comment_', host: '%admin_host%', priority : -1, requirements: ['_locale' => 'en|fr|de'])]
 class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(private TranslatorInterface $translator, private PaginatorInterface $paginator, private CommentService $commentService)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly CommentService $commentService)
     {
     }
 

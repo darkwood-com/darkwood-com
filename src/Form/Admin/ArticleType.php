@@ -19,7 +19,7 @@ class ArticleType extends \Symfony\Component\Form\AbstractType
         /**
          * @var TagTransformer
          */
-        private TagTransformer $tagTransformer
+        private readonly TagTransformer $tagTransformer
     ) {
     }
 

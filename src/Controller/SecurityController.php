@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController
+        private readonly CommonController $commonController
     ) {
     }
 
@@ -45,7 +45,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/logout', 'en' => '/en/logout', 'de' => '/de/logout'], name: 'logout')]
-    public function logout()
+    public function logout(): never
     {
         throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

@@ -28,14 +28,14 @@ use Twig\Environment;
 class CommonController extends AbstractController
 {
     public function __construct(
-        private Environment $twig,
-        private MailerInterface $mailer,
-        private TranslatorInterface $translator,
-        private PageService $pageService,
-        private SiteService $siteService,
-        private ContactService $contactService,
-        private SeoService $seoService,
-        private HtmlErrorRenderer $errorRenderer
+        private readonly Environment $twig,
+        private readonly MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
+        private readonly PageService $pageService,
+        private readonly SiteService $siteService,
+        private readonly ContactService $contactService,
+        private readonly SeoService $seoService,
+        private readonly HtmlErrorRenderer $errorRenderer
     ) {
     }
 
@@ -166,7 +166,7 @@ class CommonController extends AbstractController
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
-                } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
+                } catch (\Symfony\Component\Mailer\Exception\TransportException) {
                     $contact->setEmailSent(false);
                 }
 

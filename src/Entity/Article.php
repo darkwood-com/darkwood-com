@@ -31,7 +31,7 @@ class Article implements Stringable
     #[ORM\JoinTable(name: 'article_tag')]
     protected \Doctrine\Common\Collections\Collection $tags;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;

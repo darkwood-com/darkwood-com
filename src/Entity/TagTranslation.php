@@ -17,7 +17,7 @@ class TagTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
     #[ORM\ManyToOne(targetEntity: \App\Entity\Tag::class, inversedBy: 'translations', cascade: ['persist'])]
@@ -25,11 +25,11 @@ class TagTranslation implements Stringable
     protected ?\App\Entity\Tag $tag = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
     /**

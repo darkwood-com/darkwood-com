@@ -28,7 +28,7 @@ class Gem
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -55,12 +55,12 @@ class Gem
     #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment3', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $equipment3Players;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'power', type: 'integer')]
+    #[ORM\Column(name: 'power', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $power = null;
 
     /**

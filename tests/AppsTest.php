@@ -60,29 +60,6 @@ class AppsTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return array_merge($commonUrls, [
-            ['/'],
-            ['/en'],
-            ['/de'],
-            ['/plan-du-site'],
-            ['/en/sitemap'],
-            ['/de/sitemap'],
-            ['/sitemap.xml'],
-            ['/en/sitemap.xml'],
-            ['/de/sitemap.xml'],
-            ['/rss'],
-            ['/en/rss'],
-            ['/de/rss'],
-            ['/contact'],
-            ['/en/contact'],
-            ['/de/kontakt'],
-
-            ['/en/zmesh'],
-            ['/de/zmesh'],
-            ['/zmesh'],
-            ['/en/zmesh/conception'],
-            ['/de/zmesh/conception'],
-            ['/zmesh/conception'],
-        ]);
+        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/en/zmesh'], ['/de/zmesh'], ['/zmesh'], ['/en/zmesh/conception'], ['/de/zmesh/conception'], ['/zmesh/conception']];
     }
 }

@@ -80,45 +80,45 @@ class Player
     #[ORM\JoinColumn(name: 'current_armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Armor $currentArmor = null;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'lifeMin', type: 'integer')]
+    #[ORM\Column(name: 'lifeMin', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $lifeMin = null;
 
-    #[ORM\Column(name: 'lifeMax', type: 'integer')]
+    #[ORM\Column(name: 'lifeMax', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $lifeMax = null;
 
-    #[ORM\Column(name: 'xp', type: 'integer')]
+    #[ORM\Column(name: 'xp', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $xp = null;
 
-    #[ORM\Column(name: 'gold', type: 'integer')]
+    #[ORM\Column(name: 'gold', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $gold = null;
 
-    #[ORM\Column(name: 'strength', type: 'integer')]
+    #[ORM\Column(name: 'strength', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $strength = null;
 
-    #[ORM\Column(name: 'dexterity', type: 'integer')]
+    #[ORM\Column(name: 'dexterity', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $dexterity = null;
 
-    #[ORM\Column(name: 'vitality', type: 'integer')]
+    #[ORM\Column(name: 'vitality', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $vitality = null;
 
-    #[ORM\Column(name: 'equipment1_is_use', type: 'boolean')]
+    #[ORM\Column(name: 'equipment1_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private ?bool $equipment1IsUse = null;
 
-    #[ORM\Column(name: 'equipment2_is_use', type: 'boolean')]
+    #[ORM\Column(name: 'equipment2_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private ?bool $equipment2IsUse = null;
 
-    #[ORM\Column(name: 'equipment3_is_use', type: 'boolean')]
+    #[ORM\Column(name: 'equipment3_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private ?bool $equipment3IsUse = null;
 
-    #[ORM\Column(name: 'daily_battle_victories', type: 'integer')]
+    #[ORM\Column(name: 'daily_battle_victories', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $dailyBattleVictories = null;
 
-    #[ORM\Column(name: 'daily_battle_defeats', type: 'integer')]
+    #[ORM\Column(name: 'daily_battle_defeats', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     private ?int $dailyBattleDefeats = null;
 
     /**
@@ -608,7 +608,7 @@ class Player
      */
     public function getCurrentDefaultSword()
     {
-        return $this->getCurrentSword() ? $this->getCurrentSword() : $this->getSword();
+        return $this->getCurrentSword() ?: $this->getSword();
     }
 
     /**
@@ -634,7 +634,7 @@ class Player
      */
     public function getCurrentDefaultPotion()
     {
-        return $this->getCurrentPotion() ? $this->getCurrentPotion() : $this->getPotion();
+        return $this->getCurrentPotion() ?: $this->getPotion();
     }
 
     /**
@@ -660,6 +660,6 @@ class Player
      */
     public function getCurrentDefaultArmor()
     {
-        return $this->getCurrentArmor() ? $this->getCurrentArmor() : $this->getArmor();
+        return $this->getCurrentArmor() ?: $this->getArmor();
     }
 }

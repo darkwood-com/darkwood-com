@@ -24,14 +24,14 @@ class Site implements Stringable
 {
     use TimestampTrait;
 
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $name = null;
 
     /**
@@ -42,10 +42,10 @@ class Site implements Stringable
 
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
-    #[ORM\Column(name: 'host', type: 'string', length: 255)]
+    #[ORM\Column(name: 'host', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $host = null;
 
-    #[ORM\Column(name: 'position', type: 'integer')]
+    #[ORM\Column(name: 'position', type: \Doctrine\DBAL\Types\Types::INTEGER)]
     protected ?int $position = null;
 
     /**
@@ -54,7 +54,7 @@ class Site implements Stringable
     #[ORM\OneToMany(targetEntity: \App\Entity\Page::class, mappedBy: 'site', cascade: ['all'])]
     protected \Doctrine\Common\Collections\Collection $pages;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
@@ -64,7 +64,7 @@ class Site implements Stringable
      */
     protected $image;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -98,10 +98,7 @@ class Site implements Stringable
         return $this->active;
     }
 
-    /**
-     * @param mixed $active
-     */
-    public function setActive($active)
+    public function setActive(mixed $active)
     {
         $this->active = $active;
     }

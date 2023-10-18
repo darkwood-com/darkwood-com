@@ -27,7 +27,6 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 use function count;
-use function get_class;
 
 /**
  * Class PageService.
@@ -273,7 +272,7 @@ class PageService
 
     public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
-        $cacheId = 'page_url-' . md5($entity->getId() . '-' . get_class($entity) . '-' . $referenceType);
+        $cacheId = 'page_url-' . md5($entity->getId() . '-' . $entity::class . '-' . $referenceType);
 
         return $this->appCache->get($cacheId, function (ItemInterface $item) use ($entity, $referenceType) {
             $item->expiresAfter(43200); // 12 hours
@@ -296,7 +295,7 @@ class PageService
 
                             break;
                         }
-                    } elseif (str_starts_with($route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
+                    } elseif (str_starts_with((string) $route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
                         if ($route->getHost() && $route->getHost() !== $host) {

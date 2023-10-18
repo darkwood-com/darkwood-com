@@ -24,18 +24,18 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator
 {
     public function __construct(
-        private ClientRegistry $clientRegistry,
-        private EntityManagerInterface $em,
-        private RouterInterface $router,
+        private readonly ClientRegistry $clientRegistry,
+        private readonly EntityManagerInterface $em,
+        private readonly RouterInterface $router,
         /**
          * @var UrlGeneratorInterface
          */
-        private UrlGeneratorInterface $urlGenerator,
-        private ParameterBagInterface $parameterBag,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ParameterBagInterface $parameterBag,
         /**
          * @var SiteService
          */
-        private SiteService $siteService
+        private readonly SiteService $siteService
     ) {
     }
 

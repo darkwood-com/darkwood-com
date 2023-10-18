@@ -20,14 +20,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private CommonController $commonController,
-        private AuthenticationUtils $authenticationUtils,
-        private TranslatorInterface $translator,
-        private PaginatorInterface $paginator,
-        private PageService $pageService,
-        private ArticleService $articleService,
-        private CommentService $commentService,
-        private CsrfTokenManagerInterface $tokenManager
+        private readonly CommonController $commonController,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly TranslatorInterface $translator,
+        private readonly PaginatorInterface $paginator,
+        private readonly PageService $pageService,
+        private readonly ArticleService $articleService,
+        private readonly CommentService $commentService,
+        private readonly CsrfTokenManagerInterface $tokenManager
     ) {
     }
 
