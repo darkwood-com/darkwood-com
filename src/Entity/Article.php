@@ -31,6 +31,11 @@ class Article implements \Stringable
     protected $translations;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
+     */
+    private $comments;
+
+    /**
      * @var ArrayCollection<Tag>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
@@ -109,6 +114,34 @@ class Article implements \Stringable
         $articleTs = $this->getOneTranslation();
 
         return $articleTs ? $articleTs->getTitle() : '';
+    }
+
+    /**
+     * Add comments.
+     */
+    public function addComment(CommentArticle $comments): void
+    {
+        $this->comments[] = $comments;
+        $comments->setArticle($this);
+    }
+
+    /**
+     * Remove comments.
+     */
+    public function removeComment(CommentArticle $comments)
+    {
+        $this->comments->removeElement($comments);
+        $comments->setArticle(null);
+    }
+
+    /**
+     * Get comments.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     // KEYWORDS
