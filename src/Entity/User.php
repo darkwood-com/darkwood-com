@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class User implements UserInterface, \Serializable, \Stringable, PasswordAuthenticatedUserInterface
+class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInterface
 {
     use TimestampTrait;
     /**
@@ -526,9 +526,9 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      *
      * @since 5.1.0
      */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize([$this->id, $this->username, $this->email, $this->password]);
+        return [$this->id, $this->username, $this->email, $this->password];
     }
 
     /**
@@ -544,9 +544,9 @@ class User implements UserInterface, \Serializable, \Stringable, PasswordAuthent
      *
      * @since 5.1.0
      */
-    public function unserialize($serialized)
+    public function __unserialize(array $data): void
     {
-        list($this->id, $this->username, $this->email, $this->password) = unserialize($serialized, ['allowed_classes' => false]);
+        [$this->id, $this->username, $this->email, $this->password] = $data;
     }
 
     public function getEmailSent(): ?bool
