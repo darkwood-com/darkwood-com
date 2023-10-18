@@ -9,7 +9,6 @@
         "bref/bref": "^2.1.4",
         "bref/symfony-bridge": "^0.2.2",
         "composer/package-versions-deprecated": "^1.11",
-        "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",

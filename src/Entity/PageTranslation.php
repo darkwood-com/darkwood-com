@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: \App\Repository\PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
@@ -19,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class PageTranslation implements Stringable
 {
     use TimestampTrait;
+
     /**
      * Locale.
      */
@@ -36,7 +38,7 @@ class PageTranslation implements Stringable
     protected ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: '2', max: '255')]
+    #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
@@ -48,9 +50,8 @@ class PageTranslation implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="pages", fileNameProperty="imageName")
      */
+	#[Vich\UploadableField(mapping: 'pages', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -58,9 +59,8 @@ class PageTranslation implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="thumbnailPages", fileNameProperty="thumbnailImageName")
      */
+	#[Vich\UploadableField(mapping: 'thumbnailPages', fileNameProperty: 'thumbnailImageName')]
     protected $thumbnailImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -95,9 +95,8 @@ class PageTranslation implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="twitterPages", fileNameProperty="twitterImageName")
      */
+	#[Vich\UploadableField(mapping: 'twitterPages', fileNameProperty: 'twitterImageName')]
     protected $twitterImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -111,9 +110,8 @@ class PageTranslation implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="ogPages", fileNameProperty="ogImageName")
      */
+	#[Vich\UploadableField(mapping: 'ogPages', fileNameProperty: 'ogImageName')]
     protected $ogImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

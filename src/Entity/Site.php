@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: \App\Repository\SiteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'site')]
@@ -30,7 +28,7 @@ class Site implements Stringable
     protected ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: '2', max: '255')]
+    #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $name = null;
 
@@ -41,7 +39,7 @@ class Site implements Stringable
     protected $ref;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: '2', max: '255')]
+    #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(name: 'host', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
     protected ?string $host = null;
 
@@ -59,9 +57,8 @@ class Site implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="sites", fileNameProperty="imageName")
      */
+	#[Vich\UploadableField(mapping: 'sites', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

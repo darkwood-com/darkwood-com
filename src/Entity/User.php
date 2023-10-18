@@ -19,9 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[UniqueEntity('email', message: "The email '{{ value }}' is already used.")]
 #[UniqueEntity('username', message: "The username '{{ value }}' is already taken.")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -36,55 +34,33 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, unique: true, nullable: false)]
     protected string $email;
 
-    /**
-     * Civility.
-     */
     #[ORM\Column(length: 255, nullable: true)]
     protected $civility = 'm';
 
-    /**
-     * Firstname.
-     */
-    #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'form.general.short', maxMessage: 'form.general.long')]
     #[ORM\Column(length: 255, nullable: true)]
     protected $firstname;
 
-    /**
-     * Lastname.
-     */
-    #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'form.general.short', maxMessage: 'form.general.long')]
     #[ORM\Column(length: 255, nullable: true)]
     protected $lastname;
 
-    /**
-     * Edit.
-     */
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE, nullable: true)]
     protected ?DateTimeInterface $birthday = null;
 
-    /**
-     * City.
-     */
     #[ORM\Column(length: 255, nullable: true)]
     protected $city;
 
-    /**
-     * Comment.
-     */
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     protected ?string $comment = null;
 
-    /**
-     * Players.
-     */
     #[ORM\OneToOne(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected ?\App\Entity\Game\Player $player = null;
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
      */
+	#[Vich\UploadableField(mapping: 'users', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

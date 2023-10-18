@@ -30,12 +30,20 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->bootstrapFiles([__DIR__ . '/../../vendor/autoload.php']);
 
+	$rectorConfig->paths([
+        __DIR__ . '/../../config',
+        __DIR__ . '/../../public',
+        __DIR__ . '/../../src',
+        __DIR__ . '/../../tests',
+        //__DIR__ . '/../../tools',
+    ]);
+
     // $rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
 
     /*$parameters = $containerConfigurator->parameters();
 
     // paths to refactor; solid alternative to CLI arguments
-    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
+    $parameters->set(Option::PATHS, [__DIR__ . '/../../src', __DIR__ . '/../../tests']);
 
     $parameters->set(Option::AUTOLOAD_PATHS, [
         __DIR__ . '/bin/.phpunit/phpunit',

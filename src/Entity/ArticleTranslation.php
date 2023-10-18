@@ -37,7 +37,7 @@ class ArticleTranslation implements Stringable
     protected ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: '2', max: '255')]
+    #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
@@ -54,9 +54,8 @@ class ArticleTranslation implements Stringable
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="articles", fileNameProperty="imageName")
      */
+	#[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

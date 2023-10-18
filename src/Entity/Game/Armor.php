@@ -11,9 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: \App\Repository\Game\ArmorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_armor')]
@@ -26,9 +24,8 @@ class Armor
 
     /**
      * @var File
-     *
-     * @Vich\UploadableField(mapping="armors", fileNameProperty="imageName")
      */
+	#[Vich\UploadableField(mapping: 'armors', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

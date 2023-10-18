@@ -12,7 +12,7 @@ use function Castor\run;
 function rector(): int
 {
     return run(
-        [__DIR__ . '/vendor/bin/rector process ' . __DIR__ . '/../../src ' . __DIR__ . '/../../tests'],
+        [__DIR__ . '/vendor/bin/rector process'],
         tty: true,
         allowFailure: true,
     )->getExitCode();

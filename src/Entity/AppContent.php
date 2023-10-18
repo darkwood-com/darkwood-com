@@ -35,7 +35,7 @@ class AppContent
     protected string $slug;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: '2', max: '255')]
+    #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
