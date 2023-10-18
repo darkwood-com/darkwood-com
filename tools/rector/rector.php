@@ -30,12 +30,12 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->bootstrapFiles([__DIR__ . '/../../vendor/autoload.php']);
 
-	$rectorConfig->paths([
+    $rectorConfig->paths([
         __DIR__ . '/../../config',
         __DIR__ . '/../../public',
         __DIR__ . '/../../src',
         __DIR__ . '/../../tests',
-        //__DIR__ . '/../../tools',
+        // __DIR__ . '/../../tools',
     ]);
 
     // $rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
