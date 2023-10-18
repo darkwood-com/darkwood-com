@@ -8,52 +8,34 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="contact")
- *
- * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\ContactRepository::class)]
+#[ORM\Table(name: 'contact')]
 class Contact
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'contacts', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected ?\App\Entity\User $user = null;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="email", type="string", length=255)
-     */
     #[Assert\NotBlank(message: 'common.comment.required_email')]
     #[Assert\Email(message: '{{ value }} is invalid.', mode: 'strict')]
+    #[ORM\Column(name: 'email', type: 'string', length: 255)]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(name="website", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'website', type: 'string', length: 255, nullable: true)]
     private ?string $website = null;
 
-    /**
-     * @ORM\Column(name="content", type="text")
-     */
     #[Assert\NotBlank(message: 'common.comment.required_content')]
+    #[ORM\Column(name: 'content', type: 'text')]
     private ?string $content = null;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $emailSent = null;
 
     /**

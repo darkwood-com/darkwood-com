@@ -13,64 +13,42 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @ORM\Table(name="article_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
- *
- *      @ORM\UniqueConstraint(name="locale_article_unique",columns={"locale","article_id"})
- * }))
- *
- * @ORM\Entity(repositoryClass="App\Repository\ArticleTranslationRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
- * @Vich\Uploadable
- */
+#[ORM\Table(name: 'article_translation')]
+#[ORM\Index(name: 'index_search', columns: ['active'])]
+#[ORM\UniqueConstraint(name: 'locale_article_unique', columns: ['locale', 'article_id'])]
 class ArticleTranslation implements Stringable
 {
     use TimestampTrait;
     /**
      * Locale.
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $locale;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="translations", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
-     */
     #[Assert\Valid]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Article::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Article $article = null;
 
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $title;
 
     /**
      * Slug.
      *
      * @Gedmo\Slug(fields={"title"})
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $slug;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -80,14 +58,10 @@ class ArticleTranslation implements Stringable
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected ?bool $active = true;
 
     /**

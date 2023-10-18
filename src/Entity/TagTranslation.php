@@ -8,43 +8,28 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-/**
- * @ORM\Table(name="tag_translation", indexes={@ORM\Index(name="index_search", columns={"title"})}, uniqueConstraints={
- *
- *      @ORM\UniqueConstraint(name="locale_tag_unique",columns={"locale","tag_id"})
- * }))
- *
- * @ORM\Entity(repositoryClass="App\Repository\TagTranslationRepository")
- */
+#[ORM\Table(name: 'tag_translation')]
+#[ORM\Index(name: 'index_search', columns: ['title'])]
+#[ORM\UniqueConstraint(name: 'locale_tag_unique', columns: ['locale', 'tag_id'])]
 class TagTranslation implements Stringable
 {
     use TimestampTrait;
     /**
      * Locale.
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $locale;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="translations", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Tag::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Tag $tag = null;
 
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $title;
 
     /**

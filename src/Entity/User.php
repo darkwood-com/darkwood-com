@@ -20,76 +20,64 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="user")
- *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
 #[UniqueEntity('email', message: "The email '{{ value }}' is already used.")]
 #[UniqueEntity('username', message: "The username '{{ value }}' is already taken.")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'user')]
 class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
-     */
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
     protected string $email;
 
     /**
      * Civility.
-     *
-     * @ORM\Column(length=255, nullable=true)
      */
+    #[ORM\Column(length: 255, nullable: true)]
     protected $civility = 'm';
 
     /**
      * Firstname.
-     *
-     * @ORM\Column(length=255, nullable=true)
      */
     #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
+    #[ORM\Column(length: 255, nullable: true)]
     protected $firstname;
 
     /**
      * Lastname.
-     *
-     * @ORM\Column(length=255, nullable=true)
      */
     #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
+    #[ORM\Column(length: 255, nullable: true)]
     protected $lastname;
 
     /**
      * Edit.
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?DateTimeInterface $birthday = null;
 
     /**
      * City.
-     *
-     * @ORM\Column(length=255, nullable=true)
      */
+    #[ORM\Column(length: 255, nullable: true)]
     protected $city;
 
     /**
      * Comment.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $comment = null;
 
     /**
      * Players.
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Game\Player", mappedBy="user", cascade={"persist", "remove"})
      */
+    #[ORM\OneToOne(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected ?\App\Entity\Game\Player $player = null;
 
     /**
@@ -99,71 +87,53 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    /**
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'facebook_id', type: 'string', length: 255, nullable: true)]
     protected ?string $facebookId = null;
 
     /**
      * Comments.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Comment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $comments;
 
     /**
      * Contacts.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Contact>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Contact::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $contacts;
 
     /**
      * Id.
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username = null;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private $roles = [];
 
     /**
      * @var string The hashed password
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password = null;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $emailSent = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
 
     /**

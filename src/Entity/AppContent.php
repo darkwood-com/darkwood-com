@@ -9,67 +9,45 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\AppContentRepository")
- *
- * @ORM\Table(name="app_content", uniqueConstraints={
- *
- *      @ORM\UniqueConstraint(name="locale_app_slug_unique",columns={"locale","app_id","slug"})
- * }))
- *
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: \App\Repository\AppContentRepository::class)]
+#[ORM\Table(name: 'app_content')]
+#[ORM\UniqueConstraint(name: 'locale_app_slug_unique', columns: ['locale', 'app_id', 'slug'])]
 class AppContent
 {
     use TimestampTrait;
     /**
      * Locale.
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $locale;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\App", inversedBy="contents", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="app_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\App::class, inversedBy: 'contents', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'app_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\App $app = null;
 
     /**
      * Slug.
      *
      * @Gedmo\Slug(fields={"title"}, unique=false)
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $slug;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $title;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     protected ?int $position = null;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     /**

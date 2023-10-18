@@ -12,14 +12,11 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="game_gem")
- *
- * @ORM\Entity(repositoryClass="App\Repository\Game\GemRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\Game\GemRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'game_gem')]
 class Gem
 {
     use TimestampTrait;
@@ -31,50 +28,39 @@ class Gem
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment1", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment1', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $equipment1Players;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment2", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment2', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $equipment2Players;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment3", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment3', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $equipment3Players;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="power", type="integer")
-     */
+    #[ORM\Column(name: 'power', type: 'integer')]
     private ?int $power = null;
 
     /**

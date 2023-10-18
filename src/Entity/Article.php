@@ -9,13 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-/**
- * @ORM\Table(name="article")
- *
- * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
- *
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: \App\Repository\ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'article')]
 class Article implements Stringable
 {
     use TimestampTrait;
@@ -23,35 +19,27 @@ class Article implements Stringable
     /**
      * Translations.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticleTranslation", mappedBy="article", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\ArticleTranslation>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\ArticleTranslation::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $translations;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Tag>
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
-     *
-     * @ORM\JoinTable(name="article_tag")
      */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Tag::class, inversedBy: 'articles', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'article_tag')]
     protected \Doctrine\Common\Collections\Collection $tags;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\CommentArticle>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\CommentArticle::class, mappedBy: 'article')]
     private \Doctrine\Common\Collections\Collection $comments;
 
     /**

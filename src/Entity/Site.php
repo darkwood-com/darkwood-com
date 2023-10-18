@@ -15,62 +15,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="site")
- *
- * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\SiteRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'site')]
 class Site implements Stringable
 {
     use TimestampTrait;
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(name="name", type="string", length=255)
-     */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     protected ?string $name = null;
 
     /**
      * @Gedmo\Slug(fields={"name"}, separator="-", unique=true, updatable=false)
-     *
-     * @ORM\Column(length=255, unique=true)
      */
+    #[ORM\Column(length: 255, unique: true)]
     protected $ref;
 
-    /**
-     * @ORM\Column(name="host", type="string", length=255)
-     */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
+    #[ORM\Column(name: 'host', type: 'string', length: 255)]
     protected ?string $host = null;
 
-    /**
-     * @ORM\Column(name="position", type="integer")
-     */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected ?int $position = null;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Page>
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="site", cascade={"all"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Page::class, mappedBy: 'site', cascade: ['all'])]
     protected \Doctrine\Common\Collections\Collection $pages;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected ?bool $active = true;
 
     /**
@@ -80,9 +64,7 @@ class Site implements Stringable
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**

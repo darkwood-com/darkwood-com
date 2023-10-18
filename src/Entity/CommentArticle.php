@@ -6,16 +6,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CommentArticleRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CommentArticleRepository::class)]
 class CommentArticle extends \App\Entity\Comment
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Article::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id')]
     protected ?\App\Entity\Article $article = null;
 
     /**

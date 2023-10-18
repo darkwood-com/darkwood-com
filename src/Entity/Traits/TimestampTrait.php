@@ -16,16 +16,14 @@ trait TimestampTrait
 {
     /**
      * @Gedmo\Timestampable(on="create")
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
      */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: false)]
     protected DateTimeInterface $created;
 
     /**
      * @Gedmo\Timestampable(on="update")
-     *
-     * @ORM\Column(name="updated", type="datetime", nullable=false)
      */
+    #[ORM\Column(name: 'updated', type: 'datetime', nullable: false)]
     protected DateTimeInterface $updated;
 
     /**

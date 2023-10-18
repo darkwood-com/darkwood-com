@@ -12,21 +12,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="game_classe")
- *
- * @ORM\Entity(repositoryClass="App\Repository\Game\ClasseRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\Game\ClasseRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'game_classe')]
 class Classe
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected ?string $title = null;
 
     /**
@@ -36,42 +31,29 @@ class Classe
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="classe", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'classe', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $players;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="strength", type="integer")
-     */
+    #[ORM\Column(name: 'strength', type: 'integer')]
     private ?int $strength = null;
 
-    /**
-     * @ORM\Column(name="dexterity", type="integer")
-     */
+    #[ORM\Column(name: 'dexterity', type: 'integer')]
     private ?int $dexterity = null;
 
-    /**
-     * @ORM\Column(name="vitality", type="integer")
-     */
+    #[ORM\Column(name: 'vitality', type: 'integer')]
     private ?int $vitality = null;
 
     /**

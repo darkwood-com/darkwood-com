@@ -11,65 +11,46 @@ use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="page",uniqueConstraints={
- *
- *      @ORM\UniqueConstraint(name="ref_site_unique",columns={"ref","site_id"})
- * })
- *
- * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
- *
- * @ORM\InheritanceType("JOINED")
- *
- * @ORM\DiscriminatorColumn(name="type", type="string")
- *
- * @ORM\DiscriminatorMap({"page" = "App\Entity\Page", "app" = "App\Entity\App"})
- *
- * @ORM\HasLifecycleCallbacks
- */
 #[UniqueEntity(fields: ['site', 'ref'])]
+#[ORM\Entity(repositoryClass: \App\Repository\PageRepository::class)]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['page' => \App\Entity\Page::class, 'app' => \App\Entity\App::class])]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'page')]
+#[ORM\UniqueConstraint(name: 'ref_site_unique', columns: ['ref', 'site_id'])]
 class Page implements Stringable
 {
     use TimestampTrait;
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     /**
      * Translations.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\PageTranslation", mappedBy="page", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\PageTranslation>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\PageTranslation::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $translations;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
     protected ?string $ref = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="pages", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
-     */
     #[Assert\NotBlank]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Site::class, inversedBy: 'pages', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id')]
     protected ?\App\Entity\Site $site = null;
 
     /**
      * Comments.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="page", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Comment::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $comments;
 
     /**

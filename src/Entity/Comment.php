@@ -8,55 +8,35 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="comment")
- *
- * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
- *
- * @ORM\InheritanceType("SINGLE_TABLE")
- *
- * @ORM\DiscriminatorColumn(name="type", type="string")
- *
- * @ORM\DiscriminatorMap({"page" = "App\Entity\CommentPage", "article" = "App\Entity\CommentArticle"})
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CommentRepository::class)]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['page' => \App\Entity\CommentPage::class, 'article' => \App\Entity\CommentArticle::class])]
+#[ORM\Table(name: 'comment')]
 abstract class Comment
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected ?bool $active = true;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
     #[Assert\NotNull(message: 'common.comment.required_user')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected ?\App\Entity\User $user = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="comments", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
-     */
     #[Assert\NotNull(message: 'common.comment.required_page')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Page::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id')]
     protected ?\App\Entity\Page $page = null;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="content", type="text")
-     */
     #[Assert\NotNull(message: 'common.comment.required_content')]
+    #[ORM\Column(name: 'content', type: 'text')]
     private ?string $content = null;
 
     /**

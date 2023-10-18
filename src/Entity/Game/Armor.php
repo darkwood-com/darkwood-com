@@ -12,21 +12,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="game_armor")
- *
- * @ORM\Entity(repositoryClass="App\Repository\Game\ArmorRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\Game\ArmorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'game_armor')]
 class Armor
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected ?string $title = null;
 
     /**
@@ -36,51 +31,37 @@ class Armor
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="armor", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'armor', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $players;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentArmor", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentArmor', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $currentArmorPlayers;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="price", type="integer")
-     */
+    #[ORM\Column(name: 'price', type: 'integer')]
     private ?int $price = null;
 
-    /**
-     * @ORM\Column(name="armor", type="integer")
-     */
+    #[ORM\Column(name: 'armor', type: 'integer')]
     private ?int $armor = null;
 
-    /**
-     * @ORM\Column(name="requiredStrength", type="integer")
-     */
+    #[ORM\Column(name: 'requiredStrength', type: 'integer')]
     private ?int $requiredStrength = null;
 
     /**

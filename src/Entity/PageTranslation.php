@@ -12,60 +12,37 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @ORM\Table(name="page_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
- *
- *      @ORM\UniqueConstraint(name="locale_page_unique",columns={"locale","page_id"})
- * }))
- *
- * @ORM\Entity(repositoryClass="App\Repository\PageTranslationRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
- * @Vich\Uploadable
- */
+#[ORM\Table(name: 'page_translation')]
+#[ORM\Index(name: 'index_search', columns: ['active'])]
+#[ORM\UniqueConstraint(name: 'locale_page_unique', columns: ['locale', 'page_id'])]
 class PageTranslation implements Stringable
 {
     use TimestampTrait;
     /**
      * Locale.
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $locale;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="translations", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
-     */
     #[Assert\Valid]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Page::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Page $page = null;
 
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
     #[Assert\NotBlank]
     #[Assert\Length(min: '2', max: '255')]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected string $title;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $description = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -75,9 +52,7 @@ class PageTranslation implements Stringable
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -87,54 +62,34 @@ class PageTranslation implements Stringable
      */
     protected $thumbnailImage;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $thumbnailImageName = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $imgAlt = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $imgTitle = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $seoTitle = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $seoDescription = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $seoKeywords = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $twitterCard = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $twitterSite = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $twitterTitle = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $twitterDescription = null;
 
     /**
@@ -144,19 +99,13 @@ class PageTranslation implements Stringable
      */
     protected $twitterImage;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $twitterImageName = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $ogTitle = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $ogType = null;
 
     /**
@@ -166,19 +115,13 @@ class PageTranslation implements Stringable
      */
     protected $ogImage;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $ogImageName = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $ogDescription = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected ?bool $active = true;
 
     /**

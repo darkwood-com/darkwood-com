@@ -9,37 +9,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
- *
- * @ORM\Table(name="tag")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\TagRepository::class)]
+#[ORM\Table(name: 'tag')]
 class Tag implements Stringable
 {
     use TimestampTrait;
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     /**
      * Translations.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\TagTranslation", mappedBy="tag", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\TagTranslation>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\TagTranslation::class, mappedBy: 'tag', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $translations;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Article>
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Article", mappedBy="tags", cascade={"persist"})
      */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Article::class, mappedBy: 'tags', cascade: ['persist'])]
     protected \Doctrine\Common\Collections\Collection $articles;
 
     /**

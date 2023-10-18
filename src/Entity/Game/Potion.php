@@ -12,21 +12,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="game_potion")
- *
- * @ORM\Entity(repositoryClass="App\Repository\Game\PotionRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\Game\PotionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'game_potion')]
 class Potion
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected ?string $title = null;
 
     /**
@@ -36,46 +31,34 @@ class Potion
      */
     protected $image;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="potion", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'potion', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $players;
 
     /**
      * Players.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentPotion", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentPotion', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $currentPotionPlayers;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="price", type="integer")
-     */
+    #[ORM\Column(name: 'price', type: 'integer')]
     private ?int $price = null;
 
-    /**
-     * @ORM\Column(name="life", type="integer")
-     */
+    #[ORM\Column(name: 'life', type: 'integer')]
     private ?int $life = null;
 
     /**

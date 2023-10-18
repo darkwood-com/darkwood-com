@@ -11,185 +11,114 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="game_player")
- *
- * @ORM\Entity(repositoryClass="App\Repository\Game\PlayerRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\Game\PlayerRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'game_player')]
 class Player
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="sword_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Sword::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Sword $sword = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="armor_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Armor::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Armor $armor = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="potion_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Potion::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Potion $potion = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="lastFightPlayers", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="last_fight_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Enemy::class, inversedBy: 'lastFightPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'last_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Enemy $lastFight = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="currentEnemyPlayers", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="current_enemy_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Enemy::class, inversedBy: 'currentEnemyPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'current_enemy_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Enemy $currentEnemy = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Classe", inversedBy="players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="classe_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Classe::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'classe_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Classe $classe = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\OneToOne(targetEntity: \App\Entity\User::class, inversedBy: 'player', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\User $user = null;
 
     /**
      * DailyBattles.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\DailyBattle", mappedBy="player", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\DailyBattle>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Game\DailyBattle::class, mappedBy: 'player', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $dailyBattles;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment1Players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="equipment1_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment1Players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'equipment1_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Gem $equipment1 = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment2Players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="equipment2_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment2Players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'equipment2_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Gem $equipment2 = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment3Players", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="equipment3_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment3Players', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'equipment3_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Gem $equipment3 = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="currentSwordPlayers", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="current_sword_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Sword::class, inversedBy: 'currentSwordPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'current_sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Sword $currentSword = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="currentPotionPlayers", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="current_potion_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Potion::class, inversedBy: 'currentPotionPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'current_potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Potion $currentPotion = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="currentArmorPlayers", cascade={"persist"})
-     *
-     * @ORM\JoinColumn(name="current_armor_id", referencedColumnName="id", onDelete="cascade")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Armor::class, inversedBy: 'currentArmorPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'current_armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?\App\Entity\Game\Armor $currentArmor = null;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="lifeMin", type="integer")
-     */
+    #[ORM\Column(name: 'lifeMin', type: 'integer')]
     private ?int $lifeMin = null;
 
-    /**
-     * @ORM\Column(name="lifeMax", type="integer")
-     */
+    #[ORM\Column(name: 'lifeMax', type: 'integer')]
     private ?int $lifeMax = null;
 
-    /**
-     * @ORM\Column(name="xp", type="integer")
-     */
+    #[ORM\Column(name: 'xp', type: 'integer')]
     private ?int $xp = null;
 
-    /**
-     * @ORM\Column(name="gold", type="integer")
-     */
+    #[ORM\Column(name: 'gold', type: 'integer')]
     private ?int $gold = null;
 
-    /**
-     * @ORM\Column(name="strength", type="integer")
-     */
+    #[ORM\Column(name: 'strength', type: 'integer')]
     private ?int $strength = null;
 
-    /**
-     * @ORM\Column(name="dexterity", type="integer")
-     */
+    #[ORM\Column(name: 'dexterity', type: 'integer')]
     private ?int $dexterity = null;
 
-    /**
-     * @ORM\Column(name="vitality", type="integer")
-     */
+    #[ORM\Column(name: 'vitality', type: 'integer')]
     private ?int $vitality = null;
 
-    /**
-     * @ORM\Column(name="equipment1_is_use", type="boolean")
-     */
+    #[ORM\Column(name: 'equipment1_is_use', type: 'boolean')]
     private ?bool $equipment1IsUse = null;
 
-    /**
-     * @ORM\Column(name="equipment2_is_use", type="boolean")
-     */
+    #[ORM\Column(name: 'equipment2_is_use', type: 'boolean')]
     private ?bool $equipment2IsUse = null;
 
-    /**
-     * @ORM\Column(name="equipment3_is_use", type="boolean")
-     */
+    #[ORM\Column(name: 'equipment3_is_use', type: 'boolean')]
     private ?bool $equipment3IsUse = null;
 
-    /**
-     * @ORM\Column(name="daily_battle_victories", type="integer")
-     */
+    #[ORM\Column(name: 'daily_battle_victories', type: 'integer')]
     private ?int $dailyBattleVictories = null;
 
-    /**
-     * @ORM\Column(name="daily_battle_defeats", type="integer")
-     */
+    #[ORM\Column(name: 'daily_battle_defeats', type: 'integer')]
     private ?int $dailyBattleDefeats = null;
 
     /**

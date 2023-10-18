@@ -11,14 +11,11 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="app")
- *
- * @ORM\Entity(repositoryClass="App\Repository\AppRepository")
- *
- * @ORM\HasLifecycleCallbacks
- *
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: \App\Repository\AppRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'app')]
 class App extends Page
 {
     /**
@@ -28,23 +25,18 @@ class App extends Page
      */
     protected $banner;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $bannerName = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $theme = null;
 
     /**
      * Contents.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\AppContent", mappedBy="app", cascade={"persist", "remove"})
-     *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\AppContent>
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\AppContent::class, mappedBy: 'app', cascade: ['persist', 'remove'])]
     protected \Doctrine\Common\Collections\Collection $contents;
 
     /**
