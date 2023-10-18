@@ -113,7 +113,7 @@ class CommonController extends AbstractController
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
         $message  = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
-        if (!empty($htmlBody)) {
+        if ($htmlBody !== '') {
             $message->html($htmlBody)->text($textBody);
         } else {
             $message->html($textBody);

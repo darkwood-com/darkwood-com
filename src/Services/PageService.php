@@ -104,7 +104,7 @@ class PageService
         $duplicatePageTranslation->setDescription($entity->getDescription());
         $duplicatePageTranslation->setContent($entity->getContent());
         $duplicatePageTranslation->setActive($entity->getActive());
-        if ($entity->getImageName()) {
+        if ($entity->getImageName() !== '' && $entity->getImageName() !== '0') {
             $imageUrl     = $this->storage->resolvePath($entity, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {

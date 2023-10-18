@@ -111,7 +111,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
             $site        = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } elseif ($site) {
+            } elseif ($site !== null) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }

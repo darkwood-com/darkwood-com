@@ -45,6 +45,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class GameService
 {
+    public $session;
+
     /**
      * @var ArmorRepository
      */
@@ -263,7 +265,7 @@ class GameService
 
     public function chooseClasse(User $user, $classeId)
     {
-        $classeId = intval($classeId);
+        $classeId = (int) $classeId;
         $classe   = $this->getClasses();
         $classe   = current(array_filter($classe['list'], static function ($c) use ($classeId) {
             return $c->getId() == $classeId;
@@ -310,7 +312,7 @@ class GameService
 
     public function equipGem(User $user, $index)
     {
-        $index  = intval($index);
+        $index  = (int) $index;
         $player = $this->getOrCreate($user);
         if ($index == 1 && $player->getEquipment1()) {
             $player->setEquipment1IsUse(true);
@@ -325,7 +327,7 @@ class GameService
 
     public function throwGem(User $user, $index)
     {
-        $index  = intval($index);
+        $index  = (int) $index;
         $player = $this->getOrCreate($user);
         if ($index == 1) {
             $player->setEquipment1(null);
@@ -617,7 +619,7 @@ class GameService
         if ($luck > $hitLuck && $action != 'potion') {
             $playerAttack = -1;
         } else {
-            $session['enemy_current_life'] = $session['enemy_current_life'] - $playerAttack;
+            $session['enemy_current_life'] -= $playerAttack;
         }
 
         $session['player_life_lose'] = $enemyAttack;
@@ -737,11 +739,10 @@ class GameService
     {
         $now          = new \DateTime();
         $dailyBattles = $this->dailyBattleRepository->findDailyBattles($now);
-        $dailyBattles = array_map(function ($dailyBattle) {
+
+        return array_map(function ($dailyBattle) {
             return ['info' => $this->getInfo($dailyBattle->getPlayer()->getUser()), 'dailyBattle' => $dailyBattle];
         }, $dailyBattles);
-
-        return $dailyBattles;
     }
 
     public function getSessionDaily(User $user)
@@ -870,7 +871,7 @@ class GameService
                     $token->setUser($user);
                     $session                     = $request->getSession();
                     $lastUsernameKey             = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-                    $lastUsername                = null === $session ? '' : $session->get($lastUsernameKey);
+                    $lastUsername                = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
                     $csrfToken                   = $this->tokenManager->getToken('authenticate')->getValue();
                     $parameters['last_username'] = $lastUsername;
                     $parameters['csrf_token']    = $csrfToken;
@@ -891,7 +892,7 @@ class GameService
 
             $session                     = $request->getSession();
             $lastUsernameKey             = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-            $lastUsername                = null === $session ? '' : $session->get($lastUsernameKey);
+            $lastUsername                = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
             $csrfToken                   = $this->tokenManager->getToken('authenticate')->getValue();
             $parameters['last_username'] = $lastUsername;
             $parameters['csrf_token']    = $csrfToken;
@@ -905,7 +906,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user  = $token ? $token->getUser() : null;
+                $user  = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -921,7 +922,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user  = $token ? $token->getUser() : null;
+                $user  = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -971,7 +972,7 @@ class GameService
             return $parameters;
         }
 
-        if ($user !== null) {
+        if ($user instanceof \App\Entity\User) {
             $player = $this->getOrCreate($user);
             if ($player->getLastFight() && $parameters['state'] != 'combat' && $parameters['mode'] != 'combat') {
                 $parameters['state'] = 'combat';

@@ -40,7 +40,7 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
     private function manage(Request $request, Contact $entity)
     {
-        $mode = $entity->getId() ? 'edit' : 'create';
+        $mode = $entity->getId() !== 0 ? 'edit' : 'create';
         $form = $this->createForm(ContactType::class, $entity, ['locale' => $request->getLocale()]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);

@@ -51,7 +51,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $credentials = $this->getCredentials($request);
 
         $passport = new Passport(
-            new UserBadge($credentials['username'], [$this->userProvider, 'loadUserByIdentifier']),
+            new UserBadge($credentials['username'], function (string $identifier) : \Symfony\Component\Security\Core\User\UserInterface {
+                return $this->userProvider->loadUserByIdentifier($identifier);
+            }),
             new PasswordCredentials($credentials['password']),
             [new RememberMeBadge()]
         );
@@ -111,7 +113,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $site        = $this->siteService->findOneByHost($host);
             if ($host == $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } elseif ($site) {
+            } elseif ($site !== null) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }

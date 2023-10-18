@@ -14,12 +14,15 @@ return static function (RectorConfig $rectorConfig): void {
     // here we can define, what sets of rules will be applied
     // tip: use "SetList" class to autocomplete sets with your IDE
     $rectorConfig->sets([
+        SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::PHP_82,
         SymfonySetList::SYMFONY_62,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ]);
+
+	$rectorConfig->bootstrapFiles([__DIR__ . '/../../vendor/autoload.php']);
 
     //$rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
 

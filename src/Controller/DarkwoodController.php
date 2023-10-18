@@ -113,7 +113,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/chat', 'en' => '/en/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
     public function chat(Request $request, $ref)
     {
-        if($request->get('sort') && !in_array($request->get('sort'), ['c.created'])) {
+        if($request->get('sort') && $request->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -164,7 +164,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/livre-d-or', 'en' => '/en/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
     public function guestbook(Request $request, $ref)
     {
-        if($request->get('sort') && !in_array($request->get('sort'), ['c.created'])) {
+        if($request->get('sort') && $request->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 

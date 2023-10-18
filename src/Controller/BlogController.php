@@ -84,7 +84,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['fr' => '/article/{slug}', 'en' => '/en/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
-        if($request->get('sort') && !in_array($request->get('sort'), ['a.created'])) {
+        if($request->get('sort') && $request->get('sort') !== 'a.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 

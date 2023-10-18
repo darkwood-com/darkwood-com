@@ -134,7 +134,7 @@ class SiteService
             foreach ($sites as $site) {
                 $ref = $site->getRef();
                 $host = $site->getHost();
-                if (in_array($ref, ['hello'])) {
+                if ($ref === 'hello') {
                     continue;
                 }
 
@@ -221,9 +221,10 @@ class SiteService
         }
 
         usort($feed, static function ($item1, $item2) {
-            if ($item1['date'] == $item2['date']) {
+            if ($item1['date'] === $item2['date']) {
                 return 0;
             }
+
             return ($item1['date'] < $item2['date']) ? -1 : 1;
         });
 

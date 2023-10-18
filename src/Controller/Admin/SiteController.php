@@ -40,7 +40,7 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 
     private function manage(Request $request, Site $entity)
     {
-        $mode = $entity->getId() ? 'edit' : 'create';
+        $mode = $entity->getId() !== 0 ? 'edit' : 'create';
         $form = $this->createForm(SiteType::class, $entity);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);

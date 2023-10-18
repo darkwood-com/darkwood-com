@@ -43,7 +43,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
 
     private function manage(Request $request, PageTranslation $entityTranslation)
     {
-        $mode = $entityTranslation->getId() ? 'edit' : 'create';
+        $mode = $entityTranslation->getId() !== 0 ? 'edit' : 'create';
         $form = $this->createForm(PageTranslationType::class, $entityTranslation, ['locale' => $request->getLocale()]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -64,7 +64,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
-        return $this->render('admin/app/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
+        return $this->render('admin/app/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() !== 0 ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
     }
 
     #[Route('/create', name: 'create')]

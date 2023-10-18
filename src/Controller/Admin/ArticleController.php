@@ -42,7 +42,7 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
     private function manage(Request $request, ArticleTranslation $entityTranslation)
     {
-        $mode = $entityTranslation->getId() ? 'edit' : 'create';
+        $mode = $entityTranslation->getId() !== 0 ? 'edit' : 'create';
         $form = $this->createForm(ArticleTranslationType::class, $entityTranslation, ['locale' => $request->getLocale()]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);

@@ -41,7 +41,7 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
 
     private function manage(Request $request, Comment $entity)
     {
-        $mode = $entity->getId() ? 'edit' : 'create';
+        $mode = $entity->getId() !== 0 ? 'edit' : 'create';
         $form = $this->createForm(CommentType::class, $entity, ['locale' => $request->getLocale()]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);

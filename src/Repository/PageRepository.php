@@ -101,7 +101,7 @@ class PageRepository extends ServiceEntityRepository
     public function findAllBySite(Site $site = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts');
-        if ($site !== null) {
+        if ($site instanceof \App\Entity\Site) {
             $qb->leftJoin('p.site', 's');
             $qb->andWhere('s.id = :id');
             $qb->setParameter('id', $site->getId());

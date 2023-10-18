@@ -80,7 +80,7 @@ class ArticleService
         $duplicateArticleTranslation->setSlug($articleTranslation->getSlug());
         $duplicateArticleTranslation->setContent($articleTranslation->getContent());
         $duplicateArticleTranslation->setActive($articleTranslation->getActive());
-        if ($articleTranslation->getImageName()) {
+        if ($articleTranslation->getImageName() !== '' && $articleTranslation->getImageName() !== '0') {
             $imageUrl     = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
