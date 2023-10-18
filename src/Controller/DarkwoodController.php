@@ -11,8 +11,10 @@ use App\Services\CommentService;
 use App\Services\GameService;
 use App\Services\PageService;
 use App\Services\UserService;
+use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -203,15 +205,16 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/classement', 'en' => '/en/rank', 'de' => '/de/rang'], name: 'rank', defaults: ['ref' => 'rank'])]
-    public function rank(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function rank(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $mode = $request->get('mode');
         $query = $this->gameService->findActiveQuery($mode);
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $request->query->set('sort', $pagination?->sort ?? '');
 
-        $players = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
+        $players = $this->paginator->paginate($query, $pagination?->page ?? 1, 56);
 
         return $this->render('darkwood/pages/rank.html.twig', ['page' => $page, 'players' => $players, 'mode' => $mode]);
     }
 }
+ 

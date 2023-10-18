@@ -43,13 +43,13 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref, #[MapQueryString] PaginationDTO $requestQuery): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
-        $request->query->set('sort', $requestQuery->sort);
+        $request->query->set('sort', $pagination?->sort ?? '');
 
-        $articles = $this->paginator->paginate($query, $requestQuery->page, 10);
+        $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
 
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }

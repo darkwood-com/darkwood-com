@@ -25,6 +25,7 @@ use App\Repository\Game\LevelUpRepository;
 use App\Repository\Game\PlayerRepository;
 use App\Repository\Game\PotionRepository;
 use App\Repository\Game\SwordRepository;
+use App\Validator\Constraints\PaginationDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -33,6 +34,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -853,7 +855,7 @@ class GameService
     /**
      * @return array|Response
      */
-    public function play(Request $request, User $user = null, $display = null)
+    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, User $user = null, $display = null)
     {
         $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {
@@ -951,7 +953,7 @@ class GameService
 
         if ($parameters['state'] === 'users') {
             $query = $this->userService->findActiveQuery();
-            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $request->query->set('sort', $pagination?->sort ?? '');
             $users = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
             $parameters['users'] = $users;
 
@@ -960,7 +962,7 @@ class GameService
 
         if ($parameters['state'] === 'rank') {
             $query = $this->findActiveQuery($parameters['mode']);
-            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $request->query->set('sort', $pagination?->sort ?? '');
             $players = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
             $parameters['players'] = $players;
 
@@ -984,7 +986,7 @@ class GameService
             }
 
             $query = $this->commentService->findActiveCommentByPageQuery($page);
-            $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+            $request->query->set('sort', $pagination?->sort ?? '');
             $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
             $parameters['form'] = $form->createView();
             $parameters['comments'] = $comments;
