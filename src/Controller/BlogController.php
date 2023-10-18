@@ -9,8 +9,10 @@ use App\Form\CommentType;
 use App\Services\ArticleService;
 use App\Services\CommentService;
 use App\Services\PageService;
+use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -41,13 +43,13 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, $ref, #[MapQueryString] PaginationDTO $requestQuery): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
-        $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
+        $request->query->set('sort', $requestQuery->sort);
 
-        $articles = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $articles = $this->paginator->paginate($query, $requestQuery->page, 10);
 
         return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
     }
