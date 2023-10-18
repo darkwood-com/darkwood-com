@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Article;
@@ -20,7 +22,7 @@ class TagRepository extends ServiceEntityRepository
     public function findCachedById($id, $ttl)
     {
         $qb = $this->createQueryBuilder('t')->select('t, ts')->leftJoin('t.translations', 'ts')->where('t.id = :id')->orderBy('t.id', 'asc')->leftjoin('t.articles', 'p')->addSelect('p')->setParameter('id', $id);
-        //$qb->getQuery()->useResultCache(true, $ttl, 'TagRepository::findCachedById' . ($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, $ttl, 'TagRepository::findCachedById' . ($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -36,7 +38,7 @@ class TagRepository extends ServiceEntityRepository
     public function findOneToEdit($id)
     {
         $qb = $this->createQueryBuilder('t')->select('t')->leftJoin('t.translations', 'ts')->where('t.id = :id')->orderBy('t.id', 'asc')->leftjoin('t.articles', 'p')->addSelect('p')->setParameter('id', $id);
-        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -46,7 +48,7 @@ class TagRepository extends ServiceEntityRepository
      * Get one article.
      *
      * @param string      $title
-     * @param string|null $locale
+     * @param null|string $locale
      *
      * @return mixed
      */
@@ -57,14 +59,14 @@ class TagRepository extends ServiceEntityRepository
             $qb->andWhere('ts.locale = :locale')->setParameter('locale', $locale);
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
+        // $qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneByTitle-'.$title);
         return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
      * Get all tags.
      *
-     * @param string|null $locale
+     * @param null|string $locale
      *
      * @return mixed
      */
@@ -75,7 +77,7 @@ class TagRepository extends ServiceEntityRepository
             $qb->andWhere('ts.locale = :locale')->setParameter('locale', $locale);
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'TagRepository::findAllAsArray');
+        // $qb->getQuery()->useResultCache(true, 120, 'TagRepository::findAllAsArray');
         return $qb->getQuery()->getResult();
     }
 }

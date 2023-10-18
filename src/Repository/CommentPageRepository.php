@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\CommentPage;
@@ -20,7 +22,8 @@ class CommentPageRepository extends ServiceEntityRepository
     public function findActiveCommentByPageQuery(Page $page)
     {
         $qb = $this->createQueryBuilder('c')->select('c')->andWhere('c.active = true')->andWhere('c.page = :page')->setParameter('page', $page)->addOrderBy('c.created', 'desc');
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
+
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
         return $qb->getQuery();
     }
 }

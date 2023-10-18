@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(): \Symfony\Component\HttpFoundation\Response
+    public function index(): Response
     {
         return $this->render('admin/home/index.html.twig');
     }
@@ -34,11 +36,11 @@ class HomeController extends AbstractController
     public function browser()
     {
         $dirname = $this->get('kernel')->getRootDir() . '/../web/uploads/ckeditor';
-        $dir     = opendir($dirname);
-        $style   = "style='font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;'";
+        $dir = opendir($dirname);
+        $style = "style='font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;'";
         $results = '<div ' . $style . '><p>Copy & Paste for use it</p><ul>';
         while ($file = readdir($dir)) {
-            if ($file != '.' && $file != '..' && !is_dir($dirname . $file)) {
+            if ($file !== '.' && $file !== '..' && !is_dir($dirname . $file)) {
                 $results .= '<li style="display:inline-block; padding: 10px; margin-right: 10px; margin-bottom: 10px;';
                 $results .= 'min-width: 200px; height: 150px; background: #bfbfbf;">';
                 $results .= '<p style="text-align: center;"><img style="width: 150px; max-height: 100px;" ';

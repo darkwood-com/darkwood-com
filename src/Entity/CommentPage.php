@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,14 +15,13 @@ class CommentPage extends \App\Entity\Comment
      * @var Page
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="comments", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
-     **/
+     */
     protected $page;
 
     /**
      * Set page.
-     *
-     * @param \App\Entity\Page $page
      */
     public function setPage(Page $page = null): void
     {

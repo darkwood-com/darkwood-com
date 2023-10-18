@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
@@ -8,16 +10,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="contact")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  */
 class Contact
 {
     use TimestampTrait;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -25,13 +39,10 @@ class Contact
     /**
      * @var string
      *
-     * @Assert\NotBlank(message="common.comment.required_email")
-     * @Assert\Email(
-     *     message="{{ value }} is invalid.",
-     *     mode="strict"
-     * )
      * @ORM\Column(name="email", type="string", length=255)
      */
+    #[Assert\NotBlank(message: 'common.comment.required_email')]
+    #[Assert\Email(message: '{{ value }} is invalid.', mode: 'strict')]
     private $email;
 
     /**
@@ -44,18 +55,10 @@ class Contact
     /**
      * @var string
      *
-     * @Assert\NotBlank(message="common.comment.required_content")
      * @ORM\Column(name="content", type="text")
      */
+    #[Assert\NotBlank(message: 'common.comment.required_content')]
     private $content;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts", cascade={"persist"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     **/
-    protected $user;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -134,8 +137,6 @@ class Contact
 
     /**
      * Set user.
-     *
-     * @param \App\Entity\User $user
      */
     public function setUser(User $user = null): void
     {

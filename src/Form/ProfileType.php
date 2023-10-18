@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -25,7 +27,7 @@ class ProfileType extends AbstractType
         ]);
         $builder->add('birthday', DateType::class, [
             'required' => false,
-            'widget'   => 'single_text',
+            'widget' => 'single_text',
         ]);
         $builder->add('city', TextType::class, [
             'required' => false,
@@ -37,14 +39,14 @@ class ProfileType extends AbstractType
             'required' => false,
         ]);
         $builder->add('current_password', PasswordType::class, [
-            'mapped'   => false,
+            'mapped' => false,
             'required' => false,
         ]);
         $builder->add('plainPassword', RepeatedType::class, [
-            'type'            => PasswordType::class,
+            'type' => PasswordType::class,
             'invalid_message' => 'fos_user.password.mismatch',
-            'required'        => false,
-            'mapped'          => false,
+            'required' => false,
+            'mapped' => false,
         ]);
     }
 

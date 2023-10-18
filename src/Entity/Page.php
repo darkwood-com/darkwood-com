@@ -1,30 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="page",uniqueConstraints={
+ *
  *      @ORM\UniqueConstraint(name="ref_site_unique",columns={"ref","site_id"})
  * })
+ *
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
- * @UniqueEntity(fields={"site", "ref"})
+ *
  * @ORM\InheritanceType("JOINED")
+ *
  * @ORM\DiscriminatorColumn(name="type", type="string")
+ *
  * @ORM\DiscriminatorMap({"page" = "App\Entity\Page", "app" = "App\Entity\App"})
+ *
  * @ORM\HasLifecycleCallbacks
  */
-class Page implements \Stringable
+#[UniqueEntity(fields: ['site', 'ref'])]
+class Page implements Stringable
 {
     use TimestampTrait;
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -39,18 +50,19 @@ class Page implements \Stringable
     /**
      * @var string
      *
-     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
     protected $ref;
 
     /**
      * @var Site
      *
-     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="pages", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
-     **/
+     */
+    #[Assert\NotBlank]
     protected $site;
 
     /**
@@ -66,7 +78,14 @@ class Page implements \Stringable
     public function __construct()
     {
         $this->translations = new ArrayCollection();
-        $this->comments     = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        $pageTs = $this->getOneTranslation();
+
+        return $pageTs ? $pageTs->getTitle() : '';
     }
 
     /**
@@ -118,7 +137,7 @@ class Page implements \Stringable
     {
         /** @var PageTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
-            if ($translation->getLocale() == $locale) {
+            if ($translation->getLocale() === $locale) {
                 return $translation;
             }
         }
@@ -142,19 +161,10 @@ class Page implements \Stringable
         $this->ref = $ref;
     }
 
-    public function __toString(): string
-    {
-        $pageTs = $this->getOneTranslation();
-
-        return $pageTs ? $pageTs->getTitle() : '';
-    }
-
-    /* SITE */
+    // SITE
 
     /**
      * Set site.
-     *
-     * @param \App\Entity\Site $site
      */
     public function setSite(Site $site = null): void
     {

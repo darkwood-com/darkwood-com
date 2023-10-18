@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Game;
 
 use App\Entity\Game\Classe;
@@ -25,7 +27,7 @@ class ClasseRepository extends ServiceEntityRepository
 
     public function findList()
     {
-        $qb      = $this->createQueryBuilder('c')->select('c');
+        $qb = $this->createQueryBuilder('c')->select('c');
         $default = $this->findDefault();
         if ($default) {
             $qb->andWhere('c.id != :id')->setParameter('id', $default->getId());

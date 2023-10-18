@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Site;
 use App\Repository\SiteRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -36,7 +39,7 @@ class SiteService
      */
     public function save(Site $site)
     {
-        $site->setUpdated(new \DateTime('now'));
+        $site->setUpdated(new DateTime('now'));
         $this->em->persist($site);
         $this->em->flush();
 
@@ -86,7 +89,7 @@ class SiteService
      *
      * @param string $host
      *
-     * @return Site|null
+     * @return null|Site
      */
     public function findOneByHost($host)
     {
@@ -98,7 +101,7 @@ class SiteService
      *
      * @param string $ref
      *
-     * @return Site|null
+     * @return null|Site
      */
     public function findOneByRef($ref)
     {
@@ -139,10 +142,10 @@ class SiteService
                 }
 
                 $sitemap[$ref] = ['item' => ['host' => $host, 'ref' => 'home', 'label' => 'common.sitemap.site_' . $ref], 'children' => [['item' => ['label' => 'common.sitemap.login'], 'children' => [['item' => ['host' => $host, 'ref' => 'register']], ['item' => ['host' => $host, 'ref' => 'profile']]]]]];
-                if ($ref == 'darkwood') {
+                if ($ref === 'darkwood') {
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.player'], 'children' => [['item' => ['host' => $host, 'ref' => 'play']], ['item' => ['host' => $host, 'ref' => 'chat']], ['item' => ['host' => $host, 'ref' => 'users']], ['item' => ['host' => $host, 'ref' => 'rules']], ['item' => ['host' => $host, 'ref' => 'guestbook']], ['item' => ['host' => $host, 'ref' => 'extra']]]];
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.rank'], 'children' => [['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_general']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_by_class']], ['item' => ['host' => $host, 'ref' => 'rank', 'label' => 'darkwood.menu.rank_daily_fight']]]];
-                } elseif ($ref == 'apps') {
+                } elseif ($ref === 'apps') {
                     $children = [];
                     $apps = $this->pageService->findActives($locale, 'app');
                     foreach ($apps as $app) {
@@ -150,9 +153,9 @@ class SiteService
                     }
 
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.apps'], 'children' => $children];
-                } elseif ($ref == 'photos') {
+                } elseif ($ref === 'photos') {
                     $sitemap[$ref]['children'][] = ['item' => ['label' => 'common.sitemap.gallery'], 'children' => [['item' => ['host' => $host, 'ref' => 'show']], ['item' => ['host' => $host, 'ref' => 'demo']], ['item' => ['host' => $host, 'ref' => 'help']]]];
-                } elseif ($ref == 'blog') {
+                } elseif ($ref === 'blog') {
                     $children = [];
                     $articles = $this->articleService->findActives($locale, 5);
                     foreach ($articles as $article) {
@@ -203,10 +206,10 @@ class SiteService
     public function getSitemapXml($host, $locale)
     {
         $pages = $this->pageService->findActives($locale, null, $host);
-        $urls  = [];
+        $urls = [];
         foreach ($pages as $page) {
             $pageTranslation = $page->getOneTranslation();
-            $urls[]          = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
+            $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
         }
 
         return $this->templating->render('common/partials/sitemapXml.html.twig', ['urls' => $urls]);
@@ -214,7 +217,7 @@ class SiteService
 
     public function getFeed($host, $locale)
     {
-        $feed     = [];
+        $feed = [];
         $articles = $this->articleService->findActives($locale);
         foreach ($articles as $article) {
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 use GlValidator\GlW3CValidator;
@@ -24,10 +26,10 @@ class CommonWebTestCase extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $client->setServerParameters(array(
+        $client->setServerParameters([
             'HTTPS' => true,
-            'HTTP_HOST' => $container->getParameter($this->getHostParameter()).($this->getPortParameter() ? ':'.$this->getPortParameter() : ''),
-        ));
+            'HTTP_HOST' => $container->getParameter($this->getHostParameter()) . ($this->getPortParameter() ? ':' . $this->getPortParameter() : ''),
+        ]);
 
         return $client;
     }
@@ -36,9 +38,10 @@ class CommonWebTestCase extends WebTestCase
     {
         $client = $this->getHostClient();
         $client->request('GET', $url);
+
         $request = $client->getInternalRequest();
 
-        $this->assertTrue($client->getResponse()->isSuccessful(), "Page url {$request->getUri()} response is not successful");
+        self::assertTrue($client->getResponse()->isSuccessful(), sprintf('Page url %s response is not successful', $request->getUri()));
     }
 
     public function validateW3CUrl($url)
@@ -72,6 +75,6 @@ class CommonWebTestCase extends WebTestCase
             $this->assertNull($result, "HTML for page url {$request->getUri()} is not valid, check {$result}");
         }*/
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

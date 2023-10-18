@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,28 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_gem")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\GemRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Gem
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="power", type="integer")
-     */
-    private $power;
 
     /**
      * @var File
@@ -67,6 +58,23 @@ class Gem
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="equipment3", cascade={"persist", "remove"})
      */
     protected $equipment3Players;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="power", type="integer")
+     */
+    private $power;
 
     /**
      * Constructor.
@@ -124,7 +132,7 @@ class Gem
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

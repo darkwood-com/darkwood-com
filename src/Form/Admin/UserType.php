@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Admin;
 
 use App\Entity\User;
@@ -43,15 +45,5 @@ class UserType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => User::class, 'validation_groups' => ['Default', 'Admin'], 'intention' => 'Admin']);
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'user';
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Services\PageService;
@@ -16,15 +18,14 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         private AuthenticationUtils $authenticationUtils,
         private PageService $pageService,
         private CsrfTokenManagerInterface $tokenManager
-    )
-    {
+    ) {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
-        $pageLinks    = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('photos/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }

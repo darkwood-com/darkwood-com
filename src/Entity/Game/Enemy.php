@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,21 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_enemy")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\EnemyRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Enemy
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -32,6 +30,44 @@ class Enemy
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
+
+    /**
+     * @var File
+     *
+     * @Vich\UploadableField(mapping="enemies", fileNameProperty="imageName")
+     */
+    protected $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $imageName;
+
+    /**
+     * Players.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="lastFight", cascade={"persist", "remove"})
+     */
+    protected $lastFightPlayers;
+
+    /**
+     * Players.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentEnemy", cascade={"persist", "remove"})
+     */
+    protected $currentEnemyPlayers;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var int
@@ -83,39 +119,11 @@ class Enemy
     private $hitLuck;
 
     /**
-     * @var File
-     *
-     * @Vich\UploadableField(mapping="enemies", fileNameProperty="imageName")
-     */
-    protected $image;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $imageName;
-
-    /**
-     * Players.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="lastFight", cascade={"persist", "remove"})
-     */
-    protected $lastFightPlayers;
-
-    /**
-     * Players.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentEnemy", cascade={"persist", "remove"})
-     */
-    protected $currentEnemyPlayers;
-
-    /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->lastFightPlayers    = new ArrayCollection();
+        $this->lastFightPlayers = new ArrayCollection();
         $this->currentEnemyPlayers = new ArrayCollection();
     }
 
@@ -285,7 +293,7 @@ class Enemy
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

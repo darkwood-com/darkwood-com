@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Game;
 
 use App\Entity\Game\DailyBattle;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,7 +20,7 @@ class DailyBattleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return mixed
      *
@@ -37,7 +40,7 @@ class DailyBattleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return array
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Transformer;
 
 use App\Entity\Tag;
@@ -10,18 +12,18 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class TagTransformer implements DataTransformerInterface
 {
+    /**
+     * @var string
+     */
+    protected $locale;
+
     public function __construct(
-        /*
+        /**
          * @var TagService
          */
         private TagService $tagService
     ) {
     }
-
-    /**
-     * @var string
-     */
-    protected $locale;
 
     public function setLocale($locale)
     {
@@ -62,7 +64,7 @@ class TagTransformer implements DataTransformerInterface
         foreach ($arrayTags as $tag) {
             $tagPersisited = $this->tagService->findOneByTitle($tag);
             if (!$tagPersisited) {
-                $newTag            = new Tag();
+                $newTag = new Tag();
                 $newTagTranslation = new TagTranslation();
                 $newTagTranslation->setTitle($tag);
                 $newTagTranslation->setLocale($this->locale);

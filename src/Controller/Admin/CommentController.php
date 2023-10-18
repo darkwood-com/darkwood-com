@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
 use App\Entity\CommentPage;
 use App\Form\Admin\CommentType;
 use App\Services\CommentService;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,10 +29,48 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $form = $this->createSearchForm();
         $form->handleRequest($request);
 
-        $query    = $this->commentService->getQueryForSearch($form->getData());
+        $query = $this->commentService->getQueryForSearch($form->getData());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/comment/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
+    }
+
+    #[Route('/create', name: 'create')]
+    public function create(Request $request)
+    {
+        $entity = new CommentPage();
+        $entity->setCreated(new DateTime());
+
+        return $this->manage($request, $entity);
+    }
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(Request $request, $id)
+    {
+        $entity = $this->commentService->findOneToEdit($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Comment not found');
+        }
+
+        $entity->setUpdated(new DateTime());
+
+        return $this->manage($request, $entity);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        /** @var Comment $comment */
+        $comment = $this->commentService->findOneToEdit($id);
+        if (!$comment) {
+            throw $this->createNotFoundException('Comment not found');
+        }
+
+        $this->commentService->remove($comment);
+        // Launch the message flash
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     private function createSearchForm()
@@ -50,50 +91,12 @@ class CommentController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
                 // Launch the message flash
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
-                return $this->redirect($this->generateUrl('admin_comment_edit', ['id' => $entity->getId()]));
+                return $this->redirectToRoute('admin_comment_edit', ['id' => $entity->getId()]);
             }
 
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/comment/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entity]);
-    }
-
-    #[Route('/create', name: 'create')]
-    public function create(Request $request)
-    {
-        $entity = new CommentPage();
-        $entity->setCreated(new \DateTime());
-
-        return $this->manage($request, $entity);
-    }
-
-    #[Route('/edit/{id}', name: 'edit')]
-    public function edit(Request $request, $id)
-    {
-        $entity = $this->commentService->findOneToEdit($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Comment not found');
-        }
-
-        $entity->setUpdated(new \DateTime());
-
-        return $this->manage($request, $entity);
-    }
-
-    #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        /** @var Comment $comment */
-        $comment = $this->commentService->findOneToEdit($id);
-        if (!$comment) {
-            throw $this->createNotFoundException('Comment not found');
-        }
-
-        $this->commentService->remove($comment);
-        // Launch the message flash
-        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
-
-        return $this->redirect($request->headers->get('referer'));
     }
 }

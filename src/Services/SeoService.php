@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\App;
@@ -11,7 +13,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
- * Class SeoService
+ * Class SeoService.
  *
  * Object manager of site.
  */
@@ -28,7 +30,7 @@ class SeoService
     {
         /** @var PageTranslation $pageTranslation */
         $pageTranslation = $context['page'];
-        $cacheId         = 'seo-' . $pageTranslation->getId();
+        $cacheId = 'seo-' . $pageTranslation->getId();
         if (isset($context['article']) && $context['article'] instanceof Article) {
             $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
             $cacheId .= '-article_' . $articleTranslation->getId();
@@ -39,25 +41,25 @@ class SeoService
             /** @var PageTranslation $pageTranslation */
             $pageTranslation = $context['page'];
             $data = [
-                'title'       => $pageTranslation->getSeoTitle() ?? $pageTranslation->getTitle(),
+                'title' => $pageTranslation->getSeoTitle() ?? $pageTranslation->getTitle(),
                 'description' => $pageTranslation->getSeoDescription() ?? $pageTranslation->getDescription(),
-                'keywords'    => $pageTranslation->getSeoKeywords(),
-                'facebook'    => [
-                    'title'       => $pageTranslation->getOgTitle() ?? $pageTranslation->getTitle(),
+                'keywords' => $pageTranslation->getSeoKeywords(),
+                'facebook' => [
+                    'title' => $pageTranslation->getOgTitle() ?? $pageTranslation->getTitle(),
                     'description' => $pageTranslation->getOgDescription() ?? $pageTranslation->getDescription(),
-                    'type'        => $pageTranslation->getOgType() ?? 'article',
-                    'url'         => '',
-                    'site_name'   => $pageTranslation->getPage()->getSite()->getName(),
-                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'ogImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image')
+                    'type' => $pageTranslation->getOgType() ?? 'article',
+                    'url' => '',
+                    'site_name' => $pageTranslation->getPage()->getSite()->getName(),
+                    'src' => $this->uploaderHelper->asset($pageTranslation, 'ogImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image'),
                 ],
                 'twitter' => [
-                    'card'        => $pageTranslation->getTwitterCard() ?? 'summary',
-                    'title'       => $pageTranslation->getTwitterTitle() ?? $pageTranslation->getTitle(),
+                    'card' => $pageTranslation->getTwitterCard() ?? 'summary',
+                    'title' => $pageTranslation->getTwitterTitle() ?? $pageTranslation->getTitle(),
                     'description' => $pageTranslation->getTwitterDescription() ?? $pageTranslation->getDescription(),
-                    'site'        => $pageTranslation->getTwitterSite(),
-                    'src'         => $this->uploaderHelper->asset($pageTranslation, 'twitterImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image')
-                ]
-                ];
+                    'site' => $pageTranslation->getTwitterSite(),
+                    'src' => $this->uploaderHelper->asset($pageTranslation, 'twitterImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image'),
+                ],
+            ];
             $page = $pageTranslation->getPage();
             if ($page instanceof App) {
                 $data = array_replace_recursive($data, ['facebook' => ['src' => $this->uploaderHelper->asset($page, 'banner')], 'twitter' => ['src' => $this->uploaderHelper->asset($page, 'banner')]]);

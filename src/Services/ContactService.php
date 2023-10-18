@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Contact;
 use App\Repository\ContactRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
 /**
- * Class ContactService
+ * Class ContactService.
  *
  * Object manager of contactTranslation.
  */
@@ -32,7 +35,7 @@ class ContactService
      */
     public function save(Contact $contact)
     {
-        $contact->setUpdated(new \DateTime('now'));
+        $contact->setUpdated(new DateTime('now'));
         $this->em->persist($contact);
         $this->em->flush();
 

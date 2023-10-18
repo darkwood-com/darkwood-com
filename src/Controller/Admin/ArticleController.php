@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
@@ -7,6 +9,7 @@ use App\Entity\ArticleTranslation;
 use App\Form\Admin\ArticleTranslationType;
 use App\Services\ArticleService;
 use App\Services\TagService;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,10 +30,61 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $form = $this->createSearchForm();
         $form->handleRequest($request);
 
-        $query    = $this->articleService->getQueryForSearch($form->getData(), $request->getLocale());
+        $query = $this->articleService->getQueryForSearch($form->getData(), $request->getLocale());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/article/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
+    }
+
+    #[Route('/create', name: 'create')]
+    public function create(Request $request)
+    {
+        $entity = new Article();
+        $entity->setCreated(new DateTime());
+
+        $entityTranslation = new ArticleTranslation();
+        $entityTranslation->setLocale($request->getLocale());
+
+        $entity->addTranslation($entityTranslation);
+
+        return $this->manage($request, $entityTranslation);
+    }
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(Request $request, $id)
+    {
+        $entity = $this->articleService->findOneToEdit($id);
+        if ($entity === null) {
+            throw $this->createNotFoundException('Article not found');
+        }
+
+        $entity->setUpdated(new DateTime());
+        $entityTranslation = $entity->getOneTranslation($request->getLocale());
+        if (!$entityTranslation instanceof ArticleTranslation || $entityTranslation->getLocale() !== $request->getLocale()) {
+            $entityTranslation = new ArticleTranslation();
+            $entityTranslation->setLocale($request->getLocale());
+            $entity->addTranslation($entityTranslation);
+        }
+
+        $entityTranslation->setUpdated(new DateTime());
+
+        return $this->manage($request, $entityTranslation);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        /** @var Article $article */
+        $article = $this->articleService->findOneToEdit($id);
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found');
+        }
+
+        $this->articleService->remove($article);
+        // Launch the message flash
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     private function createSearchForm()
@@ -51,63 +105,12 @@ class ArticleController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
                 // Launch the message flash
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
-                return $this->redirect($this->generateUrl('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]));
+                return $this->redirectToRoute('admin_article_edit', ['id' => $entityTranslation->getArticle()->getId()]);
             }
 
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/article/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'tags' => $this->tagService->findAllAsArray($request->getLocale())]);
-    }
-
-    #[Route('/create', name: 'create')]
-    public function create(Request $request)
-    {
-        $entity = new Article();
-        $entity->setCreated(new \DateTime());
-
-        $entityTranslation = new ArticleTranslation();
-        $entityTranslation->setLocale($request->getLocale());
-
-        $entity->addTranslation($entityTranslation);
-
-        return $this->manage($request, $entityTranslation);
-    }
-
-    #[Route('/edit/{id}', name: 'edit')]
-    public function edit(Request $request, $id)
-    {
-        $entity = $this->articleService->findOneToEdit($id);
-        if ($entity === null) {
-            throw $this->createNotFoundException('Article not found');
-        }
-
-        $entity->setUpdated(new \DateTime());
-        $entityTranslation = $entity->getOneTranslation($request->getLocale());
-        if (!$entityTranslation instanceof ArticleTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
-            $entityTranslation = new ArticleTranslation();
-            $entityTranslation->setLocale($request->getLocale());
-            $entity->addTranslation($entityTranslation);
-        }
-
-        $entityTranslation->setUpdated(new \DateTime());
-
-        return $this->manage($request, $entityTranslation);
-    }
-
-    #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        /** @var Article $article */
-        $article = $this->articleService->findOneToEdit($id);
-        if (!$article) {
-            throw $this->createNotFoundException('Article not found');
-        }
-
-        $this->articleService->remove($article);
-        // Launch the message flash
-        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
-
-        return $this->redirect($request->headers->get('referer'));
     }
 }

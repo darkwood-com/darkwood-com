@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Admin;
 
 use App\Entity\Article;
@@ -14,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ArticleType extends \Symfony\Component\Form\AbstractType
 {
     public function __construct(
-        /*
+        /**
          * @var TagTransformer
          */
         private TagTransformer $tagTransformer
@@ -34,15 +36,5 @@ class ArticleType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => Article::class, 'locale' => null]);
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'article';
     }
 }

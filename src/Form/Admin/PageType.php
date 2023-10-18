@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Admin;
 
 use App\Entity\App;
@@ -40,15 +42,5 @@ class PageType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => Page::class, 'locale' => null]);
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'page';
     }
 }

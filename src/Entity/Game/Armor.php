@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,21 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_armor")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\ArmorRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Armor
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -32,27 +30,6 @@ class Armor
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="price", type="integer")
-     */
-    private $price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="armor", type="integer")
-     */
-    private $armor;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="requiredStrength", type="integer")
-     */
-    private $requiredStrength;
 
     /**
      * @var File
@@ -81,13 +58,44 @@ class Armor
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentArmor", cascade={"persist", "remove"})
      */
     protected $currentArmorPlayers;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="armor", type="integer")
+     */
+    private $armor;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="requiredStrength", type="integer")
+     */
+    private $requiredStrength;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players             = new ArrayCollection();
+        $this->players = new ArrayCollection();
         $this->currentArmorPlayers = new ArrayCollection();
     }
 
@@ -177,7 +185,7 @@ class Armor
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

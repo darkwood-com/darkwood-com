@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Admin;
 
 use App\Entity\Contact;
@@ -33,15 +35,5 @@ class ContactType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => Contact::class, 'locale' => null]);
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'contact';
     }
 }

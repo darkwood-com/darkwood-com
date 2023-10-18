@@ -25,7 +25,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</thead>
 <?php
 
-if (!empty($_POST)) {
+if ($_POST !== []) {
     foreach ($_POST as $key => $value) {
         if ((!is_string($value) && !is_numeric($value)) || !is_string($key)) {
             continue;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\App;
@@ -26,16 +28,15 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         private PageService $pageService,
         private CommentService $commentService,
         private CsrfTokenManagerInterface $tokenManager
-    )
-    {
+    ) {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
-        $apps         = $this->pageService->findActives($request->getLocale(), 'app');
-        $appLinks     = [];
+        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
+        $apps = $this->pageService->findActives($request->getLocale(), 'app');
+        $appLinks = [];
         foreach ($apps as $app) {
             $appLinks[] = ['label' => $app->getOneTranslation()->getTitle(), 'link' => $this->pageService->getUrl($app->getOneTranslation())];
         }
@@ -86,25 +87,25 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['en' => '/en/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'fr' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(Request $request, $ref, $slug = null)
     {
-        if($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
         $page = $this->commonController->getPage($request, $ref);
-        $app  = $page->getPage();
+        $app = $page->getPage();
         if (!$app instanceof App) {
             throw $this->createNotFoundException('App not found !');
         }
 
         $contents = $app->getContents()->filter(static function ($appContent) use ($request) {
-            /* @var AppContent $appContent */
-            return $appContent->getLocale() == $request->getLocale();
+            // @var AppContent $appContent
+            return $appContent->getLocale() === $request->getLocale();
         });
         $content = $page->getContent();
-        if (!is_null($slug)) {
+        if (null !== $slug) {
             $content = $contents->filter(static function ($appContent) use ($slug) {
-                /* @var AppContent $appContent */
-                return $appContent->getSlug() == $slug;
+                // @var AppContent $appContent
+                return $appContent->getSlug() === $slug;
             })->current();
             if (!$content) {
                 throw $this->createNotFoundException('App slug not found !');
@@ -124,11 +125,11 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 $this->commentService->save($comment);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
 
-                return $this->redirect($this->generateUrl('apps_app', ['ref' => $ref, 'slug' => $slug]));
+                return $this->redirectToRoute('apps_app', ['ref' => $ref, 'slug' => $slug]);
             }
         }
 
-        $query    = $this->commentService->findActiveCommentByPageQuery($page->getPage());
+        $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('apps/pages/app.html.twig', ['page' => $page, 'slug' => $slug, 'contents' => $contents, 'content' => $content, 'showLinks' => true, 'form' => $form, 'comments' => $comments]);

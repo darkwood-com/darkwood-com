@@ -12,12 +12,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200930193942 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE game_armor CHANGE created created DATETIME NOT NULL, CHANGE updated updated DATETIME NOT NULL');
@@ -29,7 +29,7 @@ final class Version20200930193942 extends AbstractMigration
         $this->addSql('ALTER TABLE game_sword CHANGE created created DATETIME NOT NULL, CHANGE updated updated DATETIME NOT NULL');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE game_armor CHANGE created created DATETIME DEFAULT NULL, CHANGE updated updated DATETIME DEFAULT NULL');

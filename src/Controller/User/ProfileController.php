@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\User;
 
 use App\Controller\CommonController;
@@ -19,14 +21,13 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         private CommonController $commonController,
         private UserService $userService,
         private GameService $gameService
-    )
-    {
+    ) {
     }
 
     #[Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)
     {
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         if ($username) {
             $user = $this->userService->findOneByUsername($username);
@@ -54,7 +55,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
                 $this->userService->save($user);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.profile.submit_valid'));
 
-                return $this->redirect($this->generateUrl('common_profile'));
+                return $this->redirectToRoute('common_profile');
             }
         }
 

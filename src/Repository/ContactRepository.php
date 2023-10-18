@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Contact;
@@ -28,14 +30,12 @@ class ContactRepository extends ServiceEntityRepository
     public function queryForSearch($filters = [], $order = null)
     {
         $qb = $this->createQueryBuilder('c')->select('c');
-        if ($order == 'normal') {
+        if ($order === 'normal') {
             $qb->addOrderBy('c.created', 'desc');
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
-        $query = $qb->getQuery();
-
-        return $query;
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
+        return $qb->getQuery();
     }
 
     /**
@@ -48,7 +48,7 @@ class ContactRepository extends ServiceEntityRepository
     public function findOneToEdit($id)
     {
         $qb = $this->createQueryBuilder('c')->select('c')->where('c.id = :id')->setParameter('id', $id);
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();

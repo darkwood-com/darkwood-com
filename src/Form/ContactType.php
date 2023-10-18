@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Contact;
@@ -25,7 +27,7 @@ class ContactType extends AbstractType
             'required' => false,
         ));*/
         $builder->add('recaptcha', EWZRecaptchaType::class, [
-            'mapped'      => false,
+            'mapped' => false,
             'constraints' => [
                 new IsTrue(),
             ],

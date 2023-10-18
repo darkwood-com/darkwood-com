@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,21 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_sword")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\SwordRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Sword
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -32,6 +30,44 @@ class Sword
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
+
+    /**
+     * @var File
+     *
+     * @Vich\UploadableField(mapping="swords", fileNameProperty="imageName")
+     */
+    protected $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $imageName;
+
+    /**
+     * Players.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="sword", cascade={"persist", "remove"})
+     */
+    protected $players;
+
+    /**
+     * Players.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentSword", cascade={"persist", "remove"})
+     */
+    protected $currentSwordPlayers;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var int
@@ -62,39 +98,11 @@ class Sword
     private $requiredStrength;
 
     /**
-     * @var File
-     *
-     * @Vich\UploadableField(mapping="swords", fileNameProperty="imageName")
-     */
-    protected $image;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $imageName;
-
-    /**
-     * Players.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="sword", cascade={"persist", "remove"})
-     */
-    protected $players;
-
-    /**
-     * Players.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentSword", cascade={"persist", "remove"})
-     */
-    protected $currentSwordPlayers;
-
-    /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players             = new ArrayCollection();
+        $this->players = new ArrayCollection();
         $this->currentSwordPlayers = new ArrayCollection();
     }
 
@@ -204,7 +212,7 @@ class Sword
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

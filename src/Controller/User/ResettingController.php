@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSUserBundle package.
  *
@@ -35,7 +37,7 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
     #[Route(path: ['fr' => '/resetting/request', 'en' => '/en/resetting/request', 'de' => '/de/resetting/request'], name: '_request', defaults: ['ref' => 'resetting'])]
     public function request(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         return $this->render('common/pages/resettingRequest.html.twig', ['page' => $page, 'site_ref' => $siteRef]);
@@ -47,8 +49,8 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
     #[Route(path: ['fr' => '/resetting/send-email', 'en' => '/en/resetting/send-email', 'de' => '/de/resetting/send-email'], name: '_send_email', defaults: ['ref' => 'resetting'])]
     public function sendEmail(Request $request, $ref)
     {
-        $page     = $this->commonController->getPage($request, $ref);
-        $siteRef  = $page->getPage()->getSite()->getRef();
+        $page = $this->commonController->getPage($request, $ref);
+        $siteRef = $page->getPage()->getSite()->getRef();
         $username = $request->request->get('username');
 
         return new RedirectResponse($this->generateUrl('common_resetting_check_email', ['email' => 'test@gmail.com']));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\User;
@@ -7,7 +9,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class UserService
+ * Class UserService.
  *
  * Object manager of user.
  */
@@ -88,7 +90,7 @@ class UserService
     /**
      * @param string $username
      *
-     * @return object|null
+     * @return null|object
      */
     public function findOneByUsername($username)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Admin;
 
 use App\Entity\Comment;
@@ -31,15 +33,5 @@ class CommentType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => Comment::class, 'locale' => null]);
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'comment';
     }
 }

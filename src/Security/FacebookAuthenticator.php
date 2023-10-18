@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -25,12 +27,12 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         private ClientRegistry $clientRegistry,
         private EntityManagerInterface $em,
         private RouterInterface $router,
-        /*
+        /**
          * @var UrlGeneratorInterface
          */
         private UrlGeneratorInterface $urlGenerator,
         private ParameterBagInterface $parameterBag,
-        /*
+        /**
          * @var SiteService
          */
         private SiteService $siteService
@@ -57,7 +59,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
     {
         /** @var FacebookUser $facebookUser */
         $facebookUser = $this->getFacebookClient()->fetchUserFromToken($credentials);
-        $email        = $facebookUser->getEmail();
+        $email = $facebookUser->getEmail();
         // 1) have they logged in with Facebook before? Easy!
         $existingUser = $this->em->getRepository(User::class)->findOneBy(['facebookId' => $facebookUser->getId()]);
         if ($existingUser !== null) {
@@ -81,7 +83,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile   = sys_get_temp_dir() . '/fb-' . $imageName;
+                $tmpFile = sys_get_temp_dir() . '/fb-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $user->setImage($image);
@@ -94,22 +96,14 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         return $user;
     }
 
-    /**
-     * @return FacebookClient
-     */
-    private function getFacebookClient()
-    {
-        return $this->clientRegistry->getClient('facebook_main');
-    }
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
             $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            $host        = $request->getHost();
-            $site        = $this->siteService->findOneByHost($host);
-            if ($host == $this->parameterBag->get('admin_host')) {
+            $host = $request->getHost();
+            $site = $this->siteService->findOneByHost($host);
+            if ($host === $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             } elseif ($site !== null) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -118,7 +112,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
 
         return new RedirectResponse($redirectUrl);
         // or, on success, let the request continue to be handled by the controller
-        //return null;
+        // return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -139,5 +133,13 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
             // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
         );
+    }
+
+    /**
+     * @return FacebookClient
+     */
+    private function getFacebookClient()
+    {
+        return $this->clientRegistry->getClient('facebook_main');
     }
 }

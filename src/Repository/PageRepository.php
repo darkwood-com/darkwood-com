@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Page;
@@ -32,37 +34,40 @@ class PageRepository extends ServiceEntityRepository
             $qb->andWhere('s.host = :host')->setParameter('host', $host);
         }
 
-        if ($type == 'app') {
+        if ($type === 'app') {
             $qb->andWhere('p INSTANCE OF App\Entity\App');
-        } elseif ($type == 'page') {
+        } elseif ($type === 'page') {
             $qb->andWhere('p INSTANCE OF App\Entity\Page');
         }
 
-        if ($order == 'normal') {
+        if ($order === 'normal') {
             $qb->addOrderBy('p.created', 'desc');
         }
 
         if ($filters !== []) {
             foreach ($filters as $key => $filter) {
-                if ($key == 'host') {
+                if ($key === 'host') {
                     $qb->andWhere('s.host', $filter);
                 }
 
-                if ($key == 'limit_low') {
+                if ($key === 'limit_low') {
                     $qb->andWhere('p.created >= :low');
                     $qb->setParameter('low', $filter);
+
                     continue;
                 }
 
-                if ($key == 'limit_high') {
+                if ($key === 'limit_high') {
                     $qb->andWhere('p.created <= :high');
                     $qb->setParameter('high', $filter);
+
                     continue;
                 }
 
-                if ($key == 'allowEdit') {
+                if ($key === 'allowEdit') {
                     $qb->andWhere('p.allowEdit = :allowEdit');
                     $qb->setParameter('allowEdit', $filter);
+
                     continue;
                 }
 
@@ -71,10 +76,8 @@ class PageRepository extends ServiceEntityRepository
             }
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
-        $query = $qb->getQuery();
-
-        return $query;
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::queryForSearch');
+        return $qb->getQuery();
     }
 
     /**
@@ -87,7 +90,7 @@ class PageRepository extends ServiceEntityRepository
     public function findOneToEdit($id)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->where('p.id = :id')->orderBy('p.id', 'asc')->setParameter('id', $id);
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -107,7 +110,7 @@ class PageRepository extends ServiceEntityRepository
             $qb->setParameter('id', $site->getId());
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
+        // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findAll');
         $query = $qb->getQuery();
 
         return $query->getResult();
@@ -122,7 +125,7 @@ class PageRepository extends ServiceEntityRepository
      */
     public function findContentBySite($siteId)
     {
-        $qb    = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = TRUE')->setParameter('siteId', $siteId);
+        $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = TRUE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
 
         return $query->getResult();
@@ -137,7 +140,7 @@ class PageRepository extends ServiceEntityRepository
      */
     public function findNoContentBySite($siteId)
     {
-        $qb    = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = FALSE')->setParameter('siteId', $siteId);
+        $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = FALSE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
 
         return $query->getResult();
@@ -149,19 +152,20 @@ class PageRepository extends ServiceEntityRepository
      * @param null   $locale
      * @param null   $ttl
      *
-     * @return Page|null
+     * @return null|Page
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneActiveByRefAndHost($ref, $host, $locale = null, $ttl = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's')->leftJoin('p.translations', 'pts')->leftJoin('p.site', 's')->andWhere('pts.active = TRUE')->andWhere('p.ref = :ref')->setParameter('ref', $ref)->andWhere('s.host = :host')->setParameter('host', $host)->andWhere('s.active = TRUE');
-        if (!is_null($locale)) {
+        if (null !== $locale) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
 
         $query = $qb->getQuery();
-        //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOneActiveByRefAndHost'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
+
+        // $query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOneActiveByRefAndHost'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
     }
 
@@ -170,40 +174,42 @@ class PageRepository extends ServiceEntityRepository
      *
      * @param string   $ref
      * @param string   $locale
-     * @param int|null $ttl
+     * @param null|int $ttl
      */
     public function findOneByRef($ref, $locale = null, $ttl = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->andWhere('pts.active = TRUE')->andWhere('p.ref = :ref')->setParameter('ref', $ref);
-        if (!is_null($locale)) {
+        if (null !== $locale) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
 
         $query = $qb->getQuery();
-        //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
+
+        // $query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
     }
 
     public function findActives($locale = null, $type = null, $host = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->addOrderBy('p.created', 'desc')->andWhere('pts.active = TRUE');
-        if (!is_null($locale)) {
+        if (null !== $locale) {
             $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         }
 
-        if (!is_null($host)) {
+        if (null !== $host) {
             $qb->leftJoin('p.site', 's');
             $qb->andWhere('s.host = :host')->setParameter('host', $host);
         }
 
-        if ($type == 'app') {
+        if ($type === 'app') {
             $qb->andWhere('p INSTANCE OF App\Entity\App');
-        } elseif ($type == 'page') {
+        } elseif ($type === 'page') {
             $qb->andWhere('p INSTANCE OF App\Entity\Page');
         }
 
         $query = $qb->getQuery();
-        //$query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
+
+        // $query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOnePublic'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getResult();
     }
 }

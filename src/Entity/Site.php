@@ -1,29 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="site")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
-class Site implements \Stringable
+class Site implements Stringable
 {
     use TimestampTrait;
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -31,14 +40,15 @@ class Site implements \Stringable
     /**
      * @var string
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
      * @ORM\Column(name="name", type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: '2', max: '255')]
     protected $name;
 
     /**
      * @Gedmo\Slug(fields={"name"}, separator="-", unique=true, updatable=false)
+     *
      * @ORM\Column(length=255, unique=true)
      */
     protected $ref;
@@ -46,10 +56,10 @@ class Site implements \Stringable
     /**
      * @var string
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
      * @ORM\Column(name="host", type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: '2', max: '255')]
     protected $host;
 
     /**
@@ -63,7 +73,7 @@ class Site implements \Stringable
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="site", cascade={"all"})
-     **/
+     */
     protected $pages;
 
     /**
@@ -200,7 +210,7 @@ class Site implements \Stringable
         $this->position = $position;
     }
 
-    //PAGES
+    // PAGES
 
     /**
      * Add pages.
@@ -244,7 +254,7 @@ class Site implements \Stringable
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

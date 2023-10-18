@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 
 /**
  * @ORM\Table(name="tag_translation", indexes={@ORM\Index(name="index_search", columns={"title"})}, uniqueConstraints={
+ *
  *      @ORM\UniqueConstraint(name="locale_tag_unique",columns={"locale","tag_id"})
  * }))
+ *
  * @ORM\Entity(repositoryClass="App\Repository\TagTranslationRepository")
  */
-class TagTranslation implements \Stringable
+class TagTranslation implements Stringable
 {
     use TimestampTrait;
     /**
@@ -23,13 +28,16 @@ class TagTranslation implements \Stringable
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="translations", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $tag;
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -103,8 +111,6 @@ class TagTranslation implements \Stringable
 
     /**
      * Set tag.
-     *
-     * @param \App\Entity\Tag $tag
      */
     public function setTag(Tag $tag = null): void
     {

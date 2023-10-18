@@ -1,19 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Repository\ArticleRepository;
 use App\Repository\ArticleTranslationRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
+use function count;
+
 /**
- * Class ArticleService
+ * Class ArticleService.
  *
  * Object manager of articleTranslation.
  */
@@ -34,7 +39,7 @@ class ArticleService
         protected ParameterBagInterface $parameterBagInterface,
         protected StorageInterface $storage
     ) {
-        $this->articleRepository            = $em->getRepository(Article::class);
+        $this->articleRepository = $em->getRepository(Article::class);
         $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
     }
 
@@ -45,9 +50,9 @@ class ArticleService
      */
     public function save(Article $article, $invalidate = false)
     {
-        $article->setUpdated(new \DateTime('now'));
+        $article->setUpdated(new DateTime('now'));
         foreach ($article->getTranslations() as $translation) {
-            $translation->setUpdated(new \DateTime('now'));
+            $translation->setUpdated(new DateTime('now'));
         }
 
         $this->em->persist($article);
@@ -67,7 +72,7 @@ class ArticleService
 
     public function duplicate(ArticleTranslation $articleTranslation, $locale)
     {
-        $article                     = $articleTranslation->getArticle();
+        $article = $articleTranslation->getArticle();
         $duplicateArticleTranslation = $this->articleTranslationRepository->findOneByArticleAndLocale($article, $locale);
         if (!$duplicateArticleTranslation) {
             $duplicateArticleTranslation = new ArticleTranslation();
@@ -81,11 +86,11 @@ class ArticleService
         $duplicateArticleTranslation->setContent($articleTranslation->getContent());
         $duplicateArticleTranslation->setActive($articleTranslation->getActive());
         if ($articleTranslation->getImageName() !== '' && $articleTranslation->getImageName() !== '0') {
-            $imageUrl     = $this->storage->resolvePath($articleTranslation, 'image');
+            $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(md5(time()) . preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
+                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicateArticleTranslation->setImage($image);
@@ -102,7 +107,7 @@ class ArticleService
      */
     public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false)
     {
-        $articleTranslation->setUpdated(new \DateTime('now'));
+        $articleTranslation->setUpdated(new DateTime('now'));
         $this->em->persist($articleTranslation);
         $this->em->flush();
         if ($exportLocales) {
@@ -136,7 +141,7 @@ class ArticleService
      *
      * @param array $filters
      *
-     * @return object|null
+     * @return null|object
      */
     public function findOneBy($filters = [])
     {
@@ -171,7 +176,7 @@ class ArticleService
      *
      * @param string $id
      *
-     * @return Article|null
+     * @return null|Article
      */
     public function findOneToEdit($id)
     {
@@ -181,7 +186,7 @@ class ArticleService
     /**
      * @param int $id
      *
-     * @return ArticleTranslation|null
+     * @return null|ArticleTranslation
      */
     public function find($id)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Article;
@@ -27,21 +29,23 @@ class ArticleRepository extends ServiceEntityRepository
     public function queryForSearch($filters = [], $locale = 'en', $order = null)
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
-        if ($order == 'normal') {
+        if ($order === 'normal') {
             $qb->addOrderBy('n.created', 'desc');
         }
 
         if ($filters !== []) {
             foreach ($filters as $key => $filter) {
-                if ($key == 'limit_low') {
+                if ($key === 'limit_low') {
                     $qb->andWhere('n.created >= :low');
                     $qb->setParameter('low', $filter);
+
                     continue;
                 }
 
-                if ($key == 'limit_high') {
+                if ($key === 'limit_high') {
                     $qb->andWhere('n.created <= :high');
                     $qb->setParameter('high', $filter);
+
                     continue;
                 }
 
@@ -50,10 +54,8 @@ class ArticleRepository extends ServiceEntityRepository
             }
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::queryForSearch');
-        $query = $qb->getQuery();
-
-        return $query;
+        // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::queryForSearch');
+        return $qb->getQuery();
     }
 
     /**
@@ -66,7 +68,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findOneToEdit($id)
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->where('n.id = :id')->orderBy('n.id', 'asc')->setParameter('id', $id);
-        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -75,7 +77,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findOneBySlug($slug, $locale)
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->andWhere('nts.slug = :slug')->setParameter('slug', $slug)->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
-        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -91,7 +93,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc');
-        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
+        // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
         $query = $qb->getQuery();
 
         return $query->getResult();
@@ -122,7 +124,7 @@ class ArticleRepository extends ServiceEntityRepository
             $qb->setMaxResults($limit);
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
+        // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
         $query = $qb->getQuery();
 
         return new \Doctrine\ORM\Tools\Pagination\Paginator($query);

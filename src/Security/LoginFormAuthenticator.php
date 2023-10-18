@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Repository\UserRepository;
@@ -13,6 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -23,7 +26,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -51,7 +53,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $credentials = $this->getCredentials($request);
 
         $passport = new Passport(
-            new UserBadge($credentials['username'], function (string $identifier) : \Symfony\Component\Security\Core\User\UserInterface {
+            new UserBadge($credentials['username'], function (string $identifier): UserInterface {
                 return $this->userProvider->loadUserByIdentifier($identifier);
             }),
             new PasswordCredentials($credentials['password']),
@@ -83,8 +85,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->userRepository->loadUserByUsername($credentials['username']);
-        if (!$user) {
+        $user = $this->userRepository->loadUserByIdentifier($credentials['username']);
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
@@ -109,9 +111,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $redirectUrl = $request->headers->get('Referer');
         if (str_contains($redirectUrl, 'login')) {
             $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            $host        = $request->getHost();
-            $site        = $this->siteService->findOneByHost($host);
-            if ($host == $this->parameterBag->get('admin_host')) {
+            $host = $request->getHost();
+            $site = $this->siteService->findOneByHost($host);
+            if ($host === $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             } elseif ($site !== null) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);

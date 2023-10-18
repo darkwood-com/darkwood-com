@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /* <body><pre>
 
 -------------------------------------------------------------------------------------------
@@ -14,4 +16,4 @@
   For licensing, see LICENSE.html or <a href="http://ckeditor.com/license">http://ckeditor.com/license</a>
 -------------------------------------------------------------------------------------------
 
-</pre><div style="display:none"></body> */ include 'assets/posteddata.php';
+</pre><div style="display:none"></body> */ include __DIR__ . '/assets/posteddata.php';

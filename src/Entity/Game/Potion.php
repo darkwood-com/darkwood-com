@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,21 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_potion")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\PotionRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Potion
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -32,20 +30,6 @@ class Potion
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="price", type="integer")
-     */
-    private $price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="life", type="integer")
-     */
-    private $life;
 
     /**
      * @var File
@@ -74,13 +58,37 @@ class Potion
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="currentPotion", cascade={"persist", "remove"})
      */
     protected $currentPotionPlayers;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="life", type="integer")
+     */
+    private $life;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->players              = new ArrayCollection();
+        $this->players = new ArrayCollection();
         $this->currentPotionPlayers = new ArrayCollection();
     }
 
@@ -150,7 +158,7 @@ class Potion
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

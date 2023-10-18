@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
+ *
  * @ORM\Table(name="tag")
  */
-class Tag implements \Stringable
+class Tag implements Stringable
 {
     use TimestampTrait;
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -39,8 +45,15 @@ class Tag implements \Stringable
      */
     public function __construct()
     {
-        $this->articles     = new ArrayCollection();
+        $this->articles = new ArrayCollection();
         $this->translations = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        $tagTs = $this->getOneTranslation();
+
+        return $tagTs ? $tagTs->getTitle() : '';
     }
 
     /**
@@ -92,19 +105,12 @@ class Tag implements \Stringable
     {
         /** @var TagTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
-            if ($translation->getLocale() == $locale) {
+            if ($translation->getLocale() === $locale) {
                 return $translation;
             }
         }
 
         return $this->getTranslations()->current();
-    }
-
-    public function __toString(): string
-    {
-        $tagTs = $this->getOneTranslation();
-
-        return $tagTs ? $tagTs->getTitle() : '';
     }
 
     // ARTICLES

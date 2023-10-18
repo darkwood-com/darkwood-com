@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\AppContent;
 use App\Entity\AppTranslation;
 use App\Repository\AppContentRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
 /**
- * Class AppContentService
+ * Class AppContentService.
  *
  * Object manager of appTranslation.
  */
@@ -33,7 +36,7 @@ class AppContentService
      */
     public function save(AppContent $appContent, $invalidate = false)
     {
-        $appContent->setUpdated(new \DateTime('now'));
+        $appContent->setUpdated(new DateTime('now'));
         $this->em->persist($appContent);
         $this->em->flush();
 
@@ -54,7 +57,7 @@ class AppContentService
      *
      * @param array $filters
      *
-     * @return object|null
+     * @return null|object
      */
     public function findOneBy($filters = [])
     {
@@ -78,7 +81,7 @@ class AppContentService
      *
      * @param string $id
      *
-     * @return AppContent|null
+     * @return null|AppContent
      */
     public function findOneToEdit($id)
     {
@@ -88,7 +91,7 @@ class AppContentService
     /**
      * @param int $id
      *
-     * @return AppContent|null
+     * @return null|AppContent
      */
     public function find($id)
     {

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Traits;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -11,25 +14,27 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait TimestampTrait
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @Gedmo\Timestampable(on="create")
+     *
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
     protected $created;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @Gedmo\Timestampable(on="update")
+     *
      * @ORM\Column(name="updated", type="datetime", nullable=false)
      */
     protected $updated;
 
     /**
-     * Set created
+     * Set created.
      *
-     * @param \DateTime $created
+     * @param DateTime $created
      *
      * @return self
      */
@@ -41,9 +46,9 @@ trait TimestampTrait
     }
 
     /**
-     * Get created
+     * Get created.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreated()
     {
@@ -51,9 +56,9 @@ trait TimestampTrait
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
-     * @param \DateTime $updated
+     * @param DateTime $updated
      *
      * @return self
      */
@@ -65,9 +70,9 @@ trait TimestampTrait
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getUpdated()
     {

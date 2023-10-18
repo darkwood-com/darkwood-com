@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Contact;
@@ -13,6 +15,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 use Twig\Environment;
 
 #[Route('/', name: 'hello_', host: '%hello_host%', priority: -1)]
@@ -32,17 +35,18 @@ class HelloController extends AbstractController
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
     {
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $contact = new Contact();
-        $form    = $this->createForm(ContactType::class, $contact);
+        $form = $this->createForm(ContactType::class, $contact);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
+
                 try {
-                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /*$contact->getEmail()*/, 'mathieu@darkwood.fr');
+                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                     $contact->setEmailSent(false);
@@ -50,7 +54,7 @@ class HelloController extends AbstractController
 
                 $this->contactService->save($contact);
 
-                return $this->redirect($this->generateUrl('hello_home', ['ref' => 'contact']));
+                return $this->redirectToRoute('hello_home', ['ref' => 'contact']);
             }
         }
 
@@ -66,7 +70,7 @@ class HelloController extends AbstractController
 
         return $this->render('hello/pages/cv.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
     }
-    
+
     #[Route(path: ['fr' => '/mentions-legales', 'en' => '/en/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)
     {
@@ -103,15 +107,15 @@ class HelloController extends AbstractController
      * @param string $fromEmail
      * @param string $toEmail
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     private function sendMail($templateName, $context, $fromEmail, $toEmail): void
     {
         $template = $this->twig->load($templateName);
-        $subject  = $template->renderBlock('subject', $context);
+        $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
-        $message  = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
         if ($htmlBody !== '') {
             $message->html($htmlBody)->text($textBody);
         } else {

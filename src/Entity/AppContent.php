@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
@@ -9,9 +11,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AppContentRepository")
+ *
  * @ORM\Table(name="app_content", uniqueConstraints={
+ *
  *      @ORM\UniqueConstraint(name="locale_app_slug_unique",columns={"locale","app_id","slug"})
  * }))
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class AppContent
@@ -26,6 +31,7 @@ class AppContent
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\App", inversedBy="contents", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="app_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $app;
@@ -33,26 +39,18 @@ class AppContent
     /**
      * Slug.
      *
-     * @Assert\NotBlank()
      * @Gedmo\Slug(fields={"title"}, unique=false)
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank]
     protected $slug;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: '2', max: '255')]
     protected $title;
 
     /**
@@ -68,6 +66,17 @@ class AppContent
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * Get id.
@@ -161,8 +170,6 @@ class AppContent
 
     /**
      * Set app.
-     *
-     * @param \App\Entity\App $app
      */
     public function setApp(App $app = null): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 class AdminTest extends CommonWebTestCase
@@ -26,35 +28,34 @@ class AdminTest extends CommonWebTestCase
     }
 
     /**
-     * @dataProvider urlProviderAuth
+     * @dataProvider providePageIsAuthCases
      */
     public function testPageIsAuth($url, $location)
     {
         $client = $this->getHostClient();
         $client->request('GET', $url);
 
-        $this->assertTrue($client->getResponse()->isRedirect($location));
+        self::assertTrue($client->getResponse()->isRedirect($location));
     }
 
-    public function urlProvider()
+    public static function urlProvider(): iterable
     {
-        $commonUrls = array(
-            array('/login'),
-        );
+        $commonUrls = [
+            ['/login'],
+        ];
 
-        return array_merge($commonUrls, array());
+        return array_merge($commonUrls, []);
     }
 
-    public function urlProviderAuth()
+    public static function providePageIsAuthCases(): iterable
     {
-        $commonUrls = array(
-        );
+        $commonUrls = [
+        ];
 
-        return array_merge($commonUrls, array(
-            array('/fr', '/login'),
-            array('/en', '/en/login'),
-            array('/de', '/de/login'),
-        ));
+        return array_merge($commonUrls, [
+            ['/fr', '/login'],
+            ['/en', '/en/login'],
+            ['/de', '/de/login'],
+        ]);
     }
-
 }

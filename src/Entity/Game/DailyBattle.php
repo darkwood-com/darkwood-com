@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
@@ -8,8 +10,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_daily_battle")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\DailyBattleRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class DailyBattle
@@ -17,27 +22,30 @@ class DailyBattle
     use TimestampTrait;
     public const STATUS_DAILY_USER = 0;
 
-    //user of the day
+    // user of the day
     public const STATUS_NEW_WIN = 1;
 
-    //user that win the fight
+    // user that win the fight
     public const STATUS_NEW_LOSE = 2;
 
-    //user that lose the fight
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Player", inversedBy="dailyBattles", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="player_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $player;
+
+    // user that lose the fight
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Player", inversedBy="dailyBattles", cascade={"persist"})
-     * @ORM\JoinColumn(name="player_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $player;
 
     /**
      * @var int
@@ -78,8 +86,6 @@ class DailyBattle
 
     /**
      * Set player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function setPlayer(Player $player = null): void
     {

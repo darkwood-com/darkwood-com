@@ -1,23 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="article_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
+ *
  *      @ORM\UniqueConstraint(name="locale_article_unique",columns={"locale","article_id"})
  * }))
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ArticleTranslationRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
-class ArticleTranslation implements \Stringable
+class ArticleTranslation implements Stringable
 {
     use TimestampTrait;
     /**
@@ -28,30 +36,34 @@ class ArticleTranslation implements \Stringable
     protected $locale;
 
     /**
-     * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="translations", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="cascade")
      */
+    #[Assert\Valid]
     protected $article;
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: '2', max: '255')]
     protected $title;
 
     /**
      * Slug.
      *
      * @Gedmo\Slug(fields={"title"})
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
@@ -85,6 +97,11 @@ class ArticleTranslation implements \Stringable
      */
     public function __construct()
     {
+    }
+
+    public function __toString(): string
+    {
+        return $this->getTitle();
     }
 
     /**
@@ -185,7 +202,7 @@ class ArticleTranslation implements \Stringable
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -227,8 +244,6 @@ class ArticleTranslation implements \Stringable
 
     /**
      * Set article.
-     *
-     * @param \App\Entity\Article $article
      */
     public function setArticle(Article $article = null): void
     {
@@ -243,10 +258,5 @@ class ArticleTranslation implements \Stringable
     public function getArticle()
     {
         return $this->article;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getTitle();
     }
 }

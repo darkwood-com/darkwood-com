@@ -1,27 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 
 /**
  * @ORM\Table(name="article")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ *
  * @ORM\HasLifecycleCallbacks
  */
-class Article implements \Stringable
+class Article implements Stringable
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * Translations.
@@ -31,17 +28,28 @@ class Article implements \Stringable
     protected $translations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
-     */
-    private $comments;
-
-    /**
      * @var ArrayCollection<Tag>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="article_tag")
      */
     protected $tags;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
+     */
+    private $comments;
 
     /**
      * Constructor.
@@ -49,7 +57,14 @@ class Article implements \Stringable
     public function __construct()
     {
         $this->translations = new ArrayCollection();
-        $this->tags         = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        $articleTs = $this->getOneTranslation();
+
+        return $articleTs ? $articleTs->getTitle() : '';
     }
 
     /**
@@ -101,19 +116,12 @@ class Article implements \Stringable
     {
         /** @var ArticleTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
-            if ($translation->getLocale() == $locale) {
+            if ($translation->getLocale() === $locale) {
                 return $translation;
             }
         }
 
         return $this->getTranslations()->current();
-    }
-
-    public function __toString(): string
-    {
-        $articleTs = $this->getOneTranslation();
-
-        return $articleTs ? $articleTs->getTitle() : '';
     }
 
     /**

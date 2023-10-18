@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Tag;
 use App\Entity\TagTranslation;
 use App\Repository\TagRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
- * Class TagService
+ * Class TagService.
  *
  * Object manager of tags.
  */
@@ -37,7 +40,7 @@ class TagService
      */
     public function create($title, $locale)
     {
-        $tag            = new Tag();
+        $tag = new Tag();
         $tagTranslation = new TagTranslation();
         $tagTranslation->setTitle($title);
         $tagTranslation->setLocale($locale);
@@ -55,7 +58,7 @@ class TagService
      */
     public function save(Tag $tag)
     {
-        $tag->setUpdated(new \DateTime('now'));
+        $tag->setUpdated(new DateTime('now'));
         $this->em->persist($tag);
         $this->em->flush();
 

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\Admin\UserType;
 use App\Services\UserService;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,10 +28,49 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $form = $this->createSearchForm();
         $form->handleRequest($request);
 
-        $query    = $this->userService->searchQuery($form->getData());
+        $query = $this->userService->searchQuery($form->getData());
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/user/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
+    }
+
+    #[Route('/create', name: 'create')]
+    public function create(Request $request)
+    {
+        $entity = new User();
+        $entity->setPassword('password');
+        $entity->setCreated(new DateTime());
+
+        return $this->manage($request, $entity);
+    }
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(Request $request, $id)
+    {
+        $entity = $this->userService->findOneToEdit($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $entity->setUpdated(new DateTime());
+
+        return $this->manage($request, $entity);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->userService->findOneToEdit($id);
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $this->userService->remove($user);
+        // Launch the message flash
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     private function createSearchForm()
@@ -49,51 +91,12 @@ class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 // Launch the message flash
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
-                return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $entity->getId()]));
+                return $this->redirectToRoute('admin_user_edit', ['id' => $entity->getId()]);
             }
 
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/user/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entity]);
-    }
-
-    #[Route('/create', name: 'create')]
-    public function create(Request $request)
-    {
-        $entity = new User();
-        $entity->setPassword('password');
-        $entity->setCreated(new \DateTime());
-
-        return $this->manage($request, $entity);
-    }
-
-    #[Route('/edit/{id}', name: 'edit')]
-    public function edit(Request $request, $id)
-    {
-        $entity = $this->userService->findOneToEdit($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('User not found');
-        }
-
-        $entity->setUpdated(new \DateTime());
-
-        return $this->manage($request, $entity);
-    }
-
-    #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        /** @var User $user */
-        $user = $this->userService->findOneToEdit($id);
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
-
-        $this->userService->remove($user);
-        // Launch the message flash
-        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
-
-        return $this->redirect($request->headers->get('referer'));
     }
 }

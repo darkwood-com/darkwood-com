@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
+use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return static function (RectorConfig $rectorConfig): void {
     // register single rule
@@ -17,14 +18,14 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::PHP_82,
-        SymfonySetList::SYMFONY_62,
+        SymfonyLevelSetList::UP_TO_SYMFONY_62,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ]);
 
-	$rectorConfig->bootstrapFiles([__DIR__ . '/../../vendor/autoload.php']);
+    $rectorConfig->bootstrapFiles([__DIR__ . '/../../vendor/autoload.php']);
 
-    //$rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
+    // $rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
 
     /*$parameters = $containerConfigurator->parameters();
 

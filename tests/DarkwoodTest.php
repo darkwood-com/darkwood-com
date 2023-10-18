@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 class DarkwoodTest extends CommonWebTestCase
@@ -25,94 +27,91 @@ class DarkwoodTest extends CommonWebTestCase
         $this->validateW3CUrl($url);
     }
 
-    public function urlProvider()
+    public static function urlProvider(): iterable
     {
-        $commonUrls = array(
-            array('/profil/matyo'),
-            array('/en/profile/matyo'),
-            array('/de/profil/matyo'),
-            array('/login'),
-            array('/inscription'),
-            array('/en/register'),
-            array('/de/registrieren'),
-            //array('/inscription/confimer-email'),
-            //array('/en/register/check-email'),
-            //array('/de/registrieren/check-email'),
-            //array('/inscription/confirmation/{token}'),
-            //array('/en/register/confirm/{token}'),
-            //array('/de/registrieren/confirm/{token}'),
-            //array('/inscription/valide'),
-            //array('/en/register/confirmed'),
-            //array('/de/registrieren/confirmed'),
-            array('/resetting/request'),
-            array('/en/resetting/request'),
-            array('/de/resetting/request'),
-            //array('/resetting/send-email'),
-            //array('/en/resetting/send-email'),
-            //array('/de/resetting/send-email'),
-            //array('/resetting/check-email'),
-            //array('/en/resetting/check-email'),
-            //array('/de/resetting/check-email'),
-            //array('/resetting/reset/{token}'),
-            //array('/en/resetting/reset/{token}'),
-            //array('/de/resetting/reset/{token}'),
-        );
+        $commonUrls = [
+            ['/profil/matyo'],
+            ['/en/profile/matyo'],
+            ['/de/profil/matyo'],
+            ['/login'],
+            ['/inscription'],
+            ['/en/register'],
+            ['/de/registrieren'],
+            // array('/inscription/confimer-email'),
+            // array('/en/register/check-email'),
+            // array('/de/registrieren/check-email'),
+            // array('/inscription/confirmation/{token}'),
+            // array('/en/register/confirm/{token}'),
+            // array('/de/registrieren/confirm/{token}'),
+            // array('/inscription/valide'),
+            // array('/en/register/confirmed'),
+            // array('/de/registrieren/confirmed'),
+            ['/resetting/request'],
+            ['/en/resetting/request'],
+            ['/de/resetting/request'],
+            // array('/resetting/send-email'),
+            // array('/en/resetting/send-email'),
+            // array('/de/resetting/send-email'),
+            // array('/resetting/check-email'),
+            // array('/en/resetting/check-email'),
+            // array('/de/resetting/check-email'),
+            // array('/resetting/reset/{token}'),
+            // array('/en/resetting/reset/{token}'),
+            // array('/de/resetting/reset/{token}'),
+        ];
 
-        $mobilePlayUrls = array();
-        $diplays = array('iphone', 'ipad');
-        $mobileUrls = array('login', 'chat', 'guestbook', 'rank');
-        $localeUrls = array('/jouer', '/en/play', '/de/spiel');
-        foreach($diplays as $diplay)
-        {
-            foreach($mobileUrls as $mobileUrl)
-            {
-                foreach($localeUrls as $localeUrl)
-                {
-                    $mobilePlayUrls[] = array("$localeUrl/$diplay?state=$mobileUrl");
+        $mobilePlayUrls = [];
+        $diplays = ['iphone', 'ipad'];
+        $mobileUrls = ['login', 'chat', 'guestbook', 'rank'];
+        $localeUrls = ['/jouer', '/en/play', '/de/spiel'];
+        foreach ($diplays as $diplay) {
+            foreach ($mobileUrls as $mobileUrl) {
+                foreach ($localeUrls as $localeUrl) {
+                    $mobilePlayUrls[] = [sprintf('%s/%s?state=%s', $localeUrl, $diplay, $mobileUrl)];
                 }
             }
         }
 
-        return array_merge($commonUrls, $mobilePlayUrls, array(
-            array('/'),
-            array('/en'),
-            array('/de'),
-            array('/plan-du-site'),
-            array('/en/sitemap'),
-            array('/de/sitemap'),
-            array('/sitemap.xml'),
-            array('/en/sitemap.xml'),
-            array('/de/sitemap.xml'),
-            array('/rss'),
-            array('/en/rss'),
-            array('/de/rss'),
-            array('/contact'),
-            array('/en/contact'),
-            array('/de/kontakt'),
-            //array('/news/{slug}'),
-            //array('/en/news/{slug}'),
-            //array('/de/news/{slug}'),
-            //array('/jouer/{display}'),
-            //array('/en/play/{display}'),
-            //array('/de/spiel/{display}'),
-            array('/chat'),
-            array('/en/chat'),
-            array('/de/chat'),
-            array('/liste-des-joueurs'),
-            array('/en/player-list'),
-            array('/de/liste-der-spieler'),
-            array('/regles-du-jeu'),
-            array('/en/rules-of-the-game'),
-            array('/de/regeln-des-spiels'),
-            array('/livre-d-or'),
-            array('/en/guestbook'),
-            array('/de/gastebuch'),
-            array('/extra'),
-            array('/en/extra'),
-            array('/de/extra'),
-            array('/classement'),
-            array('/en/rank'),
-            array('/de/rang'),
-        ));
+        return array_merge($commonUrls, $mobilePlayUrls, [
+            ['/'],
+            ['/en'],
+            ['/de'],
+            ['/plan-du-site'],
+            ['/en/sitemap'],
+            ['/de/sitemap'],
+            ['/sitemap.xml'],
+            ['/en/sitemap.xml'],
+            ['/de/sitemap.xml'],
+            ['/rss'],
+            ['/en/rss'],
+            ['/de/rss'],
+            ['/contact'],
+            ['/en/contact'],
+            ['/de/kontakt'],
+            // array('/news/{slug}'),
+            // array('/en/news/{slug}'),
+            // array('/de/news/{slug}'),
+            // array('/jouer/{display}'),
+            // array('/en/play/{display}'),
+            // array('/de/spiel/{display}'),
+            ['/chat'],
+            ['/en/chat'],
+            ['/de/chat'],
+            ['/liste-des-joueurs'],
+            ['/en/player-list'],
+            ['/de/liste-der-spieler'],
+            ['/regles-du-jeu'],
+            ['/en/rules-of-the-game'],
+            ['/de/regeln-des-spiels'],
+            ['/livre-d-or'],
+            ['/en/guestbook'],
+            ['/de/gastebuch'],
+            ['/extra'],
+            ['/en/extra'],
+            ['/de/extra'],
+            ['/classement'],
+            ['/en/rank'],
+            ['/de/rang'],
+        ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Article;
@@ -10,6 +12,7 @@ use App\Entity\Page;
 use App\Repository\CommentArticleRepository;
 use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
@@ -38,8 +41,8 @@ class CommentService
     public function __construct(
         protected EntityManagerInterface $em
     ) {
-        $this->commentRepository        = $em->getRepository(Comment::class);
-        $this->commentPageRepository    = $em->getRepository(CommentPage::class);
+        $this->commentRepository = $em->getRepository(Comment::class);
+        $this->commentPageRepository = $em->getRepository(CommentPage::class);
         $this->commentArticleRepository = $em->getRepository(CommentArticle::class);
     }
 
@@ -50,7 +53,7 @@ class CommentService
      */
     public function save(Comment $comment)
     {
-        $comment->setUpdated(new \DateTime('now'));
+        $comment->setUpdated(new DateTime('now'));
         $this->em->persist($comment);
         $this->em->flush();
 

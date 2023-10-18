@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Site;
@@ -46,7 +48,7 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneToEdit($id)
     {
-        $qb    = $this->createQueryBuilder('s')->select('s')->where('s.id = :id')->setParameter('id', $id);
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.id = :id')->setParameter('id', $id);
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -61,9 +63,10 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneByHost($host)
     {
-        $qb    = $this->createQueryBuilder('s')->select('s')->where('s.host = :host')->setParameter('host', $host);
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.host = :host')->setParameter('host', $host);
         $query = $qb->getQuery();
-        //$query->useResultCache(true, 120, 'SiteRepository::findOneByHost' . $host);
+
+        // $query->useResultCache(true, 120, 'SiteRepository::findOneByHost' . $host);
         return $query->getOneOrNullResult();
     }
 
@@ -76,9 +79,10 @@ class SiteRepository extends ServiceEntityRepository
      */
     public function findOneByRef($ref)
     {
-        $qb    = $this->createQueryBuilder('s')->select('s')->where('s.ref = :ref')->setParameter('ref', $ref);
+        $qb = $this->createQueryBuilder('s')->select('s')->where('s.ref = :ref')->setParameter('ref', $ref);
         $query = $qb->getQuery();
-        //$query->useResultCache(true, 120, 'SiteRepository::findOneByRef' . $ref);
+
+        // $query->useResultCache(true, 120, 'SiteRepository::findOneByRef' . $ref);
         return $query->getOneOrNullResult();
     }
 

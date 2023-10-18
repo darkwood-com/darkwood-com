@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Site;
@@ -11,32 +13,32 @@ class SiteFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->createSite([
-            'name'     => 'Darkwood',
-            'host'     => 'darkwood.localhost',
+            'name' => 'Darkwood',
+            'host' => 'darkwood.localhost',
             'position' => 1,
         ], $manager);
 
         $this->createSite([
-            'name'     => 'Apps',
-            'host'     => 'apps.darkwood.localhost',
+            'name' => 'Apps',
+            'host' => 'apps.darkwood.localhost',
             'position' => 2,
         ], $manager);
 
         $this->createSite([
-            'name'     => 'Photos',
-            'host'     => 'photos.darkwood.localhost',
+            'name' => 'Photos',
+            'host' => 'photos.darkwood.localhost',
             'position' => 3,
         ], $manager);
 
         $this->createSite([
-            'name'     => 'Blog',
-            'host'     => 'blog.darkwood.localhost',
+            'name' => 'Blog',
+            'host' => 'blog.darkwood.localhost',
             'position' => 4,
         ], $manager);
 
         $this->createSite([
-            'name'     => 'Me',
-            'host'     => 'hello.darkwood.localhost',
+            'name' => 'Me',
+            'host' => 'hello.darkwood.localhost',
             'position' => 5,
         ], $manager);
 

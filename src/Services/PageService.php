@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\App;
@@ -12,6 +14,7 @@ use App\Repository\AppContentRepository;
 use App\Repository\ArticleTranslationRepository;
 use App\Repository\PageRepository;
 use App\Repository\PageTranslationRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -23,8 +26,11 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
+use function count;
+use function get_class;
+
 /**
- * Class PageService
+ * Class PageService.
  *
  * Object manager of entity.
  */
@@ -57,10 +63,10 @@ class PageService
         protected RouterInterface $router,
         protected StorageInterface $storage
     ) {
-        $this->pageRepository               = $em->getRepository(Page::class);
-        $this->entityRepository             = $em->getRepository(PageTranslation::class);
+        $this->pageRepository = $em->getRepository(Page::class);
+        $this->entityRepository = $em->getRepository(PageTranslation::class);
         $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
-        $this->appContentRepository         = $em->getRepository(AppContent::class);
+        $this->appContentRepository = $em->getRepository(AppContent::class);
     }
 
     /**
@@ -70,9 +76,9 @@ class PageService
      */
     public function save(Page $page, $invalidate = false)
     {
-        $page->setUpdated(new \DateTime('now'));
+        $page->setUpdated(new DateTime('now'));
         foreach ($page->getTranslations() as $translation) {
-            $translation->setUpdated(new \DateTime('now'));
+            $translation->setUpdated(new DateTime('now'));
         }
 
         $this->em->persist($page);
@@ -92,7 +98,7 @@ class PageService
 
     public function duplicate(PageTranslation $entity, $locale)
     {
-        $page                     = $entity->getPage();
+        $page = $entity->getPage();
         $duplicatePageTranslation = $this->entityRepository->findOneByPageAndLocale($page, $locale);
         if (!$duplicatePageTranslation) {
             $duplicatePageTranslation = new PageTranslation();
@@ -105,11 +111,11 @@ class PageService
         $duplicatePageTranslation->setContent($entity->getContent());
         $duplicatePageTranslation->setActive($entity->getActive());
         if ($entity->getImageName() !== '' && $entity->getImageName() !== '0') {
-            $imageUrl     = $this->storage->resolvePath($entity, 'image');
+            $imageUrl = $this->storage->resolvePath($entity, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
                 $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile   = sys_get_temp_dir() . '/pt-' . $imageName;
+                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
                 $duplicatePageTranslation->setImage($image);
@@ -148,7 +154,7 @@ class PageService
      */
     public function saveTranslation(PageTranslation $entity, $exportLocales = false)
     {
-        $entity->setUpdated(new \DateTime('now'));
+        $entity->setUpdated(new DateTime('now'));
         $this->em->persist($entity);
         $this->em->flush();
         if ($exportLocales) {
@@ -182,7 +188,7 @@ class PageService
      *
      * @param array $filters
      *
-     * @return object|null
+     * @return null|object
      */
     public function findOneBy($filters = [])
     {
@@ -206,7 +212,7 @@ class PageService
      *
      * @param string $id
      *
-     * @return Page|null
+     * @return null|Page
      */
     public function findOneToEdit($id)
     {
@@ -218,7 +224,7 @@ class PageService
      * @param string $host
      * @param null   $locale
      *
-     * @return Page|null
+     * @return null|Page
      */
     public function findOneActiveByRefAndHost($ref, $host, $locale = null)
     {
@@ -229,7 +235,7 @@ class PageService
      * @param string $ref
      * @param null   $locale
      *
-     * @return Page|null
+     * @return null|Page
      */
     public function findOneByRef($ref, $locale = null)
     {
@@ -250,7 +256,7 @@ class PageService
     /**
      * @param int $id
      *
-     * @return PageTranslation|null
+     * @return null|PageTranslation
      */
     public function find($id)
     {
@@ -281,23 +287,25 @@ class PageService
                     if ($page instanceof App && $route->getDefault('_controller') === \App\Controller\AppsController::class . '::app') {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
-                        if ($route->getHost() && $route->getHost() != $host) {
+                        if ($route->getHost() && $route->getHost() !== $host) {
                             continue;
                         }
 
                         if ($routeLocale === $entity->getLocale()) {
                             $routeData = ['route' => $route, 'name' => $route->getDefault('_canonical_route'), 'params' => array_merge($route->getDefaults(), ['_locale' => $routeLocale, 'ref' => $page->getRef()])];
+
                             break;
                         }
                     } elseif (str_starts_with($route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
-                        if ($route->getHost() && $route->getHost() != $host) {
+                        if ($route->getHost() && $route->getHost() !== $host) {
                             continue;
                         }
 
                         if ($routeLocale === $entity->getLocale()) {
                             $routeData = ['route' => $route, 'name' => $route->getDefault('_canonical_route'), 'params' => array_merge($route->getDefaults(), ['_locale' => $routeLocale])];
+
                             break;
                         }
                     }
@@ -327,7 +335,7 @@ class PageService
     public function getPageCanonical($ref, $entity, $host)
     {
         $pageLinks = $this->getPageLinks($ref, $entity, $host, null, UrlGeneratorInterface::ABSOLUTE_URL);
-        foreach($pageLinks as $locale => $url) {
+        foreach ($pageLinks as $locale => $url) {
             return ['locale' => $locale, 'url' => $url];
         }
 
@@ -340,7 +348,7 @@ class PageService
         if ($entity instanceof ArticleTranslation) {
             $articleTranslations = $this->articleTranslationRepository->findByArticle($entity->getArticle());
             foreach ($articleTranslations as $articleTranslation) {
-                if ($articleTranslation->getLocale() == $locale) {
+                if ($articleTranslation->getLocale() === $locale) {
                     continue;
                 }
 
@@ -350,7 +358,7 @@ class PageService
             $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host);
             if ($page !== null) {
                 foreach ($page->getTranslations() as $pageTranslation) {
-                    if ($pageTranslation->getLocale() == $locale) {
+                    if ($pageTranslation->getLocale() === $locale) {
                         continue;
                     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\App;
@@ -8,6 +10,7 @@ use App\Form\Admin\PageTranslationType;
 use App\Services\AppService;
 use App\Services\PageService;
 use App\Services\SiteService;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,10 +31,61 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
         $form = $this->createSearchForm();
         $form->handleRequest($request);
 
-        $query    = $this->appService->getQueryForSearch($form->getData(), 'app');
+        $query = $this->appService->getQueryForSearch($form->getData(), 'app');
         $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
 
         return $this->render('admin/app/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
+    }
+
+    #[Route('/create', name: 'create')]
+    public function create(Request $request)
+    {
+        $entity = new App();
+        $entity->setCreated(new DateTime());
+
+        $entityTranslation = new PageTranslation();
+        $entityTranslation->setLocale($request->getLocale());
+
+        $entity->addTranslation($entityTranslation);
+
+        return $this->manage($request, $entityTranslation);
+    }
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(Request $request, $id)
+    {
+        $entity = $this->appService->findOneToEdit($id, $request->getLocale());
+        if ($entity === null) {
+            throw $this->createNotFoundException('App not found');
+        }
+
+        $entity->setUpdated(new DateTime());
+        $entityTranslation = $entity->getOneTranslation($request->getLocale());
+        if (!$entityTranslation instanceof PageTranslation || $entityTranslation->getLocale() !== $request->getLocale()) {
+            $entityTranslation = new PageTranslation();
+            $entityTranslation->setLocale($request->getLocale());
+            $entity->addTranslation($entityTranslation);
+        }
+
+        $entityTranslation->setUpdated(new DateTime());
+
+        return $this->manage($request, $entityTranslation);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        /** @var App $app */
+        $app = $this->appService->findOneToEdit($id, $request->getLocale());
+        if (!$app) {
+            throw $this->createNotFoundException('App not found');
+        }
+
+        $this->appService->remove($app);
+        // Launch the message flash
+        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     private function createSearchForm()
@@ -58,63 +112,12 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
                 // Launch the message flash
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.updated'));
 
-                return $this->redirect($this->generateUrl('admin_app_edit', ['id' => $entityTranslation->getPage()->getId()]));
+                return $this->redirectToRoute('admin_app_edit', ['id' => $entityTranslation->getPage()->getId()]);
             }
 
             $this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $this->translator->trans('notice.form.error'));
         }
 
         return $this->render('admin/app/' . $mode . '.html.twig', ['form' => $form, 'entity' => $entityTranslation, 'url' => $entityTranslation->getId() !== 0 ? $this->pageService->getUrl($entityTranslation, true, true) : null]);
-    }
-
-    #[Route('/create', name: 'create')]
-    public function create(Request $request)
-    {
-        $entity = new App();
-        $entity->setCreated(new \DateTime());
-
-        $entityTranslation = new PageTranslation();
-        $entityTranslation->setLocale($request->getLocale());
-
-        $entity->addTranslation($entityTranslation);
-
-        return $this->manage($request, $entityTranslation);
-    }
-
-    #[Route('/edit/{id}', name: 'edit')]
-    public function edit(Request $request, $id)
-    {
-        $entity = $this->appService->findOneToEdit($id, $request->getLocale());
-        if ($entity === null) {
-            throw $this->createNotFoundException('App not found');
-        }
-
-        $entity->setUpdated(new \DateTime());
-        $entityTranslation = $entity->getOneTranslation($request->getLocale());
-        if (!$entityTranslation instanceof PageTranslation || $entityTranslation->getLocale() != $request->getLocale()) {
-            $entityTranslation = new PageTranslation();
-            $entityTranslation->setLocale($request->getLocale());
-            $entity->addTranslation($entityTranslation);
-        }
-
-        $entityTranslation->setUpdated(new \DateTime());
-
-        return $this->manage($request, $entityTranslation);
-    }
-
-    #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        /** @var App $app */
-        $app = $this->appService->findOneToEdit($id, $request->getLocale());
-        if (!$app) {
-            throw $this->createNotFoundException('App not found');
-        }
-
-        $this->appService->remove($app);
-        // Launch the message flash
-        $this->container->get('request_stack')->getSession()->getFlashBag()->add('notice', $this->translator->trans('notice.form.deleted'));
-
-        return $this->redirect($request->headers->get('referer'));
     }
 }

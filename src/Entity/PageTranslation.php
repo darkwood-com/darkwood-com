@@ -1,22 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="page_translation", indexes={@ORM\Index(name="index_search", columns={"active"})}, uniqueConstraints={
+ *
  *      @ORM\UniqueConstraint(name="locale_page_unique",columns={"locale","page_id"})
  * }))
+ *
  * @ORM\Entity(repositoryClass="App\Repository\PageTranslationRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
-class PageTranslation implements \Stringable
+class PageTranslation implements Stringable
 {
     use TimestampTrait;
     /**
@@ -27,24 +35,27 @@ class PageTranslation implements \Stringable
     protected $locale;
 
     /**
-     * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="translations", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="cascade")
      */
+    #[Assert\Valid]
     protected $page;
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: '2', max: '255')]
     protected $title;
 
     /**
@@ -292,7 +303,7 @@ class PageTranslation implements \Stringable
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -328,7 +339,7 @@ class PageTranslation implements \Stringable
         $this->thumbnailImage = $thumbnailImage;
         if ($thumbnailImage) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -508,7 +519,7 @@ class PageTranslation implements \Stringable
         $this->twitterImage = $twitterImage;
         if ($twitterImage) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -592,7 +603,7 @@ class PageTranslation implements \Stringable
         $this->ogImage = $ogImage;
         if ($ogImage) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -634,8 +645,6 @@ class PageTranslation implements \Stringable
 
     /**
      * Set page.
-     *
-     * @param \App\Entity\Page $page
      */
     public function setPage(Page $page = null): void
     {

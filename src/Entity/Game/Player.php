@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
@@ -10,18 +12,121 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_player")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\PlayerRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Player
 {
     use TimestampTrait;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="sword_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $sword;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="armor_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $armor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="potion_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $potion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="lastFightPlayers", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="last_fight_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $lastFight;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="currentEnemyPlayers", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="current_enemy_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $currentEnemy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Classe", inversedBy="players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="classe_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $classe;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $user;
+
+    /**
+     * DailyBattles.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Game\DailyBattle", mappedBy="player", cascade={"persist", "remove"})
+     */
+    protected $dailyBattles;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment1Players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="equipment1_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $equipment1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment2Players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="equipment2_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $equipment2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment3Players", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="equipment3_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $equipment3;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="currentSwordPlayers", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="current_sword_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $currentSword;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="currentPotionPlayers", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="current_potion_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $currentPotion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="currentArmorPlayers", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="current_armor_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $currentArmor;
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -48,47 +153,11 @@ class Player
     private $xp;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="players", cascade={"persist"})
-     * @ORM\JoinColumn(name="sword_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $sword;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="players", cascade={"persist"})
-     * @ORM\JoinColumn(name="armor_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $armor;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="players", cascade={"persist"})
-     * @ORM\JoinColumn(name="potion_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $potion;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="gold", type="integer")
      */
     private $gold;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="lastFightPlayers", cascade={"persist"})
-     * @ORM\JoinColumn(name="last_fight_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $lastFight;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Enemy", inversedBy="currentEnemyPlayers", cascade={"persist"})
-     * @ORM\JoinColumn(name="current_enemy_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $currentEnemy;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Classe", inversedBy="players", cascade={"persist"})
-     * @ORM\JoinColumn(name="classe_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $classe;
 
     /**
      * @var int
@@ -112,36 +181,11 @@ class Player
     private $vitality;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $user;
-
-    /**
-     * DailyBattles.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Game\DailyBattle", mappedBy="player", cascade={"persist", "remove"})
-     */
-    protected $dailyBattles;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment1Players", cascade={"persist"})
-     * @ORM\JoinColumn(name="equipment1_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $equipment1;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="equipment1_is_use", type="boolean")
      */
     private $equipment1IsUse;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment2Players", cascade={"persist"})
-     * @ORM\JoinColumn(name="equipment2_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $equipment2;
 
     /**
      * @var bool
@@ -151,35 +195,11 @@ class Player
     private $equipment2IsUse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Gem", inversedBy="equipment3Players", cascade={"persist"})
-     * @ORM\JoinColumn(name="equipment3_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $equipment3;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="equipment3_is_use", type="boolean")
      */
     private $equipment3IsUse;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Sword", inversedBy="currentSwordPlayers", cascade={"persist"})
-     * @ORM\JoinColumn(name="current_sword_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $currentSword;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Potion", inversedBy="currentPotionPlayers", cascade={"persist"})
-     * @ORM\JoinColumn(name="current_potion_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $currentPotion;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game\Armor", inversedBy="currentArmorPlayers", cascade={"persist"})
-     * @ORM\JoinColumn(name="current_armor_id", referencedColumnName="id", onDelete="cascade")
-     */
-    protected $currentArmor;
 
     /**
      * @var int
@@ -415,8 +435,6 @@ class Player
 
     /**
      * Set sword.
-     *
-     * @param \App\Entity\Game\Sword $sword
      */
     public function setSword(Sword $sword = null): void
     {
@@ -435,8 +453,6 @@ class Player
 
     /**
      * Set armor.
-     *
-     * @param \App\Entity\Game\Armor $armor
      */
     public function setArmor(Armor $armor = null): void
     {
@@ -455,8 +471,6 @@ class Player
 
     /**
      * Set potion.
-     *
-     * @param \App\Entity\Game\Potion $potion
      */
     public function setPotion(Potion $potion = null): void
     {
@@ -475,8 +489,6 @@ class Player
 
     /**
      * Set lastFight.
-     *
-     * @param \App\Entity\Game\Enemy $lastFight
      */
     public function setLastFight(Enemy $lastFight = null): void
     {
@@ -495,8 +507,6 @@ class Player
 
     /**
      * Set currentEnemy.
-     *
-     * @param \App\Entity\Game\Enemy $currentEnemy
      */
     public function setCurrentEnemy(Enemy $currentEnemy = null): void
     {
@@ -515,8 +525,6 @@ class Player
 
     /**
      * Set classe.
-     *
-     * @param \App\Entity\Game\Classe $classe
      */
     public function setClasse(Classe $classe = null): void
     {
@@ -535,8 +543,6 @@ class Player
 
     /**
      * Set user.
-     *
-     * @param \App\Entity\User $user
      */
     public function setUser(User $user = null): void
     {
@@ -581,8 +587,6 @@ class Player
 
     /**
      * Set equipment1.
-     *
-     * @param \App\Entity\Game\Gem $equipment1
      */
     public function setEquipment1(Gem $equipment1 = null): void
     {
@@ -601,8 +605,6 @@ class Player
 
     /**
      * Set equipment2.
-     *
-     * @param \App\Entity\Game\Gem $equipment2
      */
     public function setEquipment2(Gem $equipment2 = null): void
     {
@@ -621,8 +623,6 @@ class Player
 
     /**
      * Set equipment3.
-     *
-     * @param \App\Entity\Game\Gem $equipment3
      */
     public function setEquipment3(Gem $equipment3 = null): void
     {
@@ -681,8 +681,6 @@ class Player
 
     /**
      * Set currentSword.
-     *
-     * @param \App\Entity\Game\Sword $currentSword
      */
     public function setCurrentSword(Sword $currentSword = null): void
     {
@@ -709,8 +707,6 @@ class Player
 
     /**
      * Set currentPotion.
-     *
-     * @param \App\Entity\Game\Potion $currentPotion
      */
     public function setCurrentPotion(Potion $currentPotion = null): void
     {
@@ -737,8 +733,6 @@ class Player
 
     /**
      * Set currentArmor.
-     *
-     * @param \App\Entity\Game\Armor $currentArmor
      */
     public function setCurrentArmor(Armor $currentArmor = null): void
     {

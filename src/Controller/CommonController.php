@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Contact;
@@ -10,6 +12,7 @@ use App\Services\ContactService;
 use App\Services\PageService;
 use App\Services\SeoService;
 use App\Services\SiteService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 use Twig\Environment;
 
 class CommonController extends AbstractController
@@ -42,9 +44,9 @@ class CommonController extends AbstractController
      */
     public function removeTrailingSlash(Request $request): RedirectResponse
     {
-        $pathInfo   = $request->getPathInfo();
+        $pathInfo = $request->getPathInfo();
         $requestUri = $request->getRequestUri();
-        $url        = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
+        $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
 
         return $this->redirect($url, \Symfony\Component\HttpFoundation\Response::HTTP_MOVED_PERMANENTLY);
     }
@@ -52,7 +54,7 @@ class CommonController extends AbstractController
     /**
      * Show Exception action.
      */
-    public function showException(Request $request, \Throwable $exception, DebugLoggerInterface $logger = null)
+    public function showException(Request $request, Throwable $exception, DebugLoggerInterface $logger = null)
     {
         if (!$exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             $exception = $this->errorRenderer->render($exception);
@@ -99,30 +101,6 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param string $templateName
-     * @param array  $context
-     * @param string $fromEmail
-     * @param string $toEmail
-     *
-     * @throws \Throwable
-     */
-    private function sendMail($templateName, $context, $fromEmail, $toEmail): void
-    {
-        $template = $this->twig->load($templateName);
-        $subject  = $template->renderBlock('subject', $context);
-        $textBody = $template->renderBlock('body_text', $context);
-        $htmlBody = $template->renderBlock('body_html', $context);
-        $message  = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
-        if ($htmlBody !== '') {
-            $message->html($htmlBody)->text($textBody);
-        } else {
-            $message->html($textBody);
-        }
-
-        $this->mailer->send($message);
-    }
-
-    /**
      * @param string $ref
      *
      * @return PageTranslation
@@ -139,7 +117,7 @@ class CommonController extends AbstractController
 
     public function legalMention(Request $request, $ref)
     {
-        $page    = $this->getPage($request, $ref);
+        $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
 
         return $this->render('common/pages/legalMention.html.twig', ['page' => $page, 'site_ref' => $siteRef]);
@@ -147,7 +125,7 @@ class CommonController extends AbstractController
 
     public function sitemap(Request $request, $ref)
     {
-        $page    = $this->getPage($request, $ref);
+        $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $sitemap = $this->siteService->getSitemap($request->getHost(), $request->getLocale());
 
@@ -157,7 +135,7 @@ class CommonController extends AbstractController
     public function sitemapXml(Request $request)
     {
         $sitemapXml = $this->siteService->getSitemapXml($request->getHost(), $request->getLocale());
-        $response   = new Response($sitemapXml);
+        $response = new Response($sitemapXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
 
         return $response;
@@ -165,7 +143,7 @@ class CommonController extends AbstractController
 
     public function rss(Request $request)
     {
-        $rssXml   = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
+        $rssXml = $this->siteService->getRssXml($request->getHost(), $request->getLocale());
         $response = new Response($rssXml);
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
 
@@ -174,18 +152,19 @@ class CommonController extends AbstractController
 
     public function contact(Request $request, $ref)
     {
-        $page    = $this->getPage($request, $ref);
+        $page = $this->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $contact = new Contact();
-        $form    = $this->createForm(ContactType::class, $contact);
+        $form = $this->createForm(ContactType::class, $contact);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
+
                 try {
-                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /*$contact->getEmail()*/, 'mathieu@darkwood.fr');
+                    $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $exception) {
                     $contact->setEmailSent(false);
@@ -193,10 +172,34 @@ class CommonController extends AbstractController
 
                 $this->contactService->save($contact);
 
-                return $this->redirect($this->generateUrl($siteRef . '_contact', ['ref' => $ref]));
+                return $this->redirectToRoute($siteRef . '_contact', ['ref' => $ref]);
             }
         }
 
         return $this->render('common/pages/contact.html.twig', ['form' => $form, 'page' => $page, 'site_ref' => $siteRef]);
+    }
+
+    /**
+     * @param string $templateName
+     * @param array  $context
+     * @param string $fromEmail
+     * @param string $toEmail
+     *
+     * @throws Throwable
+     */
+    private function sendMail($templateName, $context, $fromEmail, $toEmail): void
+    {
+        $template = $this->twig->load($templateName);
+        $subject = $template->renderBlock('subject', $context);
+        $textBody = $template->renderBlock('body_text', $context);
+        $htmlBody = $template->renderBlock('body_html', $context);
+        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        if ($htmlBody !== '') {
+            $message->html($htmlBody)->text($textBody);
+        } else {
+            $message->html($textBody);
+        }
+
+        $this->mailer->send($message);
     }
 }

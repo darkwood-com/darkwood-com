@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\App;
@@ -27,21 +29,23 @@ class AppRepository extends ServiceEntityRepository
     public function queryForSearch($filters = [], $order = null)
     {
         $qb = $this->createQueryBuilder('a')->select('a');
-        if ($order == 'normal') {
+        if ($order === 'normal') {
             $qb->addOrderBy('a.created', 'desc');
         }
 
         if ($filters !== []) {
             foreach ($filters as $key => $filter) {
-                if ($key == 'limit_low') {
+                if ($key === 'limit_low') {
                     $qb->andWhere('a.created >= :low');
                     $qb->setParameter('low', $filter);
+
                     continue;
                 }
 
-                if ($key == 'limit_high') {
+                if ($key === 'limit_high') {
                     $qb->andWhere('a.created <= :high');
                     $qb->setParameter('high', $filter);
+
                     continue;
                 }
 
@@ -50,10 +54,8 @@ class AppRepository extends ServiceEntityRepository
             }
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'AppRepository::queryForSearch');
-        $query = $qb->getQuery();
-
-        return $query;
+        // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::queryForSearch');
+        return $qb->getQuery();
     }
 
     /**
@@ -66,7 +68,7 @@ class AppRepository extends ServiceEntityRepository
     public function findOneToEdit($id, $locale)
     {
         $qb = $this->createQueryBuilder('a')->select('a', 'content')->where('a.id = :id')->addOrderBy('a.id', 'asc')->setParameter('id', $id)->leftJoin('a.contents', 'content', \Doctrine\ORM\Query\Expr\Join::WITH, 'content.locale = :locale')->setParameter('locale', $locale)->addOrderBy('content.position');
-        //$qb->getQuery()->useResultCache(true, 120, 'AppRepository::findOneToEdit'.($id ? 'id' : ''));
+        // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
         return $query->getOneOrNullResult();
@@ -82,7 +84,7 @@ class AppRepository extends ServiceEntityRepository
     public function findAll($parameters = [])
     {
         $qb = $this->createQueryBuilder('a')->select('a');
-        //$qb->getQuery()->useResultCache(true, 120, 'AppRepository::findAll');
+        // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findAll');
         $query = $qb->getQuery();
 
         return $query->getResult();
@@ -95,7 +97,7 @@ class AppRepository extends ServiceEntityRepository
             $qb->setMaxResults($limit);
         }
 
-        //$qb->getQuery()->useResultCache(true, 120, 'AppRepository::findActives');
+        // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findActives');
         $query = $qb->getQuery();
 
         return new \Doctrine\ORM\Tools\Pagination\Paginator($query);

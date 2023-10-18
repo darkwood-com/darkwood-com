@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,21 +13,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="game_classe")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Game\ClasseRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
 class Classe
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -32,27 +30,6 @@ class Classe
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="strength", type="integer")
-     */
-    private $strength;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="dexterity", type="integer")
-     */
-    private $dexterity;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="vitality", type="integer")
-     */
-    private $vitality;
 
     /**
      * @var File
@@ -74,6 +51,37 @@ class Classe
      * @ORM\OneToMany(targetEntity="App\Entity\Game\Player", mappedBy="classe", cascade={"persist", "remove"})
      */
     protected $players;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="strength", type="integer")
+     */
+    private $strength;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="dexterity", type="integer")
+     */
+    private $dexterity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="vitality", type="integer")
+     */
+    private $vitality;
 
     /**
      * Constructor.
@@ -157,7 +165,7 @@ class Classe
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 

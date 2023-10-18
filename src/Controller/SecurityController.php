@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
+use LogicException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +31,7 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             return $this->render('admin/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
 
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
@@ -44,6 +47,6 @@ class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     #[Route(path: ['fr' => '/logout', 'en' => '/en/logout', 'de' => '/de/logout'], name: 'logout')]
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

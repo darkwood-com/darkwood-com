@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
@@ -8,30 +10,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="comment")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="type", type="string")
+ *
  * @ORM\DiscriminatorMap({"page" = "App\Entity\CommentPage", "article" = "App\Entity\CommentArticle"})
  */
 abstract class Comment
 {
     use TimestampTrait;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotNull(message="common.comment.required_content")
-     * @ORM\Column(name="content", type="text")
-     */
-    private $content;
 
     /**
      * @ORM\Column(type="boolean")
@@ -41,20 +31,40 @@ abstract class Comment
     /**
      * @var User
      *
-     * @Assert\NotNull(message="common.comment.required_user")
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     **/
+     */
+    #[Assert\NotNull(message: 'common.comment.required_user')]
     protected $user;
 
     /**
      * @var Page
      *
-     * @Assert\NotNull(message="common.comment.required_page")
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="comments", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
-     **/
+     */
+    #[Assert\NotNull(message: 'common.comment.required_page')]
     protected $page;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text")
+     */
+    #[Assert\NotNull(message: 'common.comment.required_content')]
+    private $content;
 
     /**
      * Get id.
@@ -88,8 +98,6 @@ abstract class Comment
 
     /**
      * Set user.
-     *
-     * @param \App\Entity\User $user
      */
     public function setUser(User $user = null): void
     {
@@ -108,8 +116,6 @@ abstract class Comment
 
     /**
      * Set page.
-     *
-     * @param \App\Entity\Page $page
      */
     public function setPage(Page $page = null): void
     {

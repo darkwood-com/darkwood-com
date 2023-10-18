@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -20,19 +22,19 @@ class RegistrationType extends AbstractType
         $builder->add('username');
         $builder->add('email', EmailType::class);
         $builder->add('plainPassword', RepeatedType::class, [
-            'type'            => PasswordType::class,
-            'first_options'   => ['label' => 'Mot de passe'],
-            'second_options'  => ['label' => 'Confirmer mot de passe'],
+            'type' => PasswordType::class,
+            'first_options' => ['label' => 'Mot de passe'],
+            'second_options' => ['label' => 'Confirmer mot de passe'],
             'invalid_message' => 'Les mots de passe ne correspondent pas.',
-            'mapped'          => false,
-            'constraints'     => [
+            'mapped' => false,
+            'constraints' => [
                 new NotBlank([
                     'message' => 'Please enter a password',
                 ]),
             ],
         ]);
         $builder->add('recaptcha', EWZRecaptchaType::class, [
-            'mapped'      => false,
+            'mapped' => false,
             'constraints' => [
                 new IsTrue(),
             ],

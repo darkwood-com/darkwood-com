@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\CommentArticle;
@@ -26,15 +28,14 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         private ArticleService $articleService,
         private CommentService $commentService,
         private CsrfTokenManagerInterface $tokenManager
-    )
-    {
+    ) {
     }
 
     public function menu(Request $request, $ref, $entity)
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken    = $this->tokenManager->getToken('authenticate')->getValue();
-        $pageLinks    = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
+        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
 
         return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
     }
@@ -42,8 +43,8 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['fr' => '/', 'en' => '/en', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
-        $page     = $this->commonController->getPage($request, $ref);
-        $query    = $this->articleService->findActivesQueryBuilder($request->getLocale());
+        $page = $this->commonController->getPage($request, $ref);
+        $query = $this->articleService->findActivesQueryBuilder($request->getLocale());
         $request->query->set('sort', preg_replace('/[^a-z.]/', '', $request->query->get('sort')));
 
         $articles = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
@@ -84,11 +85,11 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     #[Route(path: ['fr' => '/article/{slug}', 'en' => '/en/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
-        if($request->get('sort') && $request->get('sort') !== 'a.created') {
+        if ($request->get('sort') && $request->get('sort') !== 'a.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
-        $page    = $this->commonController->getPage($request, $ref);
+        $page = $this->commonController->getPage($request, $ref);
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
         if (!$article) {
             throw $this->createNotFoundException('Article not found !');
@@ -106,11 +107,11 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
                 $this->commentService->save($comment);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
 
-                return $this->redirect($this->generateUrl('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]));
+                return $this->redirectToRoute('blog_article', ['slug' => $article->getOneTranslation($request->getLocale())->getSlug()]);
             }
         }
 
-        $query    = $this->commentService->findActiveCommentByArticleQuery($article);
+        $query = $this->commentService->findActiveCommentByArticleQuery($article);
         $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
 
         return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments]);

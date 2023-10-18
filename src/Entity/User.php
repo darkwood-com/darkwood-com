@@ -1,72 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Game\Player;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Table(name="user")
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity("email", message="The email '{{ value }}' is already used.")
- * @UniqueEntity("username", message="The username '{{ value }}' is already taken.")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Vich\Uploadable
  */
-class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInterface
+#[UniqueEntity('email', message: "The email '{{ value }}' is already used.")]
+#[UniqueEntity('username', message: "The username '{{ value }}' is already taken.")]
+class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
 {
     use TimestampTrait;
-    /**
-     * Id.
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 32,
-     *      minMessage = "The username must be at least {{ limit }} characters long",
-     *      maxMessage = "The username cannot be longer than {{ limit }} characters"
-     * )
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $username;
-
-    /**
-     * @Assert\NotBlank(
-     *     message="form.general.required"
-     * )
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     mode = "strict"
-     * )
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
+    #[Assert\NotBlank(message: 'form.general.required')]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
     protected $email;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $password;
 
     /**
      * Civility.
@@ -78,33 +50,23 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     /**
      * Firstname.
      *
-     * @Assert\Length(
-     *     min="2",
-     *     max="255",
-     *     minMessage="form.general.short",
-     *     maxMessage="form.general.long"
-     * )
      * @ORM\Column(length=255, nullable=true)
      */
+    #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
     protected $firstname;
 
     /**
      * Lastname.
      *
-     * @Assert\Length(
-     *     min="2",
-     *     max="255",
-     *     minMessage="form.general.short",
-     *     maxMessage="form.general.long"
-     * )
      * @ORM\Column(length=255, nullable=true)
      */
+    #[Assert\Length(min: '2', max: '255', minMessage: 'form.general.short', maxMessage: 'form.general.long')]
     protected $lastname;
 
     /**
      * Edit.
      *
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -165,6 +127,34 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $contacts;
+    /**
+     * Id.
+     *
+     * @ORM\Id
+     *
+     * @ORM\GeneratedValue
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
+    private $username;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $password;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -188,6 +178,31 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     public function __toString(): string
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * String representation of object.
+     *
+     * @see http://php.net/manual/en/serializable.serialize.php
+     *
+     * @return string the string representation of the object or null
+     *
+     * @since 5.1.0
+     */
+    public function __serialize(): array
+    {
+        return [$this->id, $this->username, $this->email, $this->password];
+    }
+
+    /**
+     * Constructs the object.
+     *
+     * @see http://php.net/manual/en/serializable.unserialize.php
+     * @since 5.1.0
+     */
+    public function __unserialize(array $data): void
+    {
+        [$this->id, $this->username, $this->email, $this->password] = $data;
     }
 
     public function getId(): ?int
@@ -308,7 +323,7 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     }
 
     /**
-     * @param \DateTime $birthday
+     * @param DateTime $birthday
      */
     public function setBirthday($birthday)
     {
@@ -316,7 +331,7 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getBirthday()
     {
@@ -371,7 +386,7 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
         $this->image = $image;
         if ($image) {
             // doctrine listeners event
-            $this->updated = new \DateTime('now');
+            $this->updated = new DateTime('now');
         }
     }
 
@@ -481,8 +496,6 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
 
     /**
      * Set player.
-     *
-     * @param \App\Entity\Game\Player $player
      */
     public function setPlayer(Player $player = null): void
     {
@@ -515,38 +528,6 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * String representation of object
-     *
-     * @see http://php.net/manual/en/serializable.serialize.php
-     *
-     * @return string the string representation of the object or null
-     *
-     * @since 5.1.0
-     */
-    public function __serialize(): array
-    {
-        return [$this->id, $this->username, $this->email, $this->password];
-    }
-
-    /**
-     * Constructs the object
-     *
-     * @see http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     *
-     * @return void
-     *
-     * @since 5.1.0
-     */
-    public function __unserialize(array $data): void
-    {
-        [$this->id, $this->username, $this->email, $this->password] = $data;
     }
 
     public function getEmailSent(): ?bool
