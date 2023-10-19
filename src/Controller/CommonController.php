@@ -81,7 +81,6 @@ class CommonController extends AbstractController
 
         $page->addTranslation($pageTranslation);
         $response = $this->render('common/pages/404.html.twig', ['page' => $pageTranslation, 'site_ref' => $site->getRef()]);
-        $response->headers->set('X-Status-Code', 404);
         $response->setStatusCode(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
 
         return $response;
