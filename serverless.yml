@@ -18,9 +18,18 @@ plugins:
 functions:
     hello:
         handler: my-function.php
-        runtime: php-81-fpm
+        runtime: php-82
+        #runtime: php-82-fpm
+        #architecture: arm64
+        # Lambda Function URL
+        url: true
+        # Or API Gateway
         events:
-            - httpApi: '*'
+            #- httpApi: '*'
+            # API Gateway v2
+            - httpApi: 'GET /hello'
+            # API Gateway v1
+            #- http: 'GET hello'
 
     # This function runs the Symfony website/API
     web:
