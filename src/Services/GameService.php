@@ -244,7 +244,7 @@ class GameService
     {
         $player = $this->getOrCreate($user);
         $regeneration = [];
-        for ($i = 0; $i < 4; ++$i) {
+        for ($i = 0; $i < 4; $i++) {
             $life = $player->getLifeMax();
             $price = $player->getLifeMax();
             switch ($i) {
@@ -685,7 +685,7 @@ class GameService
                         break;
                     }
 
-                    ++$enemyPosition;
+                    $enemyPosition++;
                 }
 
                 $gemPosition = ceil((count($gems) - 1) * random_int(1, $enemyPosition) / count($enemies));
@@ -697,7 +697,7 @@ class GameService
                         break;
                     }
 
-                    --$gemPosition;
+                    $gemPosition--;
                 }
 
                 $result['gem'] = 'found';

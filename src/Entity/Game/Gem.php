@@ -22,7 +22,7 @@ class Gem
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'gems', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'gems', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

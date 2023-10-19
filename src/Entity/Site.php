@@ -58,7 +58,7 @@ class Site implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'sites', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'sites', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

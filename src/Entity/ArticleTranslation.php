@@ -55,7 +55,7 @@ class ArticleTranslation implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

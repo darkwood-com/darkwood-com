@@ -25,7 +25,7 @@ class Armor
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'armors', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'armors', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

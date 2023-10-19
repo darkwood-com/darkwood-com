@@ -51,7 +51,7 @@ class PageTranslation implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'pages', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'pages', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -60,7 +60,7 @@ class PageTranslation implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'thumbnailPages', fileNameProperty: 'thumbnailImageName')]
+    #[Vich\UploadableField(mapping: 'thumbnailPages', fileNameProperty: 'thumbnailImageName')]
     protected $thumbnailImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -96,7 +96,7 @@ class PageTranslation implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'twitterPages', fileNameProperty: 'twitterImageName')]
+    #[Vich\UploadableField(mapping: 'twitterPages', fileNameProperty: 'twitterImageName')]
     protected $twitterImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
@@ -111,7 +111,7 @@ class PageTranslation implements Stringable
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'ogPages', fileNameProperty: 'ogImageName')]
+    #[Vich\UploadableField(mapping: 'ogPages', fileNameProperty: 'ogImageName')]
     protected $ogImage;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

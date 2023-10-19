@@ -60,7 +60,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'users', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'users', fileNameProperty: 'imageName')]
     protected $image;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

@@ -11,9 +11,8 @@ class PaginationDTO
     public function __construct(
         #[Assert\GreaterThanOrEqual(1)]
         public readonly int $page = 1,
-
-		#[Assert\Regex('/^[a-z]+$/')]
-		public readonly string $sort = 'id',
+        #[Assert\Regex('/^[a-z]+$/')]
+        public readonly string $sort = 'id',
     ) {
     }
 }

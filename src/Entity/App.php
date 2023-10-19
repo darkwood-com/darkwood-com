@@ -19,7 +19,7 @@ class App extends Page
     /**
      * @var File
      */
-	#[Vich\UploadableField(mapping: 'bannerApps', fileNameProperty: 'bannerName')]
+    #[Vich\UploadableField(mapping: 'bannerApps', fileNameProperty: 'bannerName')]
     protected $banner;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]

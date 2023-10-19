@@ -217,4 +217,3 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return $this->render('darkwood/pages/rank.html.twig', ['page' => $page, 'players' => $players, 'mode' => $mode]);
     }
 }
- 
