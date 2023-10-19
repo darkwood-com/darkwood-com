@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/{_locale}', name: 'admin_', host: '%admin_host%', priority : -1, requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}', name: 'admin_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]

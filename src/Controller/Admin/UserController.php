@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/users', name: 'admin_user_', host: '%admin_host%', priority : -1, requirements: ['_locale' => 'en|fr|de'])]
+#[Route('/{_locale}/users', name: 'admin_user_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
 class UserController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly UserService $userService)

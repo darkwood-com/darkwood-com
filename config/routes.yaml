@@ -3,11 +3,3 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-
-admin_root_homepage:
-  path: /
-  host: '%admin_host%'
-  defaults:
-    _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-    route: admin_home
-    permanent: true
