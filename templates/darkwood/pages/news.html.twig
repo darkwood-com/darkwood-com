@@ -8,7 +8,7 @@
     {% set nTranslation = news.getOneTranslation(app.request.locale) %}
     <li>
         <h3>{{ nTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ nTranslation.created|format_date('long') }}</em></h3>
-        {{ nTranslation.content|markdown|raw }}
+        {{ nTranslation.content|markdown_to_html|raw }}
     </li>
 </ul>
 

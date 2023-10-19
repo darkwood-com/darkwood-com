@@ -68,3 +68,10 @@ nix-env -iA nixpkgs.nodejs-18_x
 nix shell github:loophp/nix-shell#env-php82 --extra-experimental-features nix-command --extra-experimental-features flakes
 ./node_modules/.bin/serverless bref:local -f hello
 ```
+
+## Update packages
+
+List packages to update with composer:
+```sh
+composer outdated -D
+```

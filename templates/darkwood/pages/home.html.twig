@@ -19,7 +19,7 @@
     {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
     <li>
         <h3>{{ articleTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
-        <p>{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}</p>
+        <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
         <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a></p>
     </li>
     {% endfor %}

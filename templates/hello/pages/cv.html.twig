@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{# page.content|markdown #}
+{# page.content|markdown_to_html #}
 
 <div class="cv">
     <img src="{{ asset('/hello/mathieu-ledru.jpg') }}" alt="Mathieu Ledru" class="image_cv">
@@ -47,7 +47,7 @@
             <a class="btn btn-social-icon btn-bandcamp" style="background: #629aa9" target="_blank" rel="noreferrer" href="https://www.bandcamp.com/matyo91"><span class="fab fa-bandcamp"></span></a>
 
             {#
-            
+
             <a class="btn btn-social-icon btn-apple" target="_blank" rel="noreferrer" href="https://www.tripit.com/people/matyo91#/profile/basic-info"><span class="fab fa-apple"></span></a>
             <a class="btn btn-social-icon btn-ebay" style="background: #89c507" target="_blank" rel="noreferrer" href="https://www.ebay.com/usr/matyo91"><span class="fab fa-ebay"></span></a>
             <a class="btn btn-social-icon btn-apple" style="background: #33ccff" target="_blank" rel="noreferrer" href="https://www.ifttt.com/p/matyo91"><span class="fab fa-apple"></span></a>

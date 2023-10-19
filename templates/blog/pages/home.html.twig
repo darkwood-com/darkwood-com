@@ -3,13 +3,13 @@
 {% block content %}
 
 <h1>{{ page.title }}</h1>
-{{ page.content|markdown }}
+{{ page.content|markdown_to_html }}
 <ul class="itemlist">
     {% for article in articles %}
         {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
         <li>
             <h3>{{ articleTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
-            <p>{{ articleTranslation.content|markdown|striptags|u.truncate(260, '...') }}</p>
+            <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
             <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a></p>
         </li>
     {% endfor %}
