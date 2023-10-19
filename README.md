@@ -75,3 +75,8 @@ List packages to update with composer:
 ```sh
 composer outdated -D
 ```
+
+Update Symfony recipes:
+```sh
+composer symfony:recipes:update
+```
