@@ -180,12 +180,12 @@ class SiteService
                             $pageTranslation = $page->getOneTranslation($locale);
                             if ($pageTranslation) {
                                 $child['label'] = $pageTranslation->getTitle();
-                                $child['link'] = $this->pageService->getUrl($pageTranslation, true);
+                                $child['link'] = $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL);
                             }
                         }
                     } elseif (isset($child['item']['host'], $child['item']['page_translation'])) {
                         $child['label'] = $child['item']['page_translation']->getTitle();
-                        $child['link'] = $this->pageService->getUrl($child['item']['page_translation'], true);
+                        $child['link'] = $this->pageService->getUrl($child['item']['page_translation'], UrlGeneratorInterface::ABSOLUTE_URL);
                     }
 
                     if (isset($child['item']['label'])) {

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: \App\Repository\ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
