@@ -17,7 +17,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'apps_', host: '%apps_host%', priority: -1)]
+#[Route('/', name: 'apps_', host: '%apps_host%')]
 class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(

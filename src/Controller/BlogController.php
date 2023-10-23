@@ -18,7 +18,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'blog_', host: '%blog_host%', priority: -1)]
+#[Route('/', name: 'blog_', host: '%blog_host%')]
 class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
