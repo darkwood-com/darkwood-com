@@ -16,30 +16,33 @@ plugins:
     - ./vendor/bref/bref
 
 functions:
-    app:
-        handler: my-function.php
-        runtime: php-82-fpm
-        layers:
-            - ${bref:layer.php-82-fpm}
-        #runtime: php-82-fpm
-        #architecture: arm64
-        # Lambda Function URL
-        url: true
-        # Or API Gateway
-        events:
-            #- httpApi: '*'
-            # API Gateway v2
-            - httpApi: 'GET /hello'
-            # API Gateway v1
-            #- http: 'GET hello'
+#    app:
+#        handler: my-function.php
+#        runtime: php-82-fpm
+#        layers:
+#            - ${bref:layer.php-82-fpm}
+#        #runtime: php-82-fpm
+#        #architecture: arm64
+#        # Lambda Function URL
+#        url: true
+#        # Or API Gateway
+#        events:
+#            #- httpApi: '*'
+#            # API Gateway v2
+#            - httpApi: 'GET /hello'
+#            # API Gateway v1
+#            #- http: 'GET hello'
 
     # This function runs the Symfony website/API
     web:
-        handler: public/index.php
+        handler: public/index-function.php
         runtime: php-82-fpm
         timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
             - ${bref:layer.php-82-fpm}
+        # Lambda Function URL
+        url: true
+        # Or API Gateway
         events:
             - httpApi: '*'
     # This function let us run console commands in Lambda
