@@ -17,7 +17,7 @@ plugins:
 
 functions:
 #    app:
-#        handler: my-function.php
+#        handler: public/my-function.php
 #        runtime: php-82-fpm
 #        layers:
 #            - ${bref:layer.php-82-fpm}
