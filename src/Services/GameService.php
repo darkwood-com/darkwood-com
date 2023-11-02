@@ -174,7 +174,7 @@ class GameService
         $level = $this->levelUpRepository->findByXp($player->getXp());
         if (!$level) {
             $level = new LevelUp();
-            $level->setXp('MAX');
+            $level->setXp(PHP_INT_MAX);
             $level->setLevel(100);
         }
 
