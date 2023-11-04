@@ -34,7 +34,7 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
     /**
      * Request reset user password: show form.
      */
-    #[Route(path: ['fr' => '/resetting/request', 'en' => '/en/resetting/request', 'de' => '/de/resetting/request'], name: '_request', defaults: ['ref' => 'resetting'])]
+    #[Route(path: ['fr' => '/fr/resetting/request', 'en' => '/resetting/request', 'de' => '/de/resetting/request'], name: '_request', defaults: ['ref' => 'resetting'])]
     public function request(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -46,7 +46,7 @@ class ResettingController extends \Symfony\Bundle\FrameworkBundle\Controller\Abs
     /**
      * Request reset user password: submit form and send email.
      */
-    #[Route(path: ['fr' => '/resetting/send-email', 'en' => '/en/resetting/send-email', 'de' => '/de/resetting/send-email'], name: '_send_email', defaults: ['ref' => 'resetting'])]
+    #[Route(path: ['fr' => '/fr/resetting/send-email', 'en' => '/resetting/send-email', 'de' => '/de/resetting/send-email'], name: '_send_email', defaults: ['ref' => 'resetting'])]
     public function sendEmail(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);

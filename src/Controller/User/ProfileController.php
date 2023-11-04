@@ -24,7 +24,7 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     ) {
     }
 
-    #[Route(path: ['fr' => '/profil/{username}', 'en' => '/en/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
+    #[Route(path: ['fr' => '/fr/profil/{username}', 'en' => '/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)
     {
         $page = $this->commonController->getPage($request, $ref);

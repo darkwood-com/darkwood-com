@@ -26,7 +26,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
     {
     }
 
-    #[Route(path: ['fr' => '/inscription', 'en' => '/en/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
+    #[Route(path: ['fr' => '/fr/inscription', 'en' => '/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -55,7 +55,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
         return $this->render('common/pages/register.html.twig', ['page' => $page, 'form' => $form, 'site_ref' => $siteRef]);
     }
 
-    #[Route(path: ['fr' => '/inscription/confimer-email', 'en' => '/en/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
+    #[Route(path: ['fr' => '/fr/inscription/confimer-email', 'en' => '/register/check-email', 'de' => '/de/registrieren/check-email'], name: '_check', defaults: ['ref' => 'register'])]
     public function checkUserEmail(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);

@@ -8,6 +8,7 @@ use App\Entity\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
+#[ORM\Entity(repositoryClass: \App\Repository\TagTranslationRepository::class)]
 #[ORM\Table(name: 'tag_translation')]
 #[ORM\Index(name: 'index_search', columns: ['title'])]
 #[ORM\UniqueConstraint(name: 'locale_tag_unique', columns: ['locale', 'tag_id'])]

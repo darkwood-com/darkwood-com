@@ -71,6 +71,7 @@ common:
     register: Registrieren
   footer:
     sitemap: Sitemap
+    hello: Hello
     author: Autor
     blog: Blog
     apps: Apps

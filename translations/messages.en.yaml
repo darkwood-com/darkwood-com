@@ -73,6 +73,7 @@ common:
     register: Register
   footer:
     sitemap: Sitemap
+    hello: Hello
     author: Author
     blog: Blog
     apps: Apps
