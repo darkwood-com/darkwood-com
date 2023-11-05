@@ -42,8 +42,8 @@ let
     };
   };
   args = {
-    name = "_at_darkwood-fr_slash_darkwood-fr";
-    packageName = "@darkwood-fr/darkwood-fr";
+    name = "_at_darkwood-com_slash_darkwood-com";
+    packageName = "@darkwood-com/darkwood-com";
     version = "1.0.0";
     src = ./.;
     dependencies = [
@@ -55,7 +55,7 @@ let
     buildInputs = globalBuildInputs;
     meta = {
       description = "Darkwood website";
-      homepage = "https://github.com/darkwood-fr/darkwood-fr#readme";
+      homepage = "https://github.com/darkwood-com/darkwood-com#readme";
       license = "MIT";
     };
     production = true;

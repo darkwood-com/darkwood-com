@@ -1,5 +1,5 @@
 {
-    "name": "@darkwood-fr/darkwood-fr",
+    "name": "@darkwood-com/darkwood-com",
     "version": "1.0.0",
     "description": "Darkwood website",
     "author": {
@@ -7,9 +7,9 @@
         "email": "mathieu@darkwood.fr"
     },
     "bugs": {
-        "url": "https://github.com/darkwood-fr/darkwood-fr/issues"
+        "url": "https://github.com/darkwood-com/darkwood-com/issues"
     },
-    "homepage": "https://github.com/darkwood-fr/darkwood-fr#readme",
+    "homepage": "https://github.com/darkwood-com/darkwood-com#readme",
     "license": "MIT",
     "private": true,
     "scripts": {
