@@ -42,7 +42,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
 
             // generate a signed url and email it to the user
             try {
-                $this->emailVerifier->sendEmailConfirmation('common_register_check', $user, (new TemplatedEmail())->from(new Address('no-reply@darkwood.fr', 'Darkwood'))->to($user->getEmail())->subject('Please Confirm your Email')->htmlTemplate('common/mails/registration.html.twig')->context(['user' => $user]));
+                $this->emailVerifier->sendEmailConfirmation('common_register_check', $user, (new TemplatedEmail())->from(new Address('no-reply@darkwood.com', 'Darkwood'))->to($user->getEmail())->subject('Please Confirm your Email')->htmlTemplate('common/mails/registration.html.twig')->context(['user' => $user]));
                 $user->setEmailSent(true);
             } catch (\Symfony\Component\Mailer\Exception\TransportException) {
                 $user->setEmailSent(false);

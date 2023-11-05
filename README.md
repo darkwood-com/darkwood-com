@@ -1,7 +1,7 @@
 Darkwood
 ========
 
-Darkwood website [https://darkwood.fr](https://darkwood.fr)
+Darkwood website [https://darkwood.com](https://darkwood.com)
 
 ### add this to /etc/hosts
 ```

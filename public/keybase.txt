@@ -4,7 +4,7 @@ https://keybase.io/matyo91
 
 I hereby claim:
 
-  * I am an admin of https://darkwood.fr
+  * I am an admin of https://darkwood.com
   * I am matyo91 (https://keybase.io/matyo91) on keybase.
   * I have a public key with fingerprint 0F5E AE9F 03EB B05E 80C2  BA3D 7AA9 37FF A40E 8051
 
@@ -22,7 +22,7 @@ To do so, I am signing this object:
             "username": "matyo91"
         },
         "service": {
-            "hostname": "darkwood.fr",
+            "hostname": "darkwood.com",
             "protocol": "https:"
         },
         "type": "web_service_binding",
