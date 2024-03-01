@@ -140,7 +140,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         }
 
         $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $comments = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 10);
 
         return $this->render('darkwood/pages/chat.html.twig', ['form' => $form, 'page' => $page, 'comments' => $comments]);
     }
@@ -154,7 +154,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
 
         $page = $this->commonController->getPage($request, $ref);
         $query = $this->userService->findActiveQuery();
-        $users = $this->paginator->paginate($query, $request->query->getInt('page', 1), 56);
+        $users = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 56);
 
         return $this->render('darkwood/pages/users.html.twig', ['page' => $page, 'users' => $users]);
     }
@@ -191,7 +191,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         }
 
         $query = $this->commentService->findActiveCommentByPageQuery($page->getPage());
-        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $comments = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 10);
 
         return $this->render('darkwood/pages/guestbook.html.twig', ['form' => $form, 'page' => $page, 'comments' => $comments]);
     }

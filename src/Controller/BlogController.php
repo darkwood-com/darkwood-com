@@ -114,7 +114,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         }
 
         $query = $this->commentService->findActiveCommentByArticleQuery($article);
-        $comments = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $comments = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 10);
 
         return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments]);
     }

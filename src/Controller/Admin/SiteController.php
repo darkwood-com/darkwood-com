@@ -29,7 +29,7 @@ class SiteController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         $form->handleRequest($request);
 
         $query = $this->siteService->searchQuery($form->getData())->addOrderBy('s.position', 'asc');
-        $entities = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
+        $entities = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 20);
 
         return $this->render('admin/site/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
