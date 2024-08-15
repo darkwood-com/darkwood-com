@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -26,10 +27,12 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
-    use \Symfony\Component\Security\Http\Util\TargetPathTrait;
+    use TargetPathTrait;
     final public const LOGIN_ROUTE = 'security_login';
 
     public function __construct(
@@ -40,8 +43,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         private readonly ParameterBagInterface $parameterBag,
         private readonly UserRepository $userRepository,
         private readonly UserProviderInterface $userProvider
-    ) {
-    }
+    ) {}
 
     public function supports(Request $request): bool
     {
@@ -71,20 +73,20 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = ['username' => $request->request->get('username'), 'password' => $request->request->get('password'), 'csrf_token' => $request->request->get('_csrf_token')];
-        $request->getSession()->set(\Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME, $credentials['username']);
+        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $credentials['username']);
 
         return $credentials;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new \Symfony\Component\Security\Csrf\CsrfToken('authenticate', $credentials['csrf_token']);
+        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
 
         $user = $this->userRepository->loadUserByIdentifier($credentials['username']);
-        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if (!$user instanceof UserInterface) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
@@ -107,7 +109,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         $redirectUrl = $request->headers->get('Referer');
-        if (str_contains($redirectUrl, 'login')) {
+        if (str_contains((string) $redirectUrl, 'login')) {
             $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $host = $request->getHost();
             $site = $this->siteService->findOneByHost($host);

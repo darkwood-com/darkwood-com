@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Admin;
 
 use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -20,12 +21,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
-class UserType extends \Symfony\Component\Form\AbstractType
+class UserType extends AbstractType
 {
     /**
      * Build Form.
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('civility', ChoiceType::class, ['choices' => ['m' => 'Monsieur', 'mme' => 'Madame', 'mlle' => 'Mademoiselle'], 'placeholder' => false, 'required' => false]);
         $builder->add('firstname', TextType::class);
@@ -42,7 +43,7 @@ class UserType extends \Symfony\Component\Form\AbstractType
     /**
      * Defualt options.
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => User::class, 'validation_groups' => ['Default', 'Admin'], 'intention' => 'Admin']);
     }

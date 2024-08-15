@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function sprintf;
+
 /**
  * @method null|User find($id, $lockMode = null, $lockVersion = null)
  * @method null|User findOneBy(array $criteria, array $orderBy = null)

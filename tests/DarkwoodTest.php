@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use function sprintf;
+
 class DarkwoodTest extends CommonWebTestCase
 {
     public function getHostParameter()

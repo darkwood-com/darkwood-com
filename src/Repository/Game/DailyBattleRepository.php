@@ -7,6 +7,7 @@ namespace App\Repository\Game;
 use App\Entity\Game\DailyBattle;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,7 +25,7 @@ class DailyBattleRepository extends ServiceEntityRepository
      *
      * @return mixed
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findDaily($date)
     {

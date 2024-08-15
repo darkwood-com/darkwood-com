@@ -7,6 +7,8 @@ namespace App\Tests;
 use GlValidator\GlW3CValidator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+use function sprintf;
+
 class CommonWebTestCase extends WebTestCase
 {
     /**

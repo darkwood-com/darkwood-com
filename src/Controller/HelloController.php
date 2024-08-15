@@ -10,6 +10,8 @@ use App\Services\ArticleService;
 use App\Services\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,8 +31,7 @@ class HelloController extends AbstractController
         private readonly ContactService $contactService,
         private readonly ArticleService $articleService,
         private readonly CsrfTokenManagerInterface $tokenManager
-    ) {
-    }
+    ) {}
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
@@ -48,7 +49,7 @@ class HelloController extends AbstractController
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
-                } catch (\Symfony\Component\Mailer\Exception\TransportException) {
+                } catch (TransportException) {
                     $contact->setEmailSent(false);
                 }
 
@@ -64,7 +65,7 @@ class HelloController extends AbstractController
     }
 
     #[Route(path: ['fr' => '/fr/cv', 'en' => '/cv', 'de' => '/de/cv'], name: 'cv', defaults: ['ref' => 'cv'])]
-    public function cv(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function cv(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 

@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\ClasseRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\ClasseRepository::class)]
+#[ORM\Entity(repositoryClass: ClasseRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_classe')]
 class Classe
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -28,7 +32,7 @@ class Classe
     #[Vich\UploadableField(mapping: 'classes', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -36,21 +40,21 @@ class Classe
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'classe', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'classe', cascade: ['persist', 'remove'])]
+    protected Collection $players;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'strength', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'strength', type: Types::INTEGER)]
     private ?int $strength = null;
 
-    #[ORM\Column(name: 'dexterity', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'dexterity', type: Types::INTEGER)]
     private ?int $dexterity = null;
 
-    #[ORM\Column(name: 'vitality', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'vitality', type: Types::INTEGER)]
     private ?int $vitality = null;
 
     /**
@@ -63,18 +67,13 @@ class Classe
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
-    public function getStrength()
+    public function getStrength(): int
     {
         return $this->strength;
     }
@@ -87,10 +86,7 @@ class Classe
         $this->strength = $strength;
     }
 
-    /**
-     * @return int
-     */
-    public function getDexterity()
+    public function getDexterity(): int
     {
         return $this->dexterity;
     }
@@ -103,10 +99,7 @@ class Classe
         $this->dexterity = $dexterity;
     }
 
-    /**
-     * @return int
-     */
-    public function getVitality()
+    public function getVitality(): int
     {
         return $this->vitality;
     }
@@ -119,16 +112,13 @@ class Classe
         $this->vitality = $vitality;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -139,10 +129,7 @@ class Classe
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -167,10 +154,8 @@ class Classe
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -193,10 +178,8 @@ class Classe
 
     /**
      * Get players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPlayers()
+    public function getPlayers(): Collection
     {
         return $this->players;
     }

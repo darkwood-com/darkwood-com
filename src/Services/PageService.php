@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Controller\AppsController;
 use App\Entity\App;
 use App\Entity\AppContent;
 use App\Entity\ArticleTranslation;
@@ -16,6 +17,7 @@ use App\Repository\PageRepository;
 use App\Repository\PageTranslationRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -38,22 +40,22 @@ class PageService
     /**
      * @var PageRepository
      */
-    protected $pageRepository;
+    protected EntityRepository $pageRepository;
 
     /**
      * @var PageTranslationRepository
      */
-    protected $entityRepository;
+    protected EntityRepository $entityRepository;
 
     /**
      * @var ArticleTranslationRepository
      */
-    protected $articleTranslationRepository;
+    protected EntityRepository $articleTranslationRepository;
 
     /**
      * @var AppContentRepository
      */
-    protected $appContentRepository;
+    protected EntityRepository $appContentRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
@@ -113,7 +115,7 @@ class PageService
             $imageUrl = $this->storage->resolvePath($entity, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
-                $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
+                $imageName = basename((string) preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
@@ -265,12 +267,12 @@ class PageService
     /**
      * Find all.
      */
-    public function findAllBySite(Site $site = null)
+    public function findAllBySite(?Site $site = null)
     {
         return $this->pageRepository->findAllBySite($site);
     }
 
-    public function getUrl($entity, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH, $force = false)
+    public function getUrl($entity, $referenceType = UrlGeneratorInterface::NETWORK_PATH, $force = false)
     {
         $cacheId = 'page_url-' . md5($entity->getId() . '-' . $entity::class . '-' . $referenceType);
 
@@ -283,7 +285,7 @@ class PageService
                 foreach ($routes as $route) {
                     $page = $entity->getPage();
                     /** @var Route $route */
-                    if ($page instanceof App && $route->getDefault('_controller') === \App\Controller\AppsController::class . '::app') {
+                    if ($page instanceof App && $route->getDefault('_controller') === AppsController::class . '::app') {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site->getHost();
                         if ($route->getHost() && $route->getHost() !== $host) {
@@ -341,7 +343,7 @@ class PageService
         return null;
     }
 
-    public function getPageLinks($ref, $entity, $host, $locale = null, $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::NETWORK_PATH)
+    public function getPageLinks($ref, $entity, $host, $locale = null, $referenceType = UrlGeneratorInterface::NETWORK_PATH)
     {
         $pageLinks = [];
         if ($entity instanceof ArticleTranslation) {

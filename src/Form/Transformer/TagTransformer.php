@@ -22,8 +22,7 @@ class TagTransformer implements DataTransformerInterface
          * @var TagService
          */
         private readonly TagService $tagService
-    ) {
-    }
+    ) {}
 
     public function setLocale($locale)
     {
@@ -35,7 +34,7 @@ class TagTransformer implements DataTransformerInterface
      *
      * @return mixed|string
      */
-    public function transform($tags)
+    public function transform($tags): mixed
     {
         $arrayTags = [];
         if (!$tags) {
@@ -53,7 +52,7 @@ class TagTransformer implements DataTransformerInterface
     /**
      * Transforms the value the users has typed to a value that suits the field in the Document.
      */
-    public function reverseTransform($tags)
+    public function reverseTransform($tags): mixed
     {
         $tagLinked = new ArrayCollection();
         if (!$tags) {

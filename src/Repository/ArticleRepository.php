@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -90,7 +91,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc');
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
@@ -127,6 +128,6 @@ class ArticleRepository extends ServiceEntityRepository
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
         $query = $qb->getQuery();
 
-        return new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+        return new Paginator($query);
     }
 }

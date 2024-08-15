@@ -8,6 +8,7 @@ use App\Entity\App;
 use App\Entity\AppContent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -87,7 +88,7 @@ class AppContentRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('ac')->select('ac');
         // $qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findAll');
@@ -106,6 +107,6 @@ class AppContentRepository extends ServiceEntityRepository
         // $qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findActives');
         $query = $qb->getQuery();
 
-        return new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+        return new Paginator($query);
     }
 }

@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\PageTranslationRepository;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\PageTranslationRepository::class)]
+#[ORM\Entity(repositoryClass: PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
 #[ORM\UniqueConstraint(name: 'locale_page_unique', columns: ['locale', 'page_id'])]
@@ -24,28 +27,28 @@ class PageTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
     #[Assert\Valid]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Page::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'translations', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Page $page = null;
+    protected ?Page $page = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $description = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -54,7 +57,7 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'pages', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -63,34 +66,34 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'thumbnailPages', fileNameProperty: 'thumbnailImageName')]
     protected $thumbnailImage;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $thumbnailImageName = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $imgAlt = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $imgTitle = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoTitle = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoDescription = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoKeywords = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterCard = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterSite = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterTitle = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterDescription = null;
 
     /**
@@ -99,13 +102,13 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'twitterPages', fileNameProperty: 'twitterImageName')]
     protected $twitterImage;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $twitterImageName = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogTitle = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogType = null;
 
     /**
@@ -114,21 +117,19 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'ogPages', fileNameProperty: 'ogImageName')]
     protected $ogImage;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $ogImageName = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogDescription = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function __toString(): string
     {
@@ -147,20 +148,16 @@ class PageTranslation implements Stringable
 
     /**
      * Get locale.
-     *
-     * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -177,10 +174,8 @@ class PageTranslation implements Stringable
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -197,18 +192,13 @@ class PageTranslation implements Stringable
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContent()
+    public function getContent(): mixed
     {
         return $this->content;
     }
@@ -218,16 +208,13 @@ class PageTranslation implements Stringable
         $this->content = $content;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -238,10 +225,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -254,16 +238,13 @@ class PageTranslation implements Stringable
         $this->imageName = $imageName;
     }
 
-    /**
-     * @return File
-     */
-    public function getThumbnailImage()
+    public function getThumbnailImage(): File
     {
         return $this->thumbnailImage;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnailImage
+     * @param File|UploadedFile $thumbnailImage
      */
     public function setThumbnailImage(File $thumbnailImage)
     {
@@ -274,10 +255,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getThumbnailImageName()
+    public function getThumbnailImageName(): string
     {
         return $this->thumbnailImageName;
     }
@@ -295,10 +273,7 @@ class PageTranslation implements Stringable
         $this->imgAlt = $imgAlt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImgAlt()
+    public function getImgAlt(): mixed
     {
         return $this->imgAlt;
     }
@@ -308,10 +283,7 @@ class PageTranslation implements Stringable
         $this->imgTitle = $imgTitle;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImgTitle()
+    public function getImgTitle(): mixed
     {
         return $this->imgTitle;
     }
@@ -321,10 +293,7 @@ class PageTranslation implements Stringable
         $this->seoTitle = $seoTitle;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSeoTitle()
+    public function getSeoTitle(): mixed
     {
         return $this->seoTitle;
     }
@@ -334,10 +303,7 @@ class PageTranslation implements Stringable
         $this->seoDescription = $seoDescription;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSeoDescription()
+    public function getSeoDescription(): mixed
     {
         return $this->seoDescription;
     }
@@ -347,10 +313,7 @@ class PageTranslation implements Stringable
         $this->seoKeywords = $seoKeywords;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSeoKeywords()
+    public function getSeoKeywords(): mixed
     {
         return $this->seoKeywords;
     }
@@ -360,10 +323,7 @@ class PageTranslation implements Stringable
         $this->twitterTitle = $twitterTitle;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTwitterTitle()
+    public function getTwitterTitle(): mixed
     {
         return $this->twitterTitle;
     }
@@ -373,10 +333,7 @@ class PageTranslation implements Stringable
         $this->twitterCard = $twitterCard;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTwitterCard()
+    public function getTwitterCard(): mixed
     {
         return $this->twitterCard;
     }
@@ -386,10 +343,7 @@ class PageTranslation implements Stringable
         $this->twitterDescription = $twitterDescription;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTwitterDescription()
+    public function getTwitterDescription(): mixed
     {
         return $this->twitterDescription;
     }
@@ -399,24 +353,18 @@ class PageTranslation implements Stringable
         $this->twitterSite = $twitterSite;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTwitterSite()
+    public function getTwitterSite(): mixed
     {
         return $this->twitterSite;
     }
 
-    /**
-     * @return File
-     */
-    public function getTwitterImage()
+    public function getTwitterImage(): File
     {
         return $this->twitterImage;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $twitterImage
+     * @param File|UploadedFile $twitterImage
      */
     public function setTwitterImage(File $twitterImage)
     {
@@ -427,10 +375,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getTwitterImageName()
+    public function getTwitterImageName(): string
     {
         return $this->twitterImageName;
     }
@@ -448,10 +393,7 @@ class PageTranslation implements Stringable
         $this->ogTitle = $ogTitle;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOgTitle()
+    public function getOgTitle(): mixed
     {
         return $this->ogTitle;
     }
@@ -461,10 +403,7 @@ class PageTranslation implements Stringable
         $this->ogDescription = $ogDescription;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOgDescription()
+    public function getOgDescription(): mixed
     {
         return $this->ogDescription;
     }
@@ -474,24 +413,18 @@ class PageTranslation implements Stringable
         $this->ogType = $ogType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOgType()
+    public function getOgType(): mixed
     {
         return $this->ogType;
     }
 
-    /**
-     * @return File
-     */
-    public function getOgImage()
+    public function getOgImage(): File
     {
         return $this->ogImage;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $ogImage
+     * @param File|UploadedFile $ogImage
      */
     public function setOgImage($ogImage)
     {
@@ -502,10 +435,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getOgImageName()
+    public function getOgImageName(): string
     {
         return $this->ogImageName;
     }
@@ -530,10 +460,8 @@ class PageTranslation implements Stringable
 
     /**
      * Get active.
-     *
-     * @return bool
      */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
@@ -541,17 +469,15 @@ class PageTranslation implements Stringable
     /**
      * Set page.
      */
-    public function setPage(Page $page = null): void
+    public function setPage(?Page $page = null): void
     {
         $this->page = $page;
     }
 
     /**
      * Get page.
-     *
-     * @return \App\Entity\Page
      */
-    public function getPage()
+    public function getPage(): Page
     {
         return $this->page;
     }

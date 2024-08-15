@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\PageService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/', name: 'photos_', host: '%photos_host%')]
-class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class PhotosController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly PageService $pageService,
         private readonly CsrfTokenManagerInterface $tokenManager
-    ) {
-    }
+    ) {}
 
     public function menu(Request $request, $ref, $entity)
     {
@@ -31,7 +32,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -69,7 +70,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/fr/visualisez', 'en' => '/show', 'de' => '/de/anzeigen'], name: 'show', defaults: ['ref' => 'show'])]
-    public function show(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function show(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -77,7 +78,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/fr/demonstration', 'en' => '/demo', 'de' => '/de/demonstration'], name: 'demo', defaults: ['ref' => 'demo'])]
-    public function demo(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function demo(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -85,7 +86,7 @@ class PhotosController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     }
 
     #[Route(path: ['fr' => '/fr/aide', 'en' => '/help', 'de' => '/de/hilfe'], name: 'help', defaults: ['ref' => 'help'])]
-    public function help(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function help(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 

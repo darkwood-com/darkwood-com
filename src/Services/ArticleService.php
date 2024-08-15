@@ -10,6 +10,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\ArticleTranslationRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -27,12 +28,12 @@ class ArticleService
     /**
      * @var ArticleRepository
      */
-    protected $articleRepository;
+    protected EntityRepository $articleRepository;
 
     /**
      * @var ArticleTranslationRepository
      */
-    protected $articleTranslationRepository;
+    protected EntityRepository $articleTranslationRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,

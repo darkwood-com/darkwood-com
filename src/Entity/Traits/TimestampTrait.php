@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
+use App\Entity\TagTranslation;
 use DateTime;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -17,13 +19,13 @@ trait TimestampTrait
     /**
      * @Gedmo\Timestampable(on="create")
      */
-    #[ORM\Column(name: 'created', type: \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE, nullable: false)]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $created;
 
     /**
      * @Gedmo\Timestampable(on="update")
      */
-    #[ORM\Column(name: 'updated', type: \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE, nullable: false)]
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $updated;
 
     /**
@@ -33,7 +35,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setCreated($created)
+    public function setCreated($created): TagTranslation
     {
         $this->created = $created;
 
@@ -42,10 +44,8 @@ trait TimestampTrait
 
     /**
      * Get created.
-     *
-     * @return DateTime
      */
-    public function getCreated()
+    public function getCreated(): DateTime
     {
         return $this->created;
     }
@@ -57,7 +57,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated): TagTranslation
     {
         $this->updated = $updated;
 
@@ -66,10 +66,8 @@ trait TimestampTrait
 
     /**
      * Get updated.
-     *
-     * @return DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): DateTime
     {
         return $this->updated;
     }

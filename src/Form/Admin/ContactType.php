@@ -6,6 +6,7 @@ namespace App\Form\Admin;
 
 use App\Entity\Contact;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,12 +15,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  *  Form Type.
  */
-class ContactType extends \Symfony\Component\Form\AbstractType
+class ContactType extends AbstractType
 {
     /**
      * Build Form.
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $locale = $options['locale'];
         $builder->add('email', TextType::class, ['required' => false]);
@@ -32,7 +33,7 @@ class ContactType extends \Symfony\Component\Form\AbstractType
           ));*/
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => Contact::class, 'locale' => null]);
     }

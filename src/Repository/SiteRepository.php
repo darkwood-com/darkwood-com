@@ -86,7 +86,7 @@ class SiteRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.position', 'asc');
 

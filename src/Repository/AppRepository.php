@@ -7,6 +7,8 @@ namespace App\Repository;
 use App\Entity\App;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -67,7 +69,7 @@ class AppRepository extends ServiceEntityRepository
      */
     public function findOneToEdit($id, $locale)
     {
-        $qb = $this->createQueryBuilder('a')->select('a', 'content')->where('a.id = :id')->addOrderBy('a.id', 'asc')->setParameter('id', $id)->leftJoin('a.contents', 'content', \Doctrine\ORM\Query\Expr\Join::WITH, 'content.locale = :locale')->setParameter('locale', $locale)->addOrderBy('content.position');
+        $qb = $this->createQueryBuilder('a')->select('a', 'content')->where('a.id = :id')->addOrderBy('a.id', 'asc')->setParameter('id', $id)->leftJoin('a.contents', 'content', Join::WITH, 'content.locale = :locale')->setParameter('locale', $locale)->addOrderBy('content.position');
         // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findOneToEdit'.($id ? 'id' : ''));
         $query = $qb->getQuery();
 
@@ -81,7 +83,7 @@ class AppRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('a')->select('a');
         // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findAll');
@@ -100,6 +102,6 @@ class AppRepository extends ServiceEntityRepository
         // $qb->getQuery()->useResultCache(true, 120, 'AppRepository::findActives');
         $query = $qb->getQuery();
 
-        return new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+        return new Paginator($query);
     }
 }

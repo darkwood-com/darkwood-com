@@ -13,6 +13,5 @@ class PaginationDTO
         public readonly int $page = 1,
         #[Assert\Regex('/^[a-z]+$/')]
         public readonly string $sort = '',
-    ) {
-    }
+    ) {}
 }

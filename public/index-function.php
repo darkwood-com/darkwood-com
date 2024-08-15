@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Kernel;
 use Bref\SymfonyBridge\Http\KernelAdapter;
+
+use function dirname;
 
 require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
 require_once dirname(__DIR__) . '/.env.local.php';

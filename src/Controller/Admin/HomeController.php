@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/upload', name: 'upload')]
-    public function upload(Request $request)
+    public function upload(Request $request): Response
     {
         $file = $request->files->get('upload');
         $name = random_int(0, 9999) . time() . '.' . $file->guessExtension();
@@ -33,7 +33,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/browser', name: 'browser')]
-    public function browser()
+    public function browser(): Response
     {
         $dirname = $this->get('kernel')->getRootDir() . '/../web/uploads/ckeditor';
         $dir = opendir($dirname);
@@ -56,12 +56,8 @@ class HomeController extends AbstractController
     }
 
     #[Route('/imagine/flush', name: 'imagine_flush')]
-    public function imagineFlush()
-    {
-    }
+    public function imagineFlush() {}
 
     #[Route('/imagine/generate', name: 'imagine_generate')]
-    public function imagineGenerate()
-    {
-    }
+    public function imagineGenerate() {}
 }

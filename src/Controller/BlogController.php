@@ -11,7 +11,9 @@ use App\Services\CommentService;
 use App\Services\PageService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -19,7 +21,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'blog_', host: '%blog_host%')]
-class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class BlogController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
@@ -30,8 +32,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         private readonly ArticleService $articleService,
         private readonly CommentService $commentService,
         private readonly CsrfTokenManagerInterface $tokenManager
-    ) {
-    }
+    ) {}
 
     public function menu(Request $request, $ref, $entity)
     {
@@ -43,7 +44,7 @@ class BlogController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $query = $this->articleService->findActivesQueryBuilder($request->getLocale());

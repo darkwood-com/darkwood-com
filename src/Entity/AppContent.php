@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\AppContentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: \App\Repository\AppContentRepository::class)]
+#[ORM\Entity(repositoryClass: AppContentRepository::class)]
 #[ORM\Table(name: 'app_content')]
 #[ORM\UniqueConstraint(name: 'locale_app_slug_unique', columns: ['locale', 'app_id', 'slug'])]
 class AppContent
@@ -18,12 +20,12 @@ class AppContent
     /**
      * Locale.
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\App::class, inversedBy: 'contents', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: App::class, inversedBy: 'contents', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'app_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\App $app = null;
+    protected ?App $app = null;
 
     /**
      * Slug.
@@ -31,31 +33,29 @@ class AppContent
      * @Gedmo\Slug(fields={"title"}, unique=false)
      */
     #[Assert\NotBlank]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $slug;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     protected ?int $position = null;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -72,10 +72,8 @@ class AppContent
 
     /**
      * Get locale.
-     *
-     * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
@@ -92,10 +90,8 @@ class AppContent
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -112,10 +108,8 @@ class AppContent
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -132,10 +126,8 @@ class AppContent
 
     /**
      * Get content.
-     *
-     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -143,25 +135,20 @@ class AppContent
     /**
      * Set app.
      */
-    public function setApp(App $app = null): void
+    public function setApp(?App $app = null): void
     {
         $this->app = $app;
     }
 
     /**
      * Get app.
-     *
-     * @return \App\Entity\App
      */
-    public function getApp()
+    public function getApp(): App
     {
         return $this->app;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }

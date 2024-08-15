@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\ArticleTranslationRepository;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\ArticleTranslationRepository::class)]
+#[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
 #[ORM\UniqueConstraint(name: 'locale_article_unique', columns: ['locale', 'article_id'])]
@@ -24,22 +27,22 @@ class ArticleTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
     #[Assert\Valid]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Article::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Article $article = null;
+    protected ?Article $article = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
     /**
@@ -47,10 +50,10 @@ class ArticleTranslation implements Stringable
      *
      * @Gedmo\Slug(fields={"title"})
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $slug;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
     /**
@@ -59,18 +62,16 @@ class ArticleTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function __toString(): string
     {
@@ -89,20 +90,16 @@ class ArticleTranslation implements Stringable
 
     /**
      * Get locale.
-     *
-     * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -119,18 +116,13 @@ class ArticleTranslation implements Stringable
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSlug()
+    public function getSlug(): mixed
     {
         return $this->slug;
     }
@@ -140,10 +132,7 @@ class ArticleTranslation implements Stringable
         $this->slug = $slug;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContent()
+    public function getContent(): mixed
     {
         return $this->content;
     }
@@ -153,16 +142,13 @@ class ArticleTranslation implements Stringable
         $this->content = $content;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -173,10 +159,7 @@ class ArticleTranslation implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -201,10 +184,8 @@ class ArticleTranslation implements Stringable
 
     /**
      * Get active.
-     *
-     * @return bool
      */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
@@ -212,17 +193,15 @@ class ArticleTranslation implements Stringable
     /**
      * Set article.
      */
-    public function setArticle(Article $article = null): void
+    public function setArticle(?Article $article = null): void
     {
         $this->article = $article;
     }
 
     /**
      * Get article.
-     *
-     * @return \App\Entity\Article
      */
-    public function getArticle()
+    public function getArticle(): Article
     {
         return $this->article;
     }

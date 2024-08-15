@@ -5,45 +5,45 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\ContactRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: \App\Repository\ContactRepository::class)]
+#[ORM\Entity(repositoryClass: ContactRepository::class)]
 #[ORM\Table(name: 'contact')]
 class Contact
 {
     use TimestampTrait;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'contacts', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'contacts', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    protected ?\App\Entity\User $user = null;
+    protected ?User $user = null;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     #[Assert\NotBlank(message: 'common.comment.required_email')]
     #[Assert\Email(message: '{{ value }} is invalid.', mode: 'strict')]
-    #[ORM\Column(name: 'email', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(name: 'email', type: Types::STRING, length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'website', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(name: 'website', type: Types::STRING, length: 255, nullable: true)]
     private ?string $website = null;
 
     #[Assert\NotBlank(message: 'common.comment.required_content')]
-    #[ORM\Column(name: 'content', type: \Doctrine\DBAL\Types\Types::TEXT)]
+    #[ORM\Column(name: 'content', type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true)]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $emailSent = null;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -60,10 +60,8 @@ class Contact
 
     /**
      * Get email.
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -80,10 +78,8 @@ class Contact
 
     /**
      * Get website.
-     *
-     * @return string
      */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
@@ -100,10 +96,8 @@ class Contact
 
     /**
      * Get content.
-     *
-     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -111,17 +105,15 @@ class Contact
     /**
      * Set user.
      */
-    public function setUser(User $user = null): void
+    public function setUser(?User $user = null): void
     {
         $this->user = $user;
     }
 
     /**
      * Get user.
-     *
-     * @return \App\Entity\User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }

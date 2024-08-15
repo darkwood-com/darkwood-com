@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\AppRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\AppRepository::class)]
+#[ORM\Entity(repositoryClass: AppRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'app')]
 class App extends Page
@@ -22,10 +26,10 @@ class App extends Page
     #[Vich\UploadableField(mapping: 'bannerApps', fileNameProperty: 'bannerName')]
     protected $banner;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $bannerName = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $theme = null;
 
     /**
@@ -33,8 +37,8 @@ class App extends Page
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\AppContent>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\AppContent::class, mappedBy: 'app', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $contents;
+    #[ORM\OneToMany(targetEntity: AppContent::class, mappedBy: 'app', cascade: ['persist', 'remove'])]
+    protected Collection $contents;
 
     /**
      * Constructor.
@@ -64,24 +68,19 @@ class App extends Page
 
     /**
      * Get contents.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getContents()
+    public function getContents(): Collection
     {
         return $this->contents;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBanner()
+    public function getBanner(): mixed
     {
         return $this->banner;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $banner
+     * @param File|UploadedFile $banner
      */
     public function setBanner(File $banner)
     {
@@ -92,10 +91,7 @@ class App extends Page
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getBannerName()
+    public function getBannerName(): string
     {
         return $this->bannerName;
     }
@@ -108,10 +104,7 @@ class App extends Page
         $this->bannerName = $bannerName;
     }
 
-    /**
-     * @return string
-     */
-    public function getTheme()
+    public function getTheme(): string
     {
         return $this->theme;
     }

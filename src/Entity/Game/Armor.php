@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\ArmorRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\ArmorRepository::class)]
+#[ORM\Entity(repositoryClass: ArmorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_armor')]
 class Armor
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -28,7 +32,7 @@ class Armor
     #[Vich\UploadableField(mapping: 'armors', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -36,29 +40,29 @@ class Armor
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'armor', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'armor', cascade: ['persist', 'remove'])]
+    protected Collection $players;
 
     /**
      * Players.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentArmor', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $currentArmorPlayers;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentArmor', cascade: ['persist', 'remove'])]
+    protected Collection $currentArmorPlayers;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'price', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'price', type: Types::INTEGER)]
     private ?int $price = null;
 
-    #[ORM\Column(name: 'armor', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'armor', type: Types::INTEGER)]
     private ?int $armor = null;
 
-    #[ORM\Column(name: 'requiredStrength', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'requiredStrength', type: Types::INTEGER)]
     private ?int $requiredStrength = null;
 
     /**
@@ -72,10 +76,8 @@ class Armor
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,10 +94,8 @@ class Armor
 
     /**
      * Get price.
-     *
-     * @return int
      */
-    public function getPrice()
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -112,10 +112,8 @@ class Armor
 
     /**
      * Get armor.
-     *
-     * @return int
      */
-    public function getArmor()
+    public function getArmor(): int
     {
         return $this->armor;
     }
@@ -132,24 +130,19 @@ class Armor
 
     /**
      * Get requiredStrength.
-     *
-     * @return int
      */
-    public function getRequiredStrength()
+    public function getRequiredStrength(): int
     {
         return $this->requiredStrength;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -160,10 +153,7 @@ class Armor
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -188,10 +178,8 @@ class Armor
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -214,10 +202,8 @@ class Armor
 
     /**
      * Get players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPlayers()
+    public function getPlayers(): Collection
     {
         return $this->players;
     }
@@ -240,10 +226,8 @@ class Armor
 
     /**
      * Get currentArmorPlayers.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCurrentArmorPlayers()
+    public function getCurrentArmorPlayers(): Collection
     {
         return $this->currentArmorPlayers;
     }

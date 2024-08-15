@@ -23,8 +23,7 @@ class SeoService
         protected CacheInterface $appCache,
         protected RouterInterface $router,
         protected UploaderHelper $uploaderHelper
-    ) {
-    }
+    ) {}
 
     public function getSeo($context, $force = false)
     {

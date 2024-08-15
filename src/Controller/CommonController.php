@@ -17,7 +17,9 @@ use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -36,8 +38,7 @@ class CommonController extends AbstractController
         private readonly ContactService $contactService,
         private readonly SeoService $seoService,
         private readonly HtmlErrorRenderer $errorRenderer
-    ) {
-    }
+    ) {}
 
     /**
      * Remove slash and redirect 301.
@@ -48,15 +49,15 @@ class CommonController extends AbstractController
         $requestUri = $request->getRequestUri();
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
 
-        return $this->redirect($url, \Symfony\Component\HttpFoundation\Response::HTTP_MOVED_PERMANENTLY);
+        return $this->redirect($url, Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**
      * Show Exception action.
      */
-    public function showException(Request $request, Throwable $exception, DebugLoggerInterface $logger = null)
+    public function showException(Request $request, Throwable $exception, ?DebugLoggerInterface $logger = null)
     {
-        if (!$exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+        if (!$exception instanceof NotFoundHttpException) {
             $exception = $this->errorRenderer->render($exception);
 
             return new Response($exception->getAsString(), $exception->getStatusCode(), $exception->getHeaders());
@@ -81,7 +82,7 @@ class CommonController extends AbstractController
 
         $page->addTranslation($pageTranslation);
         $response = $this->render('common/pages/404.html.twig', ['page' => $pageTranslation, 'site_ref' => $site->getRef()]);
-        $response->setStatusCode(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
+        $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
         return $response;
     }
@@ -101,10 +102,8 @@ class CommonController extends AbstractController
 
     /**
      * @param string $ref
-     *
-     * @return PageTranslation
      */
-    public function getPage(Request $request, $ref)
+    public function getPage(Request $request, $ref): PageTranslation
     {
         $page = $this->pageService->findOneActiveByRefAndHost($ref, $request->getHost());
         if ($page === null) {
@@ -165,7 +164,7 @@ class CommonController extends AbstractController
                 try {
                     $this->sendMail('common/mails/contact.html.twig', ['contact' => $contact], 'mathieu@darkwood.fr' /* $contact->getEmail() */, 'mathieu@darkwood.fr');
                     $contact->setEmailSent(true);
-                } catch (\Symfony\Component\Mailer\Exception\TransportException) {
+                } catch (TransportException) {
                     $contact->setEmailSent(false);
                 }
 

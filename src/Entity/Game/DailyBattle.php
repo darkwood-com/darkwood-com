@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\DailyBattleRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\DailyBattleRepository::class)]
+#[ORM\Entity(repositoryClass: DailyBattleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_daily_battle')]
 class DailyBattle
@@ -23,26 +25,24 @@ class DailyBattle
     // user that win the fight
     final public const STATUS_NEW_LOSE = 2;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Player::class, inversedBy: 'dailyBattles', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'dailyBattles', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Player $player = null;
+    protected ?Player $player = null;
 
     // user that lose the fight
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'status', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'status', type: Types::INTEGER)]
     private ?int $status = null;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -59,10 +59,8 @@ class DailyBattle
 
     /**
      * Get status.
-     *
-     * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -70,17 +68,15 @@ class DailyBattle
     /**
      * Set player.
      */
-    public function setPlayer(Player $player = null): void
+    public function setPlayer(?Player $player = null): void
     {
         $this->player = $player;
     }
 
     /**
      * Get player.
-     *
-     * @return \App\Entity\Game\Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

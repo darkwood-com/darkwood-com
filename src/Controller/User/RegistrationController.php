@@ -11,8 +11,10 @@ use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,11 +22,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[Route('/', name: 'common_register')]
-class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class RegistrationController extends AbstractController
 {
-    public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController)
-    {
-    }
+    public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController) {}
 
     #[Route(path: ['fr' => '/fr/inscription', 'en' => '/register', 'de' => '/de/registrieren'], name: '', defaults: ['ref' => 'register'])]
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, $ref): Response
@@ -44,7 +44,7 @@ class RegistrationController extends \Symfony\Bundle\FrameworkBundle\Controller\
             try {
                 $this->emailVerifier->sendEmailConfirmation('common_register_check', $user, (new TemplatedEmail())->from(new Address('no-reply@darkwood.com', 'Darkwood'))->to($user->getEmail())->subject('Please Confirm your Email')->htmlTemplate('common/mails/registration.html.twig')->context(['user' => $user]));
                 $user->setEmailSent(true);
-            } catch (\Symfony\Component\Mailer\Exception\TransportException) {
+            } catch (TransportException) {
                 $user->setEmailSent(false);
             }
 

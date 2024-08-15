@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Page;
 use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -101,10 +102,10 @@ class PageRepository extends ServiceEntityRepository
      *
      * @return mixed
      */
-    public function findAllBySite(Site $site = null)
+    public function findAllBySite(?Site $site = null)
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts');
-        if ($site instanceof \App\Entity\Site) {
+        if ($site instanceof Site) {
             $qb->leftJoin('p.site', 's');
             $qb->andWhere('s.id = :id');
             $qb->setParameter('id', $site->getId());
@@ -154,7 +155,7 @@ class PageRepository extends ServiceEntityRepository
      *
      * @return null|Page
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOneActiveByRefAndHost($ref, $host, $locale = null, $ttl = null)
     {

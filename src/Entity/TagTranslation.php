@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\TagTranslationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-#[ORM\Entity(repositoryClass: \App\Repository\TagTranslationRepository::class)]
+#[ORM\Entity(repositoryClass: TagTranslationRepository::class)]
 #[ORM\Table(name: 'tag_translation')]
 #[ORM\Index(name: 'index_search', columns: ['title'])]
 #[ORM\UniqueConstraint(name: 'locale_tag_unique', columns: ['locale', 'tag_id'])]
@@ -18,27 +20,25 @@ class TagTranslation implements Stringable
     /**
      * Locale.
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Tag::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'translations', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Tag $tag = null;
+    protected ?Tag $tag = null;
 
     #[ORM\Id]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function __toString(): string
     {
@@ -57,20 +57,16 @@ class TagTranslation implements Stringable
 
     /**
      * Get locale.
-     *
-     * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -87,10 +83,8 @@ class TagTranslation implements Stringable
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -98,17 +92,15 @@ class TagTranslation implements Stringable
     /**
      * Set tag.
      */
-    public function setTag(Tag $tag = null): void
+    public function setTag(?Tag $tag = null): void
     {
         $this->tag = $tag;
     }
 
     /**
      * Get tag.
-     *
-     * @return \App\Entity\Tag
      */
-    public function getTag()
+    public function getTag(): Tag
     {
         return $this->tag;
     }

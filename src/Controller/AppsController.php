@@ -11,14 +11,16 @@ use App\Form\CommentType;
 use App\Services\CommentService;
 use App\Services\PageService;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'apps_', host: '%apps_host%')]
-class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class AppsController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
@@ -28,8 +30,7 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         private readonly PageService $pageService,
         private readonly CommentService $commentService,
         private readonly CsrfTokenManagerInterface $tokenManager
-    ) {
-    }
+    ) {}
 
     public function menu(Request $request, $ref, $entity)
     {
@@ -47,7 +48,7 @@ class AppsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 

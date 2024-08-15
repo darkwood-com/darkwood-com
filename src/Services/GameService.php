@@ -28,6 +28,7 @@ use App\Repository\Game\SwordRepository;
 use App\Validator\Constraints\PaginationDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,8 +40,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function count;
@@ -69,47 +73,47 @@ class GameService
     /**
      * @var ArmorRepository
      */
-    protected $armorRepository;
+    protected EntityRepository $armorRepository;
 
     /**
      * @var ClasseRepository
      */
-    protected $classeRepository;
+    protected EntityRepository $classeRepository;
 
     /**
      * @var DailyBattleRepository
      */
-    protected $dailyBattleRepository;
+    protected EntityRepository $dailyBattleRepository;
 
     /**
      * @var EnemyRepository
      */
-    protected $enemyRepository;
+    protected EntityRepository $enemyRepository;
 
     /**
      * @var GemRepository
      */
-    protected $gemRepository;
+    protected EntityRepository $gemRepository;
 
     /**
      * @var LevelUpRepository
      */
-    protected $levelUpRepository;
+    protected EntityRepository $levelUpRepository;
 
     /**
      * @var PlayerRepository
      */
-    protected $playerRepository;
+    protected EntityRepository $playerRepository;
 
     /**
      * @var PotionRepository
      */
-    protected $potionRepository;
+    protected EntityRepository $potionRepository;
 
     /**
      * @var SwordRepository
      */
-    protected $swordRepository;
+    protected EntityRepository $swordRepository;
 
     public function __construct(
         // protected SessionInterface $session,
@@ -855,7 +859,7 @@ class GameService
     /**
      * @return array|Response
      */
-    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, User $user = null, $display = null)
+    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, ?User $user = null, $display = null)
     {
         $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {
@@ -880,8 +884,8 @@ class GameService
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
                     $session = $request->getSession();
-                    $lastUsernameKey = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-                    $lastUsername = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
+                    $lastUsernameKey = SecurityRequestAttributes::LAST_USERNAME;
+                    $lastUsername = $session instanceof SessionInterface ? $session->get($lastUsernameKey) : '';
                     $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
                     $parameters['last_username'] = $lastUsername;
                     $parameters['csrf_token'] = $csrfToken;
@@ -895,14 +899,14 @@ class GameService
                     $parameters['mode'] = null;
 
                     return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
-                } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException) {
+                } catch (AuthenticationException) {
                     $this->tokenStorage->setToken(null);
                 }
             }
 
             $session = $request->getSession();
-            $lastUsernameKey = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-            $lastUsername = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
+            $lastUsernameKey = SecurityRequestAttributes::LAST_USERNAME;
+            $lastUsername = $session instanceof SessionInterface ? $session->get($lastUsernameKey) : '';
             $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
             $parameters['last_username'] = $lastUsername;
             $parameters['csrf_token'] = $csrfToken;
@@ -920,7 +924,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+                $user = $token instanceof TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -938,7 +942,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+                $user = $token instanceof TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -994,7 +998,7 @@ class GameService
             return $parameters;
         }
 
-        if ($user instanceof \App\Entity\User) {
+        if ($user instanceof User) {
             $player = $this->getOrCreate($user);
             if ($player->getLastFight() && $parameters['state'] !== 'combat' && $parameters['mode'] !== 'combat') {
                 $parameters['state'] = 'combat';

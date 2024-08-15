@@ -9,6 +9,7 @@ use App\Services\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,7 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator
+class FacebookAuthenticator extends SocialAuthenticator
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
@@ -36,8 +37,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
          * @var SiteService
          */
         private readonly SiteService $siteService
-    ) {
-    }
+    ) {}
 
     public function supports(Request $request)
     {
@@ -82,7 +82,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
         if ($imageUrl && !$user->getImageName()) {
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
-                $imageName = basename(preg_replace('/\?.*$/', '', $imageUrl));
+                $imageName = basename((string) preg_replace('/\?.*$/', '', $imageUrl));
                 $tmpFile = sys_get_temp_dir() . '/fb-' . $imageName;
                 file_put_contents($tmpFile, $imageContent);
                 $image = new UploadedFile($tmpFile, $imageName, null, null, true);
@@ -99,7 +99,7 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $redirectUrl = $request->headers->get('Referer');
-        if (str_contains($redirectUrl, 'login')) {
+        if (str_contains((string) $redirectUrl, 'login')) {
             $redirectUrl = $this->urlGenerator->generate('darkwood_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $host = $request->getHost();
             $site = $this->siteService->findOneByHost($host);
@@ -119,14 +119,14 @@ class FacebookAuthenticator extends \KnpU\OAuth2ClientBundle\Security\Authentica
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
-        return new Response($message, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
     /**
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, ?AuthenticationException $authException = null)
     {
         return new RedirectResponse(
             '/connect/',

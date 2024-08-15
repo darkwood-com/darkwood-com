@@ -9,6 +9,7 @@ use App\Entity\AppTranslation;
 use App\Repository\AppContentRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
 /**
@@ -21,7 +22,7 @@ class AppContentService
     /**
      * @var AppContentRepository
      */
-    protected $appContentRepository;
+    protected EntityRepository $appContentRepository;
 
     public function __construct(
         protected EntityManagerInterface $em

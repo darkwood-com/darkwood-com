@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use LogicException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/', name: 'security_')]
-class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class SecurityController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController
-    ) {
-    }
+    ) {}
 
     #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'login'])]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response

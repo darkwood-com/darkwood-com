@@ -5,31 +5,35 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\SiteRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\SiteRepository::class)]
+#[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'site')]
 class Site implements Stringable
 {
     use TimestampTrait;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     protected ?string $name = null;
 
     /**
@@ -40,19 +44,19 @@ class Site implements Stringable
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    #[ORM\Column(name: 'host', type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(name: 'host', type: Types::STRING, length: 255)]
     protected ?string $host = null;
 
-    #[ORM\Column(name: 'position', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'position', type: Types::INTEGER)]
     protected ?int $position = null;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Page>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Page::class, mappedBy: 'site', cascade: ['all'])]
-    protected \Doctrine\Common\Collections\Collection $pages;
+    #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'site', cascade: ['all'])]
+    protected Collection $pages;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 
     /**
@@ -61,7 +65,7 @@ class Site implements Stringable
     #[Vich\UploadableField(mapping: 'sites', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -79,18 +83,13 @@ class Site implements Stringable
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getActive()
+    public function getActive(): mixed
     {
         return $this->active;
     }
@@ -112,10 +111,8 @@ class Site implements Stringable
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -132,10 +129,8 @@ class Site implements Stringable
 
     /**
      * Get ref.
-     *
-     * @return string
      */
-    public function getRef()
+    public function getRef(): string
     {
         return $this->ref;
     }
@@ -152,18 +147,13 @@ class Site implements Stringable
 
     /**
      * Get host.
-     *
-     * @return string
      */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -196,24 +186,19 @@ class Site implements Stringable
 
     /**
      * Get pages.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPages()
+    public function getPages(): Collection
     {
         return $this->pages;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -224,10 +209,7 @@ class Site implements Stringable
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }

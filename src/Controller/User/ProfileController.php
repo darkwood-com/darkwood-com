@@ -9,20 +9,20 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Services\GameService;
 use App\Services\UserService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'common_profile')]
-class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class ProfileController extends AbstractController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly CommonController $commonController,
         private readonly UserService $userService,
         private readonly GameService $gameService
-    ) {
-    }
+    ) {}
 
     #[Route(path: ['fr' => '/fr/profil/{username}', 'en' => '/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)

@@ -8,6 +8,7 @@ use App\Entity\Contact;
 use App\Repository\ContactRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
 /**
@@ -20,7 +21,7 @@ class ContactService
     /**
      * @var ContactRepository
      */
-    protected $contactRepository;
+    protected EntityRepository $contactRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
