@@ -103,7 +103,7 @@ class Page implements Stringable
      *
      * @return ArrayCollection<PageTranslation>
      */
-    public function getTranslations(): ArrayCollection
+    public function getTranslations()
     {
         return $this->translations;
     }

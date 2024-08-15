@@ -193,7 +193,7 @@ class PageTranslation implements Stringable
     /**
      * Get description.
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -225,7 +225,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    public function getImageName(): string
+    public function getImageName(): ?string
     {
         return $this->imageName;
     }
@@ -375,7 +375,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    public function getTwitterImageName(): string
+    public function getTwitterImageName(): ?string
     {
         return $this->twitterImageName;
     }
@@ -435,7 +435,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    public function getOgImageName(): string
+    public function getOgImageName(): ?string
     {
         return $this->ogImageName;
     }
