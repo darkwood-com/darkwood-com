@@ -5,21 +5,6 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
-    "bref/symfony-bridge": {
-        "version": "0.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "0.1",
-            "ref": "4b3369f9a34fd355e9e935c9b5e2875256cc4600"
-        },
-        "files": [
-            "serverless.yml"
-        ]
-    },
-    "clue/stream-filter": {
-        "version": "v1.5.0"
-    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.5"
     },
@@ -157,9 +142,6 @@
     "guzzlehttp/psr7": {
         "version": "1.8.2"
     },
-    "http-interop/http-factory-guzzle": {
-        "version": "1.0.0"
-    },
     "imagine/imagine": {
         "version": "1.2.4"
     },
@@ -215,36 +197,6 @@
     "nikic/php-parser": {
         "version": "v4.10.5"
     },
-    "nyholm/psr7": {
-        "version": "1.8",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "4a8c0345442dcca1d8a2c65633dcf0285dd5a5a2"
-        },
-        "files": [
-            "config/packages/nyholm_psr7.yaml"
-        ]
-    },
-    "php-http/client-common": {
-        "version": "2.3.0"
-    },
-    "php-http/discovery": {
-        "version": "1.14.0"
-    },
-    "php-http/httplug": {
-        "version": "2.2.0"
-    },
-    "php-http/message": {
-        "version": "1.11.1"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -286,9 +238,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "sentry/sdk": {
-        "version": "3.1.0"
     },
     "sentry/sentry": {
         "version": "3.3.0"
