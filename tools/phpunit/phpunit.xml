@@ -22,4 +22,14 @@
       <directory suffix=".php">../../src</directory>
     </include>
   </source>
+  <php>
+	<env name="KERNEL_CLASS" value="App\Kernel" />
+	<env name="DARKWOOD_HOST" value="darkwood.localhost" />
+	<env name="APPS_HOST" value="apps.darkwood.localhost" />
+	<env name="PHOTOS_HOST" value="photos.darkwood.localhost" />
+	<env name="BLOG_HOST" value="blog.darkwood.localhost" />
+	<env name="HELLO_HOST" value="hello.darkwood.localhost" />
+	<env name="ADMIN_HOST" value="admin.darkwood.localhost" />
+	<env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3311/darkwood?serverVersion=16" />
+  </php>
 </phpunit>
