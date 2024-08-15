@@ -307,7 +307,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         }
     }
 
-    public function getImageName(): string
+    public function getImageName(): ?string
     {
         return $this->imageName;
     }
