@@ -31,7 +31,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setCreated($created): User
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -53,7 +53,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setUpdated($updated): User
+    public function setUpdated($updated): self
     {
         $this->updated = $updated;
 

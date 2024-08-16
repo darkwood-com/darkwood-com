@@ -86,7 +86,7 @@ class AppRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findActives($limit = null)
+    public function findActives($limit = null): Paginator
     {
         $qb = $this->createQueryBuilder('a')->select('a')->addOrderBy('a.created', 'desc');
         if ($limit) {

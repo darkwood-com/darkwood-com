@@ -45,7 +45,7 @@ class FacebookAuthenticator // extends SocialAuthenticator
         return $request->attributes->get('_route') === 'connect_facebook_check';
     }
 
-    public function getCredentials(Request $request)
+    /*public function getCredentials(Request $request)
     {
         // this method is only called if supports() returns true
         // For Symfony lower than 3.4 the supports method need to be called manually here:
@@ -53,7 +53,7 @@ class FacebookAuthenticator // extends SocialAuthenticator
         //     return null;
         // }
         return $this->fetchAccessToken($this->getFacebookClient());
-    }
+    }*/
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {

@@ -198,7 +198,7 @@ class ArticleService
      * @param null $locale
      * @param null $limit
      *
-     * @return Article[]
+     * @return Paginator<Article>
      */
     public function findActives($locale = null, $limit = null): Paginator
     {
