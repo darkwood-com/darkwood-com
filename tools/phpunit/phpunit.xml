@@ -32,5 +32,6 @@
 	<env name="HELLO_HOST" value="hello.darkwood.localhost" />
 	<env name="ADMIN_HOST" value="admin.darkwood.localhost" />
 	<env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3311/darkwood?serverVersion=16" />
+	<env name="COOKIE_DOMAIN" value=".darkwood.localhost" />
   </php>
 </phpunit>
