@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
-use App\Entity\User;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
@@ -28,8 +27,6 @@ trait TimestampTrait
      * Set created.
      *
      * @param DateTime $created
-     *
-     * @return self
      */
     public function setCreated($created): self
     {
@@ -50,8 +47,6 @@ trait TimestampTrait
      * Set updated.
      *
      * @param DateTime $updated
-     *
-     * @return self
      */
     public function setUpdated($updated): self
     {

@@ -60,6 +60,12 @@ class BlogTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/article/ecrire-ses-notes-et-les-synchroniser'], ['/en/article/ecrire-ses-notes-et-les-synchroniser'], ['/de/article/ecrire-ses-notes-et-les-synchroniser']];
+		$urls = [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/article/ecrire-ses-notes-et-les-synchroniser'], ['/en/article/ecrire-ses-notes-et-les-synchroniser'], ['/de/article/ecrire-ses-notes-et-les-synchroniser']];
+
+		$flattenedUrls = array_map(function($url) {
+			return $url[0];
+		}, $urls);
+
+		return array_combine($flattenedUrls, $urls);
     }
 }

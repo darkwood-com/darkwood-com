@@ -23,6 +23,7 @@
     </include>
   </source>
   <php>
+	<env name="APP_SECRET" value="16aa17bccc9fa9c52386dda545354fa2" />
 	<env name="KERNEL_CLASS" value="App\Kernel" />
 	<env name="DARKWOOD_HOST" value="darkwood.localhost" />
 	<env name="APPS_HOST" value="apps.darkwood.localhost" />
