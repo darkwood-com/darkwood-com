@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class AdminTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'admin_host';
     }

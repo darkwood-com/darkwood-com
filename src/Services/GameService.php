@@ -140,10 +140,7 @@ class GameService
         $this->swordRepository = $em->getRepository(Sword::class);
     }
 
-    /**
-     * @return Player
-     */
-    public function getOrCreate(User $user)
+    public function getOrCreate(User $user): Player
     {
         $player = $user->getPlayer();
         if (!$player) {
@@ -728,10 +725,7 @@ class GameService
         return $result;
     }
 
-    /**
-     * @return User
-     */
-    public function getOrCreateDailyEnemy()
+    public function getOrCreateDailyEnemy(): User
     {
         $now = new DateTime();
         $dailyBattle = $this->dailyBattleRepository->findDaily($now);
@@ -856,10 +850,7 @@ class GameService
         return $result;
     }
 
-    /**
-     * @return array|Response
-     */
-    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, ?User $user = null, $display = null)
+    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, ?User $user = null, $display = null): array|Response
     {
         $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {

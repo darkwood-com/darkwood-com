@@ -32,10 +32,8 @@ class AppContentService
 
     /**
      * Update a appTranslation.
-     *
-     * @return AppContent
      */
-    public function save(AppContent $appContent, $invalidate = false)
+    public function save(AppContent $appContent, $invalidate = false): AppContent
     {
         $appContent->setUpdated(new DateTime('now'));
         $this->em->persist($appContent);
@@ -57,10 +55,8 @@ class AppContentService
      * Find one by filters.
      *
      * @param array $filters
-     *
-     * @return null|object
      */
-    public function findOneBy($filters = [])
+    public function findOneBy($filters = []): ?object
     {
         return $this->appContentRepository->findOneBy($filters);
     }
@@ -69,10 +65,8 @@ class AppContentService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal'): Query
     {
         return $this->appContentRepository->queryForSearch($filters, $order);
     }
@@ -81,20 +75,16 @@ class AppContentService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return null|AppContent
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): ?AppContent
     {
         return $this->appContentRepository->findOneToEdit($id);
     }
 
     /**
      * @param int $id
-     *
-     * @return null|AppContent
      */
-    public function find($id)
+    public function find($id): ?AppContent
     {
         return $this->appContentRepository->find($id);
     }

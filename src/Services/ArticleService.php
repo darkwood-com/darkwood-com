@@ -12,6 +12,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -46,10 +47,8 @@ class ArticleService
 
     /**
      * Update a articleTranslation.
-     *
-     * @return Article
      */
-    public function save(Article $article, $invalidate = false)
+    public function save(Article $article, $invalidate = false): Article
     {
         $article->setUpdated(new DateTime('now'));
         foreach ($article->getTranslations() as $translation) {
@@ -103,10 +102,8 @@ class ArticleService
 
     /**
      * Update a articleTranslation.
-     *
-     * @return ArticleTranslation
      */
-    public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false)
+    public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false): ArticleTranslation
     {
         $articleTranslation->setUpdated(new DateTime('now'));
         $this->em->persist($articleTranslation);
@@ -141,10 +138,8 @@ class ArticleService
      * Find one by filters.
      *
      * @param array $filters
-     *
-     * @return null|object
      */
-    public function findOneBy($filters = [])
+    public function findOneBy($filters = []): ?object
     {
         return $this->articleRepository->findOneBy($filters);
     }
@@ -152,10 +147,8 @@ class ArticleService
     /**
      * @param string $slug
      * @param string $locale
-     *
-     * @return Article
      */
-    public function findOneBySlug($slug, $locale)
+    public function findOneBySlug($slug, $locale): Article
     {
         return $this->articleRepository->findOneBySlug($slug, $locale);
     }
@@ -164,10 +157,8 @@ class ArticleService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $locale = 'en', $order = 'normal')
+    public function getQueryForSearch($filters = [], $locale = 'en', $order = 'normal'): Query
     {
         return $this->articleRepository->queryForSearch($filters, $locale, $order);
     }
@@ -176,20 +167,16 @@ class ArticleService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return null|Article
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): ?Article
     {
         return $this->articleRepository->findOneToEdit($id);
     }
 
     /**
      * @param int $id
-     *
-     * @return null|ArticleTranslation
      */
-    public function find($id)
+    public function find($id): ?ArticleTranslation
     {
         return $this->articleRepository->find($id);
     }
@@ -213,7 +200,7 @@ class ArticleService
      *
      * @return Article[]
      */
-    public function findActives($locale = null, $limit = null)
+    public function findActives($locale = null, $limit = null): Paginator
     {
         return $this->articleRepository->findActives($locale, $limit);
     }

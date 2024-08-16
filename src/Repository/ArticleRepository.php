@@ -24,10 +24,8 @@ class ArticleRepository extends ServiceEntityRepository
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function queryForSearch($filters = [], $locale = 'en', $order = null)
+    public function queryForSearch($filters = [], $locale = 'en', $order = null): Query
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         if ($order === 'normal') {
@@ -63,10 +61,8 @@ class ArticleRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->where('n.id = :id')->orderBy('n.id', 'asc')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
@@ -112,7 +108,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findActives($locale = null, $limit = null)
+    public function findActives($locale = null, $limit = null): Paginator
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc')->andWhere('nts.active = true');
         if ($locale) {

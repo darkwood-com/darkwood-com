@@ -35,10 +35,8 @@ class SiteService
 
     /**
      * Update a site.
-     *
-     * @return Site
      */
-    public function save(Site $site)
+    public function save(Site $site): Site
     {
         $site->setUpdated(new DateTime('now'));
         $this->em->persist($site);
@@ -65,10 +63,8 @@ class SiteService
      * Search.
      *
      * @param array $filters
-     *
-     * @return mixed
      */
-    public function getQueryForSearch($filters = [])
+    public function getQueryForSearch($filters = []): mixed
     {
         return $this->siteRepository->queryForSearch($filters);
     }
@@ -77,10 +73,8 @@ class SiteService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->siteRepository->findOneToEdit($id);
     }
@@ -89,10 +83,8 @@ class SiteService
      * Find one by host.
      *
      * @param string $host
-     *
-     * @return null|Site
      */
-    public function findOneByHost($host)
+    public function findOneByHost($host): ?Site
     {
         return $this->siteRepository->findOneByHost($host);
     }
@@ -101,20 +93,16 @@ class SiteService
      * Find one by ref.
      *
      * @param string $ref
-     *
-     * @return null|Site
      */
-    public function findOneByRef($ref)
+    public function findOneByRef($ref): ?Site
     {
         return $this->siteRepository->findOneByRef($ref);
     }
 
     /**
      * Find all.
-     *
-     * @return mixed
      */
-    public function findAll()
+    public function findAll(): mixed
     {
         return $this->siteRepository->findAll();
     }
@@ -122,7 +110,7 @@ class SiteService
     /**
      * @return Site[]
      */
-    public function findActives()
+    public function findActives(): array
     {
         return $this->siteRepository->findActives();
     }

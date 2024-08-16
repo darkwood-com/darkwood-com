@@ -8,7 +8,7 @@ use function sprintf;
 
 class DarkwoodTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'darkwood_host';
     }

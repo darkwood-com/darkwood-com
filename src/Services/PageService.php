@@ -72,10 +72,8 @@ class PageService
 
     /**
      * Update a entity.
-     *
-     * @return Page
      */
-    public function save(Page $page, $invalidate = false)
+    public function save(Page $page, $invalidate = false): Page
     {
         $page->setUpdated(new DateTime('now'));
         foreach ($page->getTranslations() as $translation) {
@@ -150,10 +148,8 @@ class PageService
 
     /**
      * Update a entity.
-     *
-     * @return PageTranslation
      */
-    public function saveTranslation(PageTranslation $entity, $exportLocales = false)
+    public function saveTranslation(PageTranslation $entity, $exportLocales = false): PageTranslation
     {
         $entity->setUpdated(new DateTime('now'));
         $this->em->persist($entity);
@@ -188,10 +184,8 @@ class PageService
      * Find one by filters.
      *
      * @param array $filters
-     *
-     * @return null|object
      */
-    public function findOneBy($filters = [])
+    public function findOneBy($filters = []): ?object
     {
         return $this->pageRepository->findOneBy($filters);
     }
@@ -200,10 +194,8 @@ class PageService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = 'normal')
+    public function getQueryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = 'normal'): Query
     {
         return $this->pageRepository->queryForSearch($filters, $type, $host, $locale, $order);
     }
@@ -212,10 +204,8 @@ class PageService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return null|Page
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): ?Page
     {
         return $this->pageRepository->findOneToEdit($id);
     }
@@ -224,10 +214,8 @@ class PageService
      * @param string $ref
      * @param string $host
      * @param null   $locale
-     *
-     * @return null|Page
      */
-    public function findOneActiveByRefAndHost($ref, $host, $locale = null)
+    public function findOneActiveByRefAndHost($ref, $host, $locale = null): ?Page
     {
         return $this->pageRepository->findOneActiveByRefAndHost($ref, $host, $locale);
     }
@@ -235,10 +223,8 @@ class PageService
     /**
      * @param string $ref
      * @param null   $locale
-     *
-     * @return null|Page
      */
-    public function findOneByRef($ref, $locale = null)
+    public function findOneByRef($ref, $locale = null): ?Page
     {
         return $this->pageRepository->findOneByRef($ref, $locale);
     }
@@ -249,17 +235,15 @@ class PageService
      *
      * @return Page[]
      */
-    public function findActives($locale = null, $type = null, $host = null)
+    public function findActives($locale = null, $type = null, $host = null): array
     {
         return $this->pageRepository->findActives($locale, $type, $host);
     }
 
     /**
      * @param int $id
-     *
-     * @return null|PageTranslation
      */
-    public function find($id)
+    public function find($id): ?PageTranslation
     {
         return $this->pageRepository->find($id);
     }

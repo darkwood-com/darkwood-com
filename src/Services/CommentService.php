@@ -49,10 +49,8 @@ class CommentService
 
     /**
      * Update a commentTranslation.
-     *
-     * @return Comment
      */
-    public function save(Comment $comment)
+    public function save(Comment $comment): Comment
     {
         $comment->setUpdated(new DateTime('now'));
         $this->em->persist($comment);
@@ -74,10 +72,8 @@ class CommentService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal'): Query
     {
         return $this->commentRepository->queryForSearch($filters, $order);
     }
@@ -86,10 +82,8 @@ class CommentService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->commentRepository->findOneToEdit($id);
     }

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class FacebookAuthenticator extends SocialAuthenticator
+class FacebookAuthenticator // extends SocialAuthenticator
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
@@ -135,10 +135,7 @@ class FacebookAuthenticator extends SocialAuthenticator
         );
     }
 
-    /**
-     * @return FacebookClient
-     */
-    private function getFacebookClient()
+    private function getFacebookClient(): FacebookClient
     {
         return $this->clientRegistry->getClient('facebook_main');
     }

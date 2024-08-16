@@ -25,10 +25,8 @@ class PageRepository extends ServiceEntityRepository
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function queryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = null)
+    public function queryForSearch($filters = [], $type = null, $host = null, $locale = 'en', $order = null): Query
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->leftJoin('p.site', 's')->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
         if ($host) {
@@ -85,10 +83,8 @@ class PageRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts')->where('p.id = :id')->orderBy('p.id', 'asc')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));
@@ -99,10 +95,8 @@ class PageRepository extends ServiceEntityRepository
 
     /**
      * Find one for edit.
-     *
-     * @return mixed
      */
-    public function findAllBySite(?Site $site = null)
+    public function findAllBySite(?Site $site = null): mixed
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts')->leftJoin('p.translations', 'pts');
         if ($site instanceof Site) {
@@ -121,10 +115,8 @@ class PageRepository extends ServiceEntityRepository
      * Find content by site.
      *
      * @param int $siteId
-     *
-     * @return array
      */
-    public function findContentBySite($siteId)
+    public function findContentBySite($siteId): array
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = TRUE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
@@ -136,10 +128,8 @@ class PageRepository extends ServiceEntityRepository
      * Find no content by site.
      *
      * @param int $siteId
-     *
-     * @return array
      */
-    public function findNoContentBySite($siteId)
+    public function findNoContentBySite($siteId): array
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's', 'br')->leftJoin('p.translations', 'pts')->leftjoin('p.site', 's')->andWhere('s.id = :siteId')->andWhere('p.active = FALSE')->setParameter('siteId', $siteId);
         $query = $qb->getQuery();
@@ -153,11 +143,9 @@ class PageRepository extends ServiceEntityRepository
      * @param null   $locale
      * @param null   $ttl
      *
-     * @return null|Page
-     *
      * @throws NonUniqueResultException
      */
-    public function findOneActiveByRefAndHost($ref, $host, $locale = null, $ttl = null)
+    public function findOneActiveByRefAndHost($ref, $host, $locale = null, $ttl = null): ?Page
     {
         $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's')->leftJoin('p.translations', 'pts')->leftJoin('p.site', 's')->andWhere('pts.active = TRUE')->andWhere('p.ref = :ref')->setParameter('ref', $ref)->andWhere('s.host = :host')->setParameter('host', $host)->andWhere('s.active = TRUE');
         if (null !== $locale) {

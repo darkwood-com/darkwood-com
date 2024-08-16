@@ -31,10 +31,8 @@ class ContactService
 
     /**
      * Update a contactTranslation.
-     *
-     * @return Contact
      */
-    public function save(Contact $contact)
+    public function save(Contact $contact): Contact
     {
         $contact->setUpdated(new DateTime('now'));
         $this->em->persist($contact);
@@ -56,10 +54,8 @@ class ContactService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal'): Query
     {
         return $this->contactRepository->queryForSearch($filters, $order);
     }
@@ -68,10 +64,8 @@ class ContactService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->contactRepository->findOneToEdit($id);
     }

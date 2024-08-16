@@ -11,9 +11,6 @@ use function sprintf;
 
 class CommonWebTestCase extends WebTestCase
 {
-    /**
-     * @return string
-     */
     public function getHostParameter(): string
     {
         return 'darkwood_host';

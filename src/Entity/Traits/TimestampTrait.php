@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
-use App\Entity\TagTranslation;
+use App\Entity\User;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
@@ -31,7 +31,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setCreated($created): DateTime
+    public function setCreated($created): User
     {
         $this->created = $created;
 
@@ -53,7 +53,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setUpdated($updated): TagTranslation
+    public function setUpdated($updated): User
     {
         $this->updated = $updated;
 

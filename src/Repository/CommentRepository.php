@@ -24,10 +24,8 @@ class CommentRepository extends ServiceEntityRepository
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function queryForSearch($filters = [], $order = null)
+    public function queryForSearch($filters = [], $order = null): Query
     {
         $qb = $this->createQueryBuilder('c')->select('c');
         if ($order === 'normal') {
@@ -42,10 +40,8 @@ class CommentRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('c')->select('c')->where('c.id = :id')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'PageRepository::findOneToEdit'.($id ? 'id' : ''));

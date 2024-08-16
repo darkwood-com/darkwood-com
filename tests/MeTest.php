@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class MeTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'hello_host';
     }

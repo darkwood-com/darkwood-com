@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class BlogTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'blog_host';
     }

@@ -36,10 +36,8 @@ class TagService
      *
      * @param string $title
      * @param string $locale
-     *
-     * @return Tag
      */
-    public function create($title, $locale)
+    public function create($title, $locale): Tag
     {
         $tag = new Tag();
         $tagTranslation = new TagTranslation();
@@ -54,10 +52,8 @@ class TagService
 
     /**
      * Update a tag.
-     *
-     * @return Tag
      */
-    public function save(Tag $tag)
+    public function save(Tag $tag): Tag
     {
         $tag->setUpdated(new DateTime('now'));
         $this->em->persist($tag);
@@ -79,10 +75,8 @@ class TagService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->tagRepository->findOneToEdit($id);
     }

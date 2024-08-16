@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class AppsTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'apps_host';
     }

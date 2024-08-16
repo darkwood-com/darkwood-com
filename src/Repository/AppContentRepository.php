@@ -30,10 +30,8 @@ class AppContentRepository extends ServiceEntityRepository
      * Get all user query, using for paginatioac.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function queryForSearch($filters = [], $order = null)
+    public function queryForSearch($filters = [], $order = null): Query
     {
         $qb = $this->createQueryBuilder('ac')->select('ac');
         if ($order === 'normal') {
@@ -69,10 +67,8 @@ class AppContentRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('ac')->select('ac')->where('ac.id = :id')->orderBy('ac.id', 'asc')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'AppContentRepository::findOneToEdit'.($id ? 'id' : ''));

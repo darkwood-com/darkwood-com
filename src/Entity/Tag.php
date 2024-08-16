@@ -129,7 +129,7 @@ class Tag implements Stringable
         }
     }
 
-    public function getArticles(): ArrayCollection
+    public function getArticles(): Collection
     {
         return $this->articles;
     }

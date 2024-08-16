@@ -166,7 +166,7 @@ class Article implements Stringable
         }
     }
 
-    public function getTags(): ArrayCollection
+    public function getTags(): Collection
     {
         return $this->tags;
     }

@@ -32,10 +32,8 @@ class AppService
 
     /**
      * Update a appTranslation.
-     *
-     * @return App
      */
-    public function save(App $app, $invalidate = false)
+    public function save(App $app, $invalidate = false): App
     {
         $app->setUpdated(new DateTime('now'));
         $this->em->persist($app);
@@ -57,10 +55,8 @@ class AppService
      * Find one by filters.
      *
      * @param array $filters
-     *
-     * @return null|object
      */
-    public function findOneBy($filters = [])
+    public function findOneBy($filters = []): ?object
     {
         return $this->appRepository->findOneBy($filters);
     }
@@ -69,10 +65,8 @@ class AppService
      * Search.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function getQueryForSearch($filters = [], $order = 'normal')
+    public function getQueryForSearch($filters = [], $order = 'normal'): Query
     {
         return $this->appRepository->queryForSearch($filters, $order);
     }
@@ -81,20 +75,16 @@ class AppService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return null|App
      */
-    public function findOneToEdit($id, $locale)
+    public function findOneToEdit($id, $locale): ?App
     {
         return $this->appRepository->findOneToEdit($id, $locale);
     }
 
     /**
      * @param int $id
-     *
-     * @return null|App
      */
-    public function find($id)
+    public function find($id): ?App
     {
         return $this->appRepository->find($id);
     }
