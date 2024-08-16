@@ -57,12 +57,12 @@ class MeTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-		$urls = [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt']];
+        $urls = [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt']];
 
-		$flattenedUrls = array_map(function($url) {
-			return $url[0];
-		}, $urls);
+        $flattenedUrls = array_map(static function ($url) {
+            return $url[0];
+        }, $urls);
 
-		return array_combine($flattenedUrls, $urls);
+        return array_combine($flattenedUrls, $urls);
     }
 }

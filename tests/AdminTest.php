@@ -52,17 +52,16 @@ class AdminTest extends CommonWebTestCase
         $commonUrls = [
         ];
 
-		$urls = array_merge($commonUrls, [
+        $urls = array_merge($commonUrls, [
             ['/fr', '/login'],
             ['/en', '/en/login'],
             ['/de', '/de/login'],
         ]);
 
-		$flattenedUrls = array_map(function($url) {
-			return $url[0];
-		}, $urls);
+        $flattenedUrls = array_map(static function ($url) {
+            return $url[0];
+        }, $urls);
 
-		return array_combine($flattenedUrls, $urls);
-
+        return array_combine($flattenedUrls, $urls);
     }
 }

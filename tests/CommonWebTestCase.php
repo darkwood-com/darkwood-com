@@ -40,9 +40,8 @@ class CommonWebTestCase extends WebTestCase
 
         $request = $client->getInternalRequest();
 
-		dd($client->getResponse()->getContent());
+        dd($client->getResponse()->getContent());
         self::assertTrue($client->getResponse()->isSuccessful(), sprintf('Page url %s response is not successful', $request->getUri()));
-
     }
 
     public function validateW3CUrl($url)
