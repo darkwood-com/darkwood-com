@@ -16,15 +16,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 trait TimestampTrait
 {
-    /**
-     * @Gedmo\Timestampable(on="create")
-     */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $created;
 
-    /**
-     * @Gedmo\Timestampable(on="update")
-     */
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $updated;
 
@@ -35,7 +31,7 @@ trait TimestampTrait
      *
      * @return self
      */
-    public function setCreated($created): TagTranslation
+    public function setCreated($created): DateTime
     {
         $this->created = $created;
 

@@ -85,8 +85,6 @@ class AppContentRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param array $parameters
-     *
-     * @return mixed
      */
     public function findAll($parameters = []): array
     {

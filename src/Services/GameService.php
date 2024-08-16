@@ -618,11 +618,11 @@ class GameService
             $player->setPotion($this->potionRepository->findDefault());
         } else {
             // player attack
-            $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getArmor());
+            $playerAttack = random_int((int) $playerInfo['damage']['min'], (int) $playerInfo['damage']['max']) - random_int(0, $enemy->getArmor());
         }
 
         // enemy attack
-        $enemyAttack = random_int($enemy->getDamageMin(), $enemy->getDamageMax()) - random_int(0, $playerInfo['armor']);
+        $enemyAttack = random_int($enemy->getDamageMin(), $enemy->getDamageMax()) - random_int(0, (int) $playerInfo['armor']);
         if ($enemyAttack > 0) {
             $player->setLifeMin($player->getLifeMin() - $enemyAttack);
         } else {
@@ -787,9 +787,9 @@ class GameService
         $enemyInfo = $this->getInfo($enemy);
         $sessionDaily = $this->getSessionDaily($user);
         // player attack
-        $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getPlayer()->getArmor()->getArmor());
+        $playerAttack = random_int((int) $playerInfo['damage']['min'], (int) $playerInfo['damage']['max']) - random_int(0, $enemy->getPlayer()->getArmor()->getArmor());
         // enemy attack
-        $enemyAttack = random_int($enemyInfo['damage']['min'], $enemyInfo['damage']['max']) - random_int(0, $player->getArmor()->getArmor());
+        $enemyAttack = random_int((int) $enemyInfo['damage']['min'], (int) $enemyInfo['damage']['max']) - random_int(0, $player->getArmor()->getArmor());
         if ($playerAttack > 0) {
             $sessionDaily['enemy_current_life'] -= $playerAttack;
         } else {
@@ -876,11 +876,11 @@ class GameService
             }
 
             if ($parameters['mode'] === 'login' && $request->get('_username') && $request->get('_password')) {
-                $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main');
+                $user = $this->userService->findOneByUsername($request->get('_username'));
+                $token = new UsernamePasswordToken($user, 'main');
                 // spacial case for apple validation
                 if ($request->get('_username') === 'apple' && $request->get('_password') === 'apple') {
-                    $user = $this->userService->findOneByUsername('apple');
-                    $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main', $user->getRoles());
+                    $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
                     $session = $request->getSession();
@@ -1055,7 +1055,7 @@ class GameService
                     if ($request->get('actionBeginFight')) {
                         $request->attributes->set('mode', 'combat');
 
-                        return $this->play($request, $user);
+                        return $this->play($request, null, $user);
                     }
 
                     $parameters['data']['dailyBattles'] = $this->getDailyBattles();

@@ -14,12 +14,12 @@ class CommonWebTestCase extends WebTestCase
     /**
      * @return string
      */
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'darkwood_host';
     }
 
-    public function getPortParameter()
+    public function getPortParameter(): int
     {
         return 8092;
     }

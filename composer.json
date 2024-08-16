@@ -114,7 +114,10 @@
 		"post-update-cmd": [
 			"@auto-scripts"
 		],
-		"env": "cd tools && castor app:tools:env"
+		"env": "cd tools && castor app:tools:env",
+        "php-cs-fixer": "cd tools && castor app:tools:php-cs-fixer",
+        "phpstan": "cd tools && castor app:tools:phpstan",
+        "phpunit": "cd tools && castor app:tools:phpunit"
 	},
 	"conflict": {
 		"symfony/symfony": "*"

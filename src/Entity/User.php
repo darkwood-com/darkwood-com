@@ -134,7 +134,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @see http://php.net/manual/en/serializable.serialize.php
      *
-     * @return string the string representation of the object or null
+     * @return array the string representation of the object or null
      *
      * @since 5.1.0
      */
@@ -207,7 +207,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     public function getUserIdentifier(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**
