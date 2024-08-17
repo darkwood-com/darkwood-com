@@ -7,7 +7,7 @@
 .theme-hello html {
   scroll-padding-top: calc(4.5rem - 1px);
 }
-  
+
 .theme-hello body {
   letter-spacing: 0.0625em;
 }
@@ -220,7 +220,7 @@
   margin-bottom: 5rem;
 }
 
-.theme-hello .projects-section {
+.theme-hello .products-section .projects-section {
   padding-top: 2rem;
   padding-bottom: 4rem;
 }

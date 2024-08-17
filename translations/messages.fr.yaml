@@ -325,6 +325,31 @@ hello:
   projects:
     title: Projets
     description: Consultez mon travail
+    items:
+        uniflow:
+            title: Uniflow
+            description: Automatisez vos taches récurrentes
+        flow:
+            title: Flow
+            description: Asynchron Functionnal Programming
+        djstream:
+            title: DJ Stream
+            description: Setup de DJ pour stream online
+        youtube:
+            title: Matyo91 Youtube
+            description: My youtube channel about tech and games
+        speakerdeck:
+            title: Speakerdeck
+            description: My talks and slides about tech
+        djmatyo91:
+            title: DJMatyo91 Youtube
+            description: My DJ Youtube channel about Happy Hardcore
+        darkwaar:
+            title: Darkwaar
+            description: Serez-vous le plus sombre à Waar ?
+        bonzai:
+            title: Matyo91 Bonzai
+            description: See my creator page on Bonzai
   blog:
     title: Blog
     description: Lire les derniers articles du blog

@@ -321,11 +321,37 @@ hello:
       - Pratiques : Designs patterns, DDD, TDD, Architecture hexagonal, Clean architecture.
       - Qualité : Intégration continue, tests unitaires, code review
       - Méthodes agiles : Scrum, Kanban
-    cta_contact: Hire me
+    cta_contact: Contact me
     cta_cv: See my CV
   projects:
     title: Projects
     description: See my work
+    items:
+        uniflow:
+            title: Uniflow
+            description: Automate your recurring tasks
+        flow:
+            title: Flow
+            description: Asynchronous Functional Programming
+        djstream:
+            title: DJ Stream
+            description: DJ setup for streaming online
+        youtube:
+            title: Matyo91 Youtube
+            description: My YouTube channel about tech and games
+        speakerdeck:
+            title: Speakerdeck
+            description: My talks and slides about tech
+        djmatyo91:
+            title: DJMatyo91 Youtube
+            description: My DJ YouTube channel about Happy Hardcore
+        darkwaar:
+            title: Darkwaar
+            description: Will you be the darkest one at waar?
+        bonzai:
+            title: Matyo91 Bonzai
+            description: See my creator page on Bonzai
+
   blog:
     title: From the blog
     description: Read my last articles from the blog
