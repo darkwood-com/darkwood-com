@@ -9,6 +9,8 @@ framework:
     #esi: true
     #fragments: true
 
+    error_controller: App\Controller\CommonController::showException
+
 when@test:
     framework:
         test: true
