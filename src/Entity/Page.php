@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\PageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(fields: ['site', 'ref'])]
-#[ORM\Entity(repositoryClass: \App\Repository\PageRepository::class)]
+#[ORM\Entity(repositoryClass: PageRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
-#[ORM\DiscriminatorMap(['page' => \App\Entity\Page::class, 'app' => \App\Entity\App::class])]
+#[ORM\DiscriminatorMap(['page' => Page::class, 'app' => App::class])]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'page')]
 #[ORM\UniqueConstraint(name: 'ref_site_unique', columns: ['ref', 'site_id'])]
@@ -24,7 +27,7 @@ class Page implements Stringable
     use TimestampTrait;
 
     #[ORM\Id]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
@@ -33,25 +36,25 @@ class Page implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\PageTranslation>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\PageTranslation::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $translations;
+    #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
+    protected Collection $translations;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $ref = null;
 
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Site::class, inversedBy: 'pages', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'pages', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id')]
-    protected ?\App\Entity\Site $site = null;
+    protected ?Site $site = null;
 
     /**
      * Comments.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Comment::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $comments;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
+    protected Collection $comments;
 
     /**
      * Constructor.
@@ -71,10 +74,8 @@ class Page implements Stringable
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -102,7 +103,7 @@ class Page implements Stringable
      *
      * @return ArrayCollection<PageTranslation>
      */
-    public function getTranslations()
+    public function getTranslations(): Collection
     {
         return $this->translations;
     }
@@ -111,10 +112,8 @@ class Page implements Stringable
      * Get one translation.
      *
      * @param string $locale Locale
-     *
-     * @return PageTranslation
      */
-    public function getOneTranslation($locale = null)
+    public function getOneTranslation($locale = null): PageTranslation
     {
         /** @var PageTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
@@ -126,10 +125,7 @@ class Page implements Stringable
         return $this->getTranslations()->current();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRef()
+    public function getRef(): mixed
     {
         return $this->ref;
     }
@@ -144,17 +140,15 @@ class Page implements Stringable
     /**
      * Set site.
      */
-    public function setSite(Site $site = null): void
+    public function setSite(?Site $site = null): void
     {
         $this->site = $site;
     }
 
     /**
      * Get page.
-     *
-     * @return \App\Entity\Site
      */
-    public function getSite()
+    public function getSite(): Site
     {
         return $this->site;
     }
@@ -179,10 +173,8 @@ class Page implements Stringable
 
     /**
      * Get comments.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }

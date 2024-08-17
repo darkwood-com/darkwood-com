@@ -5,18 +5,21 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-#[ORM\Entity(repositoryClass: \App\Repository\TagRepository::class)]
+#[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'tag')]
 class Tag implements Stringable
 {
     use TimestampTrait;
 
     #[ORM\Id]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
@@ -25,14 +28,14 @@ class Tag implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\TagTranslation>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\TagTranslation::class, mappedBy: 'tag', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $translations;
+    #[ORM\OneToMany(targetEntity: TagTranslation::class, mappedBy: 'tag', cascade: ['persist', 'remove'])]
+    protected Collection $translations;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Article>
      */
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Article::class, mappedBy: 'tags', cascade: ['persist'])]
-    protected \Doctrine\Common\Collections\Collection $articles;
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags', cascade: ['persist'])]
+    protected Collection $articles;
 
     /**
      * Constructor.
@@ -52,10 +55,8 @@ class Tag implements Stringable
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -80,10 +81,8 @@ class Tag implements Stringable
 
     /**
      * Get translations.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTranslations()
+    public function getTranslations(): Collection
     {
         return $this->translations;
     }
@@ -92,10 +91,8 @@ class Tag implements Stringable
      * Get one translation.
      *
      * @param string $locale Locale
-     *
-     * @return TagTranslation
      */
-    public function getOneTranslation($locale = null)
+    public function getOneTranslation($locale = null): TagTranslation
     {
         /** @var TagTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
@@ -132,10 +129,7 @@ class Tag implements Stringable
         }
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getArticles()
+    public function getArticles(): Collection
     {
         return $this->articles;
     }

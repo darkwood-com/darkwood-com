@@ -32,10 +32,8 @@ class TagRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('t')->select('t')->leftJoin('t.translations', 'ts')->where('t.id = :id')->orderBy('t.id', 'asc')->leftjoin('t.articles', 'p')->addSelect('p')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'TagRepository::findOneToEdit'.($id ? 'id' : ''));
@@ -49,10 +47,8 @@ class TagRepository extends ServiceEntityRepository
      *
      * @param string      $title
      * @param null|string $locale
-     *
-     * @return mixed
      */
-    public function findOneByTitle($title, $locale = null)
+    public function findOneByTitle($title, $locale = null): mixed
     {
         $qb = $this->createQueryBuilder('t')->select('t')->leftJoin('t.translations', 'ts')->andWhere('ts.title = :title')->setParameter('title', $title);
         if ($locale) {
@@ -67,10 +63,8 @@ class TagRepository extends ServiceEntityRepository
      * Get all tags.
      *
      * @param null|string $locale
-     *
-     * @return mixed
      */
-    public function findAllAsArray($locale = null)
+    public function findAllAsArray($locale = null): mixed
     {
         $qb = $this->createQueryBuilder('t')->leftJoin('t.translations', 'ts')->select('ts.title');
         if ($locale) {

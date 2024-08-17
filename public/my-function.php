@@ -17,7 +17,7 @@ class MyHttpHandler implements RequestHandlerInterface
     {
         $name = $request->getQueryParams()['name'] ?? 'world';
 
-        return new Response(200, [], "Hello $name");
+        return new Response(200, [], 'Hello ' . $name);
     }
 }
 

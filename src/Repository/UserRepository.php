@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function sprintf;
+
 /**
  * @method null|User find($id, $lockMode = null, $lockVersion = null)
  * @method null|User findOneBy(array $criteria, array $orderBy = null)
@@ -36,8 +38,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     public function loadUserByIdentifier(string $usernameOrEmail): ?UserInterface
@@ -52,10 +54,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return mixed
      */
-    public function queryForSearch($filters = [])
+    public function queryForSearch($filters = []): mixed
     {
         $qb = $this->createQueryBuilder('u')->select('u')->orderBy('u.lastname', 'asc');
         if ($filters !== []) {
@@ -72,10 +72,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Find one for edit profile.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('u')->select('u')->where('u.id = :id')->setParameter('id', $id);
         $query = $qb->getQuery();

@@ -9,6 +9,7 @@ use App\Entity\TagTranslation;
 use App\Repository\TagRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
@@ -19,9 +20,9 @@ use Symfony\Contracts\Cache\CacheInterface;
 class TagService
 {
     /**
-     * @var tagRepository
+     * @var TagRepository
      */
-    protected $tagRepository;
+    protected EntityRepository $tagRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
@@ -35,10 +36,8 @@ class TagService
      *
      * @param string $title
      * @param string $locale
-     *
-     * @return Tag
      */
-    public function create($title, $locale)
+    public function create($title, $locale): Tag
     {
         $tag = new Tag();
         $tagTranslation = new TagTranslation();
@@ -53,10 +52,8 @@ class TagService
 
     /**
      * Update a tag.
-     *
-     * @return Tag
      */
-    public function save(Tag $tag)
+    public function save(Tag $tag): Tag
     {
         $tag->setUpdated(new DateTime('now'));
         $this->em->persist($tag);
@@ -78,10 +75,8 @@ class TagService
      * Find one to edit.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->tagRepository->findOneToEdit($id);
     }

@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\GemRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\GemRepository::class)]
+#[ORM\Entity(repositoryClass: GemRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_gem')]
 class Gem
@@ -25,7 +29,7 @@ class Gem
     #[Vich\UploadableField(mapping: 'gems', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -33,31 +37,31 @@ class Gem
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment1', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $equipment1Players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment1', cascade: ['persist', 'remove'])]
+    protected Collection $equipment1Players;
 
     /**
      * Players.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment2', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $equipment2Players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment2', cascade: ['persist', 'remove'])]
+    protected Collection $equipment2Players;
 
     /**
      * Players.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'equipment3', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $equipment3Players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment3', cascade: ['persist', 'remove'])]
+    protected Collection $equipment3Players;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'power', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'power', type: Types::INTEGER)]
     private ?int $power = null;
 
     /**
@@ -72,10 +76,8 @@ class Gem
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,24 +94,19 @@ class Gem
 
     /**
      * Get power.
-     *
-     * @return int
      */
-    public function getPower()
+    public function getPower(): int
     {
         return $this->power;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -120,10 +117,7 @@ class Gem
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -154,10 +148,8 @@ class Gem
 
     /**
      * Get equipment1Players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEquipment1Players()
+    public function getEquipment1Players(): Collection
     {
         return $this->equipment1Players;
     }
@@ -180,10 +172,8 @@ class Gem
 
     /**
      * Get equipment2Players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEquipment2Players()
+    public function getEquipment2Players(): Collection
     {
         return $this->equipment2Players;
     }
@@ -206,10 +196,8 @@ class Gem
 
     /**
      * Get equipment3Players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEquipment3Players()
+    public function getEquipment3Players(): Collection
     {
         return $this->equipment3Players;
     }

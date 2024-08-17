@@ -28,6 +28,7 @@ use App\Repository\Game\SwordRepository;
 use App\Validator\Constraints\PaginationDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,8 +40,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function count;
@@ -69,47 +73,47 @@ class GameService
     /**
      * @var ArmorRepository
      */
-    protected $armorRepository;
+    protected EntityRepository $armorRepository;
 
     /**
      * @var ClasseRepository
      */
-    protected $classeRepository;
+    protected EntityRepository $classeRepository;
 
     /**
      * @var DailyBattleRepository
      */
-    protected $dailyBattleRepository;
+    protected EntityRepository $dailyBattleRepository;
 
     /**
      * @var EnemyRepository
      */
-    protected $enemyRepository;
+    protected EntityRepository $enemyRepository;
 
     /**
      * @var GemRepository
      */
-    protected $gemRepository;
+    protected EntityRepository $gemRepository;
 
     /**
      * @var LevelUpRepository
      */
-    protected $levelUpRepository;
+    protected EntityRepository $levelUpRepository;
 
     /**
      * @var PlayerRepository
      */
-    protected $playerRepository;
+    protected EntityRepository $playerRepository;
 
     /**
      * @var PotionRepository
      */
-    protected $potionRepository;
+    protected EntityRepository $potionRepository;
 
     /**
      * @var SwordRepository
      */
-    protected $swordRepository;
+    protected EntityRepository $swordRepository;
 
     public function __construct(
         // protected SessionInterface $session,
@@ -136,10 +140,7 @@ class GameService
         $this->swordRepository = $em->getRepository(Sword::class);
     }
 
-    /**
-     * @return Player
-     */
-    public function getOrCreate(User $user)
+    public function getOrCreate(User $user): Player
     {
         $player = $user->getPlayer();
         if (!$player) {
@@ -614,11 +615,11 @@ class GameService
             $player->setPotion($this->potionRepository->findDefault());
         } else {
             // player attack
-            $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getArmor());
+            $playerAttack = random_int((int) $playerInfo['damage']['min'], (int) $playerInfo['damage']['max']) - random_int(0, $enemy->getArmor());
         }
 
         // enemy attack
-        $enemyAttack = random_int($enemy->getDamageMin(), $enemy->getDamageMax()) - random_int(0, $playerInfo['armor']);
+        $enemyAttack = random_int($enemy->getDamageMin(), $enemy->getDamageMax()) - random_int(0, (int) $playerInfo['armor']);
         if ($enemyAttack > 0) {
             $player->setLifeMin($player->getLifeMin() - $enemyAttack);
         } else {
@@ -724,10 +725,7 @@ class GameService
         return $result;
     }
 
-    /**
-     * @return User
-     */
-    public function getOrCreateDailyEnemy()
+    public function getOrCreateDailyEnemy(): User
     {
         $now = new DateTime();
         $dailyBattle = $this->dailyBattleRepository->findDaily($now);
@@ -783,9 +781,9 @@ class GameService
         $enemyInfo = $this->getInfo($enemy);
         $sessionDaily = $this->getSessionDaily($user);
         // player attack
-        $playerAttack = random_int($playerInfo['damage']['min'], $playerInfo['damage']['max']) - random_int(0, $enemy->getPlayer()->getArmor()->getArmor());
+        $playerAttack = random_int((int) $playerInfo['damage']['min'], (int) $playerInfo['damage']['max']) - random_int(0, $enemy->getPlayer()->getArmor()->getArmor());
         // enemy attack
-        $enemyAttack = random_int($enemyInfo['damage']['min'], $enemyInfo['damage']['max']) - random_int(0, $player->getArmor()->getArmor());
+        $enemyAttack = random_int((int) $enemyInfo['damage']['min'], (int) $enemyInfo['damage']['max']) - random_int(0, $player->getArmor()->getArmor());
         if ($playerAttack > 0) {
             $sessionDaily['enemy_current_life'] -= $playerAttack;
         } else {
@@ -852,10 +850,7 @@ class GameService
         return $result;
     }
 
-    /**
-     * @return array|Response
-     */
-    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, User $user = null, $display = null)
+    public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, ?User $user = null, $display = null): array|Response
     {
         $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {
@@ -872,16 +867,16 @@ class GameService
             }
 
             if ($parameters['mode'] === 'login' && $request->get('_username') && $request->get('_password')) {
-                $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main');
+                $user = $this->userService->findOneByUsername($request->get('_username'));
+                $token = new UsernamePasswordToken($user, 'main');
                 // spacial case for apple validation
                 if ($request->get('_username') === 'apple' && $request->get('_password') === 'apple') {
-                    $user = $this->userService->findOneByUsername('apple');
-                    $token = new UsernamePasswordToken($request->get('_username'), $request->get('_password'), 'main', $user->getRoles());
+                    $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
                     $session = $request->getSession();
-                    $lastUsernameKey = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-                    $lastUsername = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
+                    $lastUsernameKey = SecurityRequestAttributes::LAST_USERNAME;
+                    $lastUsername = $session instanceof SessionInterface ? $session->get($lastUsernameKey) : '';
                     $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
                     $parameters['last_username'] = $lastUsername;
                     $parameters['csrf_token'] = $csrfToken;
@@ -895,14 +890,14 @@ class GameService
                     $parameters['mode'] = null;
 
                     return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
-                } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException) {
+                } catch (AuthenticationException) {
                     $this->tokenStorage->setToken(null);
                 }
             }
 
             $session = $request->getSession();
-            $lastUsernameKey = \Symfony\Component\Security\Http\SecurityRequestAttributes::LAST_USERNAME;
-            $lastUsername = $session instanceof \Symfony\Component\HttpFoundation\Session\SessionInterface ? $session->get($lastUsernameKey) : '';
+            $lastUsernameKey = SecurityRequestAttributes::LAST_USERNAME;
+            $lastUsername = $session instanceof SessionInterface ? $session->get($lastUsernameKey) : '';
             $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
             $parameters['last_username'] = $lastUsername;
             $parameters['csrf_token'] = $csrfToken;
@@ -920,7 +915,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+                $user = $token instanceof TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -938,7 +933,7 @@ class GameService
                 $user = $this->userService->findOneByUsername($username);
             } else {
                 $token = $this->tokenStorage->getToken();
-                $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+                $user = $token instanceof TokenInterface ? $token->getUser() : null;
             }
 
             if (!$user instanceof User) {
@@ -994,7 +989,7 @@ class GameService
             return $parameters;
         }
 
-        if ($user instanceof \App\Entity\User) {
+        if ($user instanceof User) {
             $player = $this->getOrCreate($user);
             if ($player->getLastFight() && $parameters['state'] !== 'combat' && $parameters['mode'] !== 'combat') {
                 $parameters['state'] = 'combat';
@@ -1051,7 +1046,7 @@ class GameService
                     if ($request->get('actionBeginFight')) {
                         $request->attributes->set('mode', 'combat');
 
-                        return $this->play($request, $user);
+                        return $this->play($request, null, $user);
                     }
 
                     $parameters['data']['dailyBattles'] = $this->getDailyBattles();

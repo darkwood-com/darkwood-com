@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class AppsTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'apps_host';
     }
@@ -60,6 +60,12 @@ class AppsTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/en/zmesh'], ['/de/zmesh'], ['/zmesh'], ['/en/zmesh/conception'], ['/de/zmesh/conception'], ['/zmesh/conception']];
+        $urls = [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/en/zmesh'], ['/de/zmesh'], ['/zmesh'], ['/en/zmesh/conception'], ['/de/zmesh/conception'], ['/zmesh/conception']];
+
+        $flattenedUrls = array_map(static function ($url) {
+            return $url[0];
+        }, $urls);
+
+        return array_combine($flattenedUrls, $urls);
     }
 }

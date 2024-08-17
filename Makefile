@@ -61,15 +61,15 @@ cache: .env vendor
 ##DevOps
 ##-------------
 
-fix-cs: ## Fix PHP Coding style
-	~/.composer/vendor/bin/php-cs-fixer fix src  --verbose \
-    --rules='{"@Symfony" : true, "binary_operator_spaces": {"default" : "align"}, "phpdoc_summary" : false, "phpdoc_no_package" : false, "concat_space": {"spacing": "one"}, "phpdoc_no_empty_return" : false, "trailing_comma_in_multiline" : false, "yoda_style" : false}'
+php-cs-fixer: ## Check and fix coding styles using PHP CS Fixer
+	composer php-cs-fixer
 
-rector: ## instant upgrade PHP
-	docker run --rm -v $$(pwd):/project rector/rector:latest process
-	
-phpstan: ## static analysis tool
-	vendor/bin/phpstan analyse
+phpstan: ## Execute PHPStan analysis
+	composer phpstan
+
+phpunit: ## Launch PHPUnit test suite
+	composer phpunit
+
 
 deploy: ## Deploy app on server
 	npm install

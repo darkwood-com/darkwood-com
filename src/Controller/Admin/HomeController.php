@@ -7,11 +7,19 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/{_locale}', name: 'admin_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
 class HomeController extends AbstractController
 {
+    private KernelInterface $kernel;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     #[Route('/', name: 'home')]
     public function index(): Response
     {
@@ -19,11 +27,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/upload', name: 'upload')]
-    public function upload(Request $request)
+    public function upload(Request $request): Response
     {
         $file = $request->files->get('upload');
         $name = random_int(0, 9999) . time() . '.' . $file->guessExtension();
-        $file->move($this->get('kernel')->getRootDir() . '/../web/uploads/ckeditor', $name);
+        $file->move($this->kernel->getProjectDir() . '/../web/uploads/ckeditor', $name);
         $html = "<br/><br/><p style='font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;'>";
         $html .= 'Copy & Paste this link in tab picture informations.</p>';
         $html .= "<p style='font: normal normal normal 12px Arial,Helvetica,Tahoma; color: #69b10b;'>";
@@ -33,9 +41,9 @@ class HomeController extends AbstractController
     }
 
     #[Route('/browser', name: 'browser')]
-    public function browser()
+    public function browser(): Response
     {
-        $dirname = $this->get('kernel')->getRootDir() . '/../web/uploads/ckeditor';
+        $dirname = $this->kernel->getProjectDir() . '/../web/uploads/ckeditor';
         $dir = opendir($dirname);
         $style = "style='font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;'";
         $results = '<div ' . $style . '><p>Copy & Paste for use it</p><ul>';
@@ -56,12 +64,8 @@ class HomeController extends AbstractController
     }
 
     #[Route('/imagine/flush', name: 'imagine_flush')]
-    public function imagineFlush()
-    {
-    }
+    public function imagineFlush() {}
 
     #[Route('/imagine/generate', name: 'imagine_generate')]
-    public function imagineGenerate()
-    {
-    }
+    public function imagineGenerate() {}
 }

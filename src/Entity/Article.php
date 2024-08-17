@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 
-#[ORM\Entity(repositoryClass: \App\Repository\ArticleRepository::class)]
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'article')]
 class Article implements Stringable
@@ -21,17 +24,17 @@ class Article implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\ArticleTranslation>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\ArticleTranslation::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $translations;
+    #[ORM\OneToMany(targetEntity: ArticleTranslation::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
+    protected Collection $translations;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Tag>
      */
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Tag::class, inversedBy: 'articles', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'article_tag')]
-    protected \Doctrine\Common\Collections\Collection $tags;
+    protected Collection $tags;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
@@ -39,15 +42,15 @@ class Article implements Stringable
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\CommentArticle>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\CommentArticle::class, mappedBy: 'article')]
-    private \Doctrine\Common\Collections\Collection $comments;
+    #[ORM\OneToMany(targetEntity: CommentArticle::class, mappedBy: 'article')]
+    private Collection $comments;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
@@ -61,10 +64,8 @@ class Article implements Stringable
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -89,10 +90,8 @@ class Article implements Stringable
 
     /**
      * Get translations.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTranslations()
+    public function getTranslations(): Collection
     {
         return $this->translations;
     }
@@ -101,10 +100,8 @@ class Article implements Stringable
      * Get one translation.
      *
      * @param string $locale Locale
-     *
-     * @return ArticleTranslation
      */
-    public function getOneTranslation($locale = null)
+    public function getOneTranslation($locale = null): ArticleTranslation
     {
         /** @var ArticleTranslation $translation */
         foreach ($this->getTranslations() as $translation) {
@@ -136,10 +133,8 @@ class Article implements Stringable
 
     /**
      * Get comments.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
@@ -171,10 +166,7 @@ class Article implements Stringable
         }
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getTags()
+    public function getTags(): Collection
     {
         return $this->tags;
     }

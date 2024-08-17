@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\EnemyRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\EnemyRepository::class)]
+#[ORM\Entity(repositoryClass: EnemyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_enemy')]
 class Enemy
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -28,7 +32,7 @@ class Enemy
     #[Vich\UploadableField(mapping: 'enemies', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -36,41 +40,41 @@ class Enemy
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'lastFight', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $lastFightPlayers;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'lastFight', cascade: ['persist', 'remove'])]
+    protected Collection $lastFightPlayers;
 
     /**
      * Players.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentEnemy', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $currentEnemyPlayers;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentEnemy', cascade: ['persist', 'remove'])]
+    protected Collection $currentEnemyPlayers;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'gold', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'gold', type: Types::INTEGER)]
     private ?int $gold = null;
 
-    #[ORM\Column(name: 'xp', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'xp', type: Types::INTEGER)]
     private ?int $xp = null;
 
-    #[ORM\Column(name: 'life', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'life', type: Types::INTEGER)]
     private ?int $life = null;
 
-    #[ORM\Column(name: 'armor', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'armor', type: Types::INTEGER)]
     private ?int $armor = null;
 
-    #[ORM\Column(name: 'damageMin', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'damageMin', type: Types::INTEGER)]
     private ?int $damageMin = null;
 
-    #[ORM\Column(name: 'damageMax', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'damageMax', type: Types::INTEGER)]
     private ?int $damageMax = null;
 
-    #[ORM\Column(name: 'hitLuck', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'hitLuck', type: Types::INTEGER)]
     private ?int $hitLuck = null;
 
     /**
@@ -84,10 +88,8 @@ class Enemy
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -104,10 +106,8 @@ class Enemy
 
     /**
      * Get gold.
-     *
-     * @return int
      */
-    public function getGold()
+    public function getGold(): int
     {
         return $this->gold;
     }
@@ -124,10 +124,8 @@ class Enemy
 
     /**
      * Get xp.
-     *
-     * @return int
      */
-    public function getXp()
+    public function getXp(): int
     {
         return $this->xp;
     }
@@ -144,10 +142,8 @@ class Enemy
 
     /**
      * Get life.
-     *
-     * @return int
      */
-    public function getLife()
+    public function getLife(): int
     {
         return $this->life;
     }
@@ -164,10 +160,8 @@ class Enemy
 
     /**
      * Get armor.
-     *
-     * @return int
      */
-    public function getArmor()
+    public function getArmor(): int
     {
         return $this->armor;
     }
@@ -184,10 +178,8 @@ class Enemy
 
     /**
      * Get damageMin.
-     *
-     * @return int
      */
-    public function getDamageMin()
+    public function getDamageMin(): int
     {
         return $this->damageMin;
     }
@@ -204,10 +196,8 @@ class Enemy
 
     /**
      * Get damageMax.
-     *
-     * @return int
      */
-    public function getDamageMax()
+    public function getDamageMax(): int
     {
         return $this->damageMax;
     }
@@ -224,24 +214,19 @@ class Enemy
 
     /**
      * Get hitLuck.
-     *
-     * @return int
      */
-    public function getHitLuck()
+    public function getHitLuck(): int
     {
         return $this->hitLuck;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -252,10 +237,7 @@ class Enemy
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -280,10 +262,8 @@ class Enemy
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -306,10 +286,8 @@ class Enemy
 
     /**
      * Get lastFightPlayers.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLastFightPlayers()
+    public function getLastFightPlayers(): Collection
     {
         return $this->lastFightPlayers;
     }
@@ -332,10 +310,8 @@ class Enemy
 
     /**
      * Get currentEnemyPlayers.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCurrentEnemyPlayers()
+    public function getCurrentEnemyPlayers(): Collection
     {
         return $this->currentEnemyPlayers;
     }

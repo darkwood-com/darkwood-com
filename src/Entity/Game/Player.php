@@ -6,117 +6,120 @@ namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
 use App\Entity\User;
+use App\Repository\Game\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\PlayerRepository::class)]
+#[ORM\Entity(repositoryClass: PlayerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_player')]
 class Player
 {
     use TimestampTrait;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Sword::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Sword::class, inversedBy: 'players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Sword $sword = null;
+    protected ?Sword $sword = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Armor::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Armor::class, inversedBy: 'players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Armor $armor = null;
+    protected ?Armor $armor = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Potion::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Potion::class, inversedBy: 'players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Potion $potion = null;
+    protected ?Potion $potion = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Enemy::class, inversedBy: 'lastFightPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'lastFightPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'last_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Enemy $lastFight = null;
+    protected ?Enemy $lastFight = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Enemy::class, inversedBy: 'currentEnemyPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'currentEnemyPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'current_enemy_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Enemy $currentEnemy = null;
+    protected ?Enemy $currentEnemy = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Classe::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Classe::class, inversedBy: 'players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'classe_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Classe $classe = null;
+    protected ?Classe $classe = null;
 
-    #[ORM\OneToOne(targetEntity: \App\Entity\User::class, inversedBy: 'player', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'player', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\User $user = null;
+    protected ?User $user = null;
 
     /**
      * DailyBattles.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\DailyBattle>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\DailyBattle::class, mappedBy: 'player', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $dailyBattles;
+    #[ORM\OneToMany(targetEntity: DailyBattle::class, mappedBy: 'player', cascade: ['persist', 'remove'])]
+    protected Collection $dailyBattles;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment1Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment1Players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'equipment1_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Gem $equipment1 = null;
+    protected ?Gem $equipment1 = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment2Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment2Players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'equipment2_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Gem $equipment2 = null;
+    protected ?Gem $equipment2 = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Gem::class, inversedBy: 'equipment3Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment3Players', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'equipment3_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Gem $equipment3 = null;
+    protected ?Gem $equipment3 = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Sword::class, inversedBy: 'currentSwordPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Sword::class, inversedBy: 'currentSwordPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'current_sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Sword $currentSword = null;
+    protected ?Sword $currentSword = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Potion::class, inversedBy: 'currentPotionPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Potion::class, inversedBy: 'currentPotionPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'current_potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Potion $currentPotion = null;
+    protected ?Potion $currentPotion = null;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Game\Armor::class, inversedBy: 'currentArmorPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Armor::class, inversedBy: 'currentArmorPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'current_armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
-    protected ?\App\Entity\Game\Armor $currentArmor = null;
+    protected ?Armor $currentArmor = null;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'lifeMin', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'lifeMin', type: Types::INTEGER)]
     private ?int $lifeMin = null;
 
-    #[ORM\Column(name: 'lifeMax', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'lifeMax', type: Types::INTEGER)]
     private ?int $lifeMax = null;
 
-    #[ORM\Column(name: 'xp', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'xp', type: Types::INTEGER)]
     private ?int $xp = null;
 
-    #[ORM\Column(name: 'gold', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'gold', type: Types::INTEGER)]
     private ?int $gold = null;
 
-    #[ORM\Column(name: 'strength', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'strength', type: Types::INTEGER)]
     private ?int $strength = null;
 
-    #[ORM\Column(name: 'dexterity', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'dexterity', type: Types::INTEGER)]
     private ?int $dexterity = null;
 
-    #[ORM\Column(name: 'vitality', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'vitality', type: Types::INTEGER)]
     private ?int $vitality = null;
 
-    #[ORM\Column(name: 'equipment1_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(name: 'equipment1_is_use', type: Types::BOOLEAN)]
     private ?bool $equipment1IsUse = null;
 
-    #[ORM\Column(name: 'equipment2_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(name: 'equipment2_is_use', type: Types::BOOLEAN)]
     private ?bool $equipment2IsUse = null;
 
-    #[ORM\Column(name: 'equipment3_is_use', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(name: 'equipment3_is_use', type: Types::BOOLEAN)]
     private ?bool $equipment3IsUse = null;
 
-    #[ORM\Column(name: 'daily_battle_victories', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'daily_battle_victories', type: Types::INTEGER)]
     private ?int $dailyBattleVictories = null;
 
-    #[ORM\Column(name: 'daily_battle_defeats', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'daily_battle_defeats', type: Types::INTEGER)]
     private ?int $dailyBattleDefeats = null;
 
     /**
@@ -129,10 +132,8 @@ class Player
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -149,10 +150,8 @@ class Player
 
     /**
      * Get lifeMin.
-     *
-     * @return int
      */
-    public function getLifeMin()
+    public function getLifeMin(): int
     {
         return $this->lifeMin;
     }
@@ -169,10 +168,8 @@ class Player
 
     /**
      * Get lifeMax.
-     *
-     * @return int
      */
-    public function getLifeMax()
+    public function getLifeMax(): int
     {
         return $this->lifeMax;
     }
@@ -189,10 +186,8 @@ class Player
 
     /**
      * Get xp.
-     *
-     * @return int
      */
-    public function getXp()
+    public function getXp(): int
     {
         return $this->xp;
     }
@@ -209,10 +204,8 @@ class Player
 
     /**
      * Get gold.
-     *
-     * @return int
      */
-    public function getGold()
+    public function getGold(): int
     {
         return $this->gold;
     }
@@ -229,10 +222,8 @@ class Player
 
     /**
      * Get strength.
-     *
-     * @return int
      */
-    public function getStrength()
+    public function getStrength(): int
     {
         return $this->strength;
     }
@@ -249,10 +240,8 @@ class Player
 
     /**
      * Get dexterity.
-     *
-     * @return int
      */
-    public function getDexterity()
+    public function getDexterity(): int
     {
         return $this->dexterity;
     }
@@ -269,10 +258,8 @@ class Player
 
     /**
      * Get vitality.
-     *
-     * @return int
      */
-    public function getVitality()
+    public function getVitality(): int
     {
         return $this->vitality;
     }
@@ -289,10 +276,8 @@ class Player
 
     /**
      * Get equipment1IsUse.
-     *
-     * @return bool
      */
-    public function getEquipment1IsUse()
+    public function getEquipment1IsUse(): bool
     {
         return $this->equipment1IsUse;
     }
@@ -309,10 +294,8 @@ class Player
 
     /**
      * Get equipment2IsUse.
-     *
-     * @return bool
      */
-    public function getEquipment2IsUse()
+    public function getEquipment2IsUse(): bool
     {
         return $this->equipment2IsUse;
     }
@@ -329,10 +312,8 @@ class Player
 
     /**
      * Get equipment3IsUse.
-     *
-     * @return bool
      */
-    public function getEquipment3IsUse()
+    public function getEquipment3IsUse(): bool
     {
         return $this->equipment3IsUse;
     }
@@ -340,17 +321,15 @@ class Player
     /**
      * Set sword.
      */
-    public function setSword(Sword $sword = null): void
+    public function setSword(?Sword $sword = null): void
     {
         $this->sword = $sword;
     }
 
     /**
      * Get sword.
-     *
-     * @return \App\Entity\Game\Sword
      */
-    public function getSword()
+    public function getSword(): Sword
     {
         return $this->sword;
     }
@@ -358,17 +337,15 @@ class Player
     /**
      * Set armor.
      */
-    public function setArmor(Armor $armor = null): void
+    public function setArmor(?Armor $armor = null): void
     {
         $this->armor = $armor;
     }
 
     /**
      * Get armor.
-     *
-     * @return \App\Entity\Game\Armor
      */
-    public function getArmor()
+    public function getArmor(): Armor
     {
         return $this->armor;
     }
@@ -376,17 +353,15 @@ class Player
     /**
      * Set potion.
      */
-    public function setPotion(Potion $potion = null): void
+    public function setPotion(?Potion $potion = null): void
     {
         $this->potion = $potion;
     }
 
     /**
      * Get potion.
-     *
-     * @return \App\Entity\Game\Potion
      */
-    public function getPotion()
+    public function getPotion(): Potion
     {
         return $this->potion;
     }
@@ -394,17 +369,15 @@ class Player
     /**
      * Set lastFight.
      */
-    public function setLastFight(Enemy $lastFight = null): void
+    public function setLastFight(?Enemy $lastFight = null): void
     {
         $this->lastFight = $lastFight;
     }
 
     /**
      * Get lastFight.
-     *
-     * @return \App\Entity\Game\Enemy
      */
-    public function getLastFight()
+    public function getLastFight(): Enemy
     {
         return $this->lastFight;
     }
@@ -412,17 +385,15 @@ class Player
     /**
      * Set currentEnemy.
      */
-    public function setCurrentEnemy(Enemy $currentEnemy = null): void
+    public function setCurrentEnemy(?Enemy $currentEnemy = null): void
     {
         $this->currentEnemy = $currentEnemy;
     }
 
     /**
      * Get currentEnemy.
-     *
-     * @return \App\Entity\Game\Enemy
      */
-    public function getCurrentEnemy()
+    public function getCurrentEnemy(): Enemy
     {
         return $this->currentEnemy;
     }
@@ -430,17 +401,15 @@ class Player
     /**
      * Set classe.
      */
-    public function setClasse(Classe $classe = null): void
+    public function setClasse(?Classe $classe = null): void
     {
         $this->classe = $classe;
     }
 
     /**
      * Get classe.
-     *
-     * @return \App\Entity\Game\Classe
      */
-    public function getClasse()
+    public function getClasse(): Classe
     {
         return $this->classe;
     }
@@ -448,17 +417,15 @@ class Player
     /**
      * Set user.
      */
-    public function setUser(User $user = null): void
+    public function setUser(?User $user = null): void
     {
         $this->user = $user;
     }
 
     /**
      * Get user.
-     *
-     * @return \App\Entity\User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -481,10 +448,8 @@ class Player
 
     /**
      * Get dailyBattles.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDailyBattles()
+    public function getDailyBattles(): Collection
     {
         return $this->dailyBattles;
     }
@@ -492,17 +457,15 @@ class Player
     /**
      * Set equipment1.
      */
-    public function setEquipment1(Gem $equipment1 = null): void
+    public function setEquipment1(?Gem $equipment1 = null): void
     {
         $this->equipment1 = $equipment1;
     }
 
     /**
      * Get equipment1.
-     *
-     * @return \App\Entity\Game\Gem
      */
-    public function getEquipment1()
+    public function getEquipment1(): Gem
     {
         return $this->equipment1;
     }
@@ -510,17 +473,15 @@ class Player
     /**
      * Set equipment2.
      */
-    public function setEquipment2(Gem $equipment2 = null): void
+    public function setEquipment2(?Gem $equipment2 = null): void
     {
         $this->equipment2 = $equipment2;
     }
 
     /**
      * Get equipment2.
-     *
-     * @return \App\Entity\Game\Gem
      */
-    public function getEquipment2()
+    public function getEquipment2(): Gem
     {
         return $this->equipment2;
     }
@@ -528,17 +489,15 @@ class Player
     /**
      * Set equipment3.
      */
-    public function setEquipment3(Gem $equipment3 = null): void
+    public function setEquipment3(?Gem $equipment3 = null): void
     {
         $this->equipment3 = $equipment3;
     }
 
     /**
      * Get equipment3.
-     *
-     * @return \App\Entity\Game\Gem
      */
-    public function getEquipment3()
+    public function getEquipment3(): Gem
     {
         return $this->equipment3;
     }
@@ -555,10 +514,8 @@ class Player
 
     /**
      * Get dailyBattleVictories.
-     *
-     * @return int
      */
-    public function getDailyBattleVictories()
+    public function getDailyBattleVictories(): int
     {
         return $this->dailyBattleVictories;
     }
@@ -575,10 +532,8 @@ class Player
 
     /**
      * Get dailyBattleDefeats.
-     *
-     * @return int
      */
-    public function getDailyBattleDefeats()
+    public function getDailyBattleDefeats(): int
     {
         return $this->dailyBattleDefeats;
     }
@@ -586,25 +541,20 @@ class Player
     /**
      * Set currentSword.
      */
-    public function setCurrentSword(Sword $currentSword = null): void
+    public function setCurrentSword(?Sword $currentSword = null): void
     {
         $this->currentSword = $currentSword;
     }
 
     /**
      * Get currentSword.
-     *
-     * @return \App\Entity\Game\Sword
      */
-    public function getCurrentSword()
+    public function getCurrentSword(): Sword
     {
         return $this->currentSword;
     }
 
-    /**
-     * @return Sword
-     */
-    public function getCurrentDefaultSword()
+    public function getCurrentDefaultSword(): Sword
     {
         return $this->getCurrentSword() ?: $this->getSword();
     }
@@ -612,25 +562,20 @@ class Player
     /**
      * Set currentPotion.
      */
-    public function setCurrentPotion(Potion $currentPotion = null): void
+    public function setCurrentPotion(?Potion $currentPotion = null): void
     {
         $this->currentPotion = $currentPotion;
     }
 
     /**
      * Get currentPotion.
-     *
-     * @return \App\Entity\Game\Potion
      */
-    public function getCurrentPotion()
+    public function getCurrentPotion(): Potion
     {
         return $this->currentPotion;
     }
 
-    /**
-     * @return Potion
-     */
-    public function getCurrentDefaultPotion()
+    public function getCurrentDefaultPotion(): Potion
     {
         return $this->getCurrentPotion() ?: $this->getPotion();
     }
@@ -638,25 +583,20 @@ class Player
     /**
      * Set currentArmor.
      */
-    public function setCurrentArmor(Armor $currentArmor = null): void
+    public function setCurrentArmor(?Armor $currentArmor = null): void
     {
         $this->currentArmor = $currentArmor;
     }
 
     /**
      * Get currentArmor.
-     *
-     * @return \App\Entity\Game\Armor
      */
-    public function getCurrentArmor()
+    public function getCurrentArmor(): Armor
     {
         return $this->currentArmor;
     }
 
-    /**
-     * @return Armor
-     */
-    public function getCurrentDefaultArmor()
+    public function getCurrentDefaultArmor(): Armor
     {
         return $this->getCurrentArmor() ?: $this->getArmor();
     }

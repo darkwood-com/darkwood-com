@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class UserService.
@@ -20,7 +21,7 @@ class UserService
      *
      * @var UserRepository
      */
-    protected $userRepository;
+    protected EntityRepository $userRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
@@ -55,10 +56,8 @@ class UserService
      * Get all user.
      *
      * @param array $filters
-     *
-     * @return mixed
      */
-    public function getQueryForSearch($filters = [])
+    public function getQueryForSearch($filters = []): mixed
     {
         return $this->userRepository->queryForSearch($filters);
     }
@@ -67,10 +66,8 @@ class UserService
      * Find user by slug for edit profil.
      *
      * @param string $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         return $this->userRepository->findOneToEdit($id);
     }
@@ -79,20 +76,16 @@ class UserService
      * Find one by email.
      *
      * @param string $email
-     *
-     * @return mixed
      */
-    public function findOneByEmail($email)
+    public function findOneByEmail($email): mixed
     {
         return $this->userRepository->findOneBy(['email' => $email]);
     }
 
     /**
      * @param string $username
-     *
-     * @return null|object
      */
-    public function findOneByUsername($username)
+    public function findOneByUsername($username): ?object
     {
         return $this->userRepository->findOneBy(['username' => $username]);
     }

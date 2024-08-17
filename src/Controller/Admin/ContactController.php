@@ -9,21 +9,22 @@ use App\Form\Admin\ContactType;
 use App\Services\ContactService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/{_locale}/contacts', name: 'admin_contact_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
-class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class ContactController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly ContactService $contactService)
-    {
-    }
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly ContactService $contactService) {}
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
@@ -57,7 +58,7 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Contact $contact */
         $contact = $this->contactService->findOneToEdit($id);
@@ -76,7 +77,7 @@ class ContactController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_contact_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_contact_list'))->setMethod(Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, Contact $entity)

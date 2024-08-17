@@ -10,10 +10,13 @@ use App\Repository\UserRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,7 +34,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     protected string $email;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -45,17 +48,17 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\Column(length: 255, nullable: true)]
     protected $lastname;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?DateTimeInterface $birthday = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     protected $city;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $comment = null;
 
-    #[ORM\OneToOne(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    protected ?\App\Entity\Game\Player $player = null;
+    #[ORM\OneToOne(targetEntity: Player::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    protected ?Player $player = null;
 
     /**
      * @var File
@@ -63,10 +66,10 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[Vich\UploadableField(mapping: 'users', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
-    #[ORM\Column(name: 'facebook_id', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(name: 'facebook_id', type: Types::STRING, length: 255, nullable: true)]
     protected ?string $facebookId = null;
 
     /**
@@ -74,42 +77,42 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Comment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $comments;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    protected Collection $comments;
 
     /**
      * Contacts.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Contact>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Contact::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $contacts;
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    protected Collection $contacts;
 
     /**
      * Id.
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 180, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::JSON)]
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $password = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true)]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $emailSent = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isVerified = false;
 
     /**
@@ -131,7 +134,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      *
      * @see http://php.net/manual/en/serializable.serialize.php
      *
-     * @return string the string representation of the object or null
+     * @return array the string representation of the object or null
      *
      * @since 5.1.0
      */
@@ -173,10 +176,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): mixed
     {
         return $this->email;
     }
@@ -207,7 +207,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     public function getUserIdentifier(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -235,10 +235,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get firstname.
-     *
-     * @return mixed
      */
-    public function getFirstname()
+    public function getFirstname(): mixed
     {
         return $this->firstname;
     }
@@ -253,10 +251,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get lastname.
-     *
-     * @return mixed
      */
-    public function getLastname()
+    public function getLastname(): mixed
     {
         return $this->lastname;
     }
@@ -269,18 +265,12 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->birthday = $birthday;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBirthday()
+    public function getBirthday(): DateTime
     {
         return $this->birthday;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCity()
+    public function getCity(): mixed
     {
         return $this->city;
     }
@@ -290,10 +280,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->city = $city;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComment()
+    public function getComment(): mixed
     {
         return $this->comment;
     }
@@ -303,16 +290,13 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->comment = $comment;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -323,10 +307,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): ?string
     {
         return $this->imageName;
     }
@@ -339,10 +320,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->imageName = $imageName;
     }
 
-    /**
-     * @return string
-     */
-    public function getFacebookId()
+    public function getFacebookId(): string
     {
         return $this->facebookId;
     }
@@ -360,10 +338,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->civility = $civility;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCivility()
+    public function getCivility(): mixed
     {
         return $this->civility;
     }
@@ -388,10 +363,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get comments.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
@@ -416,10 +389,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get contacts.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getContacts()
+    public function getContacts(): Collection
     {
         return $this->contacts;
     }
@@ -427,17 +398,15 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Set player.
      */
-    public function setPlayer(Player $player = null): void
+    public function setPlayer(?Player $player = null): void
     {
         $this->player = $player;
     }
 
     /**
      * Get player.
-     *
-     * @return \App\Entity\Game\Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }
@@ -454,7 +423,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

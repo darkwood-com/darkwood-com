@@ -17,8 +17,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(
         protected ParameterBagInterface $parameterBagInterface,
         private readonly SiteService $siteService
-    ) {
-    }
+    ) {}
 
     public function load(ObjectManager $manager)
     {
@@ -49,6 +48,6 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [\App\DataFixtures\SiteFixtures::class];
+        return [SiteFixtures::class];
     }
 }

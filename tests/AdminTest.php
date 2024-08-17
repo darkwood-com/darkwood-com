@@ -6,7 +6,7 @@ namespace App\Tests;
 
 class AdminTest extends CommonWebTestCase
 {
-    public function getHostParameter()
+    public function getHostParameter(): string
     {
         return 'admin_host';
     }
@@ -52,10 +52,16 @@ class AdminTest extends CommonWebTestCase
         $commonUrls = [
         ];
 
-        return array_merge($commonUrls, [
+        $urls = array_merge($commonUrls, [
             ['/fr', '/login'],
             ['/en', '/en/login'],
             ['/de', '/de/login'],
         ]);
+
+        $flattenedUrls = array_map(static function ($url) {
+            return $url[0];
+        }, $urls);
+
+        return array_combine($flattenedUrls, $urls);
     }
 }

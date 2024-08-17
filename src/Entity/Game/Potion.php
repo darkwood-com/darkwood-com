@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\Entity\Game;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\Game\PotionRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: \App\Repository\Game\PotionRepository::class)]
+#[ORM\Entity(repositoryClass: PotionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'game_potion')]
 class Potion
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $title = null;
 
     /**
@@ -28,7 +32,7 @@ class Potion
     #[Vich\UploadableField(mapping: 'potions', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
     /**
@@ -36,26 +40,26 @@ class Potion
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'potion', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $players;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'potion', cascade: ['persist', 'remove'])]
+    protected Collection $players;
 
     /**
      * Players.
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Game\Player::class, mappedBy: 'currentPotion', cascade: ['persist', 'remove'])]
-    protected \Doctrine\Common\Collections\Collection $currentPotionPlayers;
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentPotion', cascade: ['persist', 'remove'])]
+    protected Collection $currentPotionPlayers;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'price', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'price', type: Types::INTEGER)]
     private ?int $price = null;
 
-    #[ORM\Column(name: 'life', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'life', type: Types::INTEGER)]
     private ?int $life = null;
 
     /**
@@ -69,10 +73,8 @@ class Potion
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -89,10 +91,8 @@ class Potion
 
     /**
      * Get price.
-     *
-     * @return int
      */
-    public function getPrice()
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -109,24 +109,19 @@ class Potion
 
     /**
      * Get life.
-     *
-     * @return int
      */
-    public function getLife()
+    public function getLife(): int
     {
         return $this->life;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): mixed
     {
         return $this->image;
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      */
     public function setImage(File $image)
     {
@@ -137,10 +132,7 @@ class Potion
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getImageName()
+    public function getImageName(): string
     {
         return $this->imageName;
     }
@@ -165,10 +157,8 @@ class Potion
 
     /**
      * Get title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -191,10 +181,8 @@ class Potion
 
     /**
      * Get players.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPlayers()
+    public function getPlayers(): Collection
     {
         return $this->players;
     }
@@ -217,10 +205,8 @@ class Potion
 
     /**
      * Get currentPotionPlayers.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCurrentPotionPlayers()
+    public function getCurrentPotionPlayers(): Collection
     {
         return $this->currentPotionPlayers;
     }

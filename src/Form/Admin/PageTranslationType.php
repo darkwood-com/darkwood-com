@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Admin;
 
 use App\Entity\PageTranslation;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -16,15 +17,15 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 /**
  *  Form Type.
  */
-class PageTranslationType extends \Symfony\Component\Form\AbstractType
+class PageTranslationType extends AbstractType
 {
     /**
      * Build Form.
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $locale = $options['locale'];
-        $builder->add('page', \App\Form\Admin\PageType::class, ['locale' => $locale]);
+        $builder->add('page', PageType::class, ['locale' => $locale]);
         $builder->add('title', TextType::class);
         $builder->add('description', TextareaType::class);
         $builder->add('image', VichImageType::class, ['required' => false]);
@@ -48,7 +49,7 @@ class PageTranslationType extends \Symfony\Component\Form\AbstractType
         $builder->add('export_locales', CheckboxType::class, ['required' => false, 'mapped' => false]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => PageTranslation::class, 'locale' => null]);
     }

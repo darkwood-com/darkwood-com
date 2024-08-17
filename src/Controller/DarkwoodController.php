@@ -13,7 +13,9 @@ use App\Services\PageService;
 use App\Services\UserService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -23,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use function in_array;
 
 #[Route('/', name: 'darkwood_', host: '%darkwood_host%')]
-class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class DarkwoodController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
@@ -36,8 +38,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         private readonly UserService $userService,
         private readonly GameService $gameService,
         private readonly CsrfTokenManagerInterface $tokenManager
-    ) {
-    }
+    ) {}
 
     public function menu(Request $request, $ref, $entity)
     {
@@ -49,7 +50,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findActives($request->getLocale(), 5);
@@ -88,7 +89,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr/news/{slug}', 'en' => '/news/{slug}', 'de' => '/de/news/{slug}'], name: 'news', defaults: ['ref' => 'news', 'slug' => null])]
-    public function news(Request $request, $ref, $slug): \Symfony\Component\HttpFoundation\Response
+    public function news(Request $request, $ref, $slug): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $news = $this->articleService->findOneBySlug($slug, $request->getLocale());
@@ -104,7 +105,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     {
         $page = $this->commonController->getPage($request, $ref);
         $parameters = $this->gameService->play($request, $this->getUser(), $display);
-        if ($parameters instanceof \Symfony\Component\HttpFoundation\Response) {
+        if ($parameters instanceof Response) {
             return $parameters;
         }
 
@@ -146,7 +147,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr/liste-des-joueurs', 'en' => '/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
-    public function users(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function users(Request $request, $ref): Response
     {
         if ($request->get('sort') && !in_array($request->get('sort'), ['u.created', 'u.username'], true)) {
             throw $this->createNotFoundException('Sort query is not allowed');
@@ -160,7 +161,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr/regles-du-jeu', 'en' => '/rules-of-the-game', 'de' => '/de/regeln-des-spiels'], name: 'rules', defaults: ['ref' => 'rules'])]
-    public function rules(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function rules(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -197,7 +198,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr/extra', 'en' => '/extra', 'de' => '/de/extra'], name: 'extra', defaults: ['ref' => 'extra'])]
-    public function extra(Request $request, $ref): \Symfony\Component\HttpFoundation\Response
+    public function extra(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
 
@@ -205,7 +206,7 @@ class DarkwoodController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     }
 
     #[Route(path: ['fr' => '/fr/classement', 'en' => '/rank', 'de' => '/de/rang'], name: 'rank', defaults: ['ref' => 'rank'])]
-    public function rank(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): \Symfony\Component\HttpFoundation\Response
+    public function rank(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $mode = $request->get('mode');

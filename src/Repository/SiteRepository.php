@@ -23,10 +23,8 @@ class SiteRepository extends ServiceEntityRepository
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return mixed
      */
-    public function queryForSearch($filters = [])
+    public function queryForSearch($filters = []): mixed
     {
         $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.id', 'asc');
         if ($filters !== []) {
@@ -43,10 +41,8 @@ class SiteRepository extends ServiceEntityRepository
      * Find one for edit profile.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('s')->select('s')->where('s.id = :id')->setParameter('id', $id);
         $query = $qb->getQuery();
@@ -58,10 +54,8 @@ class SiteRepository extends ServiceEntityRepository
      * Find one by host.
      *
      * @param string $host
-     *
-     * @return mixed
      */
-    public function findOneByHost($host)
+    public function findOneByHost($host): mixed
     {
         $qb = $this->createQueryBuilder('s')->select('s')->where('s.host = :host')->setParameter('host', $host);
         $query = $qb->getQuery();
@@ -74,10 +68,8 @@ class SiteRepository extends ServiceEntityRepository
      * Find one by ref.
      *
      * @param string $ref
-     *
-     * @return mixed
      */
-    public function findOneByRef($ref)
+    public function findOneByRef($ref): mixed
     {
         $qb = $this->createQueryBuilder('s')->select('s')->where('s.ref = :ref')->setParameter('ref', $ref);
         $query = $qb->getQuery();
@@ -86,7 +78,7 @@ class SiteRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.position', 'asc');
 

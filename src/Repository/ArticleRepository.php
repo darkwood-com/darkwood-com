@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,10 +24,8 @@ class ArticleRepository extends ServiceEntityRepository
      * Get all user query, using for pagination.
      *
      * @param array $filters
-     *
-     * @return Query
      */
-    public function queryForSearch($filters = [], $locale = 'en', $order = null)
+    public function queryForSearch($filters = [], $locale = 'en', $order = null): Query
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         if ($order === 'normal') {
@@ -62,10 +61,8 @@ class ArticleRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param int $id
-     *
-     * @return mixed
      */
-    public function findOneToEdit($id)
+    public function findOneToEdit($id): mixed
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->where('n.id = :id')->orderBy('n.id', 'asc')->setParameter('id', $id);
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findOneToEdit'.($id ? 'id' : ''));
@@ -87,10 +84,8 @@ class ArticleRepository extends ServiceEntityRepository
      * Find one for edit.
      *
      * @param array $parameters
-     *
-     * @return mixed
      */
-    public function findAll($parameters = [])
+    public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc');
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findAll');
@@ -113,7 +108,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findActives($locale = null, $limit = null)
+    public function findActives($locale = null, $limit = null): Paginator
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc')->andWhere('nts.active = true');
         if ($locale) {
@@ -127,6 +122,6 @@ class ArticleRepository extends ServiceEntityRepository
         // $qb->getQuery()->useResultCache(true, 120, 'ArticleRepository::findActives');
         $query = $qb->getQuery();
 
-        return new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+        return new Paginator($query);
     }
 }

@@ -12,21 +12,22 @@ use App\Services\PageService;
 use App\Services\SiteService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
-class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class AppController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly AppService $appService, private readonly PageService $pageService, private readonly SiteService $siteService)
-    {
-    }
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly AppService $appService, private readonly PageService $pageService, private readonly SiteService $siteService) {}
 
     #[Route('/list', name: 'list')]
-    public function list(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
         $form->handleRequest($request);
@@ -73,7 +74,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function delete(Request $request, $id): RedirectResponse
     {
         /** @var App $app */
         $app = $this->appService->findOneToEdit($id, $request->getLocale());
@@ -92,7 +93,7 @@ class AppController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractC
     {
         $data = [];
 
-        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_app_list'))->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
+        return $this->createFormBuilder($data)->setAction($this->generateUrl('admin_app_list'))->setMethod(Request::METHOD_GET)->add('id', TextType::class, ['required' => false, 'label' => 'Id'])->add('submit', SubmitType::class, ['label' => 'Search'])->getForm();
     }
 
     private function manage(Request $request, PageTranslation $entityTranslation)

@@ -5,46 +5,46 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
+use App\Repository\CommentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: \App\Repository\CommentRepository::class)]
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
-#[ORM\DiscriminatorMap(['page' => \App\Entity\CommentPage::class, 'article' => \App\Entity\CommentArticle::class])]
+#[ORM\DiscriminatorMap(['page' => CommentPage::class, 'article' => CommentArticle::class])]
 #[ORM\Table(name: 'comment')]
 abstract class Comment
 {
     use TimestampTrait;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 
     #[Assert\NotNull(message: 'common.comment.required_user')]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    protected ?\App\Entity\User $user = null;
+    protected ?User $user = null;
 
     #[Assert\NotNull(message: 'common.comment.required_page')]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Page::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'comments', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id')]
-    protected ?\App\Entity\Page $page = null;
+    protected ?Page $page = null;
 
-    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     #[Assert\NotNull(message: 'common.comment.required_content')]
-    #[ORM\Column(name: 'content', type: \Doctrine\DBAL\Types\Types::TEXT)]
+    #[ORM\Column(name: 'content', type: Types::TEXT)]
     private ?string $content = null;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -61,10 +61,8 @@ abstract class Comment
 
     /**
      * Get content.
-     *
-     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -72,17 +70,15 @@ abstract class Comment
     /**
      * Set user.
      */
-    public function setUser(User $user = null): void
+    public function setUser(?User $user = null): void
     {
         $this->user = $user;
     }
 
     /**
      * Get user.
-     *
-     * @return \App\Entity\User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -90,17 +86,15 @@ abstract class Comment
     /**
      * Set page.
      */
-    public function setPage(Page $page = null): void
+    public function setPage(?Page $page = null): void
     {
         $this->page = $page;
     }
 
     /**
      * Get page.
-     *
-     * @return \App\Entity\Page
      */
-    public function getPage()
+    public function getPage(): Page
     {
         return $this->page;
     }
@@ -117,10 +111,8 @@ abstract class Comment
 
     /**
      * Get active.
-     *
-     * @return bool
      */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
