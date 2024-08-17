@@ -91,7 +91,7 @@ class App extends Page
         }
     }
 
-    public function getBannerName(): string
+    public function getBannerName(): ?string
     {
         return $this->bannerName;
     }
@@ -104,7 +104,7 @@ class App extends Page
         $this->bannerName = $bannerName;
     }
 
-    public function getTheme(): string
+    public function getTheme(): ?string
     {
         return $this->theme;
     }
