@@ -265,7 +265,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->birthday = $birthday;
     }
 
-    public function getBirthday(): DateTime
+    public function getBirthday(): ?DateTime
     {
         return $this->birthday;
     }
@@ -406,7 +406,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Get player.
      */
-    public function getPlayer(): Player
+    public function getPlayer(): ?Player
     {
         return $this->player;
     }
