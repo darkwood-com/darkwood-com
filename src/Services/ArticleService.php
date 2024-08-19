@@ -148,7 +148,7 @@ class ArticleService
      * @param string $slug
      * @param string $locale
      */
-    public function findOneBySlug($slug, $locale): Article
+    public function findOneBySlug($slug, $locale): ?Article
     {
         return $this->articleRepository->findOneBySlug($slug, $locale);
     }

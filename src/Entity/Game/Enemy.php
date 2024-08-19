@@ -237,7 +237,7 @@ class Enemy
         }
     }
 
-    public function getImageName(): string
+    public function getImageName(): ?string
     {
         return $this->imageName;
     }
