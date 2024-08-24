@@ -29,7 +29,6 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 3600
                 path: /
-                domain: '%env(COOKIE_DOMAIN)%'
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
