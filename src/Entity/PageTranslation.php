@@ -358,7 +358,7 @@ class PageTranslation implements Stringable
         return $this->twitterSite;
     }
 
-    public function getTwitterImage(): File
+    public function getTwitterImage(): ?File
     {
         return $this->twitterImage;
     }
@@ -418,7 +418,7 @@ class PageTranslation implements Stringable
         return $this->ogType;
     }
 
-    public function getOgImage(): File
+    public function getOgImage(): ?File
     {
         return $this->ogImage;
     }
