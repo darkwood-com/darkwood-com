@@ -255,7 +255,7 @@ class PageTranslation implements Stringable
         }
     }
 
-    public function getThumbnailImageName(): string
+    public function getThumbnailImageName(): ?string
     {
         return $this->thumbnailImageName;
     }
