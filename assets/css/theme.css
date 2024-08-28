@@ -9,6 +9,11 @@
 	margin-left: 0px;
 	margin-right: 0px;
 }
+	.theme-content
+	{
+		overflow-wrap: break-word;
+		white-space: normal;
+	}
 
 	.theme-content img.center
 	{
