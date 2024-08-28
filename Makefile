@@ -57,7 +57,10 @@ update: ## Stop the crap and start working
 cache: .env vendor
 	$(CONSOLE) cache:clear
 
-assets:
+keys: ## generate keys for JWT
+	php bin/console lexik:jwt:generate-keypair
+
+assets: ## build and install assets
 	npm run build
 	bin/console asset:install
 
