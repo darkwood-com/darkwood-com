@@ -47,9 +47,8 @@ class ArticleTranslation implements Stringable
 
     /**
      * Slug.
-     *
-     * @Gedmo\Slug(fields={"title"})
      */
+    #[Gedmo\Slug(fields: ['title'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $slug;
 
