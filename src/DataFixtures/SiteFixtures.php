@@ -37,9 +37,15 @@ class SiteFixtures extends Fixture
         ], $manager);
 
         $this->createSite([
-            'name' => 'Me',
+            'name' => 'Hello',
             'host' => 'hello.darkwood.localhost',
             'position' => 5,
+        ], $manager);
+
+        $this->createSite([
+            'name' => 'Api',
+            'host' => 'api.darkwood.localhost',
+            'position' => 6,
         ], $manager);
 
         $manager->flush();

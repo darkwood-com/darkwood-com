@@ -5,7 +5,7 @@ Darkwood website [https://darkwood.com](https://darkwood.com)
 
 ### add this to /etc/hosts
 ```
-127.0.0.1 darkwood.localhost apps.darkwood.localhost photos.darkwood.localhost blog.darkwood.localhost hello.darkwood.localhost admin.darkwood.localhost
+127.0.0.1 darkwood.localhost apps.darkwood.localhost photos.darkwood.localhost blog.darkwood.localhost hello.darkwood.localhost admin.darkwood.localhost api.darkwood.localhost
 ```
 
 ## Nix Usage

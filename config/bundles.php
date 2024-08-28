@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
@@ -9,6 +10,7 @@ use EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle;
 use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Liip\ImagineBundle\LiipImagineBundle;
+use Nelmio\CorsBundle\NelmioCorsBundle;
 use Sentry\SentryBundle\SentryBundle;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
@@ -44,4 +46,6 @@ return [
     KnpUOAuth2ClientBundle::class => ['all' => true],
     SymfonyCastsVerifyEmailBundle::class => ['all' => true],
     SentryBundle::class => ['prod' => true],
+    NelmioCorsBundle::class => ['all' => true],
+    ApiPlatformBundle::class => ['all' => true],
 ];

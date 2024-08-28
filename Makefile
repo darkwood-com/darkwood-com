@@ -57,6 +57,10 @@ update: ## Stop the crap and start working
 cache: .env vendor
 	$(CONSOLE) cache:clear
 
+assets:
+	npm run build
+	bin/console asset:install
+
 ##
 ##DevOps
 ##-------------

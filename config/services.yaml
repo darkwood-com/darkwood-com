@@ -10,6 +10,7 @@ parameters:
     blog_host: '%env(BLOG_HOST)%'
     hello_host: '%env(HELLO_HOST)%'
     admin_host: '%env(ADMIN_HOST)%'
+    api_host: '%env(API_HOST)%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app.supported_locales: ['fr', 'en', 'de']
     app_locales: ['en', 'fr', 'de']
