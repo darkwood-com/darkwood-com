@@ -133,7 +133,7 @@ class Player
     /**
      * Get id.
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
