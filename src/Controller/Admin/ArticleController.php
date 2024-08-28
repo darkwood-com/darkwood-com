@@ -44,6 +44,7 @@ class ArticleController extends AbstractController
         $entity->setCreated(new DateTime());
 
         $entityTranslation = new ArticleTranslation();
+        $entityTranslation->setCreated(new DateTime());
         $entityTranslation->setLocale($request->getLocale());
 
         $entity->addTranslation($entityTranslation);
