@@ -12,6 +12,7 @@ parameters:
     admin_host: '%env(ADMIN_HOST)%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app.supported_locales: ['fr', 'en', 'de']
+    app_locales: ['en', 'fr', 'de']
 
 services:
     # default configuration for services in *this* file
