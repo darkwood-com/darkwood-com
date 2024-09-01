@@ -148,7 +148,7 @@ class Page implements Stringable
     /**
      * Get page.
      */
-    public function getSite(): Site
+    public function getSite(): ?Site
     {
         return $this->site;
     }

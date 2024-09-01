@@ -1,0 +1,440 @@
+/* -> layout */
+.theme-api
+{
+	color: #E0E0E0;
+	background: #2A2A2A;
+}
+
+	.theme-api .theme-header-logo
+	{
+		height: 250px;
+		width: 100%;
+		background: transparent url('../../public/common/images/components/theme-api/site/header/api_logo.png') no-repeat center top;
+		background-size: auto 100%;
+	}
+
+	@media(max-width:767px) {
+		.theme-api .theme-header-logo
+		{
+			height: 125px;
+		}
+	}
+
+.theme-api .theme-body
+{
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+	.theme-api .theme-menu
+	{
+		/** align menu and content backgrounds **/
+		padding-top: 16px;
+	}
+
+		@media(max-width:767px) {
+			.theme-api .theme-content-top
+			{
+				padding-right: 15px;
+				padding-left: 15px;
+			}
+		}
+
+.theme-api .theme-footer
+{
+	margin: 0;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+	background-color: #1A1A1A;
+}
+
+	.theme-api .theme-footer ul
+	{
+		list-style-type: none;
+		padding: 10px 0px 10px 0px;
+	}
+
+	.theme-api .theme-footer .btn-github,
+	.theme-api .theme-footer .btn-twitter,
+	.theme-api .theme-footer .btn-linkedin,
+	.theme-api .theme-footer .btn-discord
+	{
+		background-color: transparent;
+		border: 0 none;
+		color: #E0E0E0;
+	}
+
+/* -> basics */
+.theme-api h1
+{
+	margin: 20px 0px 20px 0px;
+	font-size: 32px;
+	text-align: center;
+	color: #CCCCCC;
+}
+
+.theme-api h2
+{
+	margin: 18px 0px 18px 0px;
+	font-size: 24px;
+	text-align: left;
+	color: #B0B0B0;
+}
+
+.theme-api h3
+{
+	margin: 16px 0px 10px 0px;
+	font-size: 20px;
+	text-align: center;
+	color: #B0B0B0;
+}
+
+.theme-api h4
+{
+	margin: 5px 0px 5px 0px;
+	font-size: 16px;
+	color: #B0B0B0;
+}
+
+.theme-api a
+{
+	color: #E0E0E0;
+	text-decoration: none;
+}
+
+.theme-api a:hover
+{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.theme-api a:active
+{
+	cursor: pointer;
+}
+
+.theme-api p
+{
+	margin: 10px 0px 10px 0px;
+}
+
+/* -> user-box */
+.theme-api div.user-box
+{
+	margin: 15px;
+	width: 60px;
+	height: 70px;
+	text-align: center;
+	float: left;
+}
+
+/* -> links */
+.theme-api ul.links li
+{
+	padding: 5px 0px 5px 0px;
+	clear: both;
+	overflow: auto;
+}
+
+.theme-api ul.links a
+{
+	float: left;
+}
+
+.theme-api ul.links p
+{
+	margin: 0px 0px 0px 250px;
+}
+
+/* -> pagination */
+.theme-api ul.pagination a
+{
+	background-color: #444444;
+	border: 1px solid #666666;
+	text-decoration: none !important;
+	color: #CCCCCC;
+}
+
+.theme-api ul.pagination a.current,
+.theme-api ul.pagination a:active,
+.theme-api ul.pagination a:hover
+{
+	border-color: #666666;
+	font-weight: bold;
+	background: #555555 none;
+	color: #FFFFFF;
+}
+
+.theme-api ul.pagination .disabled
+{
+	border: 1px solid #555555;
+	color: #777777;
+}
+
+/* -> comments */
+.theme-api ul.comments
+{
+    list-style-type: none;
+	padding: 0;
+}
+
+.theme-api ul.comments li
+{
+	margin: 10px 0px 10px 0px;
+	overflow: auto;
+	clear: both;
+}
+
+.theme-api ul.comments a.author
+{
+	float: left;
+	text-align: center;
+}
+
+.theme-api ul.comments div.content
+{
+	margin: 0px 0px 0px 100px;
+	padding: 10px;
+	background: #222222;
+	border: 1px solid #444444;
+}
+
+/* -> forms */
+.theme-api form
+{
+	margin: 0px auto 0px auto;
+}
+
+.theme-api form fieldset
+{
+	margin: 10px;
+	padding: 10px;
+	border: #444444 1px solid;
+}
+
+.theme-api form fieldset legend
+{
+	float: none;
+	margin: 0px 10px 0px 10px;
+	padding: 0px 10px 0px 10px;
+	width: auto;
+	border-top: none;
+	border-bottom: none;
+	border-left: #444444 1px solid;
+	border-right: #444444 1px solid;
+	color: #444444;
+}
+
+.theme-api form fieldset li
+{
+	list-style-type: none;
+}
+
+.theme-api form ul, .theme-api form li
+{
+    padding: 0px;
+    list-style-type: none;
+	clear: both;
+}
+
+.theme-api form li.centered
+{
+	text-align: center;
+}
+
+.theme-api form label
+{
+	margin: 2px 0px 2px 0px;
+	width: 45%;
+	float: left;
+}
+
+.theme-api form label.centered
+{
+	display: block;
+	width: 100%;
+	float: none;
+}
+
+.theme-api form input, .theme-api form textarea
+{
+	color: #000000;
+	margin: 2px 0px 2px 0px;
+	border: 0px solid #FFFFFF;
+	background-color: #707070;
+	width: 50%;
+	float: right;
+	clear: right;
+}
+
+.theme-api form input:focus, .theme-api form textarea:focus
+{
+	background-color: #CCCCCC;
+}
+
+.theme-api form input[type=submit]
+{
+	font-weight:bold;
+	width: auto;
+}
+
+.theme-api form input[type=submit]:hover
+{
+	background-color: #CCCCCC;
+	cursor:pointer;
+}
+
+.theme-api form input[type=submit]:active
+{
+	background-color:#555555;
+}
+
+/* -> list */
+.theme-api ul.itemlist
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.theme-api ul.itemlist > li
+{
+	margin: 15px 0px 15px 0px;
+	padding: 0;
+	background: #333333 none;
+	border: 2px solid #444444;
+}
+
+.theme-api ul.itemlist li h3
+{
+	margin: 0;
+	padding: 2px;
+	background: #444444 none;
+}
+
+.theme-api ul.itemlist li p
+{
+	margin: 10px;
+}
+
+/* -> trees */
+.theme-api fieldset.tree
+{
+	float: left;
+	border-top: 2px solid #444444;
+	border-left: 2px solid #444444;
+}
+
+.theme-api .tree legend
+{
+	float: none;
+	margin: 10px;
+	padding: 0px 10px 0px 10px;
+	width: auto;
+	border-top: none;
+	border-bottom: none;
+	border-left: #444444 2px solid;
+	border-right: #444444 2px solid;
+	color: #444444;
+}
+
+.theme-api .tree ul.root
+{
+	margin:  0px;
+	padding: 0px;
+	border: 0px none;
+}
+
+.theme-api .tree ul
+{
+	margin:  0px 0px 0px 24px;
+	padding: 0px;
+	border-left: 2px solid #444444;
+}
+
+.theme-api .tree li
+{
+	margin:  0px;
+	padding: 15px 0px 0px 0px;
+	list-style:none;
+}
+
+.theme-api .tree li .folder
+{
+	background-color: #444444;
+}
+
+.theme-api .tree li span
+{
+	margin:  0px 5px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	border-top: 2px solid #444444;
+}
+
+.theme-api .tree li a
+{
+	position: relative;
+	top: -8px;
+	padding: 2px;
+	border: 2px solid #444444;
+	color: #CCCCCC;
+	background-color: #555555;
+}
+
+.theme-api .tree li a:hover
+{
+	color: #FFFFFF;
+	border: 2px solid #777777;
+}
+
+/*** css specific to the site ***/
+
+/* -> links */
+.theme-api .theme-content a.no_link
+{
+	color: #E0E0E0;
+	cursor: default;
+}
+
+.theme-api .theme-content.show_links a
+{
+	text-decoration: underline;
+}
+
+/* -> tables */
+.theme-api .theme-content table
+{
+	margin: 10px 0px 10px 0px;
+	background: #333333;
+	width: 100%;
+	text-align: center;
+}
+
+.theme-api .theme-content table thead
+{
+	font-size: 18px;
+	background: #444444;
+	border: 1px solid #444444;
+}
+
+.theme-api .theme-content table tbody
+{
+	border: 1px solid #444444;
+}
+
+.theme-api .theme-content table th
+{
+	padding: 2px;
+	text-align: center;
+}
+
+.theme-api .theme-content table th, .theme-api .theme-content table td
+{
+	vertical-align: middle;
+}
+
+.theme-api .theme-content table td.spaced
+{
+	padding: 10px;
+}

@@ -1,0 +1,27 @@
+<div id="footer-top" class="col-md-12">
+    <ul>
+        <li>
+            <a href="{{ path('api_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a> -
+            <a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a> -
+            <a href="{{ path('blog_home') }}">{{ 'common.footer.blog'|trans }}</a> -
+            <a href="{{ path('apps_home') }}">{{ 'common.footer.apps'|trans }}</a> -
+            <a href="{{ path('photos_home') }}">{{ 'common.footer.photos'|trans }}</a> -
+            <a href="{{ path('api_contact') }}">{{ 'common.footer.contact'|trans }}</a> -
+            {#<a href="https://digest.darkwood.com">{{ 'common.footer.digest'|trans }}</a> -#}
+            <a class="btn btn-social-icon btn-github" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a> -
+            <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/darkwood_com" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a> -
+            <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/company/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-linkedin"></span></a> -
+            <a class="btn btn-social-icon btn-discord" href="https://discord.gg/tMDCF8RyvE" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a> -
+            <a href="{{ path('api_legal_mention') }}">{{ 'common.footer.legal_mention'|trans }}</a> - {{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}{# -
+            <a href="javascript:openAxeptioCookies()">{{ 'common.footer.cookies'|trans }}</a>#}
+        </li>
+    </ul>
+    {#<ul>
+        <li>
+            <a href="https://validator.w3.org/nu/?doc={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-paper/site/footer/valid_xhtml11.jpg') }}" alt="Valid XHTML 1.1" title="{{ 'common.footer.valid.html'|trans }}" /></a>
+            <a href="http://jigsaw.w3.org/css-validator/validator?uri={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-paper/site/footer/valid_css.jpg') }}" alt="Valid CSS" title="{{ 'common.footer.valid.css'|trans }}" /></a>
+            <a href="https://validator.w3.org/feed/check.cgi?url={{ url(page.page.site.ref ~ '_rss') }}"><img src="{{ asset('/common/images/components/theme-paper/site/footer/valid_rss.jpg') }}" alt="Valid RSS" title="{{ 'common.footer.valid.rss'|trans }}" /></a>
+        </li>
+    </ul>#}
+</div>
+

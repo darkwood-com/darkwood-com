@@ -109,7 +109,7 @@ class PageService
         $duplicatePageTranslation->setDescription($entity->getDescription());
         $duplicatePageTranslation->setContent($entity->getContent());
         $duplicatePageTranslation->setActive($entity->getActive());
-        if ($entity->getImageName() !== '' && $entity->getImageName() !== '0') {
+        if (null !== $entity->getImageName()) {
             $imageUrl = $this->storage->resolvePath($entity, 'image');
             $imageContent = file_get_contents($imageUrl);
             if ($imageContent) {
@@ -283,7 +283,7 @@ class PageService
                         }
                     } elseif (str_starts_with((string) $route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
                         $routeLocale = $route->getDefault('_locale');
-                        $host = $site->getHost();
+                        $host = $site?->getHost();
                         if ($route->getHost() && $route->getHost() !== $host) {
                             continue;
                         }
