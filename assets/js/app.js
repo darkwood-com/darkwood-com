@@ -9,6 +9,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './fontawesome-free-5.11.2/css/all.css'
 import './bootstrap-social/bootstrap-social.css'
+import '../css/prism.css'
 import '../css/layout.css'
 import '../css/theme.css'
 import '../css/theme-darkwood.css'
@@ -28,5 +29,6 @@ import '../css/navbar-menu-yellow.css'
 global.$ = global.jQuery = $;
 
 import 'bootstrap';
+import './prism.js';
 import './darkwood.js'
 import './hello.js'
