@@ -257,6 +257,11 @@
 	float: none;
 }
 
+.theme-api form input.centered, .theme-api form textarea.centered, .theme-api form img.centered
+{
+    float: none;
+}
+
 .theme-api form input, .theme-api form textarea
 {
 	color: #000000;
