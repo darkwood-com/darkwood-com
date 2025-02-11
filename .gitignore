@@ -5,6 +5,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /public/media/
+/public/podcasts/
 /var/
 /vendor/
 /docker-compose.override.yml

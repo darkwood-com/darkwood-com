@@ -1,0 +1,24 @@
+{% extends "common/base.html.twig" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Podcasts</h1>
+    <div class="row">
+        {% for podcast in podcasts %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ podcast.image }}" class="card-img-top" alt="{{ podcast.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ podcast.title }}</h5>
+                    <p class="card-text">{{ podcast.description }}</p>
+                    <audio controls class="w-100">
+                        <source src="{{ podcast.audio }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

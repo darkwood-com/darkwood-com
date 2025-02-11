@@ -19,10 +19,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap": "^5.0.1",
-        "jquery": "^3.6.0",
-        "popper.js": "^1.16.1",
-        "serverless": "^4.4.10"
+        "bootstrap": "^5.3.3",
+        "jquery": "^3.7.1"
     },
     "devDependencies": {
 

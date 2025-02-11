@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-class MeTest extends CommonWebTestCase
+class HelloTest extends CommonWebTestCase
 {
     public function getHostParameter(): string
     {
