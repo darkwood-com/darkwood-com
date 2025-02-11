@@ -39,22 +39,21 @@ class PodcastsController extends AbstractController
     {
         $token = $this->baserowService->getBaserowToken();
 
-		$baserowApiUrl = $this->baserowService->getHost() . '/api/database/databases/';
+		$baserowApiUrl = $this->baserowService->getHost() . '/api/applications/';
         $response = $this->httpClient->request('GET', $baserowApiUrl, [
             'headers' => [
-                'Authorization' => 'Token ' . $token,
+                'Authorization' => 'JWT ' . $token,
             ],
         ]);
 
         $databases = $response->toArray();
 
-		return $this->json(['databases' => $databases]);
         $tableId = null;
 
-        foreach ($tables as $table) {
-            if ($table['name'] === 'Podcasts') {
-                $tableId = $table['id'];
-                break;
+        foreach ($databases as $database) {
+            $table = array_filter($database['tables'], fn($table) => $table['name'] === 'Podcasts');
+            if (!empty($table)) {
+                $tableId = reset($table)['id'];
             }
         }
 
@@ -62,14 +61,14 @@ class PodcastsController extends AbstractController
             throw new \Exception('Podcasts table not found in Baserow.');
         }
 
-		return $this->json(['tableId' => $tableId]);
-
-
-		$baserowApiUrl = $this->baserowService->getHost() . '/api/database/rows/table/1/?user_field_names=true';
+		$baserowApiUrl = sprintf('%s/api/database/rows/table/%d/?%s', $this->baserowService->getHost(), $tableId, http_build_query([
+		    'filter__field_5982__contains' => 'published',
+		    'user_field_names' => 'true'
+		]));
 
         $response = $this->httpClient->request('GET', $baserowApiUrl, [
             'headers' => [
-                'Authorization' => 'Token ' . $token,
+                'Authorization' => 'JWT ' . $token,
             ],
         ]);
 
@@ -78,16 +77,16 @@ class PodcastsController extends AbstractController
         // Generate the RSS feed
         $rssFeed = new \SimpleXMLElement('<rss version="2.0"></rss>');
         $channel = $rssFeed->addChild('channel');
-        $channel->addChild('title', 'My Podcast');
-        $channel->addChild('link', 'https://yourwebsite.com/podcast');
-        $channel->addChild('description', 'This is my podcast RSS feed.');
+        $channel->addChild('title', 'Darkwood Podcast');
+        $channel->addChild('link', 'https://podcasts.darkwood.com');
+        $channel->addChild('description', 'Darkwood Podcast');
 
         foreach ($items as $item) {
             $rssItem = $channel->addChild('item');
-            $rssItem->addChild('title', htmlspecialchars($item['title']));
-            $rssItem->addChild('link', htmlspecialchars($item['link']));
-            $rssItem->addChild('description', htmlspecialchars($item['description']));
-            $rssItem->addChild('pubDate', date(DATE_RSS, strtotime($item['pub_date'])));
+            $rssItem->addChild('title', htmlspecialchars($item['Titre']));
+            $rssItem->addChild('link', htmlspecialchars($item['File']));
+            $rssItem->addChild('description', htmlspecialchars($item['Description']));
+            $rssItem->addChild('pubDate', date(DATE_RSS, strtotime($item['Creation Date'])));
         }
 
         $response = new Response($rssFeed->asXML());
