@@ -27,14 +27,23 @@ class PodcastsController extends AbstractController
         private readonly CacheInterface $cache,
     ) {}
 
-    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
-    public function home(Request $request, $ref): Response
+    #[Route(path: ['fr' => '/fr/{slug}', 'en' => '/{slug}', 'de' => '/de/{slug}'], name: 'home', defaults: ['ref' => 'home', 'slug' => null])]
+    public function home(Request $request, $ref, ?string $slug = null): Response
     {
         $page = $this->commonController->getPage($request, $ref);
         $podcasts = $this->fetchAndCachePodcasts();
+		$podcast = current($podcasts);
+
+        if ($slug !== null) {
+            $podcast = array_filter($podcasts, fn($podcast) => $podcast['slug'] === $slug);
+            if (empty($podcast)) {
+                throw $this->createNotFoundException('Podcast not found');
+            }
+        }
 
         return $this->render('podcasts/pages/home.html.twig', [
             'page' => $page,
+			'podcast' => $podcast,
             'podcasts' => $podcasts,
         ]);
     }
