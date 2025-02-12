@@ -83,28 +83,54 @@ class PodcastsController extends AbstractController
         return $this->commonController->sitemapXml($request);
     }
 
-	#[Route('/apple_rss', name: 'podcast_apple_rss')]
-    public function generateApplePodcastsRssFeed(): Response
+	#[Route('/feed.rss', name: 'rss')]
+    public function generateRssFeed(): Response
     {
         $podcasts = $this->fetchAndCachePodcasts();
 
-        // Generate the RSS feed
-        $rssFeed = new \SimpleXMLElement('<rss version="2.0"></rss>');
+        // Create the RSS feed
+        $rssFeed = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:media="http://search.yahoo.com/mrss/"></rss>');
+
+        // Add XML stylesheet
+        //$rssFeed->addProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="/global/feed/rss.xslt"');
+
         $channel = $rssFeed->addChild('channel');
         $channel->addChild('title', 'Darkwood Podcast');
         $channel->addChild('link', 'https://podcasts.darkwood.com');
         $channel->addChild('description', 'Darkwood Podcast');
+        $channel->addChild('ttl', '60');
+        $channel->addChild('generator', 'darkwood.com');
+        $channel->addChild('language', 'fr');
+        $channel->addChild('copyright', 'Darkwood');
+        $channel->addChild('itunes:keywords', 'podcast, darkwood');
+        $channel->addChild('itunes:author', 'Darkwood');
+        $channel->addChild('itunes:subtitle', 'Darkwood Podcast Subtitle');
+        $channel->addChild('itunes:summary', 'Darkwood Podcast Summary');
+        $channel->addChild('itunes:explicit', 'false');
+
+        $itunesOwner = $channel->addChild('itunes:owner', null);
+        $itunesOwner->addChild('itunes:name', 'Darkwood');
+        $itunesOwner->addChild('itunes:email', 'matyo91@gmail.com');
+
+        $channel->addChild('itunes:type', 'serial');
+        $channel->addChild('itunes:image', null)->addAttribute('href', 'https://darkwood.com/common/images/site/cover.png');
 
         foreach ($podcasts as $podcast) {
             $rssItem = $channel->addChild('item');
             $rssItem->addChild('title', htmlspecialchars($podcast['title']));
+            $rssItem->addChild('itunes:title', htmlspecialchars($podcast['title']));
             $rssItem->addChild('link', htmlspecialchars($podcast['audio_file']));
             $rssItem->addChild('description', htmlspecialchars($podcast['description']));
+            $rssItem->addChild('itunes:summary', htmlspecialchars($podcast['description']));
             $rssItem->addChild('pubDate', date(DATE_RSS, strtotime($podcast['creation_date'])));
+            //$rssItem->addChild('itunes:duration', '00:00:00'); // Placeholder duration
+            //$rssItem->addChild('enclosure', null)->addAttribute('url', htmlspecialchars($podcast['audio_file']))->addAttribute('type', 'audio/mpeg');
+            $rssItem->addChild('guid', (string) $podcast['id'])->addAttribute('isPermaLink', 'false');
+            $rssItem->addChild('itunes:explicit', 'false');
         }
 
         $response = new Response($rssFeed->asXML());
-        $response->headers->set('Content-Type', 'application/rss+xml');
+        $response->headers->set('Content-Type', 'application/xml; charset=utf-8');
 
         return $response;
     }
