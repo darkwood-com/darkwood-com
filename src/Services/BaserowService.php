@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BaserowService
@@ -12,25 +15,24 @@ class BaserowService
     private $password;
 
     public function __construct(
-		HttpClientInterface $httpClient,
-		#[\Symfony\Component\DependencyInjection\Attribute\Autowire('%env(BASEROW_HOST)%')]
-		string $host,
-		#[\Symfony\Component\DependencyInjection\Attribute\Autowire('%env(BASEROW_USERNAME)%')]
-		string $username,
-		#[\Symfony\Component\DependencyInjection\Attribute\Autowire('%env(BASEROW_PASSWORD)%')]
-		string $password
-	)
-    {
+        HttpClientInterface $httpClient,
+        #[Autowire('%env(BASEROW_HOST)%')]
+        string $host,
+        #[Autowire('%env(BASEROW_USERNAME)%')]
+        string $username,
+        #[Autowire('%env(BASEROW_PASSWORD)%')]
+        string $password
+    ) {
         $this->httpClient = $httpClient;
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
     }
 
-	public function getHost(): string
-	{
-		return $this->host;
-	}
+    public function getHost(): string
+    {
+        return $this->host;
+    }
 
     public function getBaserowToken(): string
     {
@@ -43,6 +45,7 @@ class BaserowService
         ]);
 
         $loginData = $response->toArray();
+
         return $loginData['token'];
     }
 }
