@@ -4,13 +4,13 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">Podcasts</h1>
 
-    <div class="card mb-4 flex-md-row">
+    <div class="card mb-4">
     {% if podcast is null %}
         <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text">{{ page.content|markdown_to_html }}</p>
         </div>
     {% else %}
-        <img src="{{ podcast.cover }}" class="card-img-top w-100 w-md-50" alt="{{ podcast.title }}" style="max-height: 300px; object-fit: cover;">
+        <img src="{{ podcast.cover }}" class="card-img-top w-md-50" alt="{{ podcast.title }}" style="max-height: 300px; object-fit: cover;">
         <div class="card-body d-flex flex-column justify-content-center">
             <h5 class="card-title">{{ podcast.title }}</h5>
             <p class="card-text">{{ podcast.description }}</p>
@@ -21,23 +21,55 @@
         </div>
     {% endif %}
 		<div class="card-footer">
-			<a href="{{ podcastLinks.spotify }}" class="btn btn-spotify">
-				<i class="fab fa-spotify"></i>
-				Listen on Spotify
-			</a>
-			<a href="{{ podcastLinks.deezer }}" class="btn btn-deezer">
-				<i class="fab fa-deezer"></i>
-				Listen on Deezer
-			</a>
-			<a href="{{ podcastLinks.amazon_music }}" class="btn btn-amazon-music">
-				<i class="fab fa-amazon"></i>
-				Listen on Amazon Music
-			</a>
-			<a href="{{ podcastLinks.apple_podcasts }}" class="btn btn-apple-podcasts">
-				<i class="fab fa-apple"></i>
-				Listen on Apple Podcasts
-			</a>
+			<div class="row">
+				<div class="col-6 mb-2">
+					<div class="d-grid gap-2">
+						<a href="{{ podcastLinks.spotify }}" class="btn btn-spotify btn-block" style="background-color: #1DB954; color: white; transition: background-color 0.3s;">
+							<i class="fab fa-spotify"></i>
+							Listen on Spotify
+						</a>
+					</div>
+				</div>
+				<div class="col-6 mb-2">
+					<div class="d-grid gap-2">
+						<a href="{{ podcastLinks.deezer }}" class="btn btn-deezer btn-block" style="background-color: #FF0000; color: white; transition: background-color 0.3s;">
+							<i class="fab fa-heart-pulse-fill"></i>
+							Listen on Deezer
+						</a>
+					</div>
+				</div>
+				<div class="col-6 mb-2">
+					<div class="d-grid gap-2">
+						<a href="{{ podcastLinks.amazon_music }}" class="btn btn-amazon-music btn-block" style="background-color: #FF9900; color: white; transition: background-color 0.3s;">
+							<i class="fab fa-amazon"></i>
+							Listen on Amazon Music
+						</a>
+					</div>
+				</div>
+				<div class="col-6 mb-2">
+					<div class="d-grid gap-2">
+						<a href="{{ podcastLinks.apple_podcasts }}" class="btn btn-apple-podcasts btn-block" style="background-color: #A2AAAD; color: white; transition: background-color 0.3s;">
+							<i class="fab fa-apple"></i>
+							Listen on Apple Podcasts
+						</a>
+					</div>
+				</div>
+			</div>
 		</div>
+		<style>
+			.btn-spotify:hover {
+				background-color: #1ED760;
+			}
+			.btn-deezer:hover {
+				background-color: #FF3333;
+			}
+			.btn-amazon-music:hover {
+				background-color: #FFB84D;
+			}
+			.btn-apple-podcasts:hover {
+				background-color: #B0B0B0;
+			}
+		</style>
 	</div>
 
     {% for podcast in podcasts %}
