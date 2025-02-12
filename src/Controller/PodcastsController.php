@@ -32,7 +32,7 @@ class PodcastsController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
         $podcasts = $this->fetchAndCachePodcasts();
-		$podcast = current($podcasts);
+		$podcast = null;
 
         if ($slug !== null) {
             $podcast = array_filter($podcasts, fn($podcast) => $podcast['slug'] === $slug);
@@ -41,10 +41,18 @@ class PodcastsController extends AbstractController
             }
         }
 
+		$podcastLinks = [
+			'spotify' => 'https://open.spotify.com/show/0cUSC0ZhYFkDAXL7AvwJqD',
+			'deezer' => 'https://www.deezer.com/fr/playlist/13537583503',
+			'amazon_music' => 'https://music.amazon.fr/podcasts/f2a8b592-b204-4b6f-a8d0-0d38e67aaeaf/darkwood-podcast',
+			'apple_podcasts' => 'https://podcastsconnect.apple.com/my-podcasts',
+		];
+
         return $this->render('podcasts/pages/home.html.twig', [
             'page' => $page,
 			'podcast' => $podcast,
             'podcasts' => $podcasts,
+			'podcastLinks' => $podcastLinks,
         ]);
     }
 

@@ -3,7 +3,13 @@
 {% block body %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Podcasts</h1>
+
     <div class="card mb-4 flex-md-row">
+    {% if podcast is null %}
+        <div class="card-body d-flex flex-column justify-content-center">
+            <p class="card-text">{{ page.content|markdown_to_html }}</p>
+        </div>
+    {% else %}
         <img src="{{ podcast.cover }}" class="card-img-top w-100 w-md-50" alt="{{ podcast.title }}" style="max-height: 300px; object-fit: cover;">
         <div class="card-body d-flex flex-column justify-content-center">
             <h5 class="card-title">{{ podcast.title }}</h5>
@@ -13,10 +19,30 @@
                 Your browser does not support the audio element.
             </audio>
         </div>
-    </div>
+    {% endif %}
+		<div class="card-footer">
+			<a href="{{ podcastLinks.spotify }}" class="btn btn-spotify">
+				<i class="fab fa-spotify"></i>
+				Listen on Spotify
+			</a>
+			<a href="{{ podcastLinks.deezer }}" class="btn btn-deezer">
+				<i class="fab fa-deezer"></i>
+				Listen on Deezer
+			</a>
+			<a href="{{ podcastLinks.amazon_music }}" class="btn btn-amazon-music">
+				<i class="fab fa-amazon"></i>
+				Listen on Amazon Music
+			</a>
+			<a href="{{ podcastLinks.apple_podcasts }}" class="btn btn-apple-podcasts">
+				<i class="fab fa-apple"></i>
+				Listen on Apple Podcasts
+			</a>
+		</div>
+	</div>
+
+    {% for podcast in podcasts %}
     <div class="row">
-        {% for podcast in podcasts %}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-12">
             <div class="card">
                 <img src="{{ podcast.cover }}" class="card-img-top" alt="{{ podcast.title }}">
                 <div class="card-body">
@@ -29,7 +55,7 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
