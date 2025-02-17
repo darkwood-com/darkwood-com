@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:anchor="https://anchor.fm/xmlns">
+	<channel>
+		<title><![CDATA[Darkwood Podcast]]></title>
+		<description><![CDATA[Darkwood Podcast]]></description>
+		<link>https://podcasts.darkwood.com</link>
+		<image>
+			<url>https://darkwood.com/common/images/site/cover.png</url>
+			<title>Darkwood Podcast</title>
+			<link>https://podcasts.darkwood.com</link>
+		</image>
+		<generator>darkwood.com</generator>
+		<lastBuildDate>{{ "now"|date("D, d M Y H:i:s T") }}</lastBuildDate>
+		<atom:link href="https://podcasts.darkwood.com/feed.rss" rel="self" type="application/rss+xml"/>
+		<author><![CDATA[Darkwood]]></author>
+		<copyright><![CDATA[Darkwood]]></copyright>
+		<language><![CDATA[fr]]></language>
+		<atom:link rel="hub" href="https://pubsubhubbub.appspot.com/"/>
+		<itunes:author>Darkwood</itunes:author>
+		<itunes:summary>Darkwood Podcast Summary</itunes:summary>
+		<itunes:type>serial</itunes:type>
+		<itunes:owner>
+			<itunes:name>Darkwood</itunes:name>
+			<itunes:email>matyo91@gmail.com</itunes:email>
+		</itunes:owner>
+		<itunes:explicit>false</itunes:explicit>
+		<itunes:category text="News">
+			<itunes:category text="Tech News"/>
+		</itunes:category>
+		<itunes:image href="https://darkwood.com/common/images/site/cover.png"/>
+		{% for podcast in podcasts %}
+		<item>
+			<title><![CDATA[{{ podcast.title }}]]></title>
+			<description><![CDATA[{{ podcast.description|raw }}]]></description>
+			<link>{{ podcast.audio_file }}</link>
+			<guid isPermaLink="false">{{ podcast.id }}</guid>
+			<dc:creator><![CDATA[Darkwood]]></dc:creator>
+			<pubDate>{{ podcast.creation_date|date("D, d M Y H:i:s T") }}</pubDate>
+			<enclosure url="{{ podcast.audio_file }}" type="audio/mpeg"/>
+			<itunes:summary><![CDATA[{{ podcast.description|raw }}]]></itunes:summary>
+			<itunes:explicit>false</itunes:explicit>
+			<itunes:duration>{{ podcast.duration }}</itunes:duration>
+			<itunes:image href="{{ podcast.image_url }}"/>
+			<itunes:episodeType>full</itunes:episodeType>
+		</item>
+		{% endfor %}
+	</channel>
+</rss>
