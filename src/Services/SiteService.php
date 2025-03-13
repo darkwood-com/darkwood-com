@@ -126,7 +126,7 @@ class SiteService
             foreach ($sites as $site) {
                 $ref = $site->getRef();
                 $host = $site->getHost();
-                if ($ref === 'hello' || $ref === 'api') {
+                if ($ref === 'hello' || $ref === 'api' || $ref === 'podcasts') {
                     continue;
                 }
 
