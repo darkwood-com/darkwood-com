@@ -12,7 +12,6 @@ encore: ## Start encore dev server
 	npm run dev
 
 env: ## Start symfony dev server
-	docker-compose up -d
 	$(SYMFONY) server:start --port=8092
 
 test: ## testing application

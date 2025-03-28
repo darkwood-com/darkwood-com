@@ -16,6 +16,14 @@
           src = inputs.self;
           php = pkgs.php82; # Change to php56, php70, ..., php81, php82, php83 etc.
         };
+
+        # MySQL configuration
+        mysqlConfig = pkgs.writeText "my.cnf" ''
+          [mysqld]
+          port = 3311
+          bind-address = 127.0.0.1
+          datadir = ./mysql-data
+        '';
       in
       {
         _module.args.pkgs = import self.inputs.nixpkgs {
@@ -35,7 +43,36 @@
             php.packages.psalm
             pkgs.phpunit
             self'.packages.satis
+            pkgs.mysql
           ];
+
+          shellHook = ''
+            # Create MySQL data directory if it doesn't exist
+            mkdir -p mysql-data
+
+            # Check if MySQL data directory is initialized
+            if [ ! -d "mysql-data/mysql" ]; then
+              echo "Initializing MySQL database..."
+              ${pkgs.mysql}/bin/mysqld --initialize-insecure --datadir=./mysql-data
+            fi
+
+            # Start MySQL server in background with custom config
+            echo "Starting MySQL server on port 3311..."
+            ${pkgs.mysql}/bin/mysqld --defaults-file=${mysqlConfig} &
+            MYSQL_PID=$!
+
+            # Wait for MySQL to start
+            sleep 5
+
+            # Set root password
+            echo "Setting MySQL root password..."
+            ${pkgs.mysql}/bin/mysql -u root -h 127.0.0.1 -P 3311 -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES;"
+
+            # Clean up MySQL when shell exits
+            trap "echo 'Stopping MySQL server...'; kill $MYSQL_PID" EXIT
+
+            echo "MySQL is running on port 3311 (user: root, password: root)"
+          '';
         };
 
         checks = {
