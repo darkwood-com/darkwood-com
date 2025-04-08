@@ -7,6 +7,12 @@ SYMFONY         = symfony
 ##Dev
 ##-------------
 
+nix: ## Start nix development
+	nix develop --extra-experimental-features nix-command --extra-experimental-features flakes
+
+docker: ## Start docker development
+	docker-compose up -d
+
 encore: ## Start encore dev server
 	if [ ! -d "node_modules" ]; then npm install; fi
 	npm run dev
@@ -21,7 +27,7 @@ test: ## testing application
 ##Symfony
 ##-------------
 
-first-install: ## First install (DB/Schema/fixtures)
+install: ## Install (DB/Schema/fixtures)
 	$(COMPOSER) install
 	$(CONSOLE) doctrine:database:create
 	$(CONSOLE) doctrine:schema:create
@@ -37,8 +43,8 @@ fixtures: ## Replay fixtures
 
 reload-db: ## Reload initial db
 	$(CONSOLE) doctrine:schema:drop --force
-	bzip2 -dk ./db/dump.sql.bz2
-	$(CONSOLE) doctrine:database:import ./db/dump.sql
+	#bzip2 -dk ./db/dump.sql.bz2
+	mysql -h 127.0.0.1 -P 3311 -u darkwood -pdarkwood darkwood < ./db/dump.sql
 	rm ./db/dump.sql
 
 schema: ## Update database schema
@@ -75,7 +81,6 @@ phpstan: ## Execute PHPStan analysis
 
 phpunit: ## Launch PHPUnit test suite
 	composer phpunit
-
 
 deploy: ## Deploy app on server
 	npm install

@@ -3,21 +3,26 @@ api_platform:
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
+        json: ['application/json']
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
         html: ['text/html']
+    error_formats:
+        jsonld: ['application/ld+json']
+        json: ['application/problem+json']
     defaults:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
         extra_properties:
             standard_put: true
-            rfc_7807_compliant_errors: true
-    keep_legacy_inflector: false
     use_symfony_listeners: true
     swagger:
          api_keys:
              JWT:
                 name: Authorization
                 type: header
+    serializer:
+        hydra_prefix: false
+    inflector: api_platform.metadata.inflector
