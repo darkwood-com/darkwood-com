@@ -104,7 +104,7 @@ class DarkwoodController extends AbstractController
     public function play(Request $request, $ref = 'play', $display = null)
     {
         $page = $this->commonController->getPage($request, $ref);
-        $parameters = $this->gameService->play($request, $this->getUser(), $display);
+        $parameters = $this->gameService->play($request, null, $this->getUser(), $display);
         if ($parameters instanceof Response) {
             return $parameters;
         }

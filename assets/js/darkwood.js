@@ -8,7 +8,7 @@ Darkwood.Ajax = {
 		{
 			force = false;
 		}
-		
+
 		if(!this.busy || force)
 		{
 			Darkwood.Ajax.on();
@@ -30,7 +30,7 @@ Darkwood.Ajax = {
 			else if($type(post) == "string")
 			{
 				post = $(post);
-				
+
 				new Request.HTML({
 					url:"/index.php?" + Object.toQueryString(get),
 					update:zone,
@@ -53,7 +53,7 @@ Darkwood.Ajax = {
 	},
 	clean: function(zone)
 	{
-		
+
 	}
 }
 
@@ -71,8 +71,8 @@ Darkwood.Download = {
 	{
 		window.addEvent('domready', function() {
 			Darkwood.Download.updateValues(txt);
-			
-			$$('a.download').each(function(el){
+
+			$('a.download').each(function(el){
 				el.addEvent('click', function(){
 					new Request.HTML({
 						url:"/index.php?template=download/download&download=" + this.title,
@@ -85,32 +85,32 @@ Darkwood.Download = {
 			});
 		});
 	},
-	
+
 	updateValues:function(txt)
 	{
-		if(!$$('span.download').length)
+		if(!$('span.download').length)
 		{
 			return;
 		}
-		
+
 		new Request.HTML({
 			url:"/index.php?template=download/index",
 			onComplete:function(){
 				var download = new Hash({});
-				
+
 				var data = this.response.xml.documentElement.getElementsByTagName("download");
 				for(var i=0;i<data.length;i++)
 				{
 					download.set(data[i].getAttribute('name'), data[i].getAttribute('count'));
 				}
-				
-				$$('span.download').each(function(el) {
+
+				$('span.download').each(function(el) {
 					var count = 0;
 					if(download.has(el.title))
 					{
 						count = download[el.title];
 					}
-					
+
 					el.innerHTML = txt.replace('*', count);
 				});
 			},
@@ -124,12 +124,12 @@ Darkwood.Applet = {
 	{
 		zone = $(zone);
 		zone.empty();
-		
+
 		var o = $('<object />').get(0);
 		o.setAttribute('width', width + 'px');
 		o.setAttribute('height', height + 'px');
 		o.setAttribute('name', title + 'px');
-		
+
 		if (navigator.userAgent.indexOf("MSIE") >= 0)
 		{
 			//Internet explorer
@@ -139,17 +139,17 @@ Darkwood.Applet = {
 			param.setAttribute('name', 'java_code');
 			param.setAttribute('value', classExec + '.class');
 			o.appendChild(param);
-			
+
 			var param = $('<param />').get(0);
 			param.setAttribute('name', 'java_codebase');
 			param.setAttribute('value', jarFolder);
 			o.appendChild(param);
-			
+
 			var param = $('<param />').get(0);
 			param.setAttribute('name', 'java_archive');
 			param.setAttribute('value', jarFile);
 			o.appendChild(param);
-			
+
 			var param = $('<param />').get(0);
 			param.setAttribute('name', 'type');
 			param.setAttribute('value', 'application/x-java-applet;version=' + javaVersion);
@@ -161,13 +161,13 @@ Darkwood.Applet = {
 			o.setAttribute('classid', 'java:' + classExec + '.class');
 			o.setAttribute('type', 'application/x-java-applet;version=' + javaVersion);
 			o.setAttribute('archive', jarFolder + jarFile);
-			
+
 			//Konqueror browser needs the following param
 			var param = $('<param />').get(0);
 			param.setAttribute('archive', jarFolder + jarFile);
 			o.appendChild(param);
 		}
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('decrypted-text', comments);
 		o.appendChild(param);
@@ -181,33 +181,33 @@ Darkwood.Video = {
 	{
 		zone = $(zone);
 		zone.empty();
-		
+
 		var o = $('<object />').get(0);
 		o.setAttribute('classid', 'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B');
 		o.setAttribute('codebase', 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0');
 		o.setAttribute('width', width + 'px');
 		o.setAttribute('height', height + 'px');
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('name', 'pluginspage');
 		param.setAttribute('value', 'http://www.apple.com/quicktime/download/indext.html');
 		o.appendChild(param);
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('name', 'type');
 		param.setAttribute('value', 'video/quicktime');
 		o.appendChild(param);
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('name', 'src');
 		param.setAttribute('value', src);
 		o.appendChild(param);
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('name', 'controller');
 		param.setAttribute('value', 'true');
 		o.appendChild(param);
-		
+
 		var param = $('<param />').get(0);
 		param.setAttribute('name', 'autoplay');
 		param.setAttribute('value', 'true');
@@ -228,7 +228,7 @@ Darkwood.Video = {
 		embed.setAttribute('pluginspace', 'http://www.apple.com/quicktime/download/indext.html');
 		embed.setAttribute('title', title);
 		o.appendChild(embed);
-		
+
 		zone.append(o);
 	}
 };

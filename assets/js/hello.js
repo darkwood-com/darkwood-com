@@ -3,7 +3,6 @@ window.addEventListener('DOMContentLoaded', event => {
 	if (!helloLanding) {
 		return;
 	}
-	
 
     // Navbar shrink function
     var navbarShrink = function () {
@@ -18,7 +17,7 @@ window.addEventListener('DOMContentLoaded', event => {
         }
     };
 
-    // Shrink the navbar 
+    // Shrink the navbar
     navbarShrink();
 
     // Shrink the navbar when page is scrolled

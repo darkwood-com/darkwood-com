@@ -7,30 +7,29 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './fontawesome-free-5.11.2/css/all.css'
-import './bootstrap-social/bootstrap-social.css'
-import '../css/prism.css'
-import '../css/layout.css'
-import '../css/theme.css'
-import '../css/theme-darkwood.css'
-import '../css/theme-hello.css'
-import '../css/theme-sky.css'
-import '../css/theme-paper.css'
-import '../css/theme-photos.css'
-import '../css/theme-api.css'
-import '../css/theme-podcasts.css'
-import '../css/nav-menu-blue.css'
-import '../css/nav-menu-brown.css'
-import '../css/nav-menu-dark.css'
-import '../css/nav-menu-yellow.css'
-import '../css/navbar-menu-blue.css'
-import '../css/navbar-menu-brown.css'
-import '../css/navbar-menu-dark.css'
-import '../css/navbar-menu-yellow.css'
-
-global.$ = global.jQuery;
+import '../libs/fontawesome-free-5.11.2/css/all.css'
+import '../libs/bootstrap-social/bootstrap-social.css'
+import '../styles/prism.css'
+import '../styles/layout.css'
+import '../styles/theme.css'
+import '../styles/theme-darkwood.css'
+import '../styles/theme-hello.css'
+import '../styles/theme-sky.css'
+import '../styles/theme-paper.css'
+import '../styles/theme-photos.css'
+import '../styles/theme-api.css'
+import '../styles/theme-podcasts.css'
+import '../styles/nav-menu-blue.css'
+import '../styles/nav-menu-brown.css'
+import '../styles/nav-menu-dark.css'
+import '../styles/nav-menu-yellow.css'
+import '../styles/navbar-menu-blue.css'
+import '../styles/navbar-menu-brown.css'
+import '../styles/navbar-menu-dark.css'
+import '../styles/navbar-menu-yellow.css'
 
 import 'bootstrap';
-import './prism.js';
+import '../libs/prism.js';
 import './darkwood.js'
+import './play.js'
 import './hello.js'

@@ -1,27 +1,7 @@
 {% extends 'darkwood/partials/play/'~ display ~'/base.html.twig' %}
 
 {% block content %}
-    <div id="main">
+    <div id="play" data-play-url="{{ path('darkwood_play', {'display': display}) }}">
     {% include 'darkwood/partials/play/'~ display ~'/'~ state ~'.html.twig' %}
     </div>
-{% endblock %}
-
-{% block javascript %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(window).ready(function() {
-            var url = '{{ path('darkwood_play', {'display': display}) }}';
-            $('#main').on('click', 'a.go', function(e) {
-                e.preventDefault();
-
-                var data = $(this).data();
-                $.ajax({
-                    'url': url + '?'+ $.param(data),
-                    'success': function(html) {
-                        $('#main').html(html);
-                    }
-                });
-            });
-        });
-    </script>
 {% endblock %}

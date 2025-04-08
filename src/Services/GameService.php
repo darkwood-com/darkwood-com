@@ -1021,7 +1021,7 @@ class GameService
                         $this->setLastFight($user);
                         $request->attributes->set('mode', 'combat');
 
-                        return $this->play($request, $user);
+                        return $this->play($request, null, $user);
                     }
 
                     $parameters['data']['info'] = $this->getInfo($user);

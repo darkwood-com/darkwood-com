@@ -377,7 +377,7 @@ class Player
     /**
      * Get lastFight.
      */
-    public function getLastFight(): Enemy
+    public function getLastFight(): ?Enemy
     {
         return $this->lastFight;
     }
