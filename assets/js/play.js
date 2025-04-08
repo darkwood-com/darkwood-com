@@ -16,7 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
 			.join('&');
 
-		fetch(`${url}?${data}`)
+		fetch(`${url}?${data}`, {
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest'
+			}
+		})
 			.then(response => response.text())
 			.then(html => {
 				play.innerHTML = html;

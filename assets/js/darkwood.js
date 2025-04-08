@@ -1,234 +1,216 @@
-var Darkwood = {};
+const Darkwood = {
+	Ajax: {
+		busy: false,
+		update(zone, get, post, force = false) {
+			if (!this.busy || force) {
+				Darkwood.Ajax.on();
 
-Darkwood.Ajax = {
-	busy:false,
-	update:function(zone, get, post, force)
-	{
-		if(force == undefined)
-		{
-			force = false;
-		}
+				const headers = {
+					'X-Requested-With': 'XMLHttpRequest'
+				};
 
-		if(!this.busy || force)
-		{
-			Darkwood.Ajax.on();
-			if(!$type(post) || $type(post) == "function")
-			{
-				new Request.HTML({
-					url: '/index.php',
-					method:'get',
-					update:zone,
-					data:get,
-					onComplete:function()
-					{
-						Darkwood.Ajax.off();
-						if(post)post();
-						Darkwood.Ajax.clean(zone);
-					}
-				}).send();
+				const zoneElement = document.querySelector(zone);
+				if (!post || typeof post === 'function') {
+					fetch(`/index.php?${new URLSearchParams(get)}`, {
+						headers
+					})
+						.then(response => response.text())
+						.then(html => {
+							zoneElement.innerHTML = html;
+							Darkwood.Ajax.off();
+							if (post) post();
+							Darkwood.Ajax.clean(zone);
+						});
+				} else if (typeof post === 'string') {
+					const formData = new FormData(document.querySelector(post));
+					fetch(`/index.php?${new URLSearchParams(get)}`, {
+						method: 'POST',
+						headers,
+						body: formData
+					})
+						.then(response => response.text())
+						.then(html => {
+							zoneElement.innerHTML = html;
+							Darkwood.Ajax.clean(zone);
+							Darkwood.Ajax.off();
+						});
+				}
 			}
-			else if($type(post) == "string")
-			{
-				post = $(post);
-
-				new Request.HTML({
-					url:"/index.php?" + Object.toQueryString(get),
-					update:zone,
-					data:post,
-					onComplete:function(){
-						Darkwood.Ajax.clean(zone);
-						Darkwood.Ajax.off();
-					}
-				}).send();
-			}
+		},
+		on() {
+			this.busy = true;
+		},
+		off() {
+			this.busy = false;
+		},
+		clean(zone) {
 		}
 	},
-	on: function()
-	{
-		this.busy = true;
-	},
-	off: function()
-	{
-		this.busy = false;
-	},
-	clean: function(zone)
-	{
 
-	}
-}
-
-Darkwood.Scrool = {
-	autoScrool:function()
-	{
-		window.addEvent('domready', function() {
-			new SmoothScroll({ duration:700 }, window);
-		});
-	}
-}
-
-Darkwood.Download = {
-	autoUpdateValues:function(txt)
-	{
-		window.addEvent('domready', function() {
-			Darkwood.Download.updateValues(txt);
-
-			$('a.download').each(function(el){
-				el.addEvent('click', function(){
-					new Request.HTML({
-						url:"/index.php?template=download/download&download=" + this.title,
-						onComplete:function(){
-							Darkwood.Download.updateValues(txt);
-						},
-						async:false
-					}).send();
+	Scroll: {
+		autoScroll() {
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function(e) {
+						e.preventDefault();
+						const target = document.querySelector(this.getAttribute('href'));
+						if (target) {
+							target.scrollIntoView({
+								behavior: 'smooth',
+								duration: 700
+							});
+						}
+					});
 				});
 			});
-		});
+		}
 	},
 
-	updateValues:function(txt)
-	{
-		if(!$('span.download').length)
-		{
-			return;
-		}
+	Download: {
+		autoUpdateValues(txt) {
+			document.addEventListener('DOMContentLoaded', () => {
+				this.updateValues(txt);
 
-		new Request.HTML({
-			url:"/index.php?template=download/index",
-			onComplete:function(){
-				var download = new Hash({});
-
-				var data = this.response.xml.documentElement.getElementsByTagName("download");
-				for(var i=0;i<data.length;i++)
-				{
-					download.set(data[i].getAttribute('name'), data[i].getAttribute('count'));
-				}
-
-				$('span.download').each(function(el) {
-					var count = 0;
-					if(download.has(el.title))
-					{
-						count = download[el.title];
-					}
-
-					el.innerHTML = txt.replace('*', count);
+				document.querySelectorAll('a.download').forEach(el => {
+					el.addEventListener('click', function() {
+						fetch(`/index.php?template=download/download&download=${this.title}`, {
+							headers: {
+								'X-Requested-With': 'XMLHttpRequest'
+							}
+						})
+							.then(() => {
+								Darkwood.Download.updateValues(txt);
+							});
+					});
 				});
-			},
-			async:false
-		}).send();
-	}
-}
+			});
+		},
 
-Darkwood.Applet = {
-	call:function(zone, jarFile, jarFolder, classExec, javaVersion, width, height, title, comments)
-	{
-		zone = $(zone);
-		zone.empty();
+		updateValues(txt) {
+			const downloadSpans = document.querySelectorAll('span.download');
+			if (!downloadSpans.length) {
+				return;
+			}
 
-		var o = $('<object />').get(0);
-		o.setAttribute('width', width + 'px');
-		o.setAttribute('height', height + 'px');
-		o.setAttribute('name', title + 'px');
+			fetch('/index.php?template=download/index', {
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest'
+				}
+			})
+				.then(response => response.text())
+				.then(text => {
+					const parser = new DOMParser();
+					const xmlDoc = parser.parseFromString(text, 'text/xml');
+					const downloads = new Map();
 
-		if (navigator.userAgent.indexOf("MSIE") >= 0)
-		{
-			//Internet explorer
-			o.setAttribute('classid', 'clsid:8AD9C840-044E-11D1-B3E9-00805F499D93');
+					xmlDoc.querySelectorAll('download').forEach(download => {
+						downloads.set(
+							download.getAttribute('name'),
+							download.getAttribute('count')
+						);
+					});
 
-			var param = $('<param />').get(0);
-			param.setAttribute('name', 'java_code');
-			param.setAttribute('value', classExec + '.class');
-			o.appendChild(param);
-
-			var param = $('<param />').get(0);
-			param.setAttribute('name', 'java_codebase');
-			param.setAttribute('value', jarFolder);
-			o.appendChild(param);
-
-			var param = $('<param />').get(0);
-			param.setAttribute('name', 'java_archive');
-			param.setAttribute('value', jarFile);
-			o.appendChild(param);
-
-			var param = $('<param />').get(0);
-			param.setAttribute('name', 'type');
-			param.setAttribute('value', 'application/x-java-applet;version=' + javaVersion);
-			o.appendChild(param);
+					downloadSpans.forEach(el => {
+						const count = downloads.get(el.title) || 0;
+						el.innerHTML = txt.replace('*', count);
+					});
+				});
 		}
-		else
-		{
-			//Mozila/Safari/Konqueror
-			o.setAttribute('classid', 'java:' + classExec + '.class');
-			o.setAttribute('type', 'application/x-java-applet;version=' + javaVersion);
-			o.setAttribute('archive', jarFolder + jarFile);
+	},
 
-			//Konqueror browser needs the following param
-			var param = $('<param />').get(0);
-			param.setAttribute('archive', jarFolder + jarFile);
-			o.appendChild(param);
+	Applet: {
+		call(zone, jarFile, jarFolder, classExec, javaVersion, width, height, title, comments) {
+			const container = document.querySelector(zone);
+			container.innerHTML = '';
+
+			const object = document.createElement('object');
+			object.setAttribute('width', `${width}px`);
+			object.setAttribute('height', `${height}px`);
+			object.setAttribute('name', `${title}px`);
+
+			if (navigator.userAgent.indexOf("MSIE") >= 0) {
+				object.setAttribute('classid', 'clsid:8AD9C840-044E-11D1-B3E9-00805F499D93');
+
+				const params = [
+					{ name: 'java_code', value: `${classExec}.class` },
+					{ name: 'java_codebase', value: jarFolder },
+					{ name: 'java_archive', value: jarFile },
+					{ name: 'type', value: `application/x-java-applet;version=${javaVersion}` }
+				];
+
+				params.forEach(param => {
+					const paramElement = document.createElement('param');
+					paramElement.setAttribute('name', param.name);
+					paramElement.setAttribute('value', param.value);
+					object.appendChild(paramElement);
+				});
+			} else {
+				object.setAttribute('classid', `java:${classExec}.class`);
+				object.setAttribute('type', `application/x-java-applet;version=${javaVersion}`);
+				object.setAttribute('archive', jarFolder + jarFile);
+
+				const archiveParam = document.createElement('param');
+				archiveParam.setAttribute('archive', jarFolder + jarFile);
+				object.appendChild(archiveParam);
+			}
+
+			const commentsParam = document.createElement('param');
+			commentsParam.setAttribute('decrypted-text', comments);
+			object.appendChild(commentsParam);
+
+			container.appendChild(object);
 		}
+	},
 
-		var param = $('<param />').get(0);
-		param.setAttribute('decrypted-text', comments);
-		o.appendChild(param);
+	Video: {
+		play(zone, src, width, height, title) {
+			const container = document.querySelector(zone);
+			container.innerHTML = '';
 
-		zone.append(o);
-	}
-}
+			const object = document.createElement('object');
+			object.setAttribute('classid', 'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B');
+			object.setAttribute('codebase', 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0');
+			object.setAttribute('width', `${width}px`);
+			object.setAttribute('height', `${height}px`);
 
-Darkwood.Video = {
-	play:function(zone, src, width, height, title)
-	{
-		zone = $(zone);
-		zone.empty();
+			const params = [
+				{ name: 'pluginspage', value: 'http://www.apple.com/quicktime/download/indext.html' },
+				{ name: 'type', value: 'video/quicktime' },
+				{ name: 'src', value: src },
+				{ name: 'controller', value: 'true' },
+				{ name: 'autoplay', value: 'true' }
+			];
 
-		var o = $('<object />').get(0);
-		o.setAttribute('classid', 'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B');
-		o.setAttribute('codebase', 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0');
-		o.setAttribute('width', width + 'px');
-		o.setAttribute('height', height + 'px');
+			params.forEach(param => {
+				const paramElement = document.createElement('param');
+				paramElement.setAttribute('name', param.name);
+				paramElement.setAttribute('value', param.value);
+				object.appendChild(paramElement);
+			});
 
-		var param = $('<param />').get(0);
-		param.setAttribute('name', 'pluginspage');
-		param.setAttribute('value', 'http://www.apple.com/quicktime/download/indext.html');
-		o.appendChild(param);
+			const embed = document.createElement('embed');
+			const embedAttributes = {
+				width,
+				height,
+				hspace: 0,
+				vspace: 5,
+				controller: 'true',
+				src,
+				type: 'video/quicktime',
+				bgcolor: '#000000',
+				border: 0,
+				frameborder: 'no',
+				palette: 'foreground',
+				pluginspace: 'http://www.apple.com/quicktime/download/indext.html',
+				title
+			};
 
-		var param = $('<param />').get(0);
-		param.setAttribute('name', 'type');
-		param.setAttribute('value', 'video/quicktime');
-		o.appendChild(param);
+			Object.entries(embedAttributes).forEach(([key, value]) => {
+				embed.setAttribute(key, value);
+			});
 
-		var param = $('<param />').get(0);
-		param.setAttribute('name', 'src');
-		param.setAttribute('value', src);
-		o.appendChild(param);
-
-		var param = $('<param />').get(0);
-		param.setAttribute('name', 'controller');
-		param.setAttribute('value', 'true');
-		o.appendChild(param);
-
-		var param = $('<param />').get(0);
-		param.setAttribute('name', 'autoplay');
-		param.setAttribute('value', 'true');
-		o.appendChild(param);
-
-		var embed = new Element('embed');
-		embed.setAttribute('width', width);
-		embed.setAttribute('height', height);
-		embed.setAttribute('hspace', 0);
-		embed.setAttribute('vspace', 5);
-		embed.setAttribute('controller', 'true');
-		embed.setAttribute('src', src);
-		embed.setAttribute('type', 'video/quicktime');
-		embed.setAttribute('bgcolor', '#000000');
-		embed.setAttribute('border', 0);
-		embed.setAttribute('frameborder', 'no');
-		embed.setAttribute('palette', 'foreground');
-		embed.setAttribute('pluginspace', 'http://www.apple.com/quicktime/download/indext.html');
-		embed.setAttribute('title', title);
-		o.appendChild(embed);
-
-		zone.append(o);
+			object.appendChild(embed);
+			container.appendChild(object);
+		}
 	}
 };
