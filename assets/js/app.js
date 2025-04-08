@@ -28,7 +28,7 @@ import '../css/navbar-menu-brown.css'
 import '../css/navbar-menu-dark.css'
 import '../css/navbar-menu-yellow.css'
 
-global.$ = global.jQuery = $;
+global.$ = global.jQuery;
 
 import 'bootstrap';
 import './prism.js';
