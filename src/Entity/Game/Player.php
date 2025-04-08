@@ -465,7 +465,7 @@ class Player
     /**
      * Get equipment1.
      */
-    public function getEquipment1(): Gem
+    public function getEquipment1(): ?Gem
     {
         return $this->equipment1;
     }
@@ -481,7 +481,7 @@ class Player
     /**
      * Get equipment2.
      */
-    public function getEquipment2(): Gem
+    public function getEquipment2(): ?Gem
     {
         return $this->equipment2;
     }
@@ -497,7 +497,7 @@ class Player
     /**
      * Get equipment3.
      */
-    public function getEquipment3(): Gem
+    public function getEquipment3(): ?Gem
     {
         return $this->equipment3;
     }
