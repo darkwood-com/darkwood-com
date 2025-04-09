@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Services\BaserowService;
 use Exception;
-use SimpleXMLElement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,12 +37,12 @@ class PodcastsController extends AbstractController
     {
         $podcasts = $this->fetchAndCachePodcasts();
 
-		$response = new Response();
+        $response = new Response();
         $response->headers->set('Content-Type', 'application/xml; charset=utf-8');
 
-		return $this->render('podcasts/pages/feed_rss.html.twig', [
-			'podcasts' => $podcasts,
-		], $response);
+        return $this->render('podcasts/pages/feed_rss.html.twig', [
+            'podcasts' => $podcasts,
+        ], $response);
     }
 
     #[Route(path: ['fr' => '/fr/{slug}', 'en' => '/{slug}', 'de' => '/de/{slug}'], name: 'home', defaults: ['ref' => 'home', 'slug' => null])]
@@ -51,27 +50,27 @@ class PodcastsController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
         $podcasts = $this->fetchAndCachePodcasts();
-		$podcast = null;
+        $podcast = null;
 
         if ($slug !== null) {
-            $podcast = array_filter($podcasts, fn($podcast) => $podcast['slug'] === $slug);
+            $podcast = array_filter($podcasts, static fn ($podcast) => $podcast['slug'] === $slug);
             if (empty($podcast)) {
                 throw $this->createNotFoundException('Podcast not found');
             }
         }
 
-		$podcastLinks = [
-			'spotify' => 'https://open.spotify.com/show/0cUSC0ZhYFkDAXL7AvwJqD',
-			'deezer' => 'https://www.deezer.com/fr/playlist/13537583503',
-			'amazon_music' => 'https://music.amazon.fr/podcasts/f2a8b592-b204-4b6f-a8d0-0d38e67aaeaf/darkwood-podcast',
-			'apple_podcasts' => 'https://podcastsconnect.apple.com/my-podcasts',
-		];
+        $podcastLinks = [
+            'spotify' => 'https://open.spotify.com/show/0cUSC0ZhYFkDAXL7AvwJqD',
+            'deezer' => 'https://www.deezer.com/fr/playlist/13537583503',
+            'amazon_music' => 'https://music.amazon.fr/podcasts/f2a8b592-b204-4b6f-a8d0-0d38e67aaeaf/darkwood-podcast',
+            'apple_podcasts' => 'https://podcastsconnect.apple.com/my-podcasts',
+        ];
 
         return $this->render('podcasts/pages/home.html.twig', [
             'page' => $page,
-			'podcast' => $podcast,
+            'podcast' => $podcast,
             'podcasts' => $podcasts,
-			'podcastLinks' => $podcastLinks,
+            'podcastLinks' => $podcastLinks,
         ]);
     }
 
