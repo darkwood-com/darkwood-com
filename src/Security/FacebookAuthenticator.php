@@ -137,6 +137,8 @@ class FacebookAuthenticator // extends SocialAuthenticator
 
     private function getFacebookClient(): FacebookClient
     {
-        return $this->clientRegistry->getClient('facebook_main');
+        /** @var FacebookClient $client */
+        $client = $this->clientRegistry->getClient('facebook_main');
+        return $client;
     }
 }

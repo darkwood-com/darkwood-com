@@ -21,12 +21,14 @@ class ContactService
     /**
      * @var ContactRepository
      */
-    protected EntityRepository $contactRepository;
+    protected ContactRepository $contactRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
     ) {
-        $this->contactRepository = $em->getRepository(Contact::class);
+        /** @var ContactRepository $repository */
+        $repository = $em->getRepository(Contact::class);
+        $this->contactRepository = $repository;
     }
 
     /**

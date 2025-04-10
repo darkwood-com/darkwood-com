@@ -101,11 +101,11 @@ class Page implements Stringable
     /**
      * Get translations.
      *
-     * @return ArrayCollection<PageTranslation>
+     * @return ArrayCollection<int, PageTranslation>
      */
-    public function getTranslations(): Collection
+    public function getTranslations(): ArrayCollection
     {
-        return $this->translations;
+        return new ArrayCollection($this->translations->toArray());
     }
 
     /**

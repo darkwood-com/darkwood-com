@@ -26,9 +26,9 @@ trait TimestampTrait
     /**
      * Set created.
      *
-     * @param DateTime $created
+     * @param DateTimeInterface $created
      */
-    public function setCreated($created): self
+    public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
 
@@ -38,7 +38,7 @@ trait TimestampTrait
     /**
      * Get created.
      */
-    public function getCreated(): DateTime
+    public function getCreated(): DateTimeInterface
     {
         return $this->created;
     }
@@ -46,9 +46,9 @@ trait TimestampTrait
     /**
      * Set updated.
      *
-     * @param DateTime $updated
+     * @param DateTimeInterface $updated
      */
-    public function setUpdated($updated): self
+    public function setUpdated(DateTimeInterface $updated): self
     {
         $this->updated = $updated;
 
@@ -58,7 +58,7 @@ trait TimestampTrait
     /**
      * Get updated.
      */
-    public function getUpdated(): DateTime
+    public function getUpdated(): DateTimeInterface
     {
         return $this->updated;
     }

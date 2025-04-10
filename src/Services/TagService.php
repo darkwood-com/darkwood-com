@@ -22,13 +22,15 @@ class TagService
     /**
      * @var TagRepository
      */
-    protected EntityRepository $tagRepository;
+    protected TagRepository $tagRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
         protected CacheInterface $appCache
     ) {
-        $this->tagRepository = $em->getRepository(Tag::class);
+        /** @var TagRepository $repository */
+        $repository = $em->getRepository(Tag::class);
+        $this->tagRepository = $repository;
     }
 
     /**

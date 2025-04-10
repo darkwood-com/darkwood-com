@@ -21,12 +21,14 @@ class UserService
      *
      * @var UserRepository
      */
-    protected EntityRepository $userRepository;
+    protected UserRepository $userRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
     ) {
-        $this->userRepository = $em->getRepository(User::class);
+        /** @var UserRepository $repository */
+        $repository = $em->getRepository(User::class);
+        $this->userRepository = $repository;
     }
 
     /**

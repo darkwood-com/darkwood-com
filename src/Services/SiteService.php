@@ -20,7 +20,7 @@ class SiteService
     /**
      * @var SiteRepository
      */
-    protected EntityRepository $siteRepository;
+    protected SiteRepository $siteRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
@@ -30,7 +30,9 @@ class SiteService
         protected Environment $templating,
         protected CacheInterface $appCache
     ) {
-        $this->siteRepository = $em->getRepository(Site::class);
+        /** @var SiteRepository $repository */
+        $repository = $em->getRepository(Site::class);
+        $this->siteRepository = $repository;
     }
 
     /**

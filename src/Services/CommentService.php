@@ -27,24 +27,32 @@ class CommentService
     /**
      * @var CommentRepository
      */
-    protected EntityRepository $commentRepository;
+    protected CommentRepository $commentRepository;
 
     /**
      * @var CommentPageRepository
      */
-    protected EntityRepository $commentPageRepository;
+    protected CommentPageRepository $commentPageRepository;
 
     /**
      * @var CommentArticleRepository
      */
-    protected EntityRepository $commentArticleRepository;
+    protected CommentArticleRepository $commentArticleRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
     ) {
-        $this->commentRepository = $em->getRepository(Comment::class);
-        $this->commentPageRepository = $em->getRepository(CommentPage::class);
-        $this->commentArticleRepository = $em->getRepository(CommentArticle::class);
+        /** @var CommentRepository $repository */
+        $repository = $em->getRepository(Comment::class);
+        $this->commentRepository = $repository;
+
+        /** @var CommentPageRepository $pageRepository */
+        $pageRepository = $em->getRepository(CommentPage::class);
+        $this->commentPageRepository = $pageRepository;
+
+        /** @var CommentArticleRepository $articleRepository */
+        $articleRepository = $em->getRepository(CommentArticle::class);
+        $this->commentArticleRepository = $articleRepository;
     }
 
     /**

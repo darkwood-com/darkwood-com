@@ -75,47 +75,47 @@ class GameService
     /**
      * @var ArmorRepository
      */
-    protected EntityRepository $armorRepository;
+    protected ArmorRepository $armorRepository;
 
     /**
      * @var ClasseRepository
      */
-    protected EntityRepository $classeRepository;
+    protected ClasseRepository $classeRepository;
 
     /**
      * @var DailyBattleRepository
      */
-    protected EntityRepository $dailyBattleRepository;
+    protected DailyBattleRepository $dailyBattleRepository;
 
     /**
      * @var EnemyRepository
      */
-    protected EntityRepository $enemyRepository;
+    protected EnemyRepository $enemyRepository;
 
     /**
      * @var GemRepository
      */
-    protected EntityRepository $gemRepository;
+    protected GemRepository $gemRepository;
 
     /**
      * @var LevelUpRepository
      */
-    protected EntityRepository $levelUpRepository;
+    protected LevelUpRepository $levelUpRepository;
 
     /**
      * @var PlayerRepository
      */
-    protected EntityRepository $playerRepository;
+    protected PlayerRepository $playerRepository;
 
     /**
      * @var PotionRepository
      */
-    protected EntityRepository $potionRepository;
+    protected PotionRepository $potionRepository;
 
     /**
      * @var SwordRepository
      */
-    protected EntityRepository $swordRepository;
+    protected SwordRepository $swordRepository;
 
     public function __construct(
         protected RequestStack $requestStack,
@@ -130,15 +130,41 @@ class GameService
         protected RouterInterface $router,
         protected TokenStorageInterface $tokenStorage
     ) {
-        $this->armorRepository = $em->getRepository(Armor::class);
-        $this->classeRepository = $em->getRepository(Classe::class);
-        $this->dailyBattleRepository = $em->getRepository(DailyBattle::class);
-        $this->enemyRepository = $em->getRepository(Enemy::class);
-        $this->gemRepository = $em->getRepository(Gem::class);
-        $this->levelUpRepository = $em->getRepository(LevelUp::class);
-        $this->playerRepository = $em->getRepository(Player::class);
-        $this->potionRepository = $em->getRepository(Potion::class);
-        $this->swordRepository = $em->getRepository(Sword::class);
+        /** @var ArmorRepository $armorRepo */
+        $armorRepo = $em->getRepository(Armor::class);
+        $this->armorRepository = $armorRepo;
+
+        /** @var ClasseRepository $classeRepo */
+        $classeRepo = $em->getRepository(Classe::class);
+        $this->classeRepository = $classeRepo;
+
+        /** @var DailyBattleRepository $dailyBattleRepo */
+        $dailyBattleRepo = $em->getRepository(DailyBattle::class);
+        $this->dailyBattleRepository = $dailyBattleRepo;
+
+        /** @var EnemyRepository $enemyRepo */
+        $enemyRepo = $em->getRepository(Enemy::class);
+        $this->enemyRepository = $enemyRepo;
+
+        /** @var GemRepository $gemRepo */
+        $gemRepo = $em->getRepository(Gem::class);
+        $this->gemRepository = $gemRepo;
+
+        /** @var LevelUpRepository $levelUpRepo */
+        $levelUpRepo = $em->getRepository(LevelUp::class);
+        $this->levelUpRepository = $levelUpRepo;
+
+        /** @var PlayerRepository $playerRepo */
+        $playerRepo = $em->getRepository(Player::class);
+        $this->playerRepository = $playerRepo;
+
+        /** @var PotionRepository $potionRepo */
+        $potionRepo = $em->getRepository(Potion::class);
+        $this->potionRepository = $potionRepo;
+
+        /** @var SwordRepository $swordRepo */
+        $swordRepo = $em->getRepository(Sword::class);
+        $this->swordRepository = $swordRepo;
     }
 
     public function getOrCreate(User $user): Player

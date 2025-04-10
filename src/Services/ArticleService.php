@@ -29,20 +29,25 @@ class ArticleService
     /**
      * @var ArticleRepository
      */
-    protected EntityRepository $articleRepository;
+    protected ArticleRepository $articleRepository;
 
     /**
      * @var ArticleTranslationRepository
      */
-    protected EntityRepository $articleTranslationRepository;
+    protected ArticleTranslationRepository $articleTranslationRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
         protected ParameterBagInterface $parameterBagInterface,
         protected StorageInterface $storage
     ) {
-        $this->articleRepository = $em->getRepository(Article::class);
-        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
+        /** @var ArticleRepository $repository */
+        $repository = $em->getRepository(Article::class);
+        $this->articleRepository = $repository;
+
+        /** @var ArticleTranslationRepository $translationRepository */
+        $translationRepository = $em->getRepository(ArticleTranslation::class);
+        $this->articleTranslationRepository = $translationRepository;
     }
 
     /**

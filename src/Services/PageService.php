@@ -40,22 +40,22 @@ class PageService
     /**
      * @var PageRepository
      */
-    protected EntityRepository $pageRepository;
+    protected PageRepository $pageRepository;
 
     /**
      * @var PageTranslationRepository
      */
-    protected EntityRepository $entityRepository;
+    protected PageTranslationRepository $entityRepository;
 
     /**
      * @var ArticleTranslationRepository
      */
-    protected EntityRepository $articleTranslationRepository;
+    protected ArticleTranslationRepository $articleTranslationRepository;
 
     /**
      * @var AppContentRepository
      */
-    protected EntityRepository $appContentRepository;
+    protected AppContentRepository $appContentRepository;
 
     public function __construct(
         protected EntityManagerInterface $em,
@@ -64,10 +64,21 @@ class PageService
         protected RouterInterface $router,
         protected StorageInterface $storage
     ) {
-        $this->pageRepository = $em->getRepository(Page::class);
-        $this->entityRepository = $em->getRepository(PageTranslation::class);
-        $this->articleTranslationRepository = $em->getRepository(ArticleTranslation::class);
-        $this->appContentRepository = $em->getRepository(AppContent::class);
+        /** @var PageRepository $pageRepo */
+        $pageRepo = $em->getRepository(Page::class);
+        $this->pageRepository = $pageRepo;
+
+        /** @var PageTranslationRepository $entityRepo */
+        $entityRepo = $em->getRepository(PageTranslation::class);
+        $this->entityRepository = $entityRepo;
+
+        /** @var ArticleTranslationRepository $articleTransRepo */
+        $articleTransRepo = $em->getRepository(ArticleTranslation::class);
+        $this->articleTranslationRepository = $articleTransRepo;
+
+        /** @var AppContentRepository $appContentRepo */
+        $appContentRepo = $em->getRepository(AppContent::class);
+        $this->appContentRepository = $appContentRepo;
     }
 
     /**

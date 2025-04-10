@@ -22,12 +22,14 @@ class AppService
     /**
      * @var AppRepository
      */
-    protected EntityRepository $appRepository;
+    protected AppRepository $appRepository;
 
     public function __construct(
         protected EntityManagerInterface $em
     ) {
-        $this->appRepository = $em->getRepository(App::class);
+        /** @var AppRepository $repository */
+        $repository = $em->getRepository(App::class);
+        $this->appRepository = $repository;
     }
 
     /**

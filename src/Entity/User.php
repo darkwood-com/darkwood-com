@@ -258,14 +258,16 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     }
 
     /**
-     * @param DateTime $birthday
+     * @param DateTimeInterface|null $birthday
      */
-    public function setBirthday($birthday)
+    public function setBirthday(?DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
     }
 
-    public function getBirthday(): ?DateTime
+    public function getBirthday(): ?DateTimeInterface
     {
         return $this->birthday;
     }
