@@ -178,7 +178,10 @@ class GameService
             $level->setLevel(100);
         }
 
-        $damage = ['min' => ceil($player->getSword()->getDamageMin() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))), 'max' => ceil($player->getSword()->getDamageMax() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)))];
+        $damage = [
+			'min' => intval($player->getSword()->getDamageMin() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))),
+			'max' => intval($player->getSword()->getDamageMax() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)))
+		];
         $equipmentDamage = 0;
         if ($player->getEquipment1IsUse()) {
             $gem = $player->getEquipment1();
@@ -203,21 +206,33 @@ class GameService
 
         $damage['min'] += $equipmentDamage;
         $damage['max'] += $equipmentDamage;
-        $swordDamage = ceil($player->getStrength() / self::RATIO_EQUIPMENT);
-        $hitLuck = ceil($player->getDexterity() / self::RATIO_HIT_LUCK);
-        $armor = ceil($player->getArmor()->getArmor() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)));
-        $armorDefence = ceil($player->getStrength() / self::RATIO_EQUIPMENT);
+        $swordDamage = intval($player->getStrength() / self::RATIO_EQUIPMENT);
+        $hitLuck = intval($player->getDexterity() / self::RATIO_HIT_LUCK);
+        $armor = intval($player->getArmor()->getArmor() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)));
+        $armorDefence = intval($player->getStrength() / self::RATIO_EQUIPMENT);
         $points = ['total' => $player->getStrength() + $player->getVitality() + $player->getDexterity(), 'max' => ($level->getLevel() - 1) * self::POINTS_BY_LEVEL];
         $points['diff'] = $points['max'] - $points['total'];
         $life = ['min' => $player->getLifeMin(), 'max' => $player->getLifeMax()];
         $life['diff'] = $life['max'] - $life['min'];
 
-        return ['user' => $user, 'player' => $player, 'level' => $level, 'damage' => $damage, 'swordDamage' => $swordDamage, 'equipmentDamage' => $equipmentDamage, 'hitLuck' => $hitLuck, 'armor' => $armor, 'armorDefence' => $armorDefence, 'points' => $points, 'life' => $life];
+        return [
+			'user' => $user,
+			'player' => $player,
+			'level' => $level,
+			'damage' => $damage,
+			'swordDamage' => $swordDamage,
+			'equipmentDamage' => $equipmentDamage,
+			'hitLuck' => $hitLuck,
+			'armor' => $armor,
+			'armorDefence' => $armorDefence,
+			'points' => $points,
+			'life' => $life
+		];
     }
 
     public function getArmorInfo(Armor $armor)
     {
-        return ['armor' => $armor, 'sellPrice' => ceil($armor->getPrice() / 2), 'next' => $this->armorRepository->findNext($armor), 'previous' => $this->armorRepository->findPrevious($armor)];
+        return ['armor' => $armor, 'sellPrice' => intval($armor->getPrice() / 2), 'next' => $this->armorRepository->findNext($armor), 'previous' => $this->armorRepository->findPrevious($armor)];
     }
 
     public function getPotionInfo(Potion $potion)
@@ -227,7 +242,7 @@ class GameService
 
     public function getSwordInfo(Sword $sword)
     {
-        return ['sword' => $sword, 'sellPrice' => ceil($sword->getPrice() / 2), 'next' => $this->swordRepository->findNext($sword), 'previous' => $this->swordRepository->findPrevious($sword)];
+        return ['sword' => $sword, 'sellPrice' => intval($sword->getPrice() / 2), 'next' => $this->swordRepository->findNext($sword), 'previous' => $this->swordRepository->findPrevious($sword)];
     }
 
     public function getEnemyInfo(Enemy $enemy)
@@ -270,7 +285,7 @@ class GameService
                     break;
             }
 
-            $regeneration['regeneration' . $i] = ['life' => ceil($life), 'price' => ceil($price)];
+            $regeneration['regeneration' . $i] = ['life' => intval($life), 'price' => intval($price)];
         }
 
         return $regeneration;
@@ -365,7 +380,7 @@ class GameService
         $regeneration = $regeneration[$key];
         $newGold = $player->getGold() - $regeneration['price'];
         if ($newGold < 0) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold_alert'));
 
             return;
         }
@@ -407,14 +422,14 @@ class GameService
         $player = $this->getOrCreate($user);
         $armor = $player->getCurrentDefaultArmor();
         if ($player->getStrength() < $armor->getRequiredStrength()) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength_alert'));
 
             return;
         }
 
         $newGold = $player->getGold() - $armor->getPrice();
         if ($newGold < 0) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold_alert'));
 
             return;
         }
@@ -464,7 +479,7 @@ class GameService
         $potion = $player->getCurrentDefaultPotion();
         $newGold = $player->getGold() - $potion->getPrice();
         if ($newGold < 0) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold_alert'));
 
             return;
         }
@@ -502,14 +517,14 @@ class GameService
         $player = $this->getOrCreate($user);
         $sword = $player->getCurrentDefaultSword();
         if ($player->getStrength() < $sword->getRequiredStrength()) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength_alert'));
 
             return;
         }
 
         $newGold = $player->getGold() - $sword->getPrice();
         if ($newGold < 0) {
-            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold_alert'));
 
             return;
         }
@@ -688,7 +703,7 @@ class GameService
                     $enemyPosition++;
                 }
 
-                $gemPosition = ceil((count($gems) - 1) * random_int(1, $enemyPosition) / count($enemies));
+                $gemPosition = intval((count($gems) - 1) * random_int(1, $enemyPosition) / count($enemies));
                 // find gem
                 $gem = current($gems);
                 foreach ($gems as $g) {

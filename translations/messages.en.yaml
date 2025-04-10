@@ -234,8 +234,10 @@ darkwood:
       your_settings: Your settings
       you_win: Victory!
       label_maintenance: Darkwood application is currently undergoing maintenance. Its access is temporarily impossible. Please accept our apologies for the inconvenience. Please renew your future attempts to access.
-      required_gold: You do not have enough gold.
-      required_strength: You are not strong enough to bear the sword.
+      required_gold: Required gold
+      required_strength: Required strength
+      required_gold_alert: You do not have enough gold.
+      required_strength_alert: You are not strong enough to bear the sword.
   players:
     sort_by_defeats: Sort by defeats
     sort_by_human: Human

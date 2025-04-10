@@ -233,8 +233,10 @@ darkwood:
       your_settings: Vos paramètres
       you_win: Victoire!
       label_maintenance: L'application Darkwood est actuellement en maintenance. Son accès est provisoirement impossible. Nous vous prions de bien vouloir nous excuser de la gêne occasionnée. Nous vous invitons à renouveler prochainement votre tentative d'accès.
-      required_gold: Vous n'avez pas assez d'or.
-      required_strength: Vous n'êtes pas assez fort pour pouvoir porter l'épée.
+      required_gold: Or requis
+      required_strength: Force requise
+      required_gold_alert: Vous n'avez pas assez d'or.
+      required_strength_alert: Vous n'êtes pas assez fort pour pouvoir porter l'épée.
   players:
     sort_by_defeats: Classer par défaites
     sort_by_human: Humain

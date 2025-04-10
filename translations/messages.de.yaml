@@ -231,8 +231,10 @@ darkwood:
       your_settings: Ihre Einstellungen
       you_win: Sieg!
       label_maintenance: Die Anwendung Darkwood ist derzeit gewartet. Sein Zugang ist vorübergehend nicht möglich. Wir entschuldigen uns für die Unannehmlichkeiten. Wir laden Sie ein, Ihren zukünftigen Zugang Versuch zu erneuern.
-      required_gold: Sie haben nicht genug Gold.
-      required_strength: ie sind nicht stark genug, um dem Schwert zu tragen.
+      required_gold: Erforderliches Gold
+      required_strength: Erforderliche Schwert
+      required_gold_alert: Sie haben nicht genug Gold.
+      required_strength_alert: ie sind nicht stark genug, um dem Schwert zu tragen.
   players:
     sort_by_defeats: Ordnen nach Niederlagen
     sort_by_human: Mensch
