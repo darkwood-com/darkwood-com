@@ -9,7 +9,6 @@ use App\Entity\AppTranslation;
 use App\Repository\AppRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
 /**
@@ -19,9 +18,6 @@ use Doctrine\ORM\Query;
  */
 class AppService
 {
-    /**
-     * @var AppRepository
-     */
     protected AppRepository $appRepository;
 
     public function __construct(

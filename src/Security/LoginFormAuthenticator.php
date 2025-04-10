@@ -6,7 +6,6 @@ namespace App\Security;
 
 use App\Repository\UserRepository;
 use App\Services\SiteService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +35,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     final public const LOGIN_ROUTE = 'security_login';
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly SiteService $siteService,

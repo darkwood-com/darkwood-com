@@ -8,7 +8,6 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -17,9 +16,6 @@ use Twig\Environment;
 
 class SiteService
 {
-    /**
-     * @var SiteRepository
-     */
     protected SiteRepository $siteRepository;
 
     public function __construct(

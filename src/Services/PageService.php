@@ -17,7 +17,6 @@ use App\Repository\PageRepository;
 use App\Repository\PageTranslationRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -37,24 +36,12 @@ use function count;
  */
 class PageService
 {
-    /**
-     * @var PageRepository
-     */
     protected PageRepository $pageRepository;
 
-    /**
-     * @var PageTranslationRepository
-     */
     protected PageTranslationRepository $entityRepository;
 
-    /**
-     * @var ArticleTranslationRepository
-     */
     protected ArticleTranslationRepository $articleTranslationRepository;
 
-    /**
-     * @var AppContentRepository
-     */
     protected AppContentRepository $appContentRepository;
 
     public function __construct(

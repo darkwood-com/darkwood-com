@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Class UserService.
@@ -18,8 +17,6 @@ class UserService
 {
     /**
      * Repository.
-     *
-     * @var UserRepository
      */
     protected UserRepository $userRepository;
 

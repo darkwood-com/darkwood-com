@@ -14,7 +14,6 @@ use App\Repository\CommentPageRepository;
 use App\Repository\CommentRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
 /**
@@ -24,19 +23,10 @@ use Doctrine\ORM\Query;
  */
 class CommentService
 {
-    /**
-     * @var CommentRepository
-     */
     protected CommentRepository $commentRepository;
 
-    /**
-     * @var CommentPageRepository
-     */
     protected CommentPageRepository $commentPageRepository;
 
-    /**
-     * @var CommentArticleRepository
-     */
     protected CommentArticleRepository $commentArticleRepository;
 
     public function __construct(

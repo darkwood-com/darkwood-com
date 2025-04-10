@@ -9,7 +9,6 @@ use App\Entity\TagTranslation;
 use App\Repository\TagRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
@@ -19,9 +18,6 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class TagService
 {
-    /**
-     * @var TagRepository
-     */
     protected TagRepository $tagRepository;
 
     public function __construct(

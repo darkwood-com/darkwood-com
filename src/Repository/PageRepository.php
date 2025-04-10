@@ -147,14 +147,26 @@ class PageRepository extends ServiceEntityRepository
      */
     public function findOneActiveByRefAndHost($ref, $host, $locale = null, $ttl = null): ?Page
     {
-        $qb = $this->createQueryBuilder('p')->select('p', 'pts', 's')->leftJoin('p.translations', 'pts')->leftJoin('p.site', 's')->andWhere('pts.active = TRUE')->andWhere('p.ref = :ref')->setParameter('ref', $ref)->andWhere('s.host = :host')->setParameter('host', $host)->andWhere('s.active = TRUE');
-        if (null !== $locale) {
-            $qb->andWhere('pts.locale = :locale')->setParameter('locale', $locale);
+        $qb = $this->createQueryBuilder('p')
+            ->select('p', 'pts', 's')
+            ->leftJoin('p.translations', 'pts')
+            ->leftJoin('p.site', 's')
+            ->andWhere('pts.active = TRUE')
+            ->andWhere('p.ref = :ref')
+            ->setParameter('ref', $ref)
+            ->andWhere('s.host = :host')
+            ->setParameter('host', $host)
+            ->andWhere('s.active = TRUE')
+        ;
+
+        if ($locale) {
+            $qb->andWhere('pts.locale = :locale')
+                ->setParameter('locale', $locale)
+            ;
         }
 
         $query = $qb->getQuery();
 
-        // $query->useResultCache(!is_null($ttl), $ttl, 'PageRepository::findOneActiveByRefAndHost'.$siteId.($navigationSlug ? $navigationSlug : '').$slug.$is301?'0':'1');
         return $query->getOneOrNullResult();
     }
 

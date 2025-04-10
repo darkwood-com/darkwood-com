@@ -28,7 +28,6 @@ use App\Repository\Game\SwordRepository;
 use App\Validator\Constraints\PaginationDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use LogicException;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -72,49 +71,22 @@ class GameService
 
     final public const DEATH_LOSE_STATS = 10.0;
 
-    /**
-     * @var ArmorRepository
-     */
     protected ArmorRepository $armorRepository;
 
-    /**
-     * @var ClasseRepository
-     */
     protected ClasseRepository $classeRepository;
 
-    /**
-     * @var DailyBattleRepository
-     */
     protected DailyBattleRepository $dailyBattleRepository;
 
-    /**
-     * @var EnemyRepository
-     */
     protected EnemyRepository $enemyRepository;
 
-    /**
-     * @var GemRepository
-     */
     protected GemRepository $gemRepository;
 
-    /**
-     * @var LevelUpRepository
-     */
     protected LevelUpRepository $levelUpRepository;
 
-    /**
-     * @var PlayerRepository
-     */
     protected PlayerRepository $playerRepository;
 
-    /**
-     * @var PotionRepository
-     */
     protected PotionRepository $potionRepository;
 
-    /**
-     * @var SwordRepository
-     */
     protected SwordRepository $swordRepository;
 
     public function __construct(

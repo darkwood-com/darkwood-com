@@ -8,7 +8,6 @@ use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Form\Admin\PageTranslationType;
 use App\Services\PageService;
-use App\Services\SiteService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/pages', name: 'admin_page_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
 class PageController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly PageService $pageService, private readonly SiteService $siteService) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly PaginatorInterface $paginator,
+        private readonly PageService $pageService
+    ) {}
 
     #[Route('/list', name: 'list')]
     public function list(Request $request): Response
