@@ -30,15 +30,18 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use LogicException;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -50,6 +53,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 use function in_array;
 use function is_array;
+use function sprintf;
 
 /**
  * Class GameService.
@@ -67,8 +71,6 @@ class GameService
     final public const LIFE_BY_VITALITY = 25;
 
     final public const DEATH_LOSE_STATS = 10.0;
-
-    public $session;
 
     /**
      * @var ArmorRepository
@@ -116,7 +118,7 @@ class GameService
     protected EntityRepository $swordRepository;
 
     public function __construct(
-        // protected SessionInterface $session,
+        protected RequestStack $requestStack,
         protected TranslatorInterface $translator,
         protected EntityManagerInterface $em,
         protected UserService $userService,
@@ -124,7 +126,6 @@ class GameService
         protected CommentService $commentService,
         protected PaginatorInterface $paginator,
         protected FormFactoryInterface $formFactory,
-        // protected AuthenticationManagerInterface $authenticationManager,
         protected CsrfTokenManagerInterface $tokenManager,
         protected RouterInterface $router,
         protected TokenStorageInterface $tokenStorage
@@ -366,7 +367,7 @@ class GameService
         $regeneration = $regeneration[$key];
         $newGold = $player->getGold() - $regeneration['price'];
         if ($newGold < 0) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
@@ -408,14 +409,14 @@ class GameService
         $player = $this->getOrCreate($user);
         $armor = $player->getCurrentDefaultArmor();
         if ($player->getStrength() < $armor->getRequiredStrength()) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_strength'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength'));
 
             return;
         }
 
         $newGold = $player->getGold() - $armor->getPrice();
         if ($newGold < 0) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
@@ -465,7 +466,7 @@ class GameService
         $potion = $player->getCurrentDefaultPotion();
         $newGold = $player->getGold() - $potion->getPrice();
         if ($newGold < 0) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
@@ -503,14 +504,14 @@ class GameService
         $player = $this->getOrCreate($user);
         $sword = $player->getCurrentDefaultSword();
         if ($player->getStrength() < $sword->getRequiredStrength()) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_strength'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_strength'));
 
             return;
         }
 
         $newGold = $player->getGold() - $sword->getPrice();
         if ($newGold < 0) {
-            $this->session->getFlashBag()->add('warning', $this->translator->trans('darkwood.play.label.required_gold'));
+            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_gold'));
 
             return;
         }
@@ -579,7 +580,7 @@ class GameService
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
-        $session = $this->session->get($sessionKey);
+        $session = $this->requestStack->getSession()->get($sessionKey);
         $enemy = $player->getLastFight();
         if (!is_array($session) && $enemy) {
             $session = ['player_life_lose' => 0, 'enemy_current_life' => $enemy->getLife(), 'enemy_life_lose' => 0];
@@ -592,7 +593,7 @@ class GameService
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
-        $this->session->set($sessionKey, $value);
+        $this->requestStack->getSession()->set($sessionKey, $value);
     }
 
     public function fight(User $user, $action)
@@ -651,8 +652,8 @@ class GameService
             $player->setLastFight(null);
             $session = null;
             $result = ['lose_xp' => 0, 'lose_gold' => 0, 'enemy' => $enemy, 'lose_stats' => self::DEATH_LOSE_STATS];
-            $result['lose_xp'] = self::DEATH_LOSE_STATS * $enemy->getXp();
-            $result['lose_gold'] = self::DEATH_LOSE_STATS * $enemy->getGold();
+            $result['lose_xp'] = (int) (self::DEATH_LOSE_STATS * $enemy->getXp());
+            $result['lose_gold'] = (int) (self::DEATH_LOSE_STATS * $enemy->getGold());
             $player->setLifeMin($player->getLifeMax());
             $player->setXp($player->getXp() - $result['lose_xp']);
             $player->setGold($player->getGold() - $result['lose_gold']);
@@ -757,7 +758,7 @@ class GameService
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
-        $sessionDaily = $this->session->get($sessionDailyKey);
+        $sessionDaily = $this->requestStack->getSession()->get($sessionDailyKey);
         $enemy = $this->getOrCreateDailyEnemy();
         if (!is_array($sessionDaily) && $enemy) {
             $sessionDaily = ['player_current_life' => $user->getPlayer()->getLifeMax(), 'player_life_lose' => 0, 'enemy_current_life' => $enemy->getPlayer()->getLifeMax(), 'enemy_life_lose' => 0];
@@ -770,7 +771,7 @@ class GameService
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
-        $this->session->set($sessionDailyKey, $value);
+        $this->requestStack->getSession()->set($sessionDailyKey, $value);
     }
 
     public function fightDaily(User $user)
@@ -869,7 +870,7 @@ class GameService
             if ($parameters['mode'] === 'login' && $request->get('_username') && $request->get('_password')) {
                 $user = $this->userService->findOneByUsername($request->get('_username'));
                 $token = new UsernamePasswordToken($user, 'main');
-                // spacial case for apple validation
+                // special case for apple validation
                 if ($request->get('_username') === 'apple' && $request->get('_password') === 'apple') {
                     $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
@@ -885,7 +886,6 @@ class GameService
                 }
 
                 try {
-                    // $this->authenticationManager->authenticate($token);
                     $this->tokenStorage->setToken($token);
                     $parameters['mode'] = null;
 
@@ -974,7 +974,7 @@ class GameService
                 $form->handleRequest($request);
                 if ($form->isValid()) {
                     $this->commentService->save($comment);
-                    $this->session->getFlashBag()->add('success', $this->translator->trans('common.comment.submited'));
+                    $this->addFlash('success', $this->translator->trans('common.comment.submited'));
 
                     return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
                 }
@@ -1131,5 +1131,20 @@ class GameService
     public function findActiveQuery($mode = null)
     {
         return $this->playerRepository->findActiveQuery($mode);
+    }
+
+    protected function addFlash(string $type, mixed $message): void
+    {
+        try {
+            $session = $this->requestStack->getSession();
+        } catch (SessionNotFoundException $e) {
+            throw new LogicException('You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e);
+        }
+
+        if (!$session instanceof FlashBagAwareSessionInterface) {
+            throw new LogicException(sprintf('You cannot use the addFlash method because class "%s" doesn\'t implement "%s".', get_debug_type($session), FlashBagAwareSessionInterface::class));
+        }
+
+        $session->getFlashBag()->add($type, $message);
     }
 }

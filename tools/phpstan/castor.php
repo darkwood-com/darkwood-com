@@ -12,7 +12,7 @@ use function Castor\run;
 function phpstan(): int
 {
     return run(
-        [__DIR__ . '/vendor/bin/phpstan', '--configuration=' . __DIR__ . '/phpstan.neon'],
+        [__DIR__ . '/vendor/bin/phpstan', '--configuration=' . __DIR__ . '/phpstan.neon', '--memory-limit=1024M'],
         allowFailure: true,
     )->getExitCode();
 }
