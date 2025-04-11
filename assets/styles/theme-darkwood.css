@@ -489,15 +489,23 @@
 	border: 1px solid #303030;
 }
 
+.theme-darkwood .theme-content table th, .theme-darkwood .theme-content table td
+{
+    color: #808080;
+	padding: 0;
+	vertical-align: middle;
+}
+
 .theme-darkwood .theme-content table th
 {
 	padding: 2px;
 	text-align: center;
+	background: #303030;
 }
 
-.theme-darkwood .theme-content table th, .theme-darkwood .theme-content table td
+.theme-darkwood .theme-content table td
 {
-	vertical-align: middle;
+	background: #101010;
 }
 
 .theme-darkwood .theme-content table td.spaced

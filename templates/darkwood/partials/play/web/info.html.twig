@@ -1,6 +1,6 @@
 {% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
 {% if mode == 'chooseClass' %}
-<table>
+<table class="table table-borderless">
     <colgroup>
         <col class="col-3" />
         <col class="col-3" />
@@ -30,7 +30,7 @@
     </tbody>
 </table>
 {% else %}
-<table>
+<table class="table table-borderless">
     <colgroup>
         <col class="col-3" />
         <col class="col-3" />
@@ -83,7 +83,7 @@
 </table>
 
 <div id="actions">
-    <table>
+    <table class="table table-borderless">
         <colgroup>
             <col class="col-3" />
             <col class="col-3" />
@@ -120,7 +120,7 @@
         {% endif %}
     </table>
 
-    <table>
+    <table class="table table-borderless">
         <colgroup>
             <col class="col-3" />
             <col class="col-3" />

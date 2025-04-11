@@ -1,5 +1,5 @@
 {% for flashMessage in app.session.flashbag.get('warning') %}<div class="alert_warning">{{ flashMessage }}</div>{% endfor %}
-<table>
+<table class="table table-borderless">
     <colgroup>
         <col class="col-3" />
         <col class="col-3" />
@@ -24,7 +24,7 @@
 </table>
 
 <div id="actions">
-    <table id="equipmentinfos">
+    <table class="table table-borderless" id="equipmentinfos">
         <colgroup>
             <col class="col-3" />
             <col class="col-3" />
