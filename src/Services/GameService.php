@@ -51,6 +51,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function count;
 use function in_array;
+use function intval;
 use function is_array;
 use function sprintf;
 
@@ -179,9 +180,9 @@ class GameService
         }
 
         $damage = [
-			'min' => intval($player->getSword()->getDamageMin() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))),
-			'max' => intval($player->getSword()->getDamageMax() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0)))
-		];
+            'min' => intval($player->getSword()->getDamageMin() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))),
+            'max' => intval($player->getSword()->getDamageMax() * (1 + $player->getStrength() / (self::RATIO_EQUIPMENT * 100.0))),
+        ];
         $equipmentDamage = 0;
         if ($player->getEquipment1IsUse()) {
             $gem = $player->getEquipment1();
@@ -216,18 +217,18 @@ class GameService
         $life['diff'] = $life['max'] - $life['min'];
 
         return [
-			'user' => $user,
-			'player' => $player,
-			'level' => $level,
-			'damage' => $damage,
-			'swordDamage' => $swordDamage,
-			'equipmentDamage' => $equipmentDamage,
-			'hitLuck' => $hitLuck,
-			'armor' => $armor,
-			'armorDefence' => $armorDefence,
-			'points' => $points,
-			'life' => $life
-		];
+            'user' => $user,
+            'player' => $player,
+            'level' => $level,
+            'damage' => $damage,
+            'swordDamage' => $swordDamage,
+            'equipmentDamage' => $equipmentDamage,
+            'hitLuck' => $hitLuck,
+            'armor' => $armor,
+            'armorDefence' => $armorDefence,
+            'points' => $points,
+            'life' => $life,
+        ];
     }
 
     public function getArmorInfo(Armor $armor)

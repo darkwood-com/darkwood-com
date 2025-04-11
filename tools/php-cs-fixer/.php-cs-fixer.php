@@ -38,6 +38,7 @@ return (new Config())
         'logical_operators' => false, // https://cs.symfony.com/doc/rules/operator/logical_operators.html prefer use 'or' and 'and' operators by design
         'yoda_style' => false, // https://cs.symfony.com/doc/rules/control_structure/yoda_style.html
         'increment_style' => ['style' => 'post'],
+        'modernize_types_casting' => false, // https://cs.symfony.com/doc/rules/cast_notation/modernize_types_casting.html
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__ . '/.php-cs-fixer.cache')

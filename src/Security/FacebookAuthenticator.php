@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Services\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -127,10 +127,8 @@ class FacebookAuthenticator // extends SocialAuthenticator
         );
     }
 
-    private function getFacebookClient(): FacebookClient
+    private function getFacebookClient(): OAuth2ClientInterface
     {
-        /** @var FacebookClient $client */
-        $client = $this->clientRegistry->getClient('facebook_main');
-        return $client;
+        return $this->clientRegistry->getClient('facebook_main');
     }
 }
