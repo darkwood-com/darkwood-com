@@ -15,7 +15,27 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    security: "is_granted('ROLE_USER')",
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ],
+    normalizationContext: ['groups' => ['article_translation:read']],
+    denormalizationContext: ['groups' => ['article_translation:write']]
+)]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
@@ -27,19 +47,24 @@ class ArticleTranslation implements Stringable
     /**
      * Locale.
      */
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
+    #[Groups(['article_translation:read', 'article_translation:write'])]
     #[Assert\Valid]
     #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Article $article = null;
 
+    #[ApiProperty(identifier: true)]
+    #[Groups(['article_translation:read'])]
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
@@ -48,10 +73,12 @@ class ArticleTranslation implements Stringable
     /**
      * Slug.
      */
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
     #[Gedmo\Slug(fields: ['title'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $slug;
 
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
@@ -61,9 +88,11 @@ class ArticleTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
     protected $image;
 
+    #[Groups(['article_translation:read', 'article_translation:write'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
+    #[Groups(['article_translation:read', 'article_translation:write'])]
     #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 
