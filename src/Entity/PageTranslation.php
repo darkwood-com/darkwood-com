@@ -14,7 +14,27 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+	security: "is_granted('ROLE_USER')",
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ],
+    normalizationContext: ['groups' => ['page_translation:read']],
+    denormalizationContext: ['groups' => ['page_translation:write']],
+)]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
@@ -24,30 +44,34 @@ class PageTranslation implements Stringable
 {
     use TimestampTrait;
 
-    /**
-     * Locale.
-     */
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[Assert\Valid]
     #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'translations', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Page $page = null;
 
+    #[ApiProperty(identifier: true)]
+    #[Groups(['page_translation:read'])]
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $description = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
@@ -57,6 +81,7 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'pages', fileNameProperty: 'imageName')]
     protected $image;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
@@ -66,33 +91,43 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'thumbnailPages', fileNameProperty: 'thumbnailImageName')]
     protected $thumbnailImage;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $thumbnailImageName = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $imgAlt = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write', 'page:read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $imgTitle = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoTitle = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoDescription = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $seoKeywords = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterCard = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterSite = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterTitle = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $twitterDescription = null;
 
@@ -102,12 +137,15 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'twitterPages', fileNameProperty: 'twitterImageName')]
     protected $twitterImage;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $twitterImageName = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogTitle = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogType = null;
 
@@ -117,12 +155,15 @@ class PageTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'ogPages', fileNameProperty: 'ogImageName')]
     protected $ogImage;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $ogImageName = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $ogDescription = null;
 
+    #[Groups(['page_translation:read', 'page_translation:write'])]
     #[ORM\Column(type: Types::BOOLEAN)]
     protected ?bool $active = true;
 

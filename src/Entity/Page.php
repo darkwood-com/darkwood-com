@@ -13,7 +13,27 @@ use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+	security: "is_granted('ROLE_USER')",
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ],
+    normalizationContext: ['groups' => ['page:read']],
+    denormalizationContext: ['groups' => ['page:write']]
+)]
 #[UniqueEntity(fields: ['site', 'ref'])]
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 #[ORM\InheritanceType('JOINED')]
@@ -26,6 +46,8 @@ class Page implements Stringable
 {
     use TimestampTrait;
 
+    #[ApiProperty(identifier: true)]
+    #[Groups(['page:read'])]
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -36,13 +58,16 @@ class Page implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\PageTranslation>
      */
+    #[Groups(['page:read', 'page:write'])]
     #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
     protected Collection $translations;
 
+    #[Groups(['page:read', 'page:write'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $ref = null;
 
+    #[Groups(['page:read', 'page:write'])]
     #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'pages', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id')]
@@ -53,6 +78,7 @@ class Page implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
      */
+    #[Groups(['page:read'])]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
     protected Collection $comments;
 
