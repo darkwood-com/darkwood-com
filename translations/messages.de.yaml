@@ -233,6 +233,7 @@ darkwood:
       label_maintenance: Die Anwendung Darkwood ist derzeit gewartet. Sein Zugang ist vorübergehend nicht möglich. Wir entschuldigen uns für die Unannehmlichkeiten. Wir laden Sie ein, Ihren zukünftigen Zugang Versuch zu erneuern.
       required_gold: Erforderliches Gold
       required_strength: Erforderliche Schwert
+      required_enemy_alert: Sie haben den vorherigen Gegner nicht besiegt.
       required_gold_alert: Sie haben nicht genug Gold.
       required_strength_alert: ie sind nicht stark genug, um dem Schwert zu tragen.
   players:
