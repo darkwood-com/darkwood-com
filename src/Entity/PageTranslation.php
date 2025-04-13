@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\PageTranslationRepository;
 use DateTime;
@@ -12,25 +19,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiProperty;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-	security: "is_granted('ROLE_USER')",
+    security: "is_granted('ROLE_USER')",
     operations: [
         new Get(),
         new GetCollection(),
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')")
+        new Delete(security: "is_granted('ROLE_ADMIN')"),
     ],
     normalizationContext: ['groups' => ['page_translation:read']],
     denormalizationContext: ['groups' => ['page_translation:write']],

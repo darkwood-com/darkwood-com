@@ -1,0 +1,1195 @@
+make[1]: Entering directory '/Users/math/Sites/darkwood/darkwood-com'
+composer phpunit
+06:21:34 WARNING   [castor] User Deprecated: Since jolicode/castor 0.18: The "suggestedValues" property of attribute "Castor\Console\Command\TaskCommand" is deprecated, use "autocomplete" property instead. ["exception" => ErrorException { …}]
+
+ A new Castor version is available (v0.23.0, currently running v0.19.1).        
+
+ Run the following command to update Castor:                                    
+
+ curl "https://castor.jolicode.com/install" | bash -s -- --install-dir /usr/local/bin
+
+
+06:21:34 WARNING   [castor] User Deprecated: Since jolicode/castor 0.18: The "allowFailure" argument is deprecated, use the "Context" object instead. ["exception" => ErrorException { …}]
+PHPUnit 11.5.17 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.0RC3
+Configuration: /Users/math/Sites/darkwood/darkwood-com/tools/phpunit/phpunit.xml
+
+[41;37mF[0m.[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m...........................  63 / 357 ( 17%)
+....[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m............................[41;37mF[0m[41;37mF[0m[41;37mF[0m 126 / 357 ( 35%)
+[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m 189 / 357 ( 52%)
+[41;37mF[0m...................................................................[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m................[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m 315 / 357 ( 88%)
+[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m[41;37mF[0m..................................                      357 / 357 (100%)
+
+Time: 00:17.781, Memory: 60.11 MB
+
+There were 180 failures:
+
+1) App\Tests\AdminTest::testPageIsSuccessful with data set #0 ('/login')
+Page url https://admin.darkwood.localhost:8092/login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AdminTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+2) App\Tests\AdminTest::testPageIsAuth with data set "/fr" ('/fr', '/login')
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/AdminTest.php:38
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+3) App\Tests\AdminTest::testPageIsAuth with data set "/en" ('/en', '/en/login')
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/AdminTest.php:38
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+4) App\Tests\AdminTest::testPageIsAuth with data set "/de" ('/de', '/de/login')
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/AdminTest.php:38
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+13) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/resetting/request" ('/en/resetting/request')
+Page url https://apps.darkwood.localhost:8092/en/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+14) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/resetting/request" ('/de/resetting/request')
+Page url https://apps.darkwood.localhost:8092/de/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+15) App\Tests\AppsTest::testPageIsSuccessful with data set "/" ('/')
+Page url https://apps.darkwood.localhost:8092/ response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+16) App\Tests\AppsTest::testPageIsSuccessful with data set "/en" ('/en')
+Page url https://apps.darkwood.localhost:8092/en response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+17) App\Tests\AppsTest::testPageIsSuccessful with data set "/de" ('/de')
+Page url https://apps.darkwood.localhost:8092/de response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+18) App\Tests\AppsTest::testPageIsSuccessful with data set "/plan-du-site" ('/plan-du-site')
+Page url https://apps.darkwood.localhost:8092/plan-du-site response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+19) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/sitemap" ('/en/sitemap')
+Page url https://apps.darkwood.localhost:8092/en/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+21) App\Tests\AppsTest::testPageIsSuccessful with data set "/sitemap.xml" ('/sitemap.xml')
+Page url https://apps.darkwood.localhost:8092/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+22) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/sitemap.xml" ('/en/sitemap.xml')
+Page url https://apps.darkwood.localhost:8092/en/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+23) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/sitemap.xml" ('/de/sitemap.xml')
+Page url https://apps.darkwood.localhost:8092/de/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+24) App\Tests\AppsTest::testPageIsSuccessful with data set "/rss" ('/rss')
+Page url https://apps.darkwood.localhost:8092/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+25) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/rss" ('/en/rss')
+Page url https://apps.darkwood.localhost:8092/en/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+26) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/rss" ('/de/rss')
+Page url https://apps.darkwood.localhost:8092/de/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+27) App\Tests\AppsTest::testPageIsSuccessful with data set "/contact" ('/contact')
+Page url https://apps.darkwood.localhost:8092/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+28) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/contact" ('/en/contact')
+Page url https://apps.darkwood.localhost:8092/en/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+29) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/kontakt" ('/de/kontakt')
+Page url https://apps.darkwood.localhost:8092/de/kontakt response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+31) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/zmesh" ('/de/zmesh')
+Page url https://apps.darkwood.localhost:8092/de/zmesh response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+32) App\Tests\AppsTest::testPageIsSuccessful with data set "/zmesh" ('/zmesh')
+Page url https://apps.darkwood.localhost:8092/zmesh response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+33) App\Tests\AppsTest::testPageIsSuccessful with data set "/en/zmesh/conception" ('/en/zmesh/conception')
+Page url https://apps.darkwood.localhost:8092/en/zmesh/conception response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+34) App\Tests\AppsTest::testPageIsSuccessful with data set "/de/zmesh/conception" ('/de/zmesh/conception')
+Page url https://apps.darkwood.localhost:8092/de/zmesh/conception response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+35) App\Tests\AppsTest::testPageIsSuccessful with data set "/zmesh/conception" ('/zmesh/conception')
+Page url https://apps.darkwood.localhost:8092/zmesh/conception response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/AppsTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+36) App\Tests\BlogTest::testPageIsSuccessful with data set "/profil/matyo" ('/profil/matyo')
+Page url https://blog.darkwood.localhost:8092/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+37) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/profile/matyo" ('/en/profile/matyo')
+Page url https://blog.darkwood.localhost:8092/en/profile/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+38) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/profil/matyo" ('/de/profil/matyo')
+Page url https://blog.darkwood.localhost:8092/de/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+39) App\Tests\BlogTest::testPageIsSuccessful with data set "/login" ('/login')
+Page url https://blog.darkwood.localhost:8092/login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+40) App\Tests\BlogTest::testPageIsSuccessful with data set "/inscription" ('/inscription')
+Page url https://blog.darkwood.localhost:8092/inscription response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+41) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/register" ('/en/register')
+Page url https://blog.darkwood.localhost:8092/en/register response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+42) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/registrieren" ('/de/registrieren')
+Page url https://blog.darkwood.localhost:8092/de/registrieren response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+43) App\Tests\BlogTest::testPageIsSuccessful with data set "/resetting/request" ('/resetting/request')
+Page url https://blog.darkwood.localhost:8092/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+44) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/resetting/request" ('/en/resetting/request')
+Page url https://blog.darkwood.localhost:8092/en/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+45) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/resetting/request" ('/de/resetting/request')
+Page url https://blog.darkwood.localhost:8092/de/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+46) App\Tests\BlogTest::testPageIsSuccessful with data set "/" ('/')
+Page url https://blog.darkwood.localhost:8092/ response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+ url https://blog.darkwood.localhost:8092/de/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+52) App\Tests\BlogTest::testPageIsSuccessful with data set "/sitemap.xml" ('/sitemap.xml')
+Page url https://blog.darkwood.localhost:8092/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+53) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/sitemap.xml" ('/en/sitemap.xml')
+Page url https://blog.darkwood.localhost:8092/en/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+55) App\Tests\BlogTest::testPageIsSuccessful with data set "/rss" ('/rss')
+Page url https://blog.darkwood.localhost:8092/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+56) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/rss" ('/en/rss')
+Page url https://blog.darkwood.localhost:8092/en/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+57) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/rss" ('/de/rss')
+Page url https://blog.darkwood.localhost:8092/de/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+58) App\Tests\BlogTest::testPageIsSuccessful with data set "/contact" ('/contact')
+Page url https://blog.darkwood.localhost:8092/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+59) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/contact" ('/en/contact')
+Page url https://blog.darkwood.localhost:8092/en/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+60) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/kontakt" ('/de/kontakt')
+Page url https://blog.darkwood.localhost:8092/de/kontakt response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+61) App\Tests\BlogTest::testPageIsSuccessful with data set "/article/ecrire-ses-notes-et-les-synchroniser" ('/article/ecrire-ses-notes-et-...oniser')
+Page url https://blog.darkwood.localhost:8092/article/ecrire-ses-notes-et-les-synchroniser response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+62) App\Tests\BlogTest::testPageIsSuccessful with data set "/en/article/ecrire-ses-notes-et-les-synchroniser" ('/en/article/ecrire-ses-notes-...oniser')
+Page url https://blog.darkwood.localhost:8092/en/article/ecrire-ses-notes-et-les-synchroniser response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+63) App\Tests\BlogTest::testPageIsSuccessful with data set "/de/article/ecrire-ses-notes-et-les-synchroniser" ('/de/article/ecrire-ses-notes-...oniser')
+Page url https://blog.darkwood.localhost:8092/de/article/ecrire-ses-notes-et-les-synchroniser response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/BlogTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+64) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #0 ('/profil/matyo')
+Page url https://darkwood.localhost:8092/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+65) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #1 ('/en/profile/matyo')
+Page url https://darkwood.localhost:8092/en/profile/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWe
+66) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #2 ('/de/profil/matyo')
+Page url https://darkwood.localhost:8092/de/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+67) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #3 ('/login')
+Page url https://darkwood.localhost:8092/login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+68) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #4 ('/inscription')
+Page url https://darkwood.localhost:8092/inscription response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+69) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #5 ('/en/register')
+Page url https://darkwood.localhost:8092/en/register response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+70) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #6 ('/de/registrieren')
+Page url https://darkwood.localhost:8092/de/registrieren response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+71) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #7 ('/resetting/request')
+Page url https://darkwood.localhost:8092/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+72) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #8 ('/en/resetting/request')
+Page url https://darkwood.localhost:8092/en/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+73) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #9 ('/de/resetting/request')
+Page url https://darkwood.localhost:8092/de/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+74) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #10 ('/jouer/iphone?state=login')
+Page url https://darkwood.localhost:8092/jouer/iphone?state=login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+75) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #11 ('/en/play/iphone?state=login')
+Page url https://darkwood.localhost:8092/en/play/iphone?state=login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+77) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #13 ('/jouer/iphone?state=chat')
+Page url https://darkwood.localhost:8092/jouer/iphone?state=chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+78) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #14 ('/en/play/iphone?state=chat')
+Page url https://darkwood.localhost:8092/en/play/iphone?state=chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+79) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #15 ('/de/spiel/iphone?state=chat')
+Page url https://darkwood.localhost:8092/de/spiel/iphone?state=chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+80) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #16 ('/jouer/iphone?state=guestbook')
+Page url https://darkwood.localhost:8092/jouer/iphone?state=guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+81) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #17 ('/en/play/iphone?state=guestbook')
+Page url https://darkwood.localhost:8092/en/play/iphone?state=guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+82) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #18 ('/de/spiel/iphone?state=guestbook')
+Page url https://darkwood.localhost:8092/de/spiel/iphone?state=guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+83) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #19 ('/jouer/iphone?state=rank')
+Page url https://darkwood.localhost:8092/jouer/iphone?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+84) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #20 ('/en/play/iphone?state=rank')
+Page url https://darkwood.localhost:8092/en/play/iphone?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+85) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #21 ('/de/spiel/iphone?state=rank')
+Page url https://darkwood.localhost:8092/de/spiel/iphone?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+86) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #22 ('/jouer/ipad?state=login')
+Page url https://darkwood.localhost:8092/jouer/ipad?state=login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+87) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #23 ('/en/play/ipad?state=login')
+Page url https://darkwood.localhost:8092/en/play/ipad?state=login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+88) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #24 ('/de/spiel/ipad?state=login')
+Page url https://darkwood.localhost:8092/de/spiel/ipad?state=login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+90) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #26 ('/en/play/ipad?state=chat')
+Page url https://darkwood.localhost:8092/en/play/ipad?state=chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+91) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #27 ('/de/spiel/ipad?state=chat')
+Page url https://darkwood.localhost:8092/de/spiel/ipad?state=chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+92) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #28 ('/jouer/ipad?state=guestbook')
+Page url https://darkwood.localhost:8092/jouer/ipad?state=guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+94) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #30 ('/de/spiel/ipad?state=guestbook')
+Page url https://darkwood.localhost:8092/de/spiel/ipad?state=guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+95) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #31 ('/jouer/ipad?state=rank')
+Page url https://darkwood.localhost:8092/jouer/ipad?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+96) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #32 ('/en/play/ipad?state=rank')
+Page url https://darkwood.localhost:8092/en/play/ipad?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+97) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #33 ('/de/spiel/ipad?state=rank')
+Page url https://darkwood.localhost:8092/de/spiel/ipad?state=rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+98) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #34 ('/')
+Page url https://darkwood.localhost:8092/ 
+99) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #35 ('/en')
+Page url https://darkwood.localhost:8092/en response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+100) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #36 ('/de')
+Page url https://darkwood.localhost:8092/de response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+101) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #37 ('/plan-du-site')
+Page url https://darkwood.localhost:8092/plan-du-site response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+103) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #39 ('/de/sitemap')
+Page url https://darkwood.localhost:8092/de/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+104) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #40 ('/sitemap.xml')
+Page url https://darkwood.localhost:8092/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+105) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #41 ('/en/sitemap.xml')
+Page url https://darkwood.localhost:8092/en/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+106) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #42 ('/de/sitemap.xml')
+Page url https://darkwood.localhost:8092/de/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+107) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #43 ('/rss')
+Page url https://darkwood.localhost:8092/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+108) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #44 ('/en/rss')
+Page url https://darkwood.localhost:8092/en/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+109) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #45 ('/de/rss')
+Page url https://darkwood.localhost:8092/de/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+110) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #46 ('/contact')
+Page url https://darkwood.localhost:8092/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+111) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #47 ('/en/contact')
+Page url https://darkwood.localhost:8092/en/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+112) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #48 ('/de/kontakt')
+Page url https://darkwood.localhost:8092/de/kontakt response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+114) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #50 ('/en/chat')
+Page url https://darkwood.localhost:8092/en/chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+115) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #51 ('/de/chat')
+Page url https://darkwood.localhost:8092/de/chat response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+116) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #52 ('/liste-des-joueurs')
+Page url https://darkwood.localhost:8092/liste-des-joueurs response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+118) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #54 ('/de/liste-der-spieler')
+Page url https://darkwood.localhost:8092/de/liste-der-spieler response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+119) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #55 ('/regles-du-jeu')
+Page url https://darkwood.localhost:8092/regles-du-jeu response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+120) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #56 ('/en/rules-of-the-game')
+Page url https://darkwood.localhost:8092/en/rules-of-the-game response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+121) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #57 ('/de/regeln-des-spiels')
+Page url https://darkwood.localhost:8092/de/regeln-des-spiels response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+122) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #58 ('/livre-d-or')
+Page url https://darkwood.localhost:8092/livre-d-or response is not success
+123) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #59 ('/en/guestbook')
+Page url https://darkwood.localhost:8092/en/guestbook response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+124) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #60 ('/de/gastebuch')
+Page url https://darkwood.localhost:8092/de/gastebuch response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+125) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #61 ('/extra')
+Page url https://darkwood.localhost:8092/extra response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+126) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #62 ('/en/extra')
+Page url https://darkwood.localhost:8092/en/extra response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+127) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #63 ('/de/extra')
+Page url https://darkwood.localhost:8092/de/extra response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+128) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #64 ('/classement')
+Page url https://darkwood.localhost:8092/classement response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+129) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #65 ('/en/rank')
+Page url https://darkwood.localhost:8092/en/rank response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+130) App\Tests\DarkwoodTest::testPageIsSuccessful with data set #66 ('/de/rang')
+Page url https://darkwood.localhost:8092/de/rang response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/DarkwoodTest.php:21
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+131) App\Tests\HelloTest::testPageIsSuccessful with data set "/login" ('/login')
+Page url https://hello.darkwood.localhost:8092/login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+132) App\Tests\HelloTest::testPageIsSuccessful with data set "/" ('/')
+Page url https://hello.darkwood.localhost:8092/ response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+135) App\Tests\HelloTest::testPageIsSuccessful with data set "/plan-du-site" ('/plan-du-site')
+Page url https://hello.darkwood.localhost:8092/plan-du-site response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+136) App\Tests\HelloTest::testPageIsSuccessful with data set "/en/sitemap" ('/en/sitemap')
+Page url https://hello.darkwood.localhost:8092/en/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+137) App\Tests\HelloTest::testPageIsSuccessful with data set "/de/sitemap" ('/de/sitem
+138) App\Tests\HelloTest::testPageIsSuccessful with data set "/sitemap.xml" ('/sitemap.xml')
+Page url https://hello.darkwood.localhost:8092/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+139) App\Tests\HelloTest::testPageIsSuccessful with data set "/en/sitemap.xml" ('/en/sitemap.xml')
+Page url https://hello.darkwood.localhost:8092/en/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+140) App\Tests\HelloTest::testPageIsSuccessful with data set "/de/sitemap.xml" ('/de/sitemap.xml')
+Page url https://hello.darkwood.localhost:8092/de/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+141) App\Tests\HelloTest::testPageIsSuccessful with data set "/rss" ('/rss')
+Page url https://hello.darkwood.localhost:8092/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+142) App\Tests\HelloTest::testPageIsSuccessful with data set "/en/rss" ('/en/rss')
+Page url https://hello.darkwood.localhost:8092/en/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+143) App\Tests\HelloTest::testPageIsSuccessful with data set "/de/rss" ('/de/rss')
+Page url https://hello.darkwood.localhost:8092/de/rss response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+145) App\Tests\HelloTest::testPageIsSuccessful with data set "/en/contact" ('/en/contact')
+Page url https://hello.darkwood.localhost:8092/en/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+146) App\Tests\HelloTest::testPageIsSuccessful with data set "/de/kontakt" ('/de/kontakt')
+Page url https://hello.darkwood.localhost:8092/de/kontakt response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/HelloTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+147) App\Tests\PhotosTest::testPageIsSuccessful with data set "/profil/matyo" ('/profil/matyo')
+Page url https://photos.darkwood.localhost:8092/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+148) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/profile/matyo" ('/en/profile/matyo')
+Page url https://photos.darkwood.localhost:8092/en/profile/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+149) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/profil/matyo" ('/de/profil/matyo')
+Page url https://photos.darkwood.localhost:8092/de/profil/matyo response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+150) App\Tests\PhotosTest::testPageIsSuccessful with data set "/login" ('/login')
+Page url https://photos.darkwood.localhost:8092/login response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+152) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/register" ('/en/register')
+Page url https://photos.darkwood.localhost:8092/en/register response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+153) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/registrieren" ('/de/registrieren')
+Page url https://photos.darkwood.localhost:8092/de/registrieren response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+154) App\Tests\PhotosTest::testPageIsSuccessful with data set "/resetting/request" ('/resetting/request')
+Page url https://photos.darkwood.localhost:8092/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+155) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/resetting/request" ('/en/resetting/request')
+Page url https://photos.darkwood.localhost:8092/en/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+156) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/resetting/request" ('/de/resetting/request')
+Page url https://photos.darkwood.localhost:8092/de/resetting/request response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+157) App\Tests\PhotosTest::testPageIsSuccessful with data set "/" ('/')
+Page url https://photos.darkwood.localhost:8092/ response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+158) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en" ('/en')
+Page url https://photos.darkwood.localhost:8092/en response is not successful
+Failed asserting that false is true.
+159) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de" ('/de')
+Page url https://photos.darkwood.localhost:8092/de response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+160) App\Tests\PhotosTest::testPageIsSuccessful with data set "/plan-du-site" ('/plan-du-site')
+Page url https://photos.darkwood.localhost:8092/plan-du-site response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+161) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/sitemap" ('/en/sitemap')
+Page url https://photos.darkwood.localhost:8092/en/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+162) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/sitemap" ('/de/sitemap')
+Page url https://photos.darkwood.localhost:8092/de/sitemap response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+163) App\Tests\PhotosTest::testPageIsSuccessful with data set "/sitemap.xml" ('/sitemap.xml')
+Page url https://photos.darkwood.localhost:8092/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+164) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/sitemap.xml" ('/en/sitemap.xml')
+Page url https://photos.darkwood.localhost:8092/en/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+165) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/sitemap.xml" ('/de/sitemap.xml')
+Page url https://photos.darkwood.localhost:8092/de/sitemap.xml response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwo
+169) App\Tests\PhotosTest::testPageIsSuccessful with data set "/contact" ('/contact')
+Page url https://photos.darkwood.localhost:8092/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+170) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/contact" ('/en/contact')
+Page url https://photos.darkwood.localhost:8092/en/contact response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+171) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/kontakt" ('/de/kontakt')
+Pa
+172) App\Tests\PhotosTest::testPageIsSuccessful with data set "/visualisez" ('/visualisez')
+Page url https://photos.darkwood.localhost:8092/visualisez response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+173) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/show" ('/en/show')
+Page url https://photos.darkwood.localhost:8092/en/show response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+174) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/anzeigen" ('/de/anzeigen')
+Page url https://photos.darkwood.localhost:8092/de/anzeigen response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+178) App\Tests\PhotosTest::testPageIsSuccessful with data set "/aide" ('/aide')
+Page url https://photos.darkwood.localhost:8092/aide response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+179) App\Tests\PhotosTest::testPageIsSuccessful with data set "/en/help" ('/en/help')
+Page url https://photos.darkwood.localhost:8092/en/help response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+180) App\Tests\PhotosTest::testPageIsSuccessful with data set "/de/hilfe" ('/de/hilfe')
+Page url https://photos.darkwood.localhost:8092/de/hilfe response is not successful
+Failed asserting that false is true.
+
+/Users/math/Sites/darkwood/darkwood-com/tests/CommonWebTestCase.php:43
+/Users/math/Sites/darkwood/darkwood-com/tests/PhotosTest.php:19
+/Users/math/Sites/darkwood/darkwood-com/tools/phpunit/vendor/phpunit/phpunit/src/TextUI/Application.php:210
+
+[37;41mFAILURES![0m
+[37;41mTests: 357[0m[37;41m, Assertions: 357[0m[37;41m, Failures: 180[0m[37;41m, PHPUnit Deprecations: 13[0m[37;41m.[0m
+
+[43;30mRemaining indirect deprecation notices (362)[0m
+
+  360x: Support for MySQL < 8 is deprecated and will be removed in DBAL 5 (AbstractMySQLDriver.php:70 called by AbstractDriverMiddleware.php:32, https://github.com/doctrine/dbal/pull/6343, package doctrine/dbal)
+    134x in DarkwoodTest::testPageIsSuccessful from App\Tests
+    68x in PhotosTest::testPageIsSuccessful from App\Tests
+    62x in AppsTest::testPageIsSuccessful from App\Tests
+    56x in BlogTest::testPageIsSuccessful from App\Tests
+    32x in HelloTest::testPageIsSuccessful from App\Tests
+    ...
+
+  1x: The Liip\ImagineBundle\Templating\FilterTrait trait is deprecated since version 2.7 and will be removed in 3.0; use Twig instead.
+    1x in AdminTest::testPageIsSuccessful from App\Tests
+
+  1x: The Liip\ImagineBundle\Templating\FilterExtension class is deprecated since version 2.7 and will be removed in 3.0; configure "liip_imagine.twig.mode" to "lazy" instead.
+    1x in AdminTest::testPageIsSuccessful from App\Tests
+
+make[1]: Leaving directory '/Users/math/Sites/darkwood/darkwood-com'

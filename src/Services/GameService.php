@@ -682,11 +682,11 @@ class GameService
             $result = ['mode' => 'player_death', 'result' => $result];
         } elseif ($session['enemy_current_life'] <= 0) {
             $player->setLastFight(null);
-			// set player max fight
-			$maxEnemy = $player->getMaxFight();
-			if($maxEnemy === null || $enemy->getXp() > $maxEnemy->getXp()) {
-				$player->setMaxFight($enemy);
-			}
+            // set player max fight
+            $maxEnemy = $player->getMaxFight();
+            if ($maxEnemy === null || $enemy->getXp() > $maxEnemy->getXp()) {
+                $player->setMaxFight($enemy);
+            }
 
             $session = null;
             $result = ['gem' => 'not_found', 'level_up' => false, 'enemy' => $enemy];
@@ -1038,22 +1038,22 @@ class GameService
                     } elseif ($request->get('actionEnemyPrevious')) {
                         $this->previousEnemy($user);
                     } elseif ($request->get('actionBeginFight')) {
-						/** @var Enemy $defaultEnemy */
-						$defaultEnemy = $this->enemyRepository->findDefault();
-						$enemy = $player->getCurrentEnemy() ?: $defaultEnemy;
-						$enemyInfo = $this->getEnemyInfo($enemy);
-						if ((
-							$player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
-						) || (
-							!$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
-						)) {
-							$this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_enemy_alert'));
-						} else {
-							$this->setLastFight($user);
-							$request->attributes->set('mode', 'combat');
+                        /** @var Enemy $defaultEnemy */
+                        $defaultEnemy = $this->enemyRepository->findDefault();
+                        $enemy = $player->getCurrentEnemy() ?: $defaultEnemy;
+                        $enemyInfo = $this->getEnemyInfo($enemy);
+                        if ((
+                            $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
+                        ) || (
+                            !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
+                        )) {
+                            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_enemy_alert'));
+                        } else {
+                            $this->setLastFight($user);
+                            $request->attributes->set('mode', 'combat');
 
-							return $this->play($request, null, $user);
-						}
+                            return $this->play($request, null, $user);
+                        }
                     }
 
                     $parameters['data']['info'] = $this->getInfo($user);

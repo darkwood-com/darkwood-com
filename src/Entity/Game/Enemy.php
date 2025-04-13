@@ -301,29 +301,29 @@ class Enemy
         return $this->lastFightPlayers;
     }
 
-	/**
-	 * Add maxFightPlayer.
-	 */
-	public function addMaxFightPlayer(Player $maxFightPlayer): void
-	{
-		$this->maxFightPlayers[] = $maxFightPlayer;
-	}
+    /**
+     * Add maxFightPlayer.
+     */
+    public function addMaxFightPlayer(Player $maxFightPlayer): void
+    {
+        $this->maxFightPlayers[] = $maxFightPlayer;
+    }
 
-	/**
-	 * Remove maxFightPlayer.
-	 */
-	public function removeMaxFightPlayer(Player $maxFightPlayer)
-	{
-		$this->maxFightPlayers->removeElement($maxFightPlayer);
-	}
+    /**
+     * Remove maxFightPlayer.
+     */
+    public function removeMaxFightPlayer(Player $maxFightPlayer)
+    {
+        $this->maxFightPlayers->removeElement($maxFightPlayer);
+    }
 
-	/**
-	 * Get maxFightPlayers.
-	 */
-	public function getMaxFightPlayers(): Collection
-	{
-		return $this->maxFightPlayers;
-	}
+    /**
+     * Get maxFightPlayers.
+     */
+    public function getMaxFightPlayers(): Collection
+    {
+        return $this->maxFightPlayers;
+    }
 
     /**
      * Add currentEnemyPlayer.
