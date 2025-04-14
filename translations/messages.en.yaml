@@ -236,6 +236,7 @@ darkwood:
       label_maintenance: Darkwood application is currently undergoing maintenance. Its access is temporarily impossible. Please accept our apologies for the inconvenience. Please renew your future attempts to access.
       required_gold: Required gold
       required_strength: Required strength
+      required_enemy_alert: You have not defeated the previous enemy.
       required_gold_alert: You do not have enough gold.
       required_strength_alert: You are not strong enough to bear the sword.
   players:

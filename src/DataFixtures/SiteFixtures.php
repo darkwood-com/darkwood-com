@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class SiteFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->createSite([
             'name' => 'Darkwood',

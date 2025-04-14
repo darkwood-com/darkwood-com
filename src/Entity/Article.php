@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +18,20 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    security: "is_granted('ROLE_USER')",
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')"),
+    ],
+    normalizationContext: ['groups' => ['article:read']],
+    denormalizationContext: ['groups' => ['article:write']]
+)]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'article')]
@@ -24,16 +44,20 @@ class Article implements Stringable
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\ArticleTranslation>
      */
+    #[Groups(['article:read', 'article:write'])]
     #[ORM\OneToMany(targetEntity: ArticleTranslation::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
     protected Collection $translations;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Tag>
      */
+    #[Groups(['article:read', 'article:write'])]
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'article_tag')]
     protected Collection $tags;
 
+    #[ApiProperty(identifier: true)]
+    #[Groups(['article:read'])]
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -42,6 +66,7 @@ class Article implements Stringable
     /**
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\CommentArticle>
      */
+    #[Groups(['article:read'])]
     #[ORM\OneToMany(targetEntity: CommentArticle::class, mappedBy: 'article')]
     private Collection $comments;
 

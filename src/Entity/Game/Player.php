@@ -37,6 +37,10 @@ class Player
     #[ORM\JoinColumn(name: 'last_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Enemy $lastFight = null;
 
+    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'maxFightPlayers', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'max_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
+    protected ?Enemy $maxFight = null;
+
     #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'currentEnemyPlayers', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'current_enemy_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Enemy $currentEnemy = null;
@@ -380,6 +384,22 @@ class Player
     public function getLastFight(): ?Enemy
     {
         return $this->lastFight;
+    }
+
+    /**
+     * Set maxFight.
+     */
+    public function setMaxFight(?Enemy $maxFight = null): void
+    {
+        $this->maxFight = $maxFight;
+    }
+
+    /**
+     * Get maxFight.
+     */
+    public function getMaxFight(): ?Enemy
+    {
+        return $this->maxFight;
     }
 
     /**

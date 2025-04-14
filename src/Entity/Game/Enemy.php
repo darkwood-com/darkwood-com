@@ -48,6 +48,14 @@ class Enemy
      *
      * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
      */
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'maxFight', cascade: ['persist', 'remove'])]
+    protected Collection $maxFightPlayers;
+
+    /**
+     * Players.
+     *
+     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentEnemy', cascade: ['persist', 'remove'])]
     protected Collection $currentEnemyPlayers;
 
@@ -83,6 +91,7 @@ class Enemy
     public function __construct()
     {
         $this->lastFightPlayers = new ArrayCollection();
+        $this->maxFightPlayers = new ArrayCollection();
         $this->currentEnemyPlayers = new ArrayCollection();
     }
 
@@ -290,6 +299,30 @@ class Enemy
     public function getLastFightPlayers(): Collection
     {
         return $this->lastFightPlayers;
+    }
+
+    /**
+     * Add maxFightPlayer.
+     */
+    public function addMaxFightPlayer(Player $maxFightPlayer): void
+    {
+        $this->maxFightPlayers[] = $maxFightPlayer;
+    }
+
+    /**
+     * Remove maxFightPlayer.
+     */
+    public function removeMaxFightPlayer(Player $maxFightPlayer)
+    {
+        $this->maxFightPlayers->removeElement($maxFightPlayer);
+    }
+
+    /**
+     * Get maxFightPlayers.
+     */
+    public function getMaxFightPlayers(): Collection
+    {
+        return $this->maxFightPlayers;
     }
 
     /**

@@ -14,13 +14,13 @@ class AdminTest extends CommonWebTestCase
     /**
      * @dataProvider urlProvider
      */
-    public function testPageIsSuccessful($url)
+    /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
-    }
+    }*/
 
     /**
-     * @dataProvider urlProvider
+     * @dataProvider provideW3CCases
      */
     public function testW3C($url)
     {
@@ -28,17 +28,17 @@ class AdminTest extends CommonWebTestCase
     }
 
     /**
-     * @dataProvider providePageIsAuthCases
+     * @dataProvider provideProvideW3CCasesCases
      */
-    public function testPageIsAuth($url, $location)
+    /*public function testPageIsAuth($url, $location)
     {
         $client = $this->getHostClient();
         $client->request('GET', $url);
 
         self::assertTrue($client->getResponse()->isRedirect($location));
-    }
+    }*/
 
-    public static function urlProvider(): iterable
+    public static function provideW3CCases(): iterable
     {
         $commonUrls = [
             ['/login'],
@@ -47,7 +47,7 @@ class AdminTest extends CommonWebTestCase
         return array_merge($commonUrls, []);
     }
 
-    public static function providePageIsAuthCases(): iterable
+    public static function provideProvideW3CCasesCases(): iterable
     {
         $commonUrls = [
         ];

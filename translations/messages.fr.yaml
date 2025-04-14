@@ -235,6 +235,7 @@ darkwood:
       label_maintenance: L'application Darkwood est actuellement en maintenance. Son accès est provisoirement impossible. Nous vous prions de bien vouloir nous excuser de la gêne occasionnée. Nous vous invitons à renouveler prochainement votre tentative d'accès.
       required_gold: Or requis
       required_strength: Force requise
+      required_enemy_alert: Vous n'avez pas battu l'ennemi précédent.
       required_gold_alert: Vous n'avez pas assez d'or.
       required_strength_alert: Vous n'êtes pas assez fort pour pouvoir porter l'épée.
   players:

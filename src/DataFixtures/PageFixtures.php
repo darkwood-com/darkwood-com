@@ -19,7 +19,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
         private readonly SiteService $siteService
     ) {}
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->createPage(['ref' => 'home', 'title' => 'Home'], $manager);
         $this->createPage(['ref' => 'contact', 'title' => 'Contact'], $manager);
@@ -46,7 +46,7 @@ class PageFixtures extends Fixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [SiteFixtures::class];
     }
