@@ -43,8 +43,9 @@ fixtures: ## Replay fixtures
 
 reload-db: ## Reload initial db
 	$(CONSOLE) doctrine:schema:drop --force
-	#bzip2 -dk ./db/dump.sql.bz2
-	mysql -h 127.0.0.1 -P 3311 -u darkwood -pdarkwood darkwood < ./db/dump.sql
+	gunzip -c ./db/darkwood_2025-05-21_17h11m.Wednesday.sql.gz > ./db/dump.sql
+	#mysql -h 127.0.0.1 -P 3311 -u darkwood -pdarkwood darkwood < ./db/dump.sql
+	docker exec -i darkwood_mysql mysql -h 127.0.0.1 -P 3306 -u darkwood -pdarkwood darkwood < ./db/dump.sql
 	rm ./db/dump.sql
 
 schema: ## Update database schema
