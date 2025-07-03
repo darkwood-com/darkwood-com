@@ -413,7 +413,7 @@ class Player
     /**
      * Get currentEnemy.
      */
-    public function getCurrentEnemy(): Enemy
+    public function getCurrentEnemy(): ?Enemy
     {
         return $this->currentEnemy;
     }
@@ -569,7 +569,7 @@ class Player
     /**
      * Get currentSword.
      */
-    public function getCurrentSword(): Sword
+    public function getCurrentSword(): ?Sword
     {
         return $this->currentSword;
     }
@@ -590,7 +590,7 @@ class Player
     /**
      * Get currentPotion.
      */
-    public function getCurrentPotion(): Potion
+    public function getCurrentPotion(): ?Potion
     {
         return $this->currentPotion;
     }
@@ -611,7 +611,7 @@ class Player
     /**
      * Get currentArmor.
      */
-    public function getCurrentArmor(): Armor
+    public function getCurrentArmor(): ?Armor
     {
         return $this->currentArmor;
     }
