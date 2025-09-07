@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class HelloTest extends CommonWebTestCase
 {
     public function getHostParameter(): string
@@ -19,9 +21,7 @@ class HelloTest extends CommonWebTestCase
         $this->validatePageUrl($url);
     }*/
 
-    /**
-     * @dataProvider provideW3CCases
-     */
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
@@ -57,12 +57,6 @@ class HelloTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        $urls = [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt']];
-
-        $flattenedUrls = array_map(static function ($url) {
-            return $url[0];
-        }, $urls);
-
-        return array_combine($flattenedUrls, $urls);
+        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt']];
     }
 }

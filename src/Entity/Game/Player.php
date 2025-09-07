@@ -56,7 +56,7 @@ class Player
     /**
      * DailyBattles.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\DailyBattle>
+     * @var Collection<DailyBattle>
      */
     #[ORM\OneToMany(targetEntity: DailyBattle::class, mappedBy: 'player', cascade: ['persist', 'remove'])]
     protected Collection $dailyBattles;

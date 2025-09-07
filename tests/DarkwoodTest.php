@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 use function sprintf;
 
 class DarkwoodTest extends CommonWebTestCase
@@ -21,9 +23,7 @@ class DarkwoodTest extends CommonWebTestCase
         $this->validatePageUrl($url);
     }*/
 
-    /**
-     * @dataProvider provideW3CCases
-     */
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);

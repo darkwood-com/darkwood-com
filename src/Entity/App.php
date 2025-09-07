@@ -35,7 +35,7 @@ class App extends Page
     /**
      * Contents.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\AppContent>
+     * @var Collection<AppContent>
      */
     #[ORM\OneToMany(targetEntity: AppContent::class, mappedBy: 'app', cascade: ['persist', 'remove'])]
     protected Collection $contents;

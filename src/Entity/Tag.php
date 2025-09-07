@@ -26,13 +26,13 @@ class Tag implements Stringable
     /**
      * Translations.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\TagTranslation>
+     * @var Collection<TagTranslation>
      */
     #[ORM\OneToMany(targetEntity: TagTranslation::class, mappedBy: 'tag', cascade: ['persist', 'remove'])]
     protected Collection $translations;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Article>
+     * @var Collection<Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags', cascade: ['persist'])]
     protected Collection $articles;

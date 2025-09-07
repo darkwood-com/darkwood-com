@@ -56,7 +56,7 @@ class Page implements Stringable
     /**
      * Translations.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\PageTranslation>
+     * @var Collection<PageTranslation>
      */
     #[Groups(['page:read', 'page:write'])]
     #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist', 'remove'])]
@@ -76,7 +76,7 @@ class Page implements Stringable
     /**
      * Comments.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
+     * @var Collection<Comment>
      */
     #[Groups(['page:read'])]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'page', cascade: ['persist', 'remove'])]

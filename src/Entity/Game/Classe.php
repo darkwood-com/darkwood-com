@@ -38,7 +38,7 @@ class Classe
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'classe', cascade: ['persist', 'remove'])]
     protected Collection $players;

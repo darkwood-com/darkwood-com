@@ -98,14 +98,14 @@ class AppsController extends AbstractController
             throw $this->createNotFoundException('App not found !');
         }
 
-        $contents = $app->getContents()->filter(static fn ($appContent) =>
+        $contents = $app->getContents()->filter(static fn ($appContent)
             // @var AppContent $appContent
-            $appContent->getLocale() === $request->getLocale());
+            => $appContent->getLocale() === $request->getLocale());
         $content = $page->getContent();
         if (null !== $slug) {
-            $content = $contents->filter(static fn ($appContent) =>
+            $content = $contents->filter(static fn ($appContent)
                 // @var AppContent $appContent
-                $appContent->getSlug() === $slug)->current();
+                => $appContent->getSlug() === $slug)->current();
             if (!$content) {
                 throw $this->createNotFoundException('App slug not found !');
             }

@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  *  Form Type.
  *
- * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+ * @SuppressWarnings("PHPMD.UnusedLocalVariable")
  */
 class UserType extends AbstractType
 {

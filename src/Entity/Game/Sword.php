@@ -38,7 +38,7 @@ class Sword
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'sword', cascade: ['persist', 'remove'])]
     protected Collection $players;
@@ -46,7 +46,7 @@ class Sword
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentSword', cascade: ['persist', 'remove'])]
     protected Collection $currentSwordPlayers;

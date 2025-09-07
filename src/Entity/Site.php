@@ -49,7 +49,7 @@ class Site implements Stringable
     protected ?int $position = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Page>
+     * @var Collection<Page>
      */
     #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'site', cascade: ['all'])]
     protected Collection $pages;

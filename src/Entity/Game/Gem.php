@@ -35,7 +35,7 @@ class Gem
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment1', cascade: ['persist', 'remove'])]
     protected Collection $equipment1Players;
@@ -43,7 +43,7 @@ class Gem
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment2', cascade: ['persist', 'remove'])]
     protected Collection $equipment2Players;
@@ -51,7 +51,7 @@ class Gem
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'equipment3', cascade: ['persist', 'remove'])]
     protected Collection $equipment3Players;

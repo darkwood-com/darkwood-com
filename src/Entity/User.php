@@ -75,7 +75,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Comments.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Comment>
+     * @var Collection<Comment>
      */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected Collection $comments;
@@ -83,7 +83,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     /**
      * Contacts.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Contact>
+     * @var Collection<Contact>
      */
     #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected Collection $contacts;

@@ -38,7 +38,7 @@ class Enemy
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'lastFight', cascade: ['persist', 'remove'])]
     protected Collection $lastFightPlayers;
@@ -46,7 +46,7 @@ class Enemy
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'maxFight', cascade: ['persist', 'remove'])]
     protected Collection $maxFightPlayers;
@@ -54,7 +54,7 @@ class Enemy
     /**
      * Players.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Game\Player>
+     * @var Collection<Player>
      */
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'currentEnemy', cascade: ['persist', 'remove'])]
     protected Collection $currentEnemyPlayers;

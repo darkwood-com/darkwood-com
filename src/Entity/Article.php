@@ -42,14 +42,14 @@ class Article implements Stringable
     /**
      * Translations.
      *
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\ArticleTranslation>
+     * @var Collection<ArticleTranslation>
      */
     #[Groups(['article:read', 'article:write'])]
     #[ORM\OneToMany(targetEntity: ArticleTranslation::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
     protected Collection $translations;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\Tag>
+     * @var Collection<Tag>
      */
     #[Groups(['article:read', 'article:write'])]
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
@@ -64,7 +64,7 @@ class Article implements Stringable
     private ?int $id = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Entity\CommentArticle>
+     * @var Collection<CommentArticle>
      */
     #[Groups(['article:read'])]
     #[ORM\OneToMany(targetEntity: CommentArticle::class, mappedBy: 'article')]

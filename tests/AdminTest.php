@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class AdminTest extends CommonWebTestCase
 {
     public function getHostParameter(): string
@@ -12,16 +14,14 @@ class AdminTest extends CommonWebTestCase
     }
 
     /**
-     * @dataProvider urlProvider
+     * @dataProvider provideW3CCases
      */
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
     }*/
 
-    /**
-     * @dataProvider provideW3CCases
-     */
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
@@ -40,11 +40,9 @@ class AdminTest extends CommonWebTestCase
 
     public static function provideW3CCases(): iterable
     {
-        $commonUrls = [
+        return [
             ['/login'],
         ];
-
-        return array_merge($commonUrls, []);
     }
 
     public static function provideProvideW3CCasesCases(): iterable
