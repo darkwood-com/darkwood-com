@@ -8,60 +8,60 @@ vich_uploader:
         users:
             uri_prefix:         /media/users
             upload_destination: '%kernel.project_dir%/public/media/users'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         sites:
             uri_prefix:         /media/sites
             upload_destination: '%kernel.project_dir%/public/media/sites'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         pages:
             uri_prefix:         /media/pages/images
             upload_destination: '%kernel.project_dir%/public/media/pages/images'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         thumbnailPages:
             uri_prefix:         /media/pages/thumbnails
             upload_destination: '%kernel.project_dir%/public/media/pages/thumbnails'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         twitterPages:
             uri_prefix:         /media/pages/twitters
             upload_destination: '%kernel.project_dir%/public/media/pages/twitters'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         ogPages:
             uri_prefix:         /media/pages/ogs
             upload_destination: '%kernel.project_dir%/public/media/pages/ogs'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         news:
             uri_prefix:         /media/news
             upload_destination: '%kernel.project_dir%/public/media/news'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         articles:
             uri_prefix:         /media/articles
             upload_destination: '%kernel.project_dir%/public/media/articles'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         armors:
             uri_prefix:         /media/armors
             upload_destination: '%kernel.project_dir%/public/media/armors'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         classes:
             uri_prefix:         /media/classes
             upload_destination: '%kernel.project_dir%/public/media/classes'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         enemies:
             uri_prefix:         /media/enemies
             upload_destination: '%kernel.project_dir%/public/media/enemies'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         gems:
             uri_prefix:         /media/gems
             upload_destination: '%kernel.project_dir%/public/media/gems'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         potions:
             uri_prefix:         /media/potions
             upload_destination: '%kernel.project_dir%/public/media/potions'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         swords:
             uri_prefix:         /media/swords
             upload_destination: '%kernel.project_dir%/public/media/swords'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer
         bannerApps:
             uri_prefix:         /media/apps/banners
             upload_destination: '%kernel.project_dir%/public/media/apps/banners'
-            namer:              vich_uploader.namer_uniqid
+            namer:              Vich\UploaderBundle\Naming\UniqidNamer

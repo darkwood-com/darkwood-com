@@ -14,12 +14,20 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('username');
+        $builder->add('username', null, [
+            'constraints' => [
+                new Regex([
+                    'pattern' => '/^[a-z0-9\-]+$/',
+                    'message' => 'Username must contain only lowercase letters, numbers, and hyphens'
+                ])
+            ]
+        ]);
         $builder->add('email', EmailType::class);
         $builder->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
