@@ -16,11 +16,11 @@ trait TimestampTrait
 {
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, nullable: false)]
-    protected DateTimeInterface $created;
+    protected ?DateTimeInterface $created = null;
 
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, nullable: false)]
-    protected DateTimeInterface $updated;
+    protected ?DateTimeInterface $updated = null;
 
     /**
      * Set created.
@@ -35,7 +35,7 @@ trait TimestampTrait
     /**
      * Get created.
      */
-    public function getCreated(): DateTimeInterface
+    public function getCreated(): ?DateTimeInterface
     {
         return $this->created;
     }
@@ -53,7 +53,7 @@ trait TimestampTrait
     /**
      * Get updated.
      */
-    public function getUpdated(): DateTimeInterface
+    public function getUpdated(): ?DateTimeInterface
     {
         return $this->updated;
     }
