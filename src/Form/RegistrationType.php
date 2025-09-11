@@ -24,9 +24,9 @@ class RegistrationType extends AbstractType
             'constraints' => [
                 new Regex([
                     'pattern' => '/^[a-z0-9\-]+$/',
-                    'message' => 'Username must contain only lowercase letters, numbers, and hyphens'
-                ])
-            ]
+                    'message' => 'Username must contain only lowercase letters, numbers, and hyphens',
+                ]),
+            ],
         ]);
         $builder->add('email', EmailType::class);
         $builder->add('plainPassword', RepeatedType::class, [
