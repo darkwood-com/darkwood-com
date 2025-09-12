@@ -39,3 +39,7 @@ yarn-error.log
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> Custom ignores ###
+/public/blog/images/articles/
+###< Custom ignores ###
