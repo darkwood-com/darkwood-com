@@ -27,7 +27,7 @@
         "@symfony/webpack-encore": "^5.1.0",
         "core-js": "^3.41.0",
         "regenerator-runtime": "^0.14.1",
-        "webpack": "^5.99.3",
+        "webpack": "^5.105.0",
         "webpack-cli": "^5.1.4",
         "webpack-notifier": "^1.15.0"
     }
