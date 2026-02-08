@@ -12,26 +12,23 @@
 
     perSystem = { config, self', inputs', pkgs, system, lib, ... }:
       let
-        php = pkgs.api.buildPhpFromComposer {
-          src = inputs.self;
-          php = pkgs.php83; # Change to php56, php70, ..., php81, php82, php83 etc.
-        };
-      in
-      {
-        _module.args.pkgs = import self.inputs.nixpkgs {
+        pkgs = import self.inputs.nixpkgs {
           inherit system;
           overlays = [
             inputs.nix-shell.overlays.default
           ];
           config.allowUnfree = true;
         };
-
+        # Use pre-built PHP from nix-shell overlay (php74, php80, php81, php82, php83, php84)
+        php = pkgs.php84;
+      in
+      {
         devShells.default = pkgs.mkShellNoCC {
           name = "php-devshell";
           buildInputs = [
             php
             php.packages.composer
-            php.packages.phpstan
+            pkgs.phpstan
             php.packages.psalm
             pkgs.phpunit
             self'.packages.satis
@@ -269,11 +266,11 @@
 
                 runtimeInputs = [
                   php
-                  php.packages.phpstan
+                  pkgs.phpstan
                 ];
 
                 text = ''
-                  ${lib.getExe php.packages.phpstan} "$@"
+                  ${lib.getExe pkgs.phpstan} "$@"
                 '';
               });
             };
