@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.x
+
+- Add Darkwood IA Exception Bundle
+
 ## v1.0.1
 
 - Add tests.
