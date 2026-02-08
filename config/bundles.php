@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
+use Darkwood\IaExceptionBundle\DarkwoodIaExceptionBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
@@ -14,6 +15,7 @@ use Liip\ImagineBundle\LiipImagineBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
 use Sentry\SentryBundle\SentryBundle;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
+use Symfony\AI\AiBundle\AiBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MakerBundle\MakerBundle;
@@ -50,4 +52,6 @@ return [
     NelmioCorsBundle::class => ['all' => true],
     ApiPlatformBundle::class => ['all' => true],
     LexikJWTAuthenticationBundle::class => ['all' => true],
+    AiBundle::class => ['all' => true],
+    DarkwoodIaExceptionBundle::class => ['all' => true],
 ];
