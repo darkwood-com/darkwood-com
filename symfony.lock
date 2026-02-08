@@ -22,6 +22,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.5"
     },
+    "darkwood/ia-exception-bundle": {
+        "version": "dev-main"
+    },
     "doctrine/annotations": {
         "version": "2.0",
         "recipe": {
@@ -316,6 +319,30 @@
         },
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
+        ]
+    },
+    "symfony/ai-bundle": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "0.1",
+            "ref": "917b2a3da78a22e9488e99e1847d1f019d18da76"
+        },
+        "files": [
+            "config/packages/ai.yaml"
+        ]
+    },
+    "symfony/ai-open-ai-platform": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "0.1",
+            "ref": "4f925d48b69c145cde2286e2cabfc7bd5eb4aca9"
+        },
+        "files": [
+            "config/packages/ai_open_ai_platform.yaml"
         ]
     },
     "symfony/asset": {
@@ -632,6 +659,15 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/uid": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.0",
+            "ref": "0df5844274d871b37fc3816c57a768ffc60a43a5"
+        }
     },
     "symfony/validator": {
         "version": "7.1",
