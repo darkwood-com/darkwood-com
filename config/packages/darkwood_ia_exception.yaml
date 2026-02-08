@@ -1,0 +1,22 @@
+darkwood_ia_exception:
+    # Enable AI analysis (opt-in; recommended for dev/staging only)
+    # Use a parameter that depends on the environment to enable this only in dev
+    enabled: '%env(bool:ENABLE_IA_EXCEPTION)%'
+
+    # HTTP status codes to augment with AI (default: 500)
+    only_status_codes: [500]
+
+    # Symfony AI agent service ID (from symfony/ai-bundle)
+    agent: 'ai.agent.default'
+
+    # Timeout in ms before fallback (configure AI platform http_client for enforcement)
+    timeout_ms: 800
+
+    # Cache TTL in seconds (0 = disabled)
+    cache_ttl: 600
+
+    # PSR-6 cache service
+    cache: 'cache.app'
+
+    # Include stack trace in AI input (dev only; never in production)
+    include_trace: true
