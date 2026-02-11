@@ -315,8 +315,12 @@ class PageService
         return $this->getUrl($page->getOneTranslation($locale));
     }
 
-    public function getPageCanonical($ref, $entity, $host)
+    public function getPageCanonical($ref, $entity, $host, ?string $currentLocale = null)
     {
+        if ($entity instanceof ArticleTranslation && $currentLocale !== null && $entity->getLocale() === $currentLocale) {
+            return ['locale' => $currentLocale, 'url' => $this->getUrl($entity, UrlGeneratorInterface::ABSOLUTE_URL)];
+        }
+
         $pageLinks = $this->getPageLinks($ref, $entity, $host, null, UrlGeneratorInterface::ABSOLUTE_URL);
         foreach ($pageLinks as $locale => $url) {
             return ['locale' => $locale, 'url' => $url];
