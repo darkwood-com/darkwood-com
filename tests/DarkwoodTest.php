@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 
+use function dirname;
 use function sprintf;
 
 class DarkwoodTest extends CommonWebTestCase
