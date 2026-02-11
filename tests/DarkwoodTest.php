@@ -23,6 +23,14 @@ class DarkwoodTest extends CommonWebTestCase
         $this->validatePageUrl($url);
     }*/
 
+    public function testLlmsTxtExistsAndContainsExpectedContent(): void
+    {
+        $path = dirname(__DIR__) . '/public/llms.txt';
+
+        self::assertFileExists($path, 'public/llms.txt should exist');
+        self::assertStringContainsString('LLM / Agent Access', (string) file_get_contents($path), 'llms.txt should include "LLM / Agent Access"');
+    }
+
     #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {

@@ -1,0 +1,34 @@
+# Darkwood (darkwood.com) — LLM / Agent Access
+
+## Summary
+Darkwood is a technical blog and maker hub by Mathieu Ledru (PHP/Symfony, automation, AI agents),
+with additional sub-sites (apps, photos) and a game/community area.
+
+## Primary entry points (recommended)
+- Main site (game/community): https://darkwood.com
+- Blog (articles): https://blog.darkwood.com
+- About / profile: https://hello.darkwood.com
+- Apps (projects): https://apps.darkwood.com
+- Photos (gallery): https://photos.darkwood.com
+- Blog RSS: https://blog.darkwood.com/rss
+- Sitemap: https://blog.darkwood.com/sitemap.xml
+
+## High-signal content for agents
+- Technical articles and tutorials (blog.darkwood.com)
+- Projects and professional profile (hello.darkwood.com)
+
+## What you are allowed to do
+- Read and summarize public pages
+- Follow internal links for context
+- Quote small excerpts with attribution
+
+## What to avoid
+- Do not attempt login/register or interact with game/chat features
+- Do not submit forms
+- Do not crawl aggressively
+
+## Rate limits
+- Be polite: <= 1 request/second, cache results.
+
+## Contact
+- https://hello.darkwood.com
