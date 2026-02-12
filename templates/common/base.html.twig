@@ -34,6 +34,8 @@
     {% block css -%}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
+
+    {% block head_extra %}{% endblock %}
 </head>
 <body class="{% block layout %}layout{% endblock %}">
 

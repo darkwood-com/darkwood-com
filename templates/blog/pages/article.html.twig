@@ -1,5 +1,37 @@
 {% extends "blog/base.html.twig" %}
 
+{% block head_extra %}
+{% set articleTranslation = article.getOneTranslation(app.request.locale) %}
+{% set canonicalUrl = url('blog_article', { _locale: articleTranslation.locale, slug: articleTranslation.slug }) %}
+{% set excerpt = (articleTranslation.content|default('')|striptags|replace({"\n": " ", "\r": " "})|trim)|slice(0, 160) %}
+{% set description = excerpt|default(articleTranslation.title)|slice(0, 160) %}
+{% set inLanguage = app.request.locale == 'fr' ? 'fr-FR' : (app.request.locale == 'de' ? 'de-DE' : 'en-US') %}
+{% set schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': articleTranslation.title,
+    'description': description,
+    'datePublished': articleTranslation.created|date('c'),
+    'dateModified': (articleTranslation.updated|default(articleTranslation.created))|date('c'),
+    'inLanguage': inLanguage,
+    'author': {
+        '@type': 'Person',
+        'name': 'Mathieu Ledru',
+        'url': 'https://hello.darkwood.com'
+    },
+    'publisher': {
+        '@type': 'Organization',
+        'name': 'Darkwood',
+        'url': 'https://darkwood.com'
+    },
+    'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': canonicalUrl
+    }
+} %}
+<script type="application/ld+json">{{ schema|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))|raw }}</script>
+{% endblock %}
+
 {% block content %}
 
 {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
