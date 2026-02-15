@@ -8,7 +8,7 @@
 		"api-platform/core": "^4.1.0",
 		"beberlei/doctrineextensions": "^1.3",
 		"composer/package-versions-deprecated": "^1.11.99.5",
-		"darkwood/ia-exception-bundle": "^1.0",
+		"darkwood/ia-exception-bundle": "^1.0.2",
 		"doctrine/dbal": "^4.2.0",
 		"doctrine/doctrine-bundle": "^2.10.2",
 		"doctrine/doctrine-migrations-bundle": "^3.2.4",
