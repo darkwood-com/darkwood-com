@@ -3,6 +3,16 @@ darkwood_ia_exception:
     # Use a parameter that depends on the environment to enable this only in dev
     enabled: '%env(bool:ENABLE_IA_EXCEPTION)%'
 
+    # When true: exception page returns immediately with "AI analysis loading…";
+    # analysis is fetched asynchronously via GET /__ai_exception/{error_id}
+    async: true
+
+    # URL path for async endpoint (only used when async: true)
+    async_route_prefix: '__ai_exception'
+
+    # Seconds to keep exception context in cache for async analysis (min 60)
+    async_context_ttl: 300
+
     # HTTP status codes to augment with AI (default: 500)
     only_status_codes: [500]
 

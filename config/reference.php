@@ -2648,6 +2648,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     cache?: scalar|Param|null, // Cache service ID for AI result caching. // Default: "cache.app"
  *     include_trace?: bool|Param, // Include stack trace in AI input. Only enable in dev environments. // Default: false
  *     error_id_generator?: scalar|Param|null, // Optional service ID for custom error_id generation. Must return a non-empty string. // Default: null
+ *     async?: bool|Param, // When true, exception page is returned immediately with a placeholder; AI analysis is loaded asynchronously via /__ai_exception/{error_id}. // Default: false
+ *     async_route_prefix?: scalar|Param|null, // URL path prefix for the async AI analysis endpoint (e.g. __ai_exception yields /__ai_exception/{error_id}). // Default: "__ai_exception"
+ *     async_context_ttl?: int|Param, // Seconds to keep exception context in cache for async analysis (min 60). // Default: 300
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,

@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.x
+## v1.0.2
 
 - Add Darkwood IA Exception Bundle
 
