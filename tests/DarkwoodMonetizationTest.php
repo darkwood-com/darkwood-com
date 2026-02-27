@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Entity\ApiKey;
 use App\Entity\Entitlement;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
  * Darkwood API monetization: rate limiting (prod only) and premium-only archives.
  * - Test env: no rate limit, archives allowed for all.
  * - Simulated prod: anonymous rate limit, premium bypass, archives 403/200.
+ * All requests use a beta API key so they pass the Darkwood beta gate.
  */
 class DarkwoodMonetizationTest extends WebTestCase
 {
@@ -31,12 +33,46 @@ class DarkwoodMonetizationTest extends WebTestCase
         return $client;
     }
 
+    /** Create a beta API key and return raw key; client must send it via X-API-Key. */
+    private function createBetaKeyAndGetRaw(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    {
+        $rawKey = bin2hex(random_bytes(16));
+        $container = $client->getContainer();
+        /** @var EntityManagerInterface $em */
+        $em = $container->get(EntityManagerInterface::class);
+        $apiKey = new ApiKey();
+        $apiKey->setKeyHash(hash('sha256', $rawKey));
+        $apiKey->setName('monetization-test');
+        $apiKey->setIsActive(true);
+        $apiKey->setIsBeta(true);
+        $apiKey->setIsPremium(false);
+        $em->persist($apiKey);
+        $em->flush();
+
+        return $rawKey;
+    }
+
+    private function createApiClientWithBetaKey(array $options = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    {
+        $client = $this->createApiClient($options);
+        try {
+            $rawKey = $this->createBetaKeyAndGetRaw($client);
+        } catch (\Throwable $e) {
+            self::markTestSkipped('Database not available for beta key: ' . $e->getMessage());
+        }
+        $client->setServerParameters(array_merge($client->getServerParameters(), [
+            'HTTP_X_API_KEY' => $rawKey,
+        ]));
+
+        return $client;
+    }
+
     /**
      * In test env monetization is disabled: POST action is not rate limited.
      */
     public function testPostActionNotRateLimitedInTestEnv(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->createApiClientWithBetaKey();
 
         for ($i = 0; $i < 5; $i++) {
             $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
@@ -54,7 +90,7 @@ class DarkwoodMonetizationTest extends WebTestCase
         $prev = getenv('DARKWOOD_MONETIZATION_SIMULATE_PROD');
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD=1');
         try {
-            $client = $this->createApiClient();
+            $client = $this->createApiClientWithBetaKey();
             $container = $client->getContainer();
             /** @var RateLimiterFactory $anonymousFactory */
             $anonymousFactory = $container->get('limiter.darkwood_action_anonymous');
@@ -86,7 +122,7 @@ class DarkwoodMonetizationTest extends WebTestCase
         $prev = getenv('DARKWOOD_MONETIZATION_SIMULATE_PROD');
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD=1');
         try {
-            $client = $this->createApiClient();
+            $client = $this->createApiClientWithBetaKey();
 
             $client->request('GET', '/api/darkwood/archives');
             self::assertSame(403, $client->getResponse()->getStatusCode(), 'Archives should require premium when monetization enabled');
@@ -104,7 +140,7 @@ class DarkwoodMonetizationTest extends WebTestCase
      */
     public function testArchivesAllowedInTestEnv(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->createApiClientWithBetaKey();
 
         $client->request('GET', '/api/darkwood/archives');
         self::assertSame(200, $client->getResponse()->getStatusCode(), 'Archives should be allowed in test env (everyone premium)');
@@ -120,7 +156,7 @@ class DarkwoodMonetizationTest extends WebTestCase
     public function testPremiumUserGets200OnArchivesInProd(): void
     {
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD=1');
-        $client = $this->createApiClient();
+        $client = $this->createApiClientWithBetaKey();
         $container = $client->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
