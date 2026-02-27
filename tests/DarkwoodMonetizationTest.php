@@ -8,9 +8,11 @@ use App\Entity\ApiKey;
 use App\Entity\Entitlement;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Throwable;
 
 /**
  * Darkwood API monetization: rate limiting (prod only) and premium-only archives.
@@ -21,51 +23,6 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 class DarkwoodMonetizationTest extends WebTestCase
 {
     private const API_HOST = 'api.darkwood.localhost';
-
-    private function createApiClient(array $options = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser
-    {
-        $client = static::createClient($options);
-        $client->setServerParameters([
-            'HTTP_HOST' => self::API_HOST,
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-
-        return $client;
-    }
-
-    /** Create a beta API key and return raw key; client must send it via X-API-Key. */
-    private function createBetaKeyAndGetRaw(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
-    {
-        $rawKey = bin2hex(random_bytes(16));
-        $container = $client->getContainer();
-        /** @var EntityManagerInterface $em */
-        $em = $container->get(EntityManagerInterface::class);
-        $apiKey = new ApiKey();
-        $apiKey->setKeyHash(hash('sha256', $rawKey));
-        $apiKey->setName('monetization-test');
-        $apiKey->setIsActive(true);
-        $apiKey->setIsBeta(true);
-        $apiKey->setIsPremium(false);
-        $em->persist($apiKey);
-        $em->flush();
-
-        return $rawKey;
-    }
-
-    private function createApiClientWithBetaKey(array $options = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser
-    {
-        $client = $this->createApiClient($options);
-        try {
-            $rawKey = $this->createBetaKeyAndGetRaw($client);
-        } catch (\Throwable $e) {
-            self::markTestSkipped('Database not available for beta key: ' . $e->getMessage());
-        }
-        $client->setServerParameters(array_merge($client->getServerParameters(), [
-            'HTTP_X_API_KEY' => $rawKey,
-        ]));
-
-        return $client;
-    }
 
     /**
      * In test env monetization is disabled: POST action is not rate limited.
@@ -89,6 +46,7 @@ class DarkwoodMonetizationTest extends WebTestCase
     {
         $prev = getenv('DARKWOOD_MONETIZATION_SIMULATE_PROD');
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD=1');
+
         try {
             $client = $this->createApiClientWithBetaKey();
             $container = $client->getContainer();
@@ -121,6 +79,7 @@ class DarkwoodMonetizationTest extends WebTestCase
     {
         $prev = getenv('DARKWOOD_MONETIZATION_SIMULATE_PROD');
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD=1');
+
         try {
             $client = $this->createApiClientWithBetaKey();
 
@@ -167,10 +126,11 @@ class DarkwoodMonetizationTest extends WebTestCase
         $user->setEmail('premium-test@darkwood.test');
         $user->setUsername('premium_test_user');
         $user->setPassword($hasher->hashPassword($user, 'testpass'));
+
         try {
             $em->persist($user);
             $em->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::markTestSkipped('Test database not available: ' . $e->getMessage());
         }
 
@@ -199,5 +159,51 @@ class DarkwoodMonetizationTest extends WebTestCase
         $em->flush();
 
         putenv('DARKWOOD_MONETIZATION_SIMULATE_PROD');
+    }
+
+    private function createApiClient(array $options = []): KernelBrowser
+    {
+        $client = static::createClient($options);
+        $client->setServerParameters([
+            'HTTP_HOST' => self::API_HOST,
+            'CONTENT_TYPE' => 'application/json',
+        ]);
+
+        return $client;
+    }
+
+    /** Create a beta API key and return raw key; client must send it via X-API-Key. */
+    private function createBetaKeyAndGetRaw(KernelBrowser $client): string
+    {
+        $rawKey = bin2hex(random_bytes(16));
+        $container = $client->getContainer();
+        /** @var EntityManagerInterface $em */
+        $em = $container->get(EntityManagerInterface::class);
+        $apiKey = new ApiKey();
+        $apiKey->setKeyHash(hash('sha256', $rawKey));
+        $apiKey->setName('monetization-test');
+        $apiKey->setIsActive(true);
+        $apiKey->setIsBeta(true);
+        $apiKey->setIsPremium(false);
+        $em->persist($apiKey);
+        $em->flush();
+
+        return $rawKey;
+    }
+
+    private function createApiClientWithBetaKey(array $options = []): KernelBrowser
+    {
+        $client = $this->createApiClient($options);
+
+        try {
+            $rawKey = $this->createBetaKeyAndGetRaw($client);
+        } catch (Throwable $e) {
+            self::markTestSkipped('Database not available for beta key: ' . $e->getMessage());
+        }
+        $client->setServerParameters(array_merge($client->getServerParameters(), [
+            'HTTP_X_API_KEY' => $rawKey,
+        ]));
+
+        return $client;
     }
 }

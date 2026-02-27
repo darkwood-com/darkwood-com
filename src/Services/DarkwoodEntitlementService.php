@@ -15,8 +15,7 @@ class DarkwoodEntitlementService
 {
     public function __construct(
         private readonly EntitlementRepository $entitlementRepository,
-    ) {
-    }
+    ) {}
 
     public function isPremium(?User $user): bool
     {

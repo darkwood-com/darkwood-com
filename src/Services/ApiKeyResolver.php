@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Entity\ApiKey;
 use App\Repository\ApiKeyRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Throwable;
 
 /**
  * Resolves and validates API key from X-API-Key header.
@@ -18,8 +19,7 @@ class ApiKeyResolver
 
     public function __construct(
         private readonly ApiKeyRepository $apiKeyRepository,
-    ) {
-    }
+    ) {}
 
     public function resolve(Request $request): ?ApiKey
     {
@@ -57,7 +57,7 @@ class ApiKeyResolver
             $keyHash = hash('sha256', $rawKey);
 
             return $this->apiKeyRepository->findOneByKeyHash($keyHash);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return null;
         }
     }

@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\EntitlementRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,10 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'entitlement')]
 class Entitlement
 {
+    use TimestampTrait;
     public const PLAN_FREE = 'FREE';
     public const PLAN_PREMIUM = 'PREMIUM';
-
-    use TimestampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,7 +34,7 @@ class Entitlement
     private bool $active = true;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $validUntil = null;
+    private ?DateTimeInterface $validUntil = null;
 
     public function getId(): ?int
     {
@@ -77,12 +77,12 @@ class Entitlement
         return $this;
     }
 
-    public function getValidUntil(): ?\DateTimeInterface
+    public function getValidUntil(): ?DateTimeInterface
     {
         return $this->validUntil;
     }
 
-    public function setValidUntil(?\DateTimeInterface $validUntil): static
+    public function setValidUntil(?DateTimeInterface $validUntil): static
     {
         $this->validUntil = $validUntil;
 

@@ -22,8 +22,7 @@ final class DarkwoodArchivesController extends AbstractController
     public function __construct(
         private readonly DarkwoodEntitlementService $entitlementService,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): Response
     {

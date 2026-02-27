@@ -14,6 +14,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+use function sprintf;
+
 #[AsCommand(
     name: 'darkwood:apikey:toggle',
     description: 'Enable or disable an API key by id.',
@@ -31,7 +33,8 @@ final class DarkwoodApikeyToggleCommand extends Command
     {
         $this
             ->addArgument('id', InputArgument::REQUIRED, 'API key id')
-            ->addOption('active', null, InputOption::VALUE_REQUIRED, '1 to activate, 0 to deactivate', '1');
+            ->addOption('active', null, InputOption::VALUE_REQUIRED, '1 to activate, 0 to deactivate', '1')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

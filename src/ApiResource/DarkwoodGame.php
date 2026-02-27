@@ -31,7 +31,4 @@ use ApiPlatform\Metadata\Post;
         ),
     ],
 )]
-final class DarkwoodGame
-{
-}
-
+final class DarkwoodGame {}

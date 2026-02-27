@@ -6,12 +6,13 @@ namespace App\Repository;
 
 use App\Entity\Entitlement;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Entitlement|null find($id, $lockMode = null, $lockVersion = null)
- * @method Entitlement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Entitlement find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Entitlement findOneBy(array $criteria, array $orderBy = null)
  * @method Entitlement[]    findAll()
  * @method Entitlement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -24,7 +25,7 @@ class EntitlementRepository extends ServiceEntityRepository
 
     public function findActivePremiumForUser(User $user): ?Entitlement
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
 
         return $this->createQueryBuilder('e')
             ->andWhere('e.user = :user')
@@ -38,6 +39,7 @@ class EntitlementRepository extends ServiceEntityRepository
             ->orderBy('e.validUntil', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

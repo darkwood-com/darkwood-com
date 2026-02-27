@@ -6,7 +6,9 @@ namespace App\Tests;
 
 use App\Entity\ApiKey;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Throwable;
 
 /**
  * Beta access: Darkwood API endpoints require valid X-API-Key with active + beta.
@@ -15,17 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class DarkwoodBetaAccessTest extends WebTestCase
 {
     private const API_HOST = 'api.darkwood.localhost';
-
-    private function createApiClient(array $options = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser
-    {
-        $client = static::createClient($options);
-        $client->setServerParameters([
-            'HTTP_HOST' => self::API_HOST,
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-
-        return $client;
-    }
 
     public function testGetStateWithoutKeyReturns401(): void
     {
@@ -63,10 +54,11 @@ class DarkwoodBetaAccessTest extends WebTestCase
         $apiKey->setIsActive(false);
         $apiKey->setIsBeta(true);
         $apiKey->setIsPremium(false);
+
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::markTestSkipped('Database not available: ' . $e->getMessage());
         }
 
@@ -97,10 +89,11 @@ class DarkwoodBetaAccessTest extends WebTestCase
         $apiKey->setIsActive(true);
         $apiKey->setIsBeta(false);
         $apiKey->setIsPremium(false);
+
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::markTestSkipped('Database not available: ' . $e->getMessage());
         }
 
@@ -131,10 +124,11 @@ class DarkwoodBetaAccessTest extends WebTestCase
         $apiKey->setIsActive(true);
         $apiKey->setIsBeta(true);
         $apiKey->setIsPremium(false);
+
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::markTestSkipped('Database not available: ' . $e->getMessage());
         }
 
@@ -163,10 +157,11 @@ class DarkwoodBetaAccessTest extends WebTestCase
         $apiKey->setIsActive(true);
         $apiKey->setIsBeta(true);
         $apiKey->setIsPremium(false);
+
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::markTestSkipped('Database not available: ' . $e->getMessage());
         }
 
@@ -179,5 +174,16 @@ class DarkwoodBetaAccessTest extends WebTestCase
             $em->remove($apiKey);
             $em->flush();
         }
+    }
+
+    private function createApiClient(array $options = []): KernelBrowser
+    {
+        $client = static::createClient($options);
+        $client->setServerParameters([
+            'HTTP_HOST' => self::API_HOST,
+            'CONTENT_TYPE' => 'application/json',
+        ]);
+
+        return $client;
     }
 }

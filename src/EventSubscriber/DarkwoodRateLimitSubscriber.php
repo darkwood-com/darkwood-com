@@ -28,8 +28,7 @@ final class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
         private readonly RateLimiterFactory $darkwoodActionAnonymousLimiter,
         private readonly RateLimiterFactory $darkwoodActionAuthenticatedLimiter,
         private readonly RateLimiterFactory $darkwoodActionPremiumLimiter,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

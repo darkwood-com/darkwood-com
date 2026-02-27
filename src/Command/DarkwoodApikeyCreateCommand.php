@@ -32,7 +32,8 @@ final class DarkwoodApikeyCreateCommand extends Command
         $this
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Label for the key (e.g. "tester-01")')
             ->addOption('beta', null, InputOption::VALUE_REQUIRED, 'Beta access (1 or 0)', '1')
-            ->addOption('premium', null, InputOption::VALUE_REQUIRED, 'Premium flag (1 or 0)', '0');
+            ->addOption('premium', null, InputOption::VALUE_REQUIRED, 'Premium flag (1 or 0)', '0')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

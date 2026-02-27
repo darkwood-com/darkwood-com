@@ -6,11 +6,17 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use App\Services\GameService;
+use BackedEnum;
+use DateTimeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Traversable;
+
+use function is_array;
+use function is_scalar;
 
 #[AsController]
 final class DarkwoodGetStateController extends AbstractController
@@ -18,8 +24,7 @@ final class DarkwoodGetStateController extends AbstractController
     public function __construct(
         private readonly GameService $gameService,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -49,11 +54,11 @@ final class DarkwoodGetStateController extends AbstractController
             return $value;
         }
 
-        if ($value instanceof \DateTimeInterface) {
-            return $value->format(\DATE_ATOM);
+        if ($value instanceof DateTimeInterface) {
+            return $value->format(DATE_ATOM);
         }
 
-        if ($value instanceof \BackedEnum) {
+        if ($value instanceof BackedEnum) {
             return $value->value;
         }
 
@@ -66,7 +71,7 @@ final class DarkwoodGetStateController extends AbstractController
             return $normalized;
         }
 
-        if ($value instanceof \Traversable) {
+        if ($value instanceof Traversable) {
             $normalized = [];
             foreach ($value as $item) {
                 $normalized[] = $this->normalizeResult($item);
@@ -86,4 +91,3 @@ final class DarkwoodGetStateController extends AbstractController
         return null;
     }
 }
-
