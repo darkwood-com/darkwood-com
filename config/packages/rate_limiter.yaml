@@ -1,0 +1,18 @@
+# Darkwood API action rate limiters (used in prod only by DarkwoodRateLimitSubscriber)
+framework:
+    rate_limiter:
+        # Anonymous: 60 actions per hour
+        darkwood_action_anonymous:
+            policy: 'fixed_window'
+            limit: 60
+            interval: '1 hour'
+        # Authenticated free users: higher limit
+        darkwood_action_authenticated:
+            policy: 'fixed_window'
+            limit: 500
+            interval: '1 hour'
+        # Premium: effectively unlimited for MVP
+        darkwood_action_premium:
+            policy: 'fixed_window'
+            limit: 10000
+            interval: '1 hour'

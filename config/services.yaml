@@ -40,6 +40,11 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    # Darkwood monetization: entitlement service needs kernel env
+    App\Services\DarkwoodEntitlementService:
+        arguments:
+            $kernelEnvironment: '%kernel.environment%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     twig.extension.stringloader:

@@ -23,6 +23,12 @@ use ApiPlatform\Metadata\Post;
             deserialize: false,
             name: 'api_darkwood_post_action',
         ),
+        new Get(
+            uriTemplate: '/darkwood/archives',
+            controller: 'App\Controller\Api\DarkwoodArchivesController',
+            read: false,
+            name: 'api_darkwood_archives',
+        ),
     ],
 )]
 final class DarkwoodGame
