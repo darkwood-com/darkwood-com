@@ -200,9 +200,7 @@ class DarkwoodMonetizationTest extends WebTestCase
         } catch (Throwable $e) {
             self::markTestSkipped('Database not available for beta key: ' . $e->getMessage());
         }
-        $client->setServerParameters(array_merge($client->getServerParameters(), [
-            'HTTP_X_API_KEY' => $rawKey,
-        ]));
+        $client->setServerParameter('HTTP_X_API_KEY', $rawKey);
 
         return $client;
     }
