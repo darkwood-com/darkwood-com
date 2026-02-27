@@ -44,10 +44,6 @@ final class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->entitlementService->isMonetizationEnabled()) {
-            return;
-        }
-
         $request = $event->getRequest();
         if ($request->attributes->get('_route') !== self::ROUTE) {
             return;
