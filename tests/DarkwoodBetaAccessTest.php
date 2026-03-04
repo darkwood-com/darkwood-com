@@ -14,35 +14,38 @@ use Throwable;
  * Beta access: Darkwood API endpoints require valid X-API-Key with active + beta.
  * Tests are independent of dev/prod env.
  */
-class DarkwoodBetaAccessTest extends WebTestCase
+class DarkwoodBetaAccessTest extends CommonWebTestCase
 {
-    private const API_HOST = 'api.darkwood.localhost';
+	public function getHostParameter(): string
+    {
+    	return 'api_host';
+	}
 
     public function testGetStateWithoutKeyReturns401(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $client->request('GET', '/api/darkwood/state');
 
         self::assertSame(401, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertSame('missing_or_invalid_api_key', $data['error'] ?? null);
+        self::assertSame('A valid API key is required', $data['error'] ?? null);
     }
 
     public function testGetStateWithInvalidKeyReturns401(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $client->request('GET', '/api/darkwood/state', [], [], [
             'HTTP_X_API_KEY' => 'invalid-key-never-in-db',
         ]);
 
         self::assertSame(401, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertSame('missing_or_invalid_api_key', $data['error'] ?? null);
+        self::assertSame('A valid API key is required', $data['error'] ?? null);
     }
 
     public function testGetStateWithInactiveKeyReturns403(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $container = $client->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
@@ -68,7 +71,7 @@ class DarkwoodBetaAccessTest extends WebTestCase
             ]);
             self::assertSame(403, $client->getResponse()->getStatusCode());
             $data = json_decode($client->getResponse()->getContent(), true);
-            self::assertSame('api_key_inactive', $data['error'] ?? null);
+            self::assertSame('API key is inactive', $data['error'] ?? null);
         } finally {
             $em->remove($apiKey);
             $em->flush();
@@ -77,7 +80,7 @@ class DarkwoodBetaAccessTest extends WebTestCase
 
     public function testGetStateWithActiveButNotBetaKeyReturns403(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $container = $client->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
@@ -103,7 +106,7 @@ class DarkwoodBetaAccessTest extends WebTestCase
             ]);
             self::assertSame(403, $client->getResponse()->getStatusCode());
             $data = json_decode($client->getResponse()->getContent(), true);
-            self::assertSame('beta_access_required', $data['error'] ?? null);
+            self::assertSame('Beta access required', $data['error'] ?? null);
         } finally {
             $em->remove($apiKey);
             $em->flush();
@@ -112,7 +115,7 @@ class DarkwoodBetaAccessTest extends WebTestCase
 
     public function testGetStateWithBetaKeyReturns200(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $container = $client->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
@@ -145,7 +148,7 @@ class DarkwoodBetaAccessTest extends WebTestCase
 
     public function testPostActionWithBetaKeyReturns200(): void
     {
-        $client = $this->createApiClient();
+        $client = $this->getHostClient();
         $container = $client->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
@@ -174,16 +177,5 @@ class DarkwoodBetaAccessTest extends WebTestCase
             $em->remove($apiKey);
             $em->flush();
         }
-    }
-
-    private function createApiClient(array $options = []): KernelBrowser
-    {
-        $client = static::createClient($options);
-        $client->setServerParameters([
-            'HTTP_HOST' => self::API_HOST,
-            'CONTENT_TYPE' => 'application/json',
-        ]);
-
-        return $client;
     }
 }

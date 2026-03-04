@@ -34,10 +34,13 @@ final class DarkwoodPostActionController extends AbstractController
         $payload = [];
 
         try {
-            $payload = $request->toArray();
-        } catch (JsonException) {
-            $payload = [];
-        }
+			$payload = $request->toArray();
+		} catch (JsonException) {
+			return $this->json([
+				'error' => 'invalid_json',
+				'message' => 'Request body must be valid JSON',
+			], Response::HTTP_BAD_REQUEST);
+		}
 
         $queryParams = $payload['query'] ?? [];
         if (!is_array($queryParams)) {

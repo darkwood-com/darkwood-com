@@ -33,15 +33,22 @@ final class DarkwoodApikeyCreateCommand extends Command
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Label for the key (e.g. "tester-01")')
             ->addOption('beta', null, InputOption::VALUE_REQUIRED, 'Beta access (1 or 0)', '1')
             ->addOption('premium', null, InputOption::VALUE_REQUIRED, 'Premium flag (1 or 0)', '0')
+            ->addOption('limit', null, InputOption::VALUE_REQUIRED, 'Daily action limit (ignored for premium if null)', null)
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
         $name = $input->getOption('name');
         $isBeta = (int) $input->getOption('beta') === 1;
         $isPremium = (int) $input->getOption('premium') === 1;
+
+        $limitOption = $input->getOption('limit');
+        $dailyLimit = $limitOption === null || $limitOption === ''
+            ? null
+            : (int) $limitOption;
 
         $rawKey = $this->generateKey();
         $keyHash = hash('sha256', $rawKey);
@@ -52,12 +59,16 @@ final class DarkwoodApikeyCreateCommand extends Command
         $apiKey->setIsActive(true);
         $apiKey->setIsBeta($isBeta);
         $apiKey->setIsPremium($isPremium);
+        $apiKey->setDailyActionLimit($dailyLimit);
 
         $this->em->persist($apiKey);
         $this->em->flush();
 
         $io->success('API key created.');
         $io->writeln('Store this key securely; it will not be shown again.');
+        $io->writeln(sprintf('beta: %s', $isBeta ? 'yes' : 'no'));
+        $io->writeln(sprintf('premium: %s', $isPremium ? 'yes' : 'no'));
+        $io->writeln(sprintf('dailyActionLimit: %s', $dailyLimit === null ? 'null' : (string) $dailyLimit));
         $io->writeln('');
         $io->writeln($rawKey);
 

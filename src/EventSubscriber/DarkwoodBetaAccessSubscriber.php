@@ -47,7 +47,7 @@ final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
 
         if ($apiKey === null) {
             $event->setResponse(new JsonResponse([
-                'error' => 'missing_or_invalid_api_key',
+                'error' => 'A valid API key is required',
             ], Response::HTTP_UNAUTHORIZED));
 
             return;
@@ -55,7 +55,7 @@ final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
 
         if (!$apiKey->isActive()) {
             $event->setResponse(new JsonResponse([
-                'error' => 'api_key_inactive',
+                'error' => 'API key is inactive',
             ], Response::HTTP_FORBIDDEN));
 
             return;
@@ -63,7 +63,7 @@ final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
 
         if (!$apiKey->isBeta()) {
             $event->setResponse(new JsonResponse([
-                'error' => 'beta_access_required',
+                'error' => 'Beta access required',
             ], Response::HTTP_FORBIDDEN));
 
             return;

@@ -36,5 +36,6 @@
 	<env name="COOKIE_DOMAIN" value=".darkwood.localhost" />
 	<env name="MAILER_DSN" value="smtp://localhost:1080" />
 	<env name="CORS_ALLOW_ORIGIN" value="^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$" />
+	<env name="ENABLE_IA_EXCEPTION" value="false" />
   </php>
 </phpunit>

@@ -57,6 +57,7 @@ security:
         - { path: ^/$, host: '%api_host%', roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/docs, host: '%api_host%', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI docs
         - { path: ^/auth, host: '%api_host%', roles: PUBLIC_ACCESS }
+        - { path: ^/api/darkwood, host: '%api_host%', roles: PUBLIC_ACCESS } # Darkwood API: auth via X-API-Key in DarkwoodBetaAccessSubscriber
 
 when@test:
     security:

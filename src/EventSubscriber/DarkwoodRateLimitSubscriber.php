@@ -4,30 +4,22 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Entity\User;
-use App\Services\DarkwoodEntitlementService;
+use App\Entity\ApiKey;
+use App\Repository\ApiKeyUsageRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-/**
- * Applies rate limiting to POST /api/darkwood/action in prod only.
- * Anonymous / free / premium get different limits; premium effectively unlimited.
- */
 final class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
 {
     private const ROUTE = 'api_darkwood_post_action';
 
     public function __construct(
-        private readonly DarkwoodEntitlementService $entitlementService,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly RateLimiterFactory $darkwoodActionAnonymousLimiter,
-        private readonly RateLimiterFactory $darkwoodActionAuthenticatedLimiter,
-        private readonly RateLimiterFactory $darkwoodActionPremiumLimiter,
+        private readonly ApiKeyUsageRepository $apiKeyUsageRepository,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -48,45 +40,38 @@ final class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $user = $this->getCurrentUser();
-        $isPremium = $this->entitlementService->isPremium($user);
+        $apiKey = $request->attributes->get('api_key');
+        if (!$apiKey instanceof ApiKey) {
+            $event->setResponse(new JsonResponse([
+                'error' => 'missing_or_invalid_api_key',
+                'message' => 'A valid API key is required',
+            ], Response::HTTP_UNAUTHORIZED));
 
-        if ($isPremium) {
-            $factory = $this->darkwoodActionPremiumLimiter;
-            $key = $user !== null ? 'user_' . $user->getId() : 'anon_' . $request->getClientIp();
-        } elseif ($user instanceof User) {
-            $factory = $this->darkwoodActionAuthenticatedLimiter;
-            $key = 'user_' . $user->getId();
-        } else {
-            $factory = $this->darkwoodActionAnonymousLimiter;
-            $key = 'anon_' . $request->getClientIp();
-        }
-
-        $limiter = $factory->create($key);
-        $limit = $limiter->consume(1);
-
-        if ($limit->isAccepted()) {
             return;
         }
 
-        $retryAfter = $limit->getRetryAfter() !== null
-            ? (int) ($limit->getRetryAfter()->getTimestamp() - time())
-            : 3600;
+        if ($apiKey->isPremium()) {
+            return;
+        }
 
-        $event->setResponse(new JsonResponse([
-            'error' => 'rate_limited',
-            'message' => 'Daily action limit reached',
-            'retryAfter' => max(0, $retryAfter),
-        ], Response::HTTP_TOO_MANY_REQUESTS, [
-            'Retry-After' => (string) max(0, $retryAfter),
-        ]));
-    }
+        $dailyLimit = $apiKey->getDailyActionLimit();
+        if ($dailyLimit === null) {
+            return;
+        }
 
-    private function getCurrentUser(): ?User
-    {
-        $token = $this->tokenStorage->getToken();
-        $user = $token?->getUser();
+        $nowUtc = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $todayUtc = $nowUtc->setTime(0, 0, 0);
 
-        return $user instanceof User ? $user : null;
+        if ($dailyLimit <= 0 || !$this->apiKeyUsageRepository->incrementIfBelowLimit($apiKey, $todayUtc, $dailyLimit)) {
+            $nextMidnightUtc = $todayUtc->modify('+1 day');
+            $retryAfter = max(0, $nextMidnightUtc->getTimestamp() - $nowUtc->getTimestamp());
+
+            $event->setResponse(new JsonResponse([
+                'error' => 'rate_limited',
+                'message' => 'Daily action limit reached',
+            ], Response::HTTP_TOO_MANY_REQUESTS, [
+                'Retry-After' => (string) $retryAfter,
+            ]));
+        }
     }
 }
