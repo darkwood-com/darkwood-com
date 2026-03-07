@@ -8,18 +8,69 @@ You can play Darkwood entirely through API calls. The game returns your current 
 X-API-Key: <your-key>
 ```
 
+To **play as a specific player** (your character, progress, combat), you also send a **JWT token** in the `Authorization` header. See **Authentication** below.
+
 Replace `<your-key>` with the key you received. Use the API host you were given (for example `https://api.darkwood.example`).
+
+---
+
+## Authentication
+
+There are **two separate things**:
+
+- **API access** — Your **API key** (`X-API-Key`). Every Darkwood API request needs it. It controls whether you can call the API at all, and (for premium keys) access to archives and quota. Without a valid API key, requests are rejected (401 or 403).
+- **Player login** — The **JWT (token)** identifies which **game account** is playing. Without it, the API may still respond, but the request is not tied to a player: you get `"user": null` and `"state": "not-logged"` and cannot play. For persistent player progression, you get a JWT from `POST /auth` and then send it on every Darkwood request.
+
+So: **API key** = access to the API and premium features. **JWT** = which player account you are. For normal gameplay you need **both**.
+
+### When each is needed
+
+- **Without `X-API-Key`** — Darkwood API requests are rejected. You always need this header.
+- **Without JWT** — You can still call the endpoints (e.g. `GET /api/darkwood/state`), but the server does not know which player you are. The response will have `"user": null` and `"state": "not-logged"` and you cannot play.
+- **With both** — Send `X-API-Key: <your-key>` and `Authorization: Bearer <jwt-token>`. Then the server knows your API key and your player account; you get a proper game state and can play.
+
+### Get a JWT token
+
+Call `POST /auth` with your **email** and **password**. You do **not** need the API key for this step:
+
+```bash
+curl -i \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "your-email@example.com",
+    "password": "your-password"
+  }' \
+  https://YOUR_API_HOST/auth
+```
+
+On success, the response body contains the token (often in a `token` field). Copy that value and use it as `<jwt-token>` in the next step.
+
+### Call Darkwood with both headers
+
+For **authenticated gameplay** (main menu, combat, shops, etc.), send both headers on every request:
+
+```bash
+curl -s \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  "https://YOUR_API_HOST/api/darkwood/state"
+```
+
+Use the same two headers on `GET /api/darkwood/state` and `POST /api/darkwood/action` whenever you want to play as that player. The examples in this guide assume you are sending both when playing.
 
 ---
 
 ## Quick start
 
-Two endpoints are enough to play:
+Two endpoints are enough to play. For **authenticated gameplay** (your character, progress), send both your API key and your JWT token on every request.
 
 **1. Get your current state** (read where you are and what’s happening):
 
 ```bash
-curl -s -H "X-API-Key: YOUR_KEY" \
+curl -s \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   "https://YOUR_API_HOST/api/darkwood/state"
 ```
 
@@ -28,7 +79,9 @@ You get back JSON with at least: `state`, `mode`, `user`, and sometimes extra `d
 **2. Do something** (perform a move or change screen):
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"main"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -40,6 +93,8 @@ curl -s -X POST -H "X-API-Key: YOUR_KEY" \
 - **`POST /api/darkwood/action`** — “I’m doing this next.” Use it to attack, use a potion, open a menu, start a fight, or go to another screen.
 
 You can also pass the same parameters as query string on the GET request (e.g. `?state=combat`) to both read state and ask for a specific screen in one call.
+
+If you get `"state": "not-logged"` and `"user": null`, you are not authenticated as a player. Get a JWT from `POST /auth` (see **Authentication** above) and send it in the `Authorization: Bearer ...` header on every Darkwood request.
 
 ---
 
@@ -58,7 +113,7 @@ The flow is a loop:
 
 ## Common play steps
 
-Below are the main situations you’ll run into and how to drive them with the API. Replace `YOUR_KEY` and `YOUR_API_HOST` with your key and host.
+Below are the main situations you’ll run into and how to drive them with the API. Replace `YOUR_KEY`, `YOUR_JWT_TOKEN`, and `YOUR_API_HOST` with your API key, JWT token, and host. All gameplay examples use both headers.
 
 ### Main menu
 
@@ -67,14 +122,18 @@ When you’re on the main menu, the response has `"state": "main"` and usually n
 **Example — see main menu:**
 
 ```bash
-curl -s -H "X-API-Key: YOUR_KEY" \
+curl -s \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   "https://YOUR_API_HOST/api/darkwood/state?state=main"
 ```
 
 **Example — go to the combat screen (enemy selection):**
 
 ```bash
-curl -s -H "X-API-Key: YOUR_KEY" \
+curl -s \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   "https://YOUR_API_HOST/api/darkwood/state?state=combat"
 ```
 
@@ -89,7 +148,9 @@ From the combat screen, you first choose an enemy (with next/previous if you wan
 **Example — open combat and start a fight in one go:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"combat","actionBeginFight":"1"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -106,7 +167,9 @@ When you’re in an active fight (`state=combat`, `mode=combat`), you can attack
 **Example — perform one attack:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"combat","mode":"combat","actionFight":"1"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -123,7 +186,9 @@ During the same active fight, you can use a potion instead of attacking. You hea
 **Example — use a potion:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"combat","mode":"combat","actionUsePotion":"1"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -140,7 +205,9 @@ When you think someone has died (you or the enemy), you send “end fight.” Th
 **Example — end the fight:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"combat","mode":"combat","actionEndFight":"1"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -178,7 +245,9 @@ You change screen by sending the state you want. The response then shows that sc
 **Example — open the info screen:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"info"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -197,7 +266,9 @@ Daily battle is a separate mode. You go there with `state=daily-battle`, start t
 **Example — start a daily fight:**
 
 ```bash
-curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+curl -s -X POST \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query":{"state":"daily-battle","actionBeginFight":"1"}}' \
   "https://YOUR_API_HOST/api/darkwood/action"
@@ -215,7 +286,7 @@ Responses are JSON. These are the fields that matter for playing.
 
 - **`state`** — The screen or situation you’re in (e.g. `main`, `combat`, `info`, `armor`). Use it to know where you are and what actions are valid.
 - **`mode`** — A sub-phase. In combat, for example: no active fight vs fight in progress vs just won/lost. So you need both `state` and `mode` to know if you can attack or end the fight.
-- **`user`** — Your user ID (a number), or `null` if you’re not logged in. When it’s `null`, you’ll see `state: "not-logged"` and you can’t play until the server associates a user with your requests.
+- **`user`** — Your user ID (a number), or `null` if you’re not authenticated as a player. When it’s `null`, you’ll see `state: "not-logged"` and you can’t play until you send a valid JWT in the `Authorization: Bearer ...` header.
 - **`display`** — Device type (e.g. `web`). You can usually ignore it.
 
 **When present, `data` holds the details for that screen:**
@@ -310,9 +381,10 @@ In all these cases, the JSON body has at least an `error` (and often a `message`
 
 ## Practical tips
 
-1. **Always use the latest response** to decide the next action. The current `state` and `mode` tell you what you can do; don’t assume the previous step succeeded without checking.
-2. **Treat `data` as depending on the screen.** Not every response has `data`; when it does, the contents depend on `state` (and sometimes `mode`). For example, `data.session` only appears during an active fight.
-3. **Send one action per request** when you want a specific move (attack, potion, end fight, etc.). If you send several action keys, only the first one that matches the current state is applied.
-4. **When in combat, include both `state` and `mode`** in your action request. For example use `"state":"combat","mode":"combat"` when attacking or using a potion so the server knows you’re in the fight.
-5. **Store archive IDs (dates)** if you want to revisit snapshots later. The list endpoint gives you `id`/`date`; use that in `GET /api/darkwood/archives/{id}`.
-6. **If nothing changes after an action**, the action may have been ignored (wrong state) or not applicable (e.g. no points left, enemy not allowed). The API does not return a separate “action failed” message; you infer from the unchanged response.
+1. **Send both headers for gameplay.** For persistent player progression, send `X-API-Key` and `Authorization: Bearer <jwt>` on every request to `/api/darkwood/state` and `/api/darkwood/action`. Get the JWT once from `POST /auth`, then reuse it until it expires.
+2. **Always use the latest response** to decide the next action. The current `state` and `mode` tell you what you can do; don’t assume the previous step succeeded without checking.
+3. **Treat `data` as depending on the screen.** Not every response has `data`; when it does, the contents depend on `state` (and sometimes `mode`). For example, `data.session` only appears during an active fight.
+4. **Send one action per request** when you want a specific move (attack, potion, end fight, etc.). If you send several action keys, only the first one that matches the current state is applied.
+5. **When in combat, include both `state` and `mode`** in your action request. For example use `"state":"combat","mode":"combat"` when attacking or using a potion so the server knows you’re in the fight.
+6. **Store archive IDs (dates)** if you want to revisit snapshots later. The list endpoint gives you `id`/`date`; use that in `GET /api/darkwood/archives/{id}`.
+7. **If nothing changes after an action**, the action may have been ignored (wrong state) or not applicable (e.g. no points left, enemy not allowed). The API does not return a separate “action failed” message; you infer from the unchanged response.
