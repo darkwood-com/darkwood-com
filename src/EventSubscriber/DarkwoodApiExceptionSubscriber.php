@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
 {
@@ -61,14 +61,12 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
                 'class' => $throwable::class,
                 'trace' => array_map(
                     static function (array $frame): array {
-                        $out = [
+                        return [
                             'file' => $frame['file'] ?? null,
                             'line' => $frame['line'] ?? null,
                             'function' => $frame['function'] ?? null,
                             'class' => $frame['class'] ?? null,
                         ];
-
-                        return $out;
                     },
                     $throwable->getTrace()
                 ),

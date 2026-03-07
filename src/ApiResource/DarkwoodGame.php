@@ -30,12 +30,14 @@ use ApiPlatform\Metadata\Post;
             controller: 'App\Controller\Api\DarkwoodArchivesController',
             read: false,
             name: 'api_darkwood_archives',
+            stateless: false,
         ),
         new Get(
             uriTemplate: '/darkwood/archives/{id}',
             controller: 'App\Controller\Api\DarkwoodArchiveGetController',
             read: false,
             name: 'api_darkwood_archive_get',
+            stateless: false,
         ),
     ],
 )]
