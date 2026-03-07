@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\DarkwoodArchiveRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,26 +21,26 @@ class DarkwoodArchive
 
     /** UTC date for this archive (YYYY-MM-DD). */
     #[ORM\Column(type: Types::DATE_IMMUTABLE, unique: true)]
-    private ?\DateTimeImmutable $archiveDate = null;
+    private ?DateTimeImmutable $archiveDate = null;
 
     /** Snapshot payload (same shape as /api/darkwood/state response). */
     #[ORM\Column(type: Types::JSON)]
     private array $payload = [];
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getArchiveDate(): ?\DateTimeImmutable
+    public function getArchiveDate(): ?DateTimeImmutable
     {
         return $this->archiveDate;
     }
 
-    public function setArchiveDate(\DateTimeImmutable $archiveDate): static
+    public function setArchiveDate(DateTimeImmutable $archiveDate): static
     {
         $this->archiveDate = $archiveDate;
 
@@ -58,12 +59,12 @@ class DarkwoodArchive
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 

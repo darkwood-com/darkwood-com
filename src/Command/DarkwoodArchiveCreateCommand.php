@@ -8,7 +8,9 @@ use App\Entity\DarkwoodArchive;
 use App\Repository\DarkwoodArchiveRepository;
 use App\Services\GameService;
 use BackedEnum;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -17,10 +19,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Traversable;
 
 use function is_array;
 use function is_scalar;
+use function sprintf;
 
 #[AsCommand(
     name: 'darkwood:archive:create',
@@ -47,8 +51,8 @@ final class DarkwoodArchiveCreateCommand extends Command
 
         $dateOption = $input->getOption('date');
         $archiveDate = $dateOption !== null
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $dateOption)
-            : new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            ? DateTimeImmutable::createFromFormat('Y-m-d', $dateOption)
+            : new DateTimeImmutable('now', new DateTimeZone('UTC'));
 
         if ($archiveDate === false) {
             $io->error('Invalid --date; use YYYY-MM-DD.');
@@ -68,7 +72,7 @@ final class DarkwoodArchiveCreateCommand extends Command
         $request = new Request();
         $result = $this->gameService->play($request, null, null);
 
-        if ($result instanceof \Symfony\Component\HttpFoundation\Response) {
+        if ($result instanceof Response) {
             $io->error('State endpoint returned a redirect/response; cannot snapshot.');
 
             return self::FAILURE;
@@ -79,7 +83,7 @@ final class DarkwoodArchiveCreateCommand extends Command
         $archive = new DarkwoodArchive();
         $archive->setArchiveDate($archiveDate);
         $archive->setPayload($payload);
-        $archive->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        $archive->setCreatedAt(new DateTimeImmutable('now', new DateTimeZone('UTC')));
 
         $this->em->persist($archive);
         $this->em->flush();

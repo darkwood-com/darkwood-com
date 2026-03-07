@@ -6,6 +6,9 @@ namespace App\Tests;
 
 use App\Entity\ApiKey;
 use App\Entity\DarkwoodArchive;
+use App\Repository\DarkwoodArchiveRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Throwable;
@@ -77,7 +80,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
         $repo = $em->getRepository(DarkwoodArchive::class);
-        if ($repo instanceof \App\Repository\DarkwoodArchiveRepository) {
+        if ($repo instanceof DarkwoodArchiveRepository) {
             $existing = $repo->findOneByDateId('2026-01-15');
             if ($existing !== null) {
                 $em->remove($existing);
@@ -85,11 +88,11 @@ class DarkwoodArchivesTest extends CommonWebTestCase
             }
         }
 
-        $date = new \DateTimeImmutable('2026-01-15', new \DateTimeZone('UTC'));
+        $date = new DateTimeImmutable('2026-01-15', new DateTimeZone('UTC'));
         $archive = new DarkwoodArchive();
         $archive->setArchiveDate($date);
         $archive->setPayload(['state' => 'main']);
-        $archive->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        $archive->setCreatedAt(new DateTimeImmutable('now', new DateTimeZone('UTC')));
 
         try {
             $em->persist($archive);
@@ -176,7 +179,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
         $repo = $em->getRepository(DarkwoodArchive::class);
-        if ($repo instanceof \App\Repository\DarkwoodArchiveRepository) {
+        if ($repo instanceof DarkwoodArchiveRepository) {
             $existing = $repo->findOneByDateId($dateId);
             if ($existing !== null) {
                 $em->remove($existing);
@@ -184,11 +187,11 @@ class DarkwoodArchivesTest extends CommonWebTestCase
             }
         }
 
-        $date = \DateTimeImmutable::createFromFormat('Y-m-d', $dateId)->setTime(0, 0, 0);
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', $dateId)->setTime(0, 0, 0);
         $archive = new DarkwoodArchive();
         $archive->setArchiveDate($date);
         $archive->setPayload($payload);
-        $archive->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        $archive->setCreatedAt(new DateTimeImmutable('now', new DateTimeZone('UTC')));
 
         try {
             $em->persist($archive);

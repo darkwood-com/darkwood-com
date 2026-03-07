@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DarkwoodArchive;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,7 +24,7 @@ class DarkwoodArchiveRepository extends ServiceEntityRepository
 
     public function findOneByDateId(string $dateId): ?DarkwoodArchive
     {
-        $date = \DateTimeImmutable::createFromFormat('Y-m-d', $dateId);
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', $dateId);
         if ($date === false) {
             return null;
         }
