@@ -1,383 +1,318 @@
-# How to play Darkwood via API
+# Playing Darkwood via the API
 
-This guide describes how to drive Darkwood gameplay using the Darkwood API. It is derived from the actual controller and service code; no behavior is assumed beyond what exists in the codebase.
+You can play Darkwood entirely through API calls. The game returns your current situation (where you are, your stats, combat state), and you send back what you want to do next (attack, use a potion, open a menu, etc.).
 
----
-
-## Prerequisites
-
-- **Authentication**: Every request must include the header:
-  ```http
-  X-API-Key: <your-key>
-  ```
-  The key must be **active** and **beta-enabled**. Otherwise you get:
-  - No key or invalid key: **401** — `{ "error": "A valid API key is required" }`
-  - Inactive key: **403** — `{ "error": "API key is inactive" }`
-  - Active but not beta: **403** — `{ "error": "Beta access required" }`
-
-- **Base URL**: Use the API host (e.g. `https://api.darkwood.example` or `http://api.darkwood.localhost`). See `docs/darkwood-api-beta.md`.
-
-- **Game user**: The API calls `GameService::play($request, null, $user)` where `$user` comes from the security token (session). If no user is logged in (e.g. API-only calls with no session), the response has `"user": null` and `"state": "not-logged"`. To get gameplay states (`main`, `combat`, `info`, etc.), a **logged-in game user** must be associated with the request. How that is done in your deployment (e.g. API key linked to a user, or separate login flow) is environment-specific; this guide describes behavior once the server provides a non-null user.
-
----
-
-## 1. Session start
-
-### 1.1 Getting initial state
-
-**Request**
+**Every request must include your API key** in the header:
 
 ```http
-GET /api/darkwood/state
 X-API-Key: <your-key>
 ```
 
-Optional query parameters (same as for POST body `query` below):
-
-- `state` — desired state (default: `main`)
-- `mode` — sub-mode (optional)
-- `display` — `web` | `iphone` | `ipad` | `mac` (default: `web`)
-
-Example: open the combat screen with enemy selection:
-
-```http
-GET /api/darkwood/state?state=combat
-X-API-Key: <your-key>
-```
-
-**Response (200, JSON)**
-
-The body is the normalized game state. At minimum you get:
-
-```json
-{
-  "user": 123,
-  "state": "main",
-  "mode": null,
-  "display": "web"
-}
-```
-
-- **`user`**: Current user ID (integer) or `null` if not logged in.
-- **`state`**: Current game state (see §4). Default is `main` when no `state` is sent; unknown state names are normalized to `main` when a user is logged in.
-- **`mode`**: Sub-mode (e.g. combat phase, rank filter). Can be `null`.
-- **`display`**: Echo of requested display or `web` if invalid.
-
-If the server has an unfinished PvE fight for this user and you request any state other than combat with mode combat, the response is **forced** to `state: "combat"` and `mode: "fight_not_ended"` (GameService.php 1014–1016).
-
-### 1.2 Determining current state and next actions
-
-- Read **`state`** and **`mode`** from the JSON response.
-- Use them to decide:
-  - Which screen/flow the client is in.
-  - Which actions are valid for the next request (see §4 and §5).
-- When **`data`** is present, it contains state-specific payload (e.g. `data.info`, `data.session`, `data.currentEnemy`). See `docs/darkwood-api-response-structure.md` for full shapes.
-
-No separate “available actions” list is returned; validity is defined by the code per state/mode (see §4).
+Replace `<your-key>` with the key you received. Use the API host you were given (for example `https://api.darkwood.example`).
 
 ---
 
-## 2. Action loop
+## Quick start
 
-### 2.1 Sending actions
+Two endpoints are enough to play:
 
-**Request**
+**1. Get your current state** (read where you are and what’s happening):
 
-```http
-POST /api/darkwood/action
-Content-Type: application/json
-X-API-Key: <your-key>
-
-{"query": { ... }}
+```bash
+curl -s -H "X-API-Key: YOUR_KEY" \
+  "https://YOUR_API_HOST/api/darkwood/state"
 ```
 
-The body must be **valid JSON**. The code only uses the **`query`** key (DarkwoodPostActionController 44–50):
+You get back JSON with at least: `state`, `mode`, `user`, and sometimes extra `data` (e.g. your life, the current enemy, combat session).
 
-```php
-$queryParams = $payload['query'] ?? [];
-if (!is_array($queryParams)) {
-    $queryParams = [];
-}
-foreach ($queryParams as $key => $value) {
-    $request->query->set((string) $key, $value);
-}
+**2. Do something** (perform a move or change screen):
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"main"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
 ```
 
-So everything that drives `GameService::play()` is passed as **query parameters**. The same parameters can be sent:
+**Difference in plain terms:**
 
-- As **query string** on `GET /api/darkwood/state` (e.g. `?state=combat&actionBeginFight=1`), or
-- Inside **`query`** in the JSON body of `POST /api/darkwood/action` (e.g. `{"query": {"state": "combat", "actionBeginFight": "1"}}`).
+- **`GET /api/darkwood/state`** — “What’s my situation right now?” Use it to see your current screen, stats, and combat info.
+- **`POST /api/darkwood/action`** — “I’m doing this next.” Use it to attack, use a potion, open a menu, start a fight, or go to another screen.
 
-After merging, the service uses `$request->get('state', 'main')`, `$request->get('mode')`, `$request->get('actionFight')`, etc. So:
-
-- **State/mode**: Set `state` and optionally `mode` in `query` to navigate and to put the server in the right branch.
-- **Actions**: Set one action flag per request (e.g. `actionFight`, `actionBeginFight`). The code checks **presence** of the key (truthy); the value is not validated. Sending `"actionFight": ""` or `"actionFight": "1"` both trigger the action.
-
-### 2.2 Request payload format (from code)
-
-- **Required**: Valid JSON body for POST.
-- **Used**: `payload['query']` must be an object. Each key/value is set as a request query parameter.
-- **Invalid JSON**: Response **400** with `{ "error": "invalid_json", "message": "Request body must be valid JSON" }`.
-
-Representative examples:
-
-Navigate to main (no action):
-
-```json
-{"query": {"state": "main"}}
-```
-
-Navigate to combat (enemy selection):
-
-```json
-{"query": {"state": "combat"}}
-```
-
-Start a fight (combat enemy selection screen):
-
-```json
-{"query": {"state": "combat", "actionBeginFight": "1"}}
-```
-
-One attack turn (during active combat):
-
-```json
-{"query": {"state": "combat", "mode": "combat", "actionFight": "1"}}
-```
-
-Use potion then enemy attacks (during active combat):
-
-```json
-{"query": {"state": "combat", "mode": "combat", "actionUsePotion": "1"}}
-```
-
-End fight (resolve win/loss if someone is dead; otherwise no-op):
-
-```json
-{"query": {"state": "combat", "mode": "combat", "actionEndFight": "1"}}
-```
+You can also pass the same parameters as query string on the GET request (e.g. `?state=combat`) to both read state and ask for a specific screen in one call.
 
 ---
 
-## 3. State transitions
+## How the game flow works
 
-### 3.1 How the client moves between states
+The flow is a loop:
 
-- **Navigation**: Send the desired **`state`** (and optionally **`mode`**) in the next request. The server responds with that state’s data (or a forced state, e.g. combat when a fight is in progress).
-- **Combat start**: From combat enemy selection, send `actionBeginFight`. On success the server performs a **recursive** call with `mode=combat` and returns the **in-fight** response (same request, no second HTTP call). So the **next** response after a valid “begin fight” is already combat in progress.
-- **Combat end**: Send `actionEndFight`. The server runs `endFight()`. If player or enemy is dead, response has `mode: "player_death"` or `mode: "player_win"` and `data.result`; otherwise `mode` stays `"combat"` and nothing changes.
-- **Daily battle**: Same idea: `actionBeginFight` (with `state=daily-battle`) enters daily combat; `actionEndFight` resolves or keeps `mode=combat`.
+1. **Ask for the current state** — Call `GET /api/darkwood/state` (optionally with `?state=...` to request a screen).
+2. **Look at the response** — Check `state`, `mode`, and `data` to see where you are and what numbers matter (e.g. life, enemy life, gold).
+3. **Send your next action** — Call `POST /api/darkwood/action` with a JSON body that includes a `query` object. In `query` you put the same kind of parameters: which screen you’re on, and which action you’re taking (e.g. attack, use potion, end fight).
+4. **Repeat** — Use the new response as the new “current state” and decide the next action.
 
-### 3.2 Detecting combat state
-
-| Situation | `state` | `mode` | Response content |
-|-----------|---------|--------|------------------|
-| Combat, enemy selection | `combat` | not `combat` (e.g. `null` or `fight_not_ended`) | `data.info`, `data.currentEnemy` |
-| Combat, fight in progress | `combat` | `combat` | `data.info`, `data.session` |
-| Combat just ended (win) | `combat` | `player_win` | `data.info`, `data.currentEnemy`, `data.result` (gem, level_up, enemy, etc.) |
-| Combat just ended (death) | `combat` | `player_death` | `data.info`, `data.currentEnemy`, `data.result` (lose_xp, lose_gold, enemy, lose_stats) |
-| Unfinished fight, other state requested | `combat` | `fight_not_ended` | Forced by server (1014–1016) |
-
-After win/death, `lastFight` is cleared; the next request with `state=combat` will show enemy selection again (no `data.session`).
-
-### 3.3 Detecting win/loss
-
-- **PvE combat**: `mode === "player_win"` or `mode === "player_death"`. Details in `data.result` (rewards/penalties).
-- **Daily battle**: Same: `mode === "player_win"` or `mode === "player_death"` with `data.result` (e.g. `lose_xp`, `win_xp`).
-
-### 3.4 Other states
-
-- **main**: Menu; no `data`. Any unrecognized state with a logged-in user becomes `main`.
-- **info / equipment / hostel / armor / potion / sword**: Each has `data.info` and state-specific keys (e.g. `data.classes` for info, `data.regenerations` for hostel). Navigate by sending `state=<name>` and optional action (see §4).
-- **rank / users**: List states; response includes `players` or `users` (arrays of IDs) and optional pagination params in query.
-- **login / profile / report / eula / chat / guestbook**: Present in code but login uses session/redirect; typical API usage focuses on gameplay states above.
+**Important:** What you’re allowed to do depends on the **current** `state` and `mode` in the response. For example, “attack” only works when you’re already in an active fight (`state=combat`, `mode=combat`). If you send an action that doesn’t match the current situation, the API will ignore it and just return the current state again. So always use the latest response to decide the next step.
 
 ---
 
-## 4. Valid actions and examples
+## Common play steps
 
-Only **one** action is processed per request per state (first matching in the code’s if/elseif chain). Action keys are **presence-based** (any truthy value).
+Below are the main situations you’ll run into and how to drive them with the API. Replace `YOUR_KEY` and `YOUR_API_HOST` with your key and host.
 
-### 4.1 Combat (state = combat)
+### Main menu
 
-**Enemy selection** (no active fight: `mode !== 'combat'` or no lastFight):
+When you’re on the main menu, the response has `"state": "main"` and usually no `data`. You can go to other screens by asking for them in the next request.
 
-| Action | In `query` | Effect |
-|--------|------------|--------|
-| Next enemy | `"actionEnemyNext": "1"` | Select next enemy; response has updated `data.currentEnemy`. |
-| Previous enemy | `"actionEnemyPrevious": "1"` | Select previous enemy. |
-| Begin fight | `"actionBeginFight": "1"` | If enemy allowed: fight starts; response is **in-fight** (mode=combat, `data.session`). If not allowed: no change, server may set flash (not exposed in API). |
+**Example — see main menu:**
 
-Example — go to combat and start fight:
-
-```json
-{"query": {"state": "combat", "actionBeginFight": "1"}}
+```bash
+curl -s -H "X-API-Key: YOUR_KEY" \
+  "https://YOUR_API_HOST/api/darkwood/state?state=main"
 ```
 
-**Active fight** (`mode === 'combat'`, lastFight set):
+**Example — go to the combat screen (enemy selection):**
 
-| Action | In `query` | Effect |
-|--------|------------|--------|
-| Attack | `"actionFight": "1"` | One turn: player damage, enemy damage, session updated. |
-| Use potion | `"actionUsePotion": "1"` | Heal, then enemy attacks; no player attack this turn. |
-| End fight | `"actionEndFight": "1"` | Resolve: if someone dead → win/loss and `data.result`; else no-op, mode stays combat. |
-
-Example — attack then end fight:
-
-```json
-{"query": {"state": "combat", "mode": "combat", "actionFight": "1"}}
+```bash
+curl -s -H "X-API-Key: YOUR_KEY" \
+  "https://YOUR_API_HOST/api/darkwood/state?state=combat"
 ```
 
-```json
-{"query": {"state": "combat", "mode": "combat", "actionEndFight": "1"}}
-```
-
-### 4.2 Daily battle (state = daily-battle)
-
-| When | Action | In `query` |
-|------|--------|------------|
-| Not in combat | Start | `"actionBeginFight": "1"` |
-| In combat (`mode=combat`) | One exchange | `"actionFight": "1"` |
-| In combat | Resolve / no-op | `"actionEndFight": "1"` |
-
-No potion in daily combat (only `actionFight` and `actionEndFight`).
-
-Example — start daily fight:
-
-```json
-{"query": {"state": "daily-battle", "actionBeginFight": "1"}}
-```
-
-### 4.3 Info (state = info)
-
-| Action | In `query` | Effect |
-|--------|------------|--------|
-| Choose class | `"actionChooseClasse": "<classId>"` | Sets class if ID is in the class list; else no-op. |
-| Add stat point | `"actionAddPoint": "strength"` or `"dexterity"` or `"vitality"` | Adds one point if type valid and points available; else no-op. |
-
-Example:
-
-```json
-{"query": {"state": "info", "actionAddPoint": "strength"}}
-```
-
-### 4.4 Equipment (state = equipment)
-
-| Action | In `query` |
-|--------|------------|
-| Equip gem | `"actionEquipGem": "1"` or `"2"` or `"3"` (slot index) |
-| Throw gem | `"actionThrowGem": "1"` or `"2"` or `"3"` |
-
-### 4.5 Hostel (state = hostel)
-
-| Action | In `query` |
-|--------|------------|
-| Regenerate life | `"actionRegeneration": "regeneration0"` … `"regeneration3"` |
-
-### 4.6 Armor / Potion / Sword (state = armor | potion | sword)
-
-| State | Actions (in `query`) |
-|-------|----------------------|
-| armor | `actionArmorNext`, `actionArmorPrevious`, `actionArmorBuy`, `actionArmorSell` |
-| potion | `actionPotionNext`, `actionPotionPrevious`, `actionPotionBuy` |
-| sword | `actionSwordNext`, `actionSwordPrevious`, `actionSwordBuy`, `actionSwordSell` |
-
-Example — browse and buy armor:
-
-```json
-{"query": {"state": "armor", "actionArmorNext": "1"}}
-```
-
-```json
-{"query": {"state": "armor", "actionArmorBuy": "1"}}
-```
+You should get `"state": "combat"` and a `data` object with `info` (your stats) and `currentEnemy` (the enemy you can fight and next/previous options).
 
 ---
 
-## 5. Invalid or irrelevant actions
+### Starting a fight (PvE combat)
 
-- **Wrong state**: An action for another state (e.g. `actionFight` while in `state=main`) is **ignored**; the state branch that handles it is not run. Response is normal for the current state (e.g. main with no `data`).
-- **Multiple actions**: Only the **first** matching action in the server’s if/elseif chain is executed. Other keys have no effect.
-- **actionChooseClasse**: Invalid or unknown class ID → **no-op**; no error in JSON; state unchanged.
-- **actionAddPoint**: Invalid type or no points left → **no-op**; no error in JSON.
-- **actionEquipGem / actionThrowGem**: Invalid slot or empty slot → **no-op**.
-- **actionRegeneration**: Invalid key or insufficient gold → **no-op**; server may set a flash message (not exposed in API).
-- **actionBeginFight (combat)**: Enemy not allowed (e.g. above progression or not default when no maxFight) → **no-op**; flash may be set; response stays enemy selection.
-- **actionEndFight** when both sides are alive: **no-op**; `mode` stays `combat`; session unchanged.
-- **Unknown state**: If the user is logged in and sends an unknown `state` value, the server sets `state` to **`main`** and returns that.
+From the combat screen, you first choose an enemy (with next/previous if you want), then start the fight.
 
-The API does **not** return a dedicated error object for “invalid action”; you infer failure from unchanged state/data or from missing expected changes.
+**Example — open combat and start a fight in one go:**
 
----
-
-## 6. Game-over and end-of-loop semantics
-
-- **No global “game over”**: The code does not define a single terminal game-over state. Outcomes are **per encounter**:
-  - **PvE combat**: `mode === "player_win"` or `mode === "player_death"` with `data.result` (rewards or penalties). After that, combat state returns to enemy selection for the next fight.
-  - **Daily battle**: Same: `player_win` or `player_death` for that fight; daily stats updated.
-- **Turn complete**: One **attack** or **potion** is one turn. After the request, the response contains updated `data.info` (e.g. life) and `data.session` (e.g. `enemy_current_life`, `player_life_lose`, `enemy_life_lose`). The client can call `actionEndFight` after any turn to check for death and resolve; if neither is dead, the response stays in combat and the client can continue with `actionFight` / `actionUsePotion`.
-- **Combat “complete”**: Combat is considered over when the response has `mode === "player_win"` or `mode === "player_death"`. Then `data.result` describes the outcome; the next request with `state=combat` is enemy selection again.
-
----
-
-## 7. Archives (premium)
-
-Archives are **read-only** snapshots. They require a **premium** API key.
-
-### 7.1 List archives
-
-```http
-GET /api/darkwood/archives
-X-API-Key: <premium-key>
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"combat","actionBeginFight":"1"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
 ```
 
-**200**: `{ "archives": [ { "id": "<dateId>", "date": "<dateId>" }, ... ] }`  
-**403**: `{ "error": "premium_required", "message": "Premium access required" }`
+**How to know it worked:** The response should have `"state": "combat"`, `"mode": "combat"`, and a `data.session` object with things like `enemy_current_life`, `player_life_lose`, `enemy_life_lose`. That means the fight has started. If the enemy wasn’t allowed (e.g. above your progression), the server doesn’t start the fight; you stay on enemy selection and there is no error message in the response—you just don’t see `data.session` for an active fight.
 
-`id` and `date` are the same value (date ID, e.g. `YYYY-MM-DD`). Order is by date descending (DarkwoodArchivesController 32–38).
+---
 
-### 7.2 Get one archive
+### Fighting (one attack turn)
 
-```http
-GET /api/darkwood/archives/<id>
-X-API-Key: <premium-key>
+When you’re in an active fight (`state=combat`, `mode=combat`), you can attack once per request.
+
+**Example — perform one attack:**
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"combat","mode":"combat","actionFight":"1"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
 ```
 
-**200**: JSON body is the **raw stored payload** of that archive (`$archive->getPayload()`). The entity documents that this payload has the **same shape as a `/api/darkwood/state` response** (DarkwoodArchive.php comment). So it is a snapshot of the normalized state at archive time (e.g. `user`, `state`, `mode`, `display`, optional `data`).
-
-**404**: `{ "error": "archive_not_found", "message": "Archive not found" }`  
-**403**: Same as above if key is not premium.
-
-### 7.3 How archived state differs from live state
-
-- Archives are **historical snapshots**. They are not connected to the current game session or current user state.
-- The payload shape matches the live state response at the time of archiving; entity references in the payload are already normalized (e.g. IDs). Using archived data to “restore” a game session is not implemented in the code; it is read-only.
+**How to know what happened:** Look at the response. `data.info.life` reflects your current life. `data.session` has `enemy_current_life` (enemy’s remaining life), `player_life_lose` (damage you took this turn), and `enemy_life_lose` (damage the enemy took). Use the updated numbers to decide whether to attack again, use a potion, or end the fight.
 
 ---
 
-## 8. Caveats and unclear areas
+### Using a potion
 
-- **User identity**: With only `X-API-Key`, the game user is typically `null` (state `not-logged`) unless your deployment ties the API key to a user or uses another auth mechanism. The guide assumes a logged-in user when describing gameplay states.
-- **Redirects**: Login (logout/success) and chat form submit can return an HTTP **redirect** instead of JSON. API clients should handle 3xx and optional Location header if they use those flows.
-- **Flash messages**: Validation failures (e.g. not enough gold, invalid enemy) often only set a flash message. The API response does not include the flash bag, so failed actions can look like no-ops.
-- **Session**: Combat and daily battle use server-side session (per player). Concurrency or multiple clients for the same user may behave in ways not defined here.
-- **Pagination**: For `state=users` and `state=rank`, the response contains only the current page of IDs (`users` or `players`). Total count and page metadata are not returned by the normalization (see docs/darkwood-api-response-structure.md).
-- **Entities as IDs**: All entities (user, player, enemy, armor, etc.) are normalized to their **ID** in the JSON. To resolve names or details you need other means (not provided by this API).
+During the same active fight, you can use a potion instead of attacking. You heal; then the enemy still attacks once. Potions are **not** available in daily battles—only in normal PvE combat.
+
+**Example — use a potion:**
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"combat","mode":"combat","actionUsePotion":"1"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
+```
+
+**How to know what happened:** Check `data.info.life` again; it should go up (capped at your max). Then check `data.session` for the enemy’s hit on you (`player_life_lose`).
 
 ---
 
-## 9. File references
+### Ending a fight
 
-| Topic | File / location |
-|-------|-----------------|
-| GET state | `src/Controller/Api/DarkwoodGetStateController.php` — `__invoke`, `normalizeResult` |
-| POST action | `src/Controller/Api/DarkwoodPostActionController.php` — `__invoke` (body + query merge 44–50), `normalizeResult` |
-| Play logic | `src/Services/GameService.php` — `play()` 874–804, state/mode/actions |
-| Combat | `GameService.php` — fight/endFight 428–449, 451–489; combat branch 1014–1060 |
-| Daily battle | `GameService.php` — 1062–1088, fightDaily/endFightDaily 530–578 |
-| Beta gate | `src/EventSubscriber/DarkwoodBetaAccessSubscriber.php` |
-| Archives list | `src/Controller/Api/DarkwoodArchivesController.php` |
-| Archive by id | `src/Controller/Api/DarkwoodArchiveGetController.php` |
-| Archive payload shape | `src/Entity/DarkwoodArchive.php` (comment: same shape as state response) |
-| Response structure | `docs/darkwood-api-response-structure.md` |
-| State machine | `docs/darkwood-gameplay-state-machine.md` |
+When you think someone has died (you or the enemy), you send “end fight.” The server then checks and applies win or loss.
+
+**Example — end the fight:**
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"combat","mode":"combat","actionEndFight":"1"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
+```
+
+**How to know what happened:**
+
+- If **you died**: The response has `"mode": "player_death"` and a `data.result` object with things like `lose_xp`, `lose_gold`, and `enemy`. Your character is reset (e.g. life restored to max) and the fight is over.
+- If **the enemy died**: The response has `"mode": "player_win"` and `data.result` with e.g. `gem`, `level_up`, `enemy`. You get rewards and the fight is over.
+- If **both are still alive**: The server does nothing; `mode` stays `"combat"` and you can keep attacking or using a potion.
+
+After a win or loss, the next time you go to combat you’ll be back at enemy selection (no active fight until you send `actionBeginFight` again).
+
+---
+
+### Moving between menus (screens)
+
+You change screen by sending the state you want. The response then shows that screen’s data.
+
+**Examples:**
+
+- Go to character info (stats, class, add points):  
+  `{"query":{"state":"info"}}`
+- Go to equipment (gems):  
+  `{"query":{"state":"equipment"}}`
+- Go to hostel (buy life with gold):  
+  `{"query":{"state":"hostel"}}`
+- Go to armor shop:  
+  `{"query":{"state":"armor"}}`
+- Go to potion shop:  
+  `{"query":{"state":"potion"}}`
+- Go to sword shop:  
+  `{"query":{"state":"sword"}}`
+
+**Example — open the info screen:**
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"info"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
+```
+
+The response will have `data.info` (your stats) and, for the info screen, `data.classes`. To add a stat point you’d send the same state plus an action, for example:  
+`{"query":{"state":"info","actionAddPoint":"strength"}}`  
+(use `"dexterity"` or `"vitality"` for other stats). That only works if you have points left; otherwise the server does nothing and doesn’t tell you in the response.
+
+---
+
+### Daily battle
+
+Daily battle is a separate mode. You go there with `state=daily-battle`, start the fight with `actionBeginFight`, then use only `actionFight` (one exchange) and `actionEndFight` (resolve or keep fighting). There is **no potion** in daily battle—only fight and end fight.
+
+**Example — start a daily fight:**
+
+```bash
+curl -s -X POST -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":{"state":"daily-battle","actionBeginFight":"1"}}' \
+  "https://YOUR_API_HOST/api/darkwood/action"
+```
+
+Win/loss is again indicated by `mode`: `player_win` or `player_death`, with details in `data.result`.
+
+---
+
+## Understanding the response
+
+Responses are JSON. These are the fields that matter for playing.
+
+**Always present:**
+
+- **`state`** — The screen or situation you’re in (e.g. `main`, `combat`, `info`, `armor`). Use it to know where you are and what actions are valid.
+- **`mode`** — A sub-phase. In combat, for example: no active fight vs fight in progress vs just won/lost. So you need both `state` and `mode` to know if you can attack or end the fight.
+- **`user`** — Your user ID (a number), or `null` if you’re not logged in. When it’s `null`, you’ll see `state: "not-logged"` and you can’t play until the server associates a user with your requests.
+- **`display`** — Device type (e.g. `web`). You can usually ignore it.
+
+**When present, `data` holds the details for that screen:**
+
+- **`data.info`** — Your character summary: life (`life.min`, `life.max`), damage range (`damage.min`, `damage.max`), points, armor, etc. Shown in combat, menus, and daily battle.
+- **`data.session`** — During an active fight (PvE or daily): current life values and how much damage was done last turn (e.g. `enemy_current_life`, `player_life_lose`, `enemy_life_lose`). Lets you see fight progress.
+- **`data.currentEnemy`** — On the combat screen when you’re **not** in a fight: the enemy you have selected and next/previous (as IDs). Lets you browse and then start a fight.
+- **`data.result`** — Only right after a fight ends (win or loss). Tells you what you gained or lost: e.g. `lose_xp`, `lose_gold` on death; `gem`, `level_up`, `enemy` on win.
+
+The API returns many IDs (user, player, enemy, armor, etc.) rather than names. So you’ll see numbers where you might expect labels; that’s how the API is built.
+
+---
+
+## Invalid or ignored actions
+
+The API does **not** return a clear “invalid action” error. Instead:
+
+- **Wrong screen:** If you send an action that only makes sense on another screen (e.g. “attack” while you’re on the main menu), that action is **ignored**. The response is the same as if you had only asked for the current state—no change, no error message.
+- **Only one action per request:** If you send several actions in one request, the server only applies the **first** one it recognizes. The rest are ignored.
+- **No effect:** Some actions only work when conditions are met (e.g. add stat point only when you have points left; start fight only when the enemy is allowed). When the condition isn’t met, the server does nothing—no error, no change in the response. You have to infer from the response (e.g. stats unchanged) that the action didn’t apply.
+- **Typos in state:** If you send an unknown state name but you are logged in, the server treats it as the main menu and returns `state: "main"`.
+
+So: always use the **latest** response to decide the next move, and if something doesn’t change as you expected, assume the action was ignored or not applicable. This behavior is not always explicit in the API; it comes from how the server is implemented.
+
+---
+
+## Premium archives
+
+If you have a **premium** API key, you can read archived snapshots of game state. These are **read-only**: you can look at past states, but you cannot “restore” a game or play from an archive.
+
+**List available archives:**
+
+```bash
+curl -s -H "X-API-Key: YOUR_PREMIUM_KEY" \
+  "https://YOUR_API_HOST/api/darkwood/archives"
+```
+
+The response looks like:  
+`{"archives":[{"id":"2026-03-07","date":"2026-03-07"}, ...]}`  
+Each item has an `id` (and `date`, same value) you can use to fetch that day’s snapshot.
+
+**Get one snapshot by date:**
+
+```bash
+curl -s -H "X-API-Key: YOUR_PREMIUM_KEY" \
+  "https://YOUR_API_HOST/api/darkwood/archives/2026-03-07"
+```
+
+The body is the stored snapshot: same shape as a normal “state” response (e.g. `user`, `state`, `mode`, `data`). So it’s a point-in-time view of the game, not a live session.
+
+If your key is not premium, these endpoints respond with **403** and a message that premium access is required.
+
+---
+
+## Error handling
+
+When something goes wrong, the API returns an HTTP status code and a JSON body. Common cases:
+
+**401 Unauthorized — Missing or invalid API key**
+
+- You didn’t send `X-API-Key`, or the key is wrong.
+- Response example: `{"error": "A valid API key is required"}`
+
+**403 Forbidden**
+
+- **Inactive key:** Your key exists but has been deactivated.  
+  Example: `{"error": "API key is inactive"}`
+- **Beta access required:** Your key is valid but not allowed for the beta API.  
+  Example: `{"error": "Beta access required"}`
+- **Premium required:** You called an archives endpoint without a premium key.  
+  Example: `{"error": "premium_required", "message": "Premium access required"}`
+
+**429 Too many requests — Daily action limit**
+
+- You’ve hit the daily limit for **POST /api/darkwood/action** (non-premium keys may have a limit). Premium keys are not limited.
+- Response example: `{"error": "rate_limited", "message": "Daily action limit reached"}`
+- The response may include a `Retry-After` header (in seconds) telling you when you can try again (typically after midnight UTC).
+
+**400 Bad request — Invalid JSON**
+
+- You sent a POST to `/api/darkwood/action` with a body that isn’t valid JSON.
+- Response example: `{"error": "invalid_json", "message": "Request body must be valid JSON"}`
+
+**404 Not found — Archive**
+
+- You requested an archive that doesn’t exist (e.g. wrong date).  
+  Example: `{"error": "archive_not_found", "message": "Archive not found"}`
+
+In all these cases, the JSON body has at least an `error` (and often a `message`) you can show to the user or use in your app.
+
+---
+
+## Practical tips
+
+1. **Always use the latest response** to decide the next action. The current `state` and `mode` tell you what you can do; don’t assume the previous step succeeded without checking.
+2. **Treat `data` as depending on the screen.** Not every response has `data`; when it does, the contents depend on `state` (and sometimes `mode`). For example, `data.session` only appears during an active fight.
+3. **Send one action per request** when you want a specific move (attack, potion, end fight, etc.). If you send several action keys, only the first one that matches the current state is applied.
+4. **When in combat, include both `state` and `mode`** in your action request. For example use `"state":"combat","mode":"combat"` when attacking or using a potion so the server knows you’re in the fight.
+5. **Store archive IDs (dates)** if you want to revisit snapshots later. The list endpoint gives you `id`/`date`; use that in `GET /api/darkwood/archives/{id}`.
+6. **If nothing changes after an action**, the action may have been ignored (wrong state) or not applicable (e.g. no points left, enemy not allowed). The API does not return a separate “action failed” message; you infer from the unchanged response.
