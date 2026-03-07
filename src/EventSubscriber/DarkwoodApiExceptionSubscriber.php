@@ -9,11 +9,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
 {
     private const PATH_PREFIX = '/api/darkwood/';
+
+    public function __construct(
+        private readonly KernelInterface $kernel,
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -45,10 +50,35 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $event->setResponse(new JsonResponse([
+        $payload = [
             'error' => 'internal_error',
             'message' => 'An internal error occurred',
-        ], Response::HTTP_INTERNAL_SERVER_ERROR));
+        ];
+
+        if ($this->kernel->isDebug()) {
+            $payload['exception'] = [
+                'message' => $throwable->getMessage(),
+                'class' => $throwable::class,
+                'trace' => array_map(
+                    static function (array $frame): array {
+                        $out = [
+                            'file' => $frame['file'] ?? null,
+                            'line' => $frame['line'] ?? null,
+                            'function' => $frame['function'] ?? null,
+                            'class' => $frame['class'] ?? null,
+                        ];
+
+                        return $out;
+                    },
+                    $throwable->getTrace()
+                ),
+            ];
+        }
+
+        $event->setResponse(new JsonResponse(
+            $payload,
+            Response::HTTP_INTERNAL_SERVER_ERROR
+        ));
     }
 
     private function errorCodeFromStatus(int $status): string

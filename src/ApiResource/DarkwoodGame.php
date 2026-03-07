@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\Post;
             controller: 'App\Controller\Api\DarkwoodGetStateController',
             read: false,
             name: 'api_darkwood_get_state',
+            stateless: false,
         ),
         new Post(
             uriTemplate: '/darkwood/action',
@@ -22,6 +23,7 @@ use ApiPlatform\Metadata\Post;
             read: false,
             deserialize: false,
             name: 'api_darkwood_post_action',
+            stateless: false,
         ),
         new Get(
             uriTemplate: '/darkwood/archives',

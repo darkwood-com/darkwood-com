@@ -1032,27 +1032,52 @@ class GameService
 
                     $parameters['data']['info'] = $this->getInfo($user);
                     $parameters['data']['session'] = $this->getSession($user);
+                } elseif (($parameters['mode'] === 'fight_not_ended' || $parameters['mode'] === null) && $player->getLastFight()) {
+                    // Unfinished fight (e.g. forced redirect from another screen, or web opened after API started fight): show combat, not enemy selection
+                    $parameters['mode'] = 'combat';
+                    $parameters['data']['info'] = $this->getInfo($user);
+                    $parameters['data']['session'] = $this->getSession($user);
                 } else {
                     if ($request->get('actionEnemyNext')) {
                         $this->nextEnemy($user);
                     } elseif ($request->get('actionEnemyPrevious')) {
                         $this->previousEnemy($user);
                     } elseif ($request->get('actionBeginFight')) {
-                        /** @var Enemy $defaultEnemy */
-                        $defaultEnemy = $this->enemyRepository->findDefault();
-                        $enemy = $player->getCurrentEnemy() ?: $defaultEnemy;
-                        $enemyInfo = $this->getEnemyInfo($enemy);
-                        if ((
-                            $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
-                        ) || (
-                            !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
-                        )) {
-                            $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_enemy_alert'));
+                        if ($player->getLastFight()) {
+                            // Already in a fight — do not allow starting a new one; return current fight state
+                            $parameters['mode'] = 'combat';
+                            $parameters['data']['info'] = $this->getInfo($user);
+                            $parameters['data']['session'] = $this->getSession($user);
                         } else {
-                            $this->setLastFight($user);
-                            $request->attributes->set('mode', 'combat');
+                            /** @var Enemy $defaultEnemy */
+                            $defaultEnemy = $this->enemyRepository->findDefault();
+                            $enemy = $player->getCurrentEnemy() ?: $defaultEnemy;
+                            $enemyInfo = $this->getEnemyInfo($enemy);
+                            $enemyAllowed = !((
+                                $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
+                            ) || (
+                                !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
+                            ));
+                            // If chosen enemy not allowed (e.g. no maxFight but currentEnemy was set from another session), try default so fight can start (API / first load)
+                            if (!$enemyAllowed && $enemy->getId() !== $defaultEnemy->getId()) {
+                                $enemy = $defaultEnemy;
+                                $enemyInfo = $this->getEnemyInfo($enemy);
+                                $player->setCurrentEnemy($defaultEnemy);
+                                $this->em->flush();
+                                $enemyAllowed = !((
+                                    $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
+                                ) || (
+                                    !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
+                                ));
+                            }
+                            if (!$enemyAllowed) {
+                                $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_enemy_alert'));
+                            } else {
+                                $this->setLastFight($user);
+                                $request->attributes->set('mode', 'combat');
 
-                            return $this->play($request, null, $user);
+                                return $this->play($request, null, $user);
+                            }
                         }
                     }
 

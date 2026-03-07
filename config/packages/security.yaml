@@ -14,6 +14,12 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # Darkwood API: stateful so GameService can use session (flash, combat state)
+        darkwood_api:
+            pattern: ^/api/darkwood
+            stateless: false
+            provider: app_user_provider
+            jwt: ~
         api:
             pattern: ^/api/
             stateless: true

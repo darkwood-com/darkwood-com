@@ -229,17 +229,17 @@ You change screen by sending the state you want. The response then shows that sc
 
 **Examples:**
 
-- Go to character info (stats, class, add points):  
+- Go to character info (stats, class, add points):
   `{"query":{"state":"info"}}`
-- Go to equipment (gems):  
+- Go to equipment (gems):
   `{"query":{"state":"equipment"}}`
-- Go to hostel (buy life with gold):  
+- Go to hostel (buy life with gold):
   `{"query":{"state":"hostel"}}`
-- Go to armor shop:  
+- Go to armor shop:
   `{"query":{"state":"armor"}}`
-- Go to potion shop:  
+- Go to potion shop:
   `{"query":{"state":"potion"}}`
-- Go to sword shop:  
+- Go to sword shop:
   `{"query":{"state":"sword"}}`
 
 **Example — open the info screen:**
@@ -253,8 +253,8 @@ curl -s -X POST \
   "https://YOUR_API_HOST/api/darkwood/action"
 ```
 
-The response will have `data.info` (your stats) and, for the info screen, `data.classes`. To add a stat point you’d send the same state plus an action, for example:  
-`{"query":{"state":"info","actionAddPoint":"strength"}}`  
+The response will have `data.info` (your stats) and, for the info screen, `data.classes`. To add a stat point you’d send the same state plus an action, for example:
+`{"query":{"state":"info","actionAddPoint":"strength"}}`
 (use `"dexterity"` or `"vitality"` for other stats). That only works if you have points left; otherwise the server does nothing and doesn’t tell you in the response.
 
 ---
@@ -324,8 +324,8 @@ curl -s -H "X-API-Key: YOUR_PREMIUM_KEY" \
   "https://YOUR_API_HOST/api/darkwood/archives"
 ```
 
-The response looks like:  
-`{"archives":[{"id":"2026-03-07","date":"2026-03-07"}, ...]}`  
+The response looks like:
+`{"archives":[{"id":"2026-03-07","date":"2026-03-07"}, ...]}`
 Each item has an `id` (and `date`, same value) you can use to fetch that day’s snapshot.
 
 **Get one snapshot by date:**
@@ -352,11 +352,11 @@ When something goes wrong, the API returns an HTTP status code and a JSON body. 
 
 **403 Forbidden**
 
-- **Inactive key:** Your key exists but has been deactivated.  
+- **Inactive key:** Your key exists but has been deactivated.
   Example: `{"error": "API key is inactive"}`
-- **Beta access required:** Your key is valid but not allowed for the beta API.  
+- **Beta access required:** Your key is valid but not allowed for the beta API.
   Example: `{"error": "Beta access required"}`
-- **Premium required:** You called an archives endpoint without a premium key.  
+- **Premium required:** You called an archives endpoint without a premium key.
   Example: `{"error": "premium_required", "message": "Premium access required"}`
 
 **429 Too many requests — Daily action limit**
@@ -372,7 +372,7 @@ When something goes wrong, the API returns an HTTP status code and a JSON body. 
 
 **404 Not found — Archive**
 
-- You requested an archive that doesn’t exist (e.g. wrong date).  
+- You requested an archive that doesn’t exist (e.g. wrong date).
   Example: `{"error": "archive_not_found", "message": "Archive not found"}`
 
 In all these cases, the JSON body has at least an `error` (and often a `message`) you can show to the user or use in your app.
