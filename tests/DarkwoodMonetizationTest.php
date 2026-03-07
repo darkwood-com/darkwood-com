@@ -65,7 +65,12 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertSame(['archives' => []], $data);
+        self::assertArrayHasKey('archives', $data);
+        self::assertIsArray($data['archives']);
+        foreach ($data['archives'] as $item) {
+            self::assertArrayHasKey('id', $item);
+            self::assertArrayHasKey('date', $item);
+        }
     }
 
     public function testInvalidJsonReturns400(): void
