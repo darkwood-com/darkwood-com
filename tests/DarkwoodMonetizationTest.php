@@ -7,15 +7,14 @@ namespace App\Tests;
 use App\Entity\ApiKey;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Throwable;
 
 class DarkwoodMonetizationTest extends CommonWebTestCase
 {
-	public function getHostParameter(): string
+    public function getHostParameter(): string
     {
-    	return 'api_host';
-	}
+        return 'api_host';
+    }
 
     public function testFreeBetaKeyHitsDailyLimit(): void
     {

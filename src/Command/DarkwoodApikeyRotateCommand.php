@@ -14,6 +14,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+use function sprintf;
+
 #[AsCommand(
     name: 'darkwood:apikey:rotate',
     description: 'Rotate a Darkwood API key by id (old key deactivated, new key shown once).',

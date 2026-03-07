@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
     beStrictAboutCoverageMetadata="true"
     beStrictAboutOutputDuringTests="true"
-    bootstrap="../../vendor/autoload.php"
+    bootstrap="../../tests/bootstrap.php"
     cacheDirectory=".phpunit.cache"
     colors="true"
     executionOrder="depends,defects"
@@ -23,6 +23,7 @@
     </include>
   </source>
   <php>
+	<env name="APP_ENV" value="test" />
 	<env name="APP_SECRET" value="16aa17bccc9fa9c52386dda545354fa2" />
 	<env name="KERNEL_CLASS" value="App\Kernel" />
 	<env name="DARKWOOD_HOST" value="darkwood.localhost" />
@@ -30,6 +31,7 @@
 	<env name="PHOTOS_HOST" value="photos.darkwood.localhost" />
 	<env name="BLOG_HOST" value="blog.darkwood.localhost" />
 	<env name="HELLO_HOST" value="hello.darkwood.localhost" />
+	<env name="PODCASTS_HOST" value="podcasts.darkwood.localhost" />
 	<env name="ADMIN_HOST" value="admin.darkwood.localhost" />
 	<env name="API_HOST" value="api.darkwood.localhost" />
 	<env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3311/darkwood?serverVersion=5.7" />

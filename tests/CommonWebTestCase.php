@@ -29,7 +29,7 @@ class CommonWebTestCase extends WebTestCase
             'HTTPS' => false,
             'HTTP_HOST' => $container->getParameter($this->getHostParameter()) . ($this->getPortParameter() ? ':' . $this->getPortParameter() : ''),
         ]);
-		$client->enableProfiler();
+        $client->enableProfiler();
 
         return $client;
     }

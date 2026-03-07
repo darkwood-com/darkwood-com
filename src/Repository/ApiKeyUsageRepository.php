@@ -10,6 +10,8 @@ use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function sprintf;
+
 final class ApiKeyUsageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
