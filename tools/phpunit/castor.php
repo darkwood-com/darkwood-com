@@ -7,6 +7,7 @@ namespace App\Tools;
 use Castor\Attribute\AsOption;
 use Castor\Attribute\AsTask;
 
+use function Castor\context;
 use function Castor\run;
 
 #[AsTask(description: 'Launch PHPUnit test suite', aliases: ['phpunit'])]
@@ -41,5 +42,5 @@ function phpunit(
         $command[] = $coverateHtmlXml;
     }
 
-    return run($command, $environment, allowFailure: true)->getExitCode();
+    return run($command, $environment, context: context()->withAllowFailure())->getExitCode();
 }

@@ -10,15 +10,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[AsController]
-final class DarkwoodArchivesController
+final class DarkwoodArchiveGetController
 {
     public function __construct(
         private readonly DarkwoodArchiveRepository $archiveRepository,
     ) {}
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, string $id): Response
     {
         $apiKey = $request->attributes->get('api_key');
 
@@ -29,17 +30,14 @@ final class DarkwoodArchivesController
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $archives = $this->archiveRepository->findAllOrderByDateDesc();
-        $items = [];
-        foreach ($archives as $archive) {
-            $items[] = [
-                'id' => $archive->getDateId(),
-                'date' => $archive->getDateId(),
-            ];
+        $archive = $this->archiveRepository->findOneByDateId($id);
+        if ($archive === null) {
+            return new JsonResponse([
+                'error' => 'archive_not_found',
+                'message' => 'Archive not found',
+            ], Response::HTTP_NOT_FOUND);
         }
 
-        return new JsonResponse([
-            'archives' => $items,
-        ]);
+        return new JsonResponse($archive->getPayload());
     }
 }
