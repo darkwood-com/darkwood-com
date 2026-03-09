@@ -678,6 +678,9 @@
 /* -> darkwood v4 */
 .theme-darkwood .theme-menu--top
 {
+	position: sticky;
+	top: 0;
+	z-index: 25;
 	padding-top: 16px;
 	margin-bottom: 0;
 }
@@ -699,6 +702,17 @@
 	padding: 16px 24px 12px;
 	border: 1px solid #2c2c2c;
 	background: rgba(8, 8, 8, 0.92);
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+}
+
+.darkwood-topnav__primary
+{
+	display: flex;
+	flex: 1 1 540px;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 24px;
 }
 
 .darkwood-topnav__brand
@@ -739,8 +753,7 @@
 
 .darkwood-topnav__links
 {
-	flex: 1 1 420px;
-	justify-content: center;
+	justify-content: flex-start;
 }
 
 .darkwood-topnav__links a,
@@ -821,6 +834,11 @@
 		order: 3;
 		flex-basis: 100%;
 		justify-content: flex-start;
+	}
+
+	.darkwood-topnav__primary
+	{
+		flex-basis: 100%;
 	}
 }
 

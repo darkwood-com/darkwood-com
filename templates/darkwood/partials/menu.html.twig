@@ -10,25 +10,27 @@
 ] %}
 
 <nav class="darkwood-topnav" aria-label="Darkwood navigation">
-    <a class="darkwood-topnav__brand" href="{{ path('darkwood_home') }}">
-        <span class="darkwood-topnav__brand-mark" aria-hidden="true"></span>
-        <span class="darkwood-topnav__brand-text">Darkwood</span>
-    </a>
+    <div class="darkwood-topnav__primary">
+        <a class="darkwood-topnav__brand" href="{{ path('darkwood_home') }}">
+            <span class="darkwood-topnav__brand-mark" aria-hidden="true"></span>
+            <span class="darkwood-topnav__brand-text">Darkwood</span>
+        </a>
 
-    <ul class="darkwood-topnav__links">
-        {% for item in primaryNav %}
+        <ul class="darkwood-topnav__links">
+            {% for item in primaryNav %}
+                <li>
+                    <a href="{{ path(item.route) }}" class="{% if currentRoute == item.route %}is-active{% endif %}">
+                        {{ item.label }}
+                    </a>
+                </li>
+            {% endfor %}
             <li>
-                <a href="{{ path(item.route) }}" class="{% if currentRoute == item.route %}is-active{% endif %}">
-                    {{ item.label }}
+                <a href="{{ path('darkwood_rank') }}" class="{% if currentRoute == 'darkwood_rank' %}is-active{% endif %}">
+                    {{ 'darkwood.menu.rank_general'|trans }}
                 </a>
             </li>
-        {% endfor %}
-        <li>
-            <a href="{{ path('darkwood_rank') }}" class="{% if currentRoute == 'darkwood_rank' %}is-active{% endif %}">
-                {{ 'darkwood.menu.rank_general'|trans }}
-            </a>
-        </li>
-    </ul>
+        </ul>
+    </div>
 
     <div class="darkwood-topnav__actions">
         <div class="darkwood-topnav__locales" aria-label="Locales">
