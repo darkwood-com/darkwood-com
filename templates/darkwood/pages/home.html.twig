@@ -1,67 +1,26 @@
 {% extends "darkwood/base.html.twig" %}
 
 {% block content %}
-{% set featuredArticle = news|first %}
+<h1>{{ page.title }}</h1>
 
-<section class="darkwood-home">
-    <div class="darkwood-home__hero">
-        <div class="darkwood-home__hero-copy">
-            <p class="darkwood-home__eyebrow">Darkwood v4</p>
-            <h1>{{ page.title }}</h1>
-            <p class="darkwood-home__lead">{{ 'darkwood.home.hello_content'|trans|striptags }}</p>
+<a href="{{ path('hello_home') }}" class="hello">
+<ul class="itemlist">
+    <li>
+        <h2>{{ 'darkwood.home.hello_title'|trans }}</h2>
+        <p>{{ 'darkwood.home.hello_content'|trans|raw }}</p>
+    </li>
+</ul>
+</a>
 
-            <div class="darkwood-home__hero-actions">
-                <a href="{{ path('darkwood_play') }}" class="darkwood-home__cta darkwood-home__cta--primary">
-                    {{ 'darkwood.menu.play'|trans }}
-                </a>
-                <a href="{{ path('darkwood_rules') }}" class="darkwood-home__cta">
-                    {{ 'darkwood.menu.rules'|trans }}
-                </a>
-            </div>
-        </div>
-
-        <aside class="darkwood-home__welcome-card">
-            <p class="darkwood-home__panel-label">{{ 'darkwood.home.hello_title'|trans }}</p>
-            <h2>{{ 'darkwood.home.hello_title'|trans }}</h2>
-            <p>{{ 'darkwood.home.hello_content'|trans|raw }}</p>
-            <a href="{{ path('hello_home') }}">{{ 'darkwood.home.show_more'|trans }}</a>
-        </aside>
-    </div>
-
-    <section class="darkwood-home__news">
-        <div class="darkwood-home__section-heading">
-            <div>
-                <p class="darkwood-home__panel-label">{{ 'darkwood.home.news'|trans }}</p>
-                <h2>{{ 'darkwood.home.news'|trans }}</h2>
-            </div>
-            <a href="{{ path('blog_home') }}" class="darkwood-home__section-link">{{ 'darkwood.home.show_more'|trans }}</a>
-        </div>
-
-        {% if featuredArticle %}
-            {% set articleTranslation = featuredArticle.getOneTranslation(app.request.locale) %}
-            <article class="darkwood-home__featured-card">
-                <p class="darkwood-home__article-meta">
-                    {{ 'darkwood.home.news_on'|trans }} {{ articleTranslation.created|format_date('long') }}
-                </p>
-                <h3>{{ articleTranslation.title }}</h3>
-                <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(320, '...') }}</p>
-                <a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>
-            </article>
-        {% endif %}
-
-        <div class="darkwood-home__news-grid">
-            {% for article in news|slice(featuredArticle ? 1 : 0) %}
-                {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
-                <article class="darkwood-home__news-card">
-                    <p class="darkwood-home__article-meta">
-                        {{ 'darkwood.home.news_on'|trans }} {{ articleTranslation.created|format_date('long') }}
-                    </p>
-                    <h3>{{ articleTranslation.title }}</h3>
-                    <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(180, '...') }}</p>
-                    <a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>
-                </article>
-            {% endfor %}
-        </div>
-    </section>
-</section>
+<h2>{{ 'darkwood.home.news'|trans }}</h2>
+<ul class="itemlist">
+    {% for article in news %}
+    {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
+    <li>
+        <h3>{{ articleTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
+        <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a></p>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}
