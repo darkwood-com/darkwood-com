@@ -1,13 +1,8 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
-{% set primaryNav = [
-    {'route': 'darkwood_home', 'label': 'darkwood.menu.home'|trans},
-    {'route': 'darkwood_play', 'label': 'darkwood.menu.play'|trans},
-    {'route': 'darkwood_chat', 'label': 'darkwood.menu.chat'|trans},
-    {'route': 'darkwood_users', 'label': 'darkwood.menu.users'|trans},
-    {'route': 'darkwood_rules', 'label': 'darkwood.menu.rules'|trans},
-    {'route': 'darkwood_guestbook', 'label': 'darkwood.menu.guestbook'|trans},
-    {'route': 'darkwood_extra', 'label': 'darkwood.menu.extra'|trans}
-] %}
+{% set communityRoutes = ['darkwood_chat', 'darkwood_users', 'darkwood_guestbook'] %}
+{% set rankMode = app.request.get('mode') %}
+{% set communityActive = currentRoute in communityRoutes %}
+{% set rankActive = currentRoute == 'darkwood_rank' %}
 
 <nav class="darkwood-topnav" aria-label="Darkwood navigation">
     <div class="darkwood-topnav__primary">
@@ -17,16 +12,58 @@
         </a>
 
         <ul class="darkwood-topnav__links">
-            {% for item in primaryNav %}
-                <li>
-                    <a href="{{ path(item.route) }}" class="{% if currentRoute == item.route %}is-active{% endif %}">
-                        {{ item.label }}
-                    </a>
-                </li>
-            {% endfor %}
             <li>
-                <a href="{{ path('darkwood_rank') }}" class="{% if currentRoute == 'darkwood_rank' %}is-active{% endif %}">
-                    {{ 'darkwood.menu.rank_general'|trans }}
+                <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}is-active{% endif %}">
+                    {{ 'darkwood.menu.play'|trans }}
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    Communauté
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item{% if currentRoute == 'darkwood_chat' %} active{% endif %}" href="{{ path('darkwood_chat') }}">
+                            {{ 'darkwood.menu.chat'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item{% if currentRoute == 'darkwood_users' %} active{% endif %}" href="{{ path('darkwood_users') }}">
+                            {{ 'darkwood.menu.users'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item{% if currentRoute == 'darkwood_guestbook' %} active{% endif %}" href="{{ path('darkwood_guestbook') }}">
+                            {{ 'darkwood.menu.guestbook'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    Classement
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item{% if rankActive and not rankMode %} active{% endif %}" href="{{ path('darkwood_rank') }}">
+                            {{ 'darkwood.menu.rank_general'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item{% if rankMode == 'by_class_human' %} active{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_human'}) }}">
+                            {{ 'darkwood.menu.rank_by_class'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item{% if rankMode == 'daily_fight_by_defeats' %} active{% endif %}" href="{{ path('darkwood_rank', {'mode': 'daily_fight_by_defeats'}) }}">
+                            {{ 'darkwood.menu.rank_daily_fight'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}is-active{% endif %}">
+                    {{ 'darkwood.menu.rules'|trans }}
                 </a>
             </li>
         </ul>
