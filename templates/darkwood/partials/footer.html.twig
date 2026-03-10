@@ -1,7 +1,7 @@
 <div id="footer-top" class="col-md-12">
     <div class="darkwood-footer">
-        <div class="darkwood-footer__columns">
-            <section class="darkwood-footer__column">
+        <div class="darkwood-footer__row">
+            <section class="darkwood-footer__group">
                 <h4 class="darkwood-footer__title">Site</h4>
                 <ul class="darkwood-footer__links">
                     <li><a href="{{ path('darkwood_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a></li>
@@ -10,7 +10,7 @@
                 </ul>
             </section>
 
-            <section class="darkwood-footer__column">
+            <section class="darkwood-footer__group">
                 <h4 class="darkwood-footer__title">Network</h4>
                 <ul class="darkwood-footer__links">
                     <li><a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a></li>
@@ -20,7 +20,7 @@
                 </ul>
             </section>
 
-            <section class="darkwood-footer__column darkwood-footer__column--social">
+            <section class="darkwood-footer__group darkwood-footer__group--social">
                 <h4 class="darkwood-footer__title">Social</h4>
                 <div class="darkwood-footer__socials">
                     <a class="darkwood-footer__social btn btn-social-icon btn-github" aria-label="Visit our GitHub" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a>
@@ -29,9 +29,7 @@
                     <a class="darkwood-footer__social btn btn-social-icon btn-discord" aria-label="Join our Discord" href="https://discord.gg/TDkvp3nn3j" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a>
                 </div>
             </section>
-        </div>
 
-        <div class="darkwood-footer__bottom">
             <p class="darkwood-footer__copyright">{{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
         </div>
     </div>
