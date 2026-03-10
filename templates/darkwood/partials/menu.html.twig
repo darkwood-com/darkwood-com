@@ -70,12 +70,19 @@
     </div>
 
     <div class="darkwood-topnav__actions">
-        <div class="darkwood-topnav__locales" aria-label="Locales">
-            {% for locale, pageLink in pageLinks %}
-                <a href="{{ pageLink }}" class="{% if app.request.locale == locale %}is-active{% endif %}">
-                    {{ locale|upper }}
-                </a>
-            {% endfor %}
+        <div class="darkwood-topnav__locales dropdown" aria-label="Locales">
+            <a href="#" class="dropdown-toggle darkwood-topnav__locale-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ asset('/common/images/site/flags/' ~ app.request.locale ~ '.png') }}" alt="{{ app.request.locale }}" class="darkwood-topnav__flag">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                {% for locale, pageLink in pageLinks %}
+                    <li>
+                        <a href="{{ pageLink }}" class="dropdown-item{% if app.request.locale == locale %} active{% endif %}">
+                            <img src="{{ asset('/common/images/site/flags/' ~ locale ~ '.png') }}" alt="{{ locale }}" class="darkwood-topnav__flag">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
 
         {% if app.user %}
@@ -89,12 +96,71 @@
                 </button>
             </form>
         {% else %}
-            <a class="darkwood-topnav__button darkwood-topnav__button--ghost" href="{{ path('common_register') }}">
-                {{ 'common.menu.register'|trans }}
-            </a>
             <a class="darkwood-topnav__button" href="{{ path('security_login') }}">
                 {{ 'common.menu.login_btn'|trans }}
             </a>
         {% endif %}
     </div>
 </nav>
+
+<ul class="darkwood-mobile-nav">
+    <li>
+        <a href="{{ path('darkwood_home') }}" class="{% if currentRoute == 'darkwood_home' %}is-active{% endif %}">
+            {{ 'darkwood.menu.home'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}is-active{% endif %}">
+            {{ 'darkwood.menu.play'|trans }}
+        </a>
+    </li>
+    <li class="dropup">
+        <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+            Communauté
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item{% if currentRoute == 'darkwood_chat' %} active{% endif %}" href="{{ path('darkwood_chat') }}">
+                    {{ 'darkwood.menu.chat'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item{% if currentRoute == 'darkwood_users' %} active{% endif %}" href="{{ path('darkwood_users') }}">
+                    {{ 'darkwood.menu.users'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item{% if currentRoute == 'darkwood_guestbook' %} active{% endif %}" href="{{ path('darkwood_guestbook') }}">
+                    {{ 'darkwood.menu.guestbook'|trans }}
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropup">
+        <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+            Classement
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item{% if rankActive and not rankMode %} active{% endif %}" href="{{ path('darkwood_rank') }}">
+                    {{ 'darkwood.menu.rank_general'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item{% if rankMode == 'by_class_human' %} active{% endif %}" href="{{ path('darkwood_rank', {'mode': 'by_class_human'}) }}">
+                    {{ 'darkwood.menu.rank_by_class'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item{% if rankMode == 'daily_fight_by_defeats' %} active{% endif %}" href="{{ path('darkwood_rank', {'mode': 'daily_fight_by_defeats'}) }}">
+                    {{ 'darkwood.menu.rank_daily_fight'|trans }}
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}is-active{% endif %}">
+            {{ 'darkwood.menu.rules'|trans }}
+        </a>
+    </li>
+</ul>
