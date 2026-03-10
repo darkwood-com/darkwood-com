@@ -43,8 +43,8 @@
 <div class="clearfix"></div>
 
 <p>
-    If you do not have an account yet, you need to
-    <a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans|lower }}</a>.
+    {{ 'common.login.no_account_intro'|trans }}
+    <a href="{{ path('common_register') }}">{{ 'common.action.register'|trans|lower }}</a>{{ 'common.login.no_account_end'|trans }}
 </p>
 
 {% endblock %}

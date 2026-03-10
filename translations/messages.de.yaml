@@ -3,6 +3,10 @@ common:
     error: Diese Seite existiert nicht!
   login:
     login: Login
+    no_account_intro: "Wenn Sie noch kein Konto haben, müssen Sie sich"
+    no_account_end: "."
+  action:
+    register: registrieren
   register:
     username: Spitzname
     email: Email

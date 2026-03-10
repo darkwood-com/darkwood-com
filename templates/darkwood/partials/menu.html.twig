@@ -7,7 +7,7 @@
 <nav class="darkwood-topnav" aria-label="Darkwood navigation">
     <div class="darkwood-topnav__primary">
         <a class="darkwood-topnav__brand" href="{{ path('darkwood_home') }}">
-            <span class="darkwood-topnav__brand-mark" aria-hidden="true"></span>
+            <img src="{{ asset('logo.svg') }}" alt="Darkwood" class="darkwood-topnav__brand-mark">
             <span class="darkwood-topnav__brand-text">Darkwood</span>
         </a>
 
@@ -96,7 +96,7 @@
                 </button>
             </form>
         {% else %}
-            <a class="darkwood-topnav__button" href="{{ path('security_login') }}">
+            <a class="darkwood-topnav__button darkwood-topnav__button--login" href="{{ path('security_login') }}">
                 {{ 'common.menu.login_btn'|trans }}
             </a>
         {% endif %}

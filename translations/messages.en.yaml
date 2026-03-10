@@ -6,6 +6,10 @@ common:
     error: This page does not exist !
   login:
     login: Login
+    no_account_intro: "If you do not have an account yet, you need to"
+    no_account_end: "."
+  action:
+    register: Register
   register:
     username: Nickname
     email: Email
