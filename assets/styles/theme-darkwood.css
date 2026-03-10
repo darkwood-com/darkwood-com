@@ -841,7 +841,7 @@
 	position: sticky;
 	top: 0;
 	z-index: 25;
-	padding-top: 12px;
+	padding-top: 0;
 	margin-bottom: 0;
 }
 
@@ -1072,11 +1072,6 @@
 }
 
 @media(max-width:767px) {
-	.theme-darkwood .theme-menu--top
-	{
-		padding-top: 6px;
-	}
-
 	.darkwood-mobile-nav
 	{
 		position: fixed;
