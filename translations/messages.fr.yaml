@@ -100,6 +100,8 @@ darkwood:
     player: Joueur
     home: Acceuil
     play: Jouer
+    community: Communauté
+    leaderboard: Classement
     chat: Chat
     users: Liste des joueurs
     rules: Règles du jeu

@@ -101,6 +101,8 @@ darkwood:
     player: Player
     home: Home
     play: Play
+    community: Community
+    leaderboard: Leaderboard
     chat: Chat
     users: Player list
     rules: Rules of the game

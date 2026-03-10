@@ -98,6 +98,8 @@ darkwood:
     player: Spieler
     home: Startseite
     play: Spiel
+    community: Gemeinschaft
+    leaderboard: Rangliste
     chat: Chat
     users: Liste der Spieler
     rules: Regeln des Spiels
@@ -281,4 +283,3 @@ blog:
   home:
     article_on: der
     show_more: Lesen Sie mehr...
-

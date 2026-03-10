@@ -19,7 +19,7 @@
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
-                    Communauté
+                    {{ 'darkwood.menu.community'|trans }}
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -41,7 +41,7 @@
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
-                    Classement
+                    {{ 'darkwood.menu.leaderboard'|trans }}
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -91,7 +91,7 @@
                 <span>{{ app.user.username }}</span>
             </a>
             <form action="{{ path('security_logout') }}" method="get">
-                <button type="submit" class="darkwood-topnav__button darkwood-topnav__button--ghost">
+                <button type="submit" class="darkwood-topnav__button darkwood-topnav__button--logout">
                     {{ 'common.menu.logout_btn'|trans }}
                 </button>
             </form>
@@ -104,7 +104,7 @@
 </nav>
 
 <ul class="darkwood-mobile-nav">
-    <li>
+    <li class="darkwood-mobile-nav__home">
         <a href="{{ path('darkwood_home') }}" class="{% if currentRoute == 'darkwood_home' %}is-active{% endif %}">
             {{ 'darkwood.menu.home'|trans }}
         </a>
@@ -116,7 +116,7 @@
     </li>
     <li class="dropup">
         <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
-            Communauté
+            {{ 'darkwood.menu.community'|trans }}
         </a>
         <ul class="dropdown-menu">
             <li>
@@ -138,7 +138,7 @@
     </li>
     <li class="dropup">
         <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
-            Classement
+            {{ 'darkwood.menu.leaderboard'|trans }}
         </a>
         <ul class="dropdown-menu">
             <li>
