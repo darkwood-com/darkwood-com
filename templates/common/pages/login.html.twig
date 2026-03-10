@@ -4,44 +4,45 @@
 
 <h1>{{ page.title }}</h1>
 <h2>{{ 'common.login.login'|trans }}</h2>
-<form method="post" action="{{ path('security_login') }}" method="post" novalidate="novalidate">
+<form id="login_form" method="post" action="{{ path('security_login') }}" novalidate="novalidate">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <ul>
+            <li><div class="alert_error">{{ error.messageKey|trans(error.messageData, 'security') }}</div></li>
+        </ul>
     {% endif %}
 
     {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('security_logout') }}">Logout</a>
-        </div>
+        <ul>
+            <li>
+                <div class="alert_success">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('security_logout') }}">Logout</a>
+                </div>
+            </li>
+        </ul>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" autocomplete="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" autocomplete="current-password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
 
-    {#
-    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-    See https://symfony.com/doc/current/security/remember_me.html
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+    <ul>
+        <li>
+            <label for="inputUsername">{{ 'common.menu.login_username'|trans }}</label>
+            <input type="text" value="{{ last_username }}" name="username" autocomplete="username" id="inputUsername" required autofocus>
+        </li>
+        <li>
+            <label for="inputPassword">{{ 'common.menu.login_password'|trans }}</label>
+            <input type="password" name="password" autocomplete="current-password" id="inputPassword" required>
+        </li>
+    </ul>
+    <ul>
+        <li><input type="submit" id="login_login" name="login_login" value="{{ 'common.menu.login_btn'|trans }}"></li>
+    </ul>
 </form>
 
-<p class="mt-3">
+<div class="clearfix"></div>
+
+<p>
     If you do not have an account yet, you need to
     <a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans|lower }}</a>.
 </p>
