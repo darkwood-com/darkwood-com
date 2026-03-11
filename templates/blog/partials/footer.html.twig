@@ -1,21 +1,38 @@
 <div id="footer-top" class="col-md-12">
-    <ul>
-        <li>
-            <a href="{{ path('blog_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a> -
-            <a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a> -
-            <a href="{{ path('blog_home') }}">{{ 'common.footer.blog'|trans }}</a> -
-            <a href="{{ path('apps_home') }}">{{ 'common.footer.apps'|trans }}</a> -
-            <a href="{{ path('photos_home') }}">{{ 'common.footer.photos'|trans }}</a> -
-            <a href="{{ path('blog_contact') }}">{{ 'common.footer.contact'|trans }}</a> -
-            {#<a href="https://digest.darkwood.com">{{ 'common.footer.digest'|trans }}</a> -#}
-            <a class="btn btn-social-icon btn-github" aria-label="Visit our GitHub" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a> -
-            <a class="btn btn-social-icon btn-github" aria-label="Follow us on Twitter" href="https://twitter.com/darkwood_com" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a> -
-            <a class="btn btn-social-icon btn-linkedin" aria-label="Connect with us on LinkedIn" href="https://www.linkedin.com/company/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-linkedin"></span></a> -
-            <a class="btn btn-social-icon btn-discord" aria-label="Join our Discord" href="https://discord.gg/TDkvp3nn3j" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a> -
-            <a href="{{ path('blog_legal_mention') }}">{{ 'common.footer.legal_mention'|trans }}</a> - {{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}{# -
-            <a href="javascript:openAxeptioCookies()">{{ 'common.footer.cookies'|trans }}</a>#}
-        </li>
-    </ul>
+    <div class="darkwood-footer">
+        <div class="darkwood-footer__row">
+            <section class="darkwood-footer__group">
+                <h4 class="darkwood-footer__title">Site</h4>
+                <ul class="darkwood-footer__links">
+                    <li><a href="{{ path('blog_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a></li>
+                    <li><a href="{{ path('blog_contact') }}">{{ 'common.footer.contact'|trans }}</a></li>
+                    <li><a href="{{ path('blog_legal_mention') }}">{{ 'common.footer.legal_mention'|trans }}</a></li>
+                </ul>
+            </section>
+
+            <section class="darkwood-footer__group">
+                <h4 class="darkwood-footer__title">Network</h4>
+                <ul class="darkwood-footer__links">
+                    <li><a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a></li>
+                    <li><a href="{{ path('blog_home') }}">{{ 'common.footer.blog'|trans }}</a></li>
+                    <li><a href="{{ path('apps_home') }}">{{ 'common.footer.apps'|trans }}</a></li>
+                    <li><a href="{{ path('photos_home') }}">{{ 'common.footer.photos'|trans }}</a></li>
+                </ul>
+            </section>
+
+            <section class="darkwood-footer__group darkwood-footer__group--social">
+                <h4 class="darkwood-footer__title">Social</h4>
+                <div class="darkwood-footer__socials">
+                    <a class="darkwood-footer__social btn btn-social-icon btn-github" aria-label="Visit our GitHub" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a>
+                    <a class="darkwood-footer__social btn btn-social-icon btn-github" aria-label="Follow us on Twitter" href="https://twitter.com/darkwood_com" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a>
+                    <a class="darkwood-footer__social btn btn-social-icon btn-linkedin" aria-label="Connect with us on LinkedIn" href="https://www.linkedin.com/company/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-linkedin"></span></a>
+                    <a class="darkwood-footer__social btn btn-social-icon btn-discord" aria-label="Join our Discord" href="https://discord.gg/TDkvp3nn3j" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a>
+                </div>
+            </section>
+
+            <p class="darkwood-footer__copyright">{{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
+        </div>
+    </div>
     {#<ul>
         <li>
             <a href="https://validator.w3.org/nu/?doc={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-paper/site/footer/valid_xhtml11.jpg') }}" alt="Valid XHTML 1.1" title="{{ 'common.footer.valid.html'|trans }}" /></a>
@@ -24,4 +41,3 @@
         </li>
     </ul>#}
 </div>
-
