@@ -77,12 +77,6 @@
 	text-align: center;
 }
 
-	.theme-darkwood .theme-footer ul
-	{
-		list-style-type: none;
-		padding: 10px 0px 10px 0px;
-	}
-
 	.theme-darkwood .theme-footer .btn-github,
 	.theme-darkwood .theme-footer .btn-twitter,
 	.theme-darkwood .theme-footer .btn-linkedin,

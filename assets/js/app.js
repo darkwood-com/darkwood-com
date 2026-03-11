@@ -28,7 +28,7 @@ import '../styles/navbar-menu-brown.css'
 import '../styles/navbar-menu-dark.css'
 import '../styles/navbar-menu-yellow.css'
 
-import 'bootstrap';
+//import 'bootstrap';
 import '../libs/prism.js';
 import './darkwood.js'
 import './play.js'
