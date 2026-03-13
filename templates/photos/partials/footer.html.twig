@@ -1,18 +1,18 @@
-<div id="footer-top" class="col-md-12">
-    <div class="darkwood-footer">
-        <div class="darkwood-footer__row">
-            <section class="darkwood-footer__group">
-                <h4 class="darkwood-footer__title">Site</h4>
-                <ul class="darkwood-footer__links">
+<div class="row g-0 align-items-center">
+    <div class="col-md">
+        <div class="row g-0 align-items-center">
+        <section class="col-md-auto d-flex flex-nowrap align-items-center">
+                <h4 class="footer__title">Site</h4>
+                <ul class="footer__links">
                     <li><a href="{{ path('photos_sitemap') }}">{{ 'common.footer.sitemap'|trans }}</a></li>
                     <li><a href="{{ path('photos_contact') }}">{{ 'common.footer.contact'|trans }}</a></li>
                     <li><a href="{{ path('photos_legal_mention') }}">{{ 'common.footer.legal_mention'|trans }}</a></li>
                 </ul>
             </section>
 
-            <section class="darkwood-footer__group">
-                <h4 class="darkwood-footer__title">Network</h4>
-                <ul class="darkwood-footer__links">
+            <section class="col-md-auto d-flex flex-nowrap align-items-center">
+                <h4 class="footer__title">Network</h4>
+                <ul class="footer__links">
                     <li><a href="{{ path('hello_home') }}">{{ 'common.footer.hello'|trans }}</a></li>
                     <li><a href="{{ path('blog_home') }}">{{ 'common.footer.blog'|trans }}</a></li>
                     <li><a href="{{ path('apps_home') }}">{{ 'common.footer.apps'|trans }}</a></li>
@@ -20,19 +20,20 @@
                 </ul>
             </section>
 
-            <section class="darkwood-footer__group darkwood-footer__group--social">
-                <h4 class="darkwood-footer__title">Social</h4>
-                <div class="darkwood-footer__socials">
-                    <a class="darkwood-footer__social btn btn-social-icon btn-github" aria-label="Visit our GitHub" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a>
-                    <a class="darkwood-footer__social btn btn-social-icon btn-github" aria-label="Follow us on Twitter" href="https://twitter.com/darkwood_com" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a>
-                    <a class="darkwood-footer__social btn btn-social-icon btn-linkedin" aria-label="Connect with us on LinkedIn" href="https://www.linkedin.com/company/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-linkedin"></span></a>
-                    <a class="darkwood-footer__social btn btn-social-icon btn-discord" aria-label="Join our Discord" href="https://discord.gg/TDkvp3nn3j" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a>
+        <section class="col-md-auto d-flex flex-nowrap align-items-center">
+                <h4 class="footer__title">Social</h4>
+                <div class="footer__socials">
+                    <a class="footer__social btn btn-social-icon btn-github" aria-label="Visit our GitHub" href="https://github.com/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-github"></span></a>
+                    <a class="footer__social btn btn-social-icon btn-github" aria-label="Follow us on Twitter" href="https://twitter.com/darkwood_com" target="_blank" rel="noreferrer"><span class="fab fa-twitter"></span></a>
+                    <a class="footer__social btn btn-social-icon btn-linkedin" aria-label="Connect with us on LinkedIn" href="https://www.linkedin.com/company/darkwood-com" target="_blank" rel="noreferrer"><span class="fab fa-linkedin"></span></a>
+                    <a class="footer__social btn btn-social-icon btn-discord" aria-label="Join our Discord" href="https://discord.gg/TDkvp3nn3j" target="_blank" rel="noreferrer"><span class="fab fa-discord"></span></a>
                 </div>
-            </section>
-
-            <p class="darkwood-footer__copyright">{{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
-        </div>
+        </section>
     </div>
+</div>
+
+    <p class="col-md-auto ms-md-auto">{{ 'common.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
+</div>
     {#<ul>
         <li>
             <a href="https://validator.w3.org/nu/?doc={{ app.request.uri }}"><img src="{{ asset('/common/images/components/theme-photos/site/footer/valid_xhtml11.jpg') }}" alt="Valid XHTML 1.1" title="{{ 'common.footer.valid.html'|trans }}" /></a>
@@ -40,4 +41,3 @@
             <a href="https://validator.w3.org/feed/check.cgi?url={{ url(page.page.site.ref ~ '_rss') }}"><img src="{{ asset('/common/images/components/theme-photos/site/footer/valid_rss.jpg') }}" alt="Valid RSS" title="{{ 'common.footer.valid.rss'|trans }}" /></a>
         </li>
     </ul>#}
-</div>

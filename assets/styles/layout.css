@@ -1,24 +1,59 @@
 .layout-darkwood
 {
-	background-color: #000000;
+	--theme-layout-background-color: #000000;
+	--theme-layout-footer-background-color: #000000;
+	--theme-layout-footer-color: #808080;
+	--theme-layout-footer-link-color: #808080;
+	--theme-layout-footer-link-hover-color: #ffffff;
+	--theme-layout-footer-social-color: rgba(221, 214, 200, 0.76);
+	--theme-layout-footer-social-hover-color: #ffffff;
+	background-color: var(--theme-layout-background-color);
 }
 
 .layout-sky
 {
-	background-color: #FFFFFF;
+	--theme-layout-background-color: #FFFFFF;
+	--theme-layout-footer-background-color: #FFFFFF;
+	--theme-layout-footer-color: #888888;
+	--theme-layout-footer-link-color: #888888;
+	--theme-layout-footer-link-hover-color: #0099FF;
+	--theme-layout-footer-social-color: #888888;
+	--theme-layout-footer-social-hover-color: #0099FF;
+	background-color: var(--theme-layout-background-color);
 }
 
 .layout-photos
 {
-	background-color: #007800;
+	--theme-layout-background-color: #007800;
+	--theme-layout-footer-background-color: #007800;
+	--theme-layout-footer-color: #333333;
+	--theme-layout-footer-link-color: #333333;
+	--theme-layout-footer-link-hover-color: #DDAA66;
+	--theme-layout-footer-social-color: #333333;
+	--theme-layout-footer-social-hover-color: #DDAA66;
+	background-color: var(--theme-layout-background-color);
 }
 
 .layout-paper
 {
-	background-color: #9b5638;
+	--theme-layout-background-color: #9b5638;
+	--theme-layout-footer-background-color: #e9c7a9;
+	--theme-layout-footer-color: #692D00;
+	--theme-layout-footer-link-color: #692D00;
+	--theme-layout-footer-link-hover-color: #a95e00;
+	--theme-layout-footer-social-color: #692D00;
+	--theme-layout-footer-social-hover-color: #a95e00;
+	background-color: var(--theme-layout-background-color);
 }
 
 .layout-api
 {
-	background-color: #1a1a1a;
+	--theme-layout-background-color: #1a1a1a;
+	--theme-layout-footer-background-color: #1a1a1a;
+	--theme-layout-footer-color: #E0E0E0;
+	--theme-layout-footer-link-color: #E0E0E0;
+	--theme-layout-footer-link-hover-color: #FFFFFF;
+	--theme-layout-footer-social-color: #E0E0E0;
+	--theme-layout-footer-social-hover-color: #FFFFFF;
+	background-color: var(--theme-layout-background-color);
 }

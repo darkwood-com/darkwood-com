@@ -103,6 +103,7 @@ darkwood:
     chat: Chat
     users: Liste der Spieler
     rules: Regeln des Spiels
+    rules_short: Regeln
     guestbook: Gästebuch
     extra: Extra
     rank: Rang

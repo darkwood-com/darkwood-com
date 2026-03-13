@@ -1,6 +1,11 @@
 /* -> layout */
 .theme-api
 {
+	--theme-footer-border-top: 0 solid rgba(36, 36, 36, 0.75);
+}
+
+.theme-api
+{
 	color: #E0E0E0;
 	background: #2A2A2A;
 }
@@ -40,114 +45,6 @@
 				padding-left: 15px;
 			}
 		}
-
-.theme-api .theme-footer
-{
-	margin: 0;
-	padding: 6px 0px 0px 0px;
-	text-align: left;
-	background-color: #1A1A1A;
-}
-
-	.theme-api .theme-footer .btn-github,
-	.theme-api .theme-footer .btn-twitter,
-	.theme-api .theme-footer .btn-linkedin,
-	.theme-api .theme-footer .btn-discord
-	{
-		background-color: transparent;
-		border: 0 none;
-	}
-
-.theme-api .darkwood-footer__row
-{
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	gap: 10px 18px;
-	max-width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 8px;
-}
-
-.theme-api .darkwood-footer__group
-{
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	gap: 8px 10px;
-	padding: 0;
-}
-
-.theme-api .darkwood-footer__title
-{
-	display: none;
-}
-
-.theme-api .darkwood-footer__links
-{
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	gap: 6px 10px;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.theme-api .darkwood-footer__links li
-{
-	white-space: nowrap;
-}
-
-.theme-api .darkwood-footer__socials
-{
-	display: flex;
-	flex-wrap: nowrap;
-	gap: 8px;
-}
-
-.theme-api .darkwood-footer__social
-{
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 32px;
-	height: 32px;
-	padding: 0;
-	border: 0 none;
-	background: transparent;
-	text-decoration: none;
-}
-
-.theme-api .darkwood-footer__copyright
-{
-	margin: 0 0 0 auto;
-}
-
-@media(max-width:767px) {
-	.theme-api .darkwood-footer__row
-	{
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 10px 14px;
-		padding: 8px 15px 10px;
-	}
-
-	.theme-api .darkwood-footer__links,
-	.theme-api .darkwood-footer__socials
-	{
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.theme-api .darkwood-footer__copyright
-	{
-		width: 100%;
-		margin-left: 0;
-		text-align: center;
-	}
-}
 
 /* -> basics */
 .theme-api h1

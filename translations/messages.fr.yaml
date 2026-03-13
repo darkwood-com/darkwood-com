@@ -105,6 +105,7 @@ darkwood:
     chat: Chat
     users: Liste des joueurs
     rules: Règles du jeu
+    rules_short: Règles
     guestbook: Livre d'or
     extra: Extra
     rank: Classement
