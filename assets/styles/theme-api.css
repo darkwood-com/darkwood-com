@@ -1,9 +1,3 @@
-/* -> layout */
-.theme-api
-{
-	--theme-footer-border-top: 0 solid rgba(36, 36, 36, 0.75);
-}
-
 .theme-api
 {
 	color: #E0E0E0;
@@ -31,12 +25,6 @@
 	margin-left: auto;
 	margin-right: auto;
 }
-
-	.theme-api .theme-menu
-	{
-		/** align menu and content backgrounds **/
-		padding-top: 16px;
-	}
 
 		@media(max-width:767px) {
 			.theme-api .theme-content-top

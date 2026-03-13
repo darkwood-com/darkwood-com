@@ -7,14 +7,14 @@
     {% endif %}
 {% endfor %}
 
-<nav class="darkwood-topnav" aria-label="Apps navigation">
-    <div class="darkwood-topnav__primary">
-        <a class="darkwood-topnav__brand" href="{{ path('apps_home') }}">
-            <img src="{{ asset('logo.svg') }}" alt="Darkwood Apps" class="darkwood-topnav__brand-mark">
-            <span class="darkwood-topnav__brand-text">Apps</span>
+<nav class="theme-nav" aria-label="Apps navigation">
+    <div class="theme-nav__primary">
+        <a class="theme-nav__brand" href="{{ path('apps_home') }}">
+            <img src="{{ asset('logo.svg') }}" alt="Darkwood Apps" class="theme-nav__brand-mark">
+            <span class="theme-nav__brand-text">Apps</span>
         </a>
 
-        <ul class="darkwood-topnav__links">
+        <ul class="theme-nav__links">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle{% if projectActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ 'apps.menu.apps'|trans }}
@@ -32,16 +32,16 @@
         </ul>
     </div>
 
-    <div class="darkwood-topnav__actions">
-        <div class="darkwood-topnav__locales dropdown" aria-label="Locales">
-            <a href="#" class="dropdown-toggle darkwood-topnav__locale-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ asset('/common/images/site/flags/' ~ app.request.locale ~ '.png') }}" alt="{{ app.request.locale }}" class="darkwood-topnav__flag">
+    <div class="theme-nav__actions">
+        <div class="theme-nav__locales dropdown" aria-label="Locales">
+            <a href="#" class="dropdown-toggle theme-nav__locale-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ asset('/common/images/site/flags/' ~ app.request.locale ~ '.png') }}" alt="{{ app.request.locale }}" class="theme-nav__flag">
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 {% for locale, pageLink in pageLinks %}
                     <li>
                         <a href="{{ pageLink }}" class="dropdown-item{% if app.request.locale == locale %} active{% endif %}">
-                            <img src="{{ asset('/common/images/site/flags/' ~ locale ~ '.png') }}" alt="{{ locale }}" class="darkwood-topnav__flag">
+                            <img src="{{ asset('/common/images/site/flags/' ~ locale ~ '.png') }}" alt="{{ locale }}" class="theme-nav__flag">
                         </a>
                     </li>
                 {% endfor %}
@@ -49,25 +49,25 @@
         </div>
 
         {% if app.user %}
-            <a class="darkwood-topnav__profile" href="{{ path('common_profile') }}">
+            <a class="theme-nav__profile" href="{{ path('common_profile') }}">
                 <img src="{{ asset(vich_uploader_asset(app.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ app.user.username }}">
                 <span>{{ app.user.username }}</span>
             </a>
             <form action="{{ path('security_logout') }}" method="get">
-                <button type="submit" class="darkwood-topnav__button darkwood-topnav__button--logout">
+                <button type="submit" class="theme-nav__button theme-nav__button--logout">
                     {{ 'common.menu.logout_btn'|trans }}
                 </button>
             </form>
         {% else %}
-            <a class="darkwood-topnav__button darkwood-topnav__button--login" href="{{ path('security_login') }}">
+            <a class="theme-nav__button theme-nav__button--login" href="{{ path('security_login') }}">
                 {{ 'common.menu.login_btn'|trans }}
             </a>
         {% endif %}
     </div>
 </nav>
 
-<ul class="darkwood-mobile-nav">
-    <li class="darkwood-mobile-nav__home">
+<ul class="theme-mobile-nav">
+    <li class="theme-mobile-nav__home">
         <a href="{{ path('apps_home') }}" class="{% if currentRoute == 'apps_home' %}is-active{% endif %}">
             Apps
         </a>
