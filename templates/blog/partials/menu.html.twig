@@ -1,5 +1,3 @@
-{% set currentRoute = app.request.attributes.get('_route') %}
-
 <nav class="theme-nav row g-0 align-items-center" aria-label="Blog navigation">
     <div class="theme-nav__primary col-md">
         <a class="theme-nav__brand" href="{{ path('blog_home') }}">
@@ -9,7 +7,7 @@
 
         <ul class="theme-nav__links">
             <li>
-                <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}is-active{% endif %}">
+                <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}active{% endif %}">
                     {{ 'blog.menu.articles'|trans }}
                 </a>
             </li>
@@ -52,12 +50,12 @@
 
 <ul class="theme-mobile-nav">
     <li class="theme-mobile-nav__home">
-        <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' %}is-active{% endif %}">
+        <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' %}active{% endif %}">
             Blog
         </a>
     </li>
     <li>
-        <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}is-active{% endif %}">
+        <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}active{% endif %}">
             {{ 'blog.menu.articles'|trans }}
         </a>
     </li>

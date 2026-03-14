@@ -1,6 +1,5 @@
-{% set currentRoute = app.request.attributes.get('_route') %}
 {% set communityRoutes = ['darkwood_chat', 'darkwood_users', 'darkwood_guestbook'] %}
-{% set rankMode = app.request.get('mode') %}
+{% set rankMode = currentMode|default(null) %}
 {% set communityActive = currentRoute in communityRoutes %}
 {% set rankActive = currentRoute == 'darkwood_rank' %}
 
@@ -13,12 +12,12 @@
 
         <ul class="theme-nav__links">
             <li>
-                <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}is-active{% endif %}">
+                <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}active{% endif %}">
                     {{ 'darkwood.menu.play'|trans }}
                 </a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="dropdown-toggle{% if communityActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ 'darkwood.menu.community'|trans }}
                 </a>
                 <ul class="dropdown-menu">
@@ -40,7 +39,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="dropdown-toggle{% if rankActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ 'darkwood.menu.leaderboard'|trans }}
                 </a>
                 <ul class="dropdown-menu">
@@ -62,7 +61,7 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}is-active{% endif %}">
+                <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}active{% endif %}">
                     {{ 'darkwood.menu.rules'|trans }}
                 </a>
             </li>
@@ -105,17 +104,17 @@
 
 <ul class="theme-mobile-nav">
     <li class="theme-mobile-nav__home">
-        <a href="{{ path('darkwood_home') }}" class="{% if currentRoute == 'darkwood_home' %}is-active{% endif %}">
+        <a href="{{ path('darkwood_home') }}" class="{% if currentRoute == 'darkwood_home' %}active{% endif %}">
             {{ 'darkwood.menu.home'|trans }}
         </a>
     </li>
     <li>
-        <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}is-active{% endif %}">
+        <a href="{{ path('darkwood_play') }}" class="{% if currentRoute == 'darkwood_play' %}active{% endif %}">
             {{ 'darkwood.menu.play'|trans }}
         </a>
     </li>
     <li class="dropup">
-        <a href="#" class="dropdown-toggle{% if communityActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="dropdown-toggle{% if communityActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'darkwood.menu.community'|trans }}
         </a>
         <ul class="dropdown-menu">
@@ -137,7 +136,7 @@
         </ul>
     </li>
     <li class="dropup">
-        <a href="#" class="dropdown-toggle{% if rankActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="dropdown-toggle{% if rankActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'darkwood.menu.leaderboard'|trans }}
         </a>
         <ul class="dropdown-menu">
@@ -159,7 +158,7 @@
         </ul>
     </li>
     <li>
-        <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}is-active{% endif %}">
+        <a href="{{ path('darkwood_rules') }}" class="{% if currentRoute == 'darkwood_rules' %}active{% endif %}">
             {{ 'darkwood.menu.rules_short'|trans }}
         </a>
     </li>

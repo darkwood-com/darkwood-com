@@ -168,9 +168,11 @@
 
 .layout .theme-nav__links a:hover,
 .layout .theme-nav__links a:focus,
+.layout .theme-nav__links a.active,
 .layout .theme-nav__links a.is-active,
 .layout .theme-nav__locales a:hover,
 .layout .theme-nav__locales a:focus,
+.layout .theme-nav__locales a.active,
 .layout .theme-nav__locales a.is-active
 {
 	border-color: var(--theme-nav-link-hover-color, currentColor);
@@ -496,6 +498,7 @@
 
 	.layout .theme-mobile-nav a:hover,
 	.layout .theme-mobile-nav a:focus,
+	.layout .theme-mobile-nav a.active,
 	.layout .theme-mobile-nav a.is-active
 	{
 		color: var(--theme-mobile-nav-link-hover-color, var(--theme-nav-link-hover-color, currentColor));

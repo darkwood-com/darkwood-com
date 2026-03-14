@@ -1,4 +1,3 @@
-{% set currentRoute = app.request.attributes.get('_route') %}
 {% set currentUri = app.request.uri %}
 {% set projectActive = false %}
 {% for appLink in appLinks %}
@@ -16,7 +15,7 @@
 
         <ul class="theme-nav__links">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle{% if projectActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="dropdown-toggle{% if projectActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ 'apps.menu.apps'|trans }}
                 </a>
                 <ul class="dropdown-menu">
@@ -68,12 +67,12 @@
 
 <ul class="theme-mobile-nav">
     <li class="theme-mobile-nav__home">
-        <a href="{{ path('apps_home') }}" class="{% if currentRoute == 'apps_home' %}is-active{% endif %}">
+        <a href="{{ path('apps_home') }}" class="{% if currentRoute == 'apps_home' %}active{% endif %}">
             Apps
         </a>
     </li>
     <li class="dropup">
-        <a href="#" class="dropdown-toggle{% if projectActive %} is-active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="dropdown-toggle{% if projectActive %} active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'apps.menu.apps'|trans }}
         </a>
         <ul class="dropdown-menu">
