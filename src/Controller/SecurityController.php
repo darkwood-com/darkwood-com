@@ -19,7 +19,7 @@ class SecurityController extends AbstractController
         private readonly CommonController $commonController
     ) {}
 
-    #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'login'])]
+    #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'login'], priority: 10)]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
     {
         if ($request->getHost() === $parameterBag->get('admin_host')) {
@@ -44,7 +44,7 @@ class SecurityController extends AbstractController
         return $this->render('common/pages/login.html.twig', ['page' => $page, 'site_ref' => $siteRef, 'last_username' => $lastUsername, 'error' => $error, 'showLinks' => true]);
     }
 
-    #[Route(path: ['fr' => '/fr/logout', 'en' => '/logout', 'de' => '/de/logout'], name: 'logout')]
+    #[Route(path: ['fr' => '/fr/logout', 'en' => '/logout', 'de' => '/de/logout'], name: 'logout', priority: 10)]
     public function logout(): never
     {
         throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
