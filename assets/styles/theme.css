@@ -433,6 +433,7 @@
 	.layout .theme-nav
 	{
 		flex-wrap: nowrap;
+		padding: 0px 6px;
 	}
 
 	.layout .theme-nav__primary
