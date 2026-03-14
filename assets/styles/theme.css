@@ -543,6 +543,11 @@
 		padding-bottom: calc(var(--theme-mobile-content-offset, 0px) + var(--theme-mobile-nav-height, 0px));
 	}
 
+	.layout .theme-footer > div
+	{
+		padding-bottom: calc(8px + var(--theme-mobile-nav-height, 0px));
+	}
+
 	.layout .theme-footer > .col-md-12 > .row > .col-md > .row > section
 	{
 		justify-content: center;

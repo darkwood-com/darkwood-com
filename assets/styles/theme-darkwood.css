@@ -4,9 +4,6 @@
 	--darkwood-accent: #ffffff;
 	color: #808080;
 	background: #000000;
-	--theme-footer-mobile-section-align: flex-start;
-	--theme-footer-mobile-copyright-align: left;
-	--theme-footer-mobile-copyright-margin-top: 12px;
 }
 
 .theme-darkwood .theme-header
