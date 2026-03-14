@@ -1,7 +1,7 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 
-<nav class="theme-nav" aria-label="Photos navigation">
-    <div class="theme-nav__primary">
+<nav class="theme-nav row g-0 align-items-center" aria-label="Photos navigation">
+    <div class="theme-nav__primary col-md">
         <a class="theme-nav__brand" href="{{ path('photos_home') }}">
             <img src="{{ asset('logo.svg') }}" alt="Darkwood Photos" class="theme-nav__brand-mark">
             <span class="theme-nav__brand-text">Photos</span>
@@ -26,7 +26,7 @@
         </ul>
     </div>
 
-    <div class="theme-nav__actions">
+    <div class="theme-nav__actions col-md-auto">
         <div class="theme-nav__locales dropdown" aria-label="Locales">
             <a href="#" class="dropdown-toggle theme-nav__locale-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{ asset('/common/images/site/flags/' ~ app.request.locale ~ '.png') }}" alt="{{ app.request.locale }}" class="theme-nav__flag">
