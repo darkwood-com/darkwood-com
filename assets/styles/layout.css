@@ -122,6 +122,19 @@
 	background-color: var(--theme-layout-background-color);
 }
 
+.layout-hello
+{
+	--theme-layout-background-color: #000000;
+	--theme-layout-footer-background-color: #000000;
+	--theme-layout-footer-color: #808080;
+	--theme-layout-footer-link-color: #808080;
+	--theme-layout-footer-link-hover-color: #FFFFFF;
+	--theme-layout-footer-social-color: #808080;
+	--theme-layout-footer-social-hover-color: #FFFFFF;
+	--theme-footer-border-top: 0px solid rgba(36, 36, 36, 0.75);
+	background-color: var(--theme-layout-background-color);
+}
+
 .layout-photos
 {
 	--theme-layout-background-color: #007800;
