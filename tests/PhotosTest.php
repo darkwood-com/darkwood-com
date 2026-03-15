@@ -13,21 +13,19 @@ class PhotosTest extends CommonWebTestCase
         return 'photos_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    //#[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
     }*/
 
-    #[DataProvider('provideW3CCases')]
+    #[DataProvider('urls')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
     }
 
-    public static function provideW3CCases(): iterable
+    public static function urls(): iterable
     {
         $commonUrls = [
             ['/profil/matyo'],

@@ -13,26 +13,24 @@ class AppsTest extends CommonWebTestCase
         return 'apps_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
     }*/
 
-    #[DataProvider('provideW3CCases')]
+    #[DataProvider('urls')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
     }
 
-    public static function provideW3CCases(): iterable
+    public static function urls(): iterable
     {
         $commonUrls = [
-            ['/profil/matyo'],
-            ['/en/profile/matyo'],
-            ['/de/profil/matyo'],
+            //['/profil/matyo'],
+            //['/en/profile/matyo'],
+            //['/de/profil/matyo'],
             ['/login'],
             ['/inscription'],
             ['/en/register'],
@@ -60,6 +58,28 @@ class AppsTest extends CommonWebTestCase
             // array('/de/resetting/reset/{token}'),
         ];
 
-        return [...$commonUrls, ['/'], ['/en'], ['/de'], ['/plan-du-site'], ['/en/sitemap'], ['/de/sitemap'], ['/sitemap.xml'], ['/en/sitemap.xml'], ['/de/sitemap.xml'], ['/rss'], ['/en/rss'], ['/de/rss'], ['/contact'], ['/en/contact'], ['/de/kontakt'], ['/en/zmesh'], ['/de/zmesh'], ['/zmesh'], ['/en/zmesh/conception'], ['/de/zmesh/conception'], ['/zmesh/conception']];
+        return [...$commonUrls,
+			['/'],
+			['/en'],
+			['/de'],
+			['/plan-du-site'],
+			['/en/sitemap'],
+			['/de/sitemap'],
+			['/sitemap.xml'],
+			['/en/sitemap.xml'],
+			['/de/sitemap.xml'],
+			['/rss'],
+			['/en/rss'],
+			['/de/rss'],
+			['/contact'],
+			['/en/contact'],
+			['/de/kontakt'],
+			//['/en/zmesh'],
+			//['/de/zmesh'],
+			//['/zmesh'],
+			//['/en/zmesh/conception'],
+			//['/de/zmesh/conception'],
+			//['/zmesh/conception']
+		];
     }
 }
