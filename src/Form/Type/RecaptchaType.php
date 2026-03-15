@@ -23,7 +23,7 @@ final class RecaptchaType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['public_key'] = $this->siteKey;
-        $view->vars['recaptcha_enabled'] = $this->enabled;
+        $view->vars['recaptcha_enabled'] = $this->enabled && $this->siteKey !== '';
     }
 
     public function configureOptions(OptionsResolver $resolver): void
