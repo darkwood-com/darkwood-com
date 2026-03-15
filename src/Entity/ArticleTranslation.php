@@ -42,7 +42,7 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 #[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
-#[ORM\UniqueConstraint(name: 'article_unique_locale', columns: ['article_id', 'locale' ])]
+#[ORM\UniqueConstraint(name: 'article_unique_locale', columns: ['article_id', 'locale'])]
 #[ORM\UniqueConstraint(name: 'locale_unique_slug', columns: ['locale', 'slug'])]
 class ArticleTranslation implements Stringable
 {

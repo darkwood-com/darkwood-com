@@ -6,6 +6,7 @@ namespace App\Tools;
 
 use Castor\Attribute\AsTask;
 
+use function Castor\context;
 use function Castor\run;
 
 #[AsTask(description: 'Run PHP Code Sniffer', aliases: ['phpcs'])]
@@ -13,6 +14,6 @@ function phpcs(): int
 {
     return run(
         [__DIR__ . '/vendor/bin/phpcs', '--standard=' . __DIR__ . '/phpcs.xml'],
-        allowFailure: true,
+        context()->withAllowFailure(),
     )->getExitCode();
 }

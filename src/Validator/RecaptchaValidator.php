@@ -12,14 +12,15 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
+use function is_string;
+
 final class RecaptchaValidator extends ConstraintValidator
 {
     public function __construct(
         #[Autowire(service: 'app.recaptcha')]
         private readonly ReCaptcha $reCaptcha,
         private readonly RequestStack $requestStack,
-    ) {
-    }
+    ) {}
 
     public function validate(mixed $value, Constraint $constraint): void
     {
@@ -33,7 +34,8 @@ final class RecaptchaValidator extends ConstraintValidator
         }
         if ($token === '') {
             $this->context->buildViolation($constraint->message)
-                ->addViolation();
+                ->addViolation()
+            ;
 
             return;
         }
@@ -44,7 +46,8 @@ final class RecaptchaValidator extends ConstraintValidator
         $response = $this->reCaptcha->verify($token, $remoteIp);
         if (!$response->isSuccess()) {
             $this->context->buildViolation($constraint->message)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

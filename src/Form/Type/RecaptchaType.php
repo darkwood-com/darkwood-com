@@ -18,8 +18,7 @@ final class RecaptchaType extends AbstractType
     public function __construct(
         private readonly string $siteKey,
         private readonly bool $enabled,
-    ) {
-    }
+    ) {}
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {

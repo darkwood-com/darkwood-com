@@ -32,6 +32,11 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 {
     use TimestampTrait;
 
+    /**
+     * Key used for the private $password property when this object is cast to array (PHP internal format).
+     */
+    private const PASSWORD_ARRAY_KEY = "\0" . self::class . "\0password";
+
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
@@ -130,11 +135,6 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     }
 
     /**
-     * Key used for the private $password property when this object is cast to array (PHP internal format).
-     */
-    private const PASSWORD_ARRAY_KEY = "\0" . self::class . "\0password";
-
-    /**
      * Serialize the user for the session. We remove the password completely so it is never stored.
      * After unserialization getPassword() returns null; Symfony refreshes the user from the provider
      * without checking the password (see "Remove the password completely" in the Security doc).
@@ -157,7 +157,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function __unserialize(array $data): void
     {
         foreach ($data as $k => $v) {
-            $this->$k = $v;
+            $this->{$k} = $v;
         }
         $this->password = null;
     }
@@ -225,6 +225,12 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     {
         return (string) $this->password;
     }
+
+    /**
+     * @see UserInterface
+     * No plain credentials are stored on the user; this is a no-op.
+     */
+    public function eraseCredentials(): void {}
 
     public function setPassword(string $password): self
     {

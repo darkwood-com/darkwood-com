@@ -13,19 +13,19 @@ class BlogTest extends CommonWebTestCase
         return 'blog_host';
     }
 
-    //#[DataProvider('urls')]
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
     }*/
 
-    #[DataProvider('urls')]
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
     }
 
-    public static function urls(): iterable
+    public static function provideW3CCases(): iterable
     {
         $commonUrls = [
             ['/profil/matyo'],

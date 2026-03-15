@@ -6,6 +6,7 @@ namespace App\Tools;
 
 use Castor\Attribute\AsTask;
 
+use function Castor\context;
 use function Castor\run;
 
 #[AsTask(description: 'Run Phan', aliases: ['phan'])]
@@ -13,6 +14,6 @@ function phan(): int
 {
     return run(
         [__DIR__ . '/vendor/bin/phan', '--config-file=' . __DIR__ . '/phan.php'],
-        allowFailure: true,
+        context()->withAllowFailure(),
     )->getExitCode();
 }

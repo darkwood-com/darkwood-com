@@ -13,24 +13,24 @@ class AppsTest extends CommonWebTestCase
         return 'apps_host';
     }
 
-    #[DataProvider('urls')]
+    #[DataProvider('provideW3CCases')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
     }*/
 
-    #[DataProvider('urls')]
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
     }
 
-    public static function urls(): iterable
+    public static function provideW3CCases(): iterable
     {
         $commonUrls = [
-            //['/profil/matyo'],
-            //['/en/profile/matyo'],
-            //['/de/profil/matyo'],
+            // ['/profil/matyo'],
+            // ['/en/profile/matyo'],
+            // ['/de/profil/matyo'],
             ['/login'],
             ['/inscription'],
             ['/en/register'],
@@ -59,27 +59,27 @@ class AppsTest extends CommonWebTestCase
         ];
 
         return [...$commonUrls,
-			['/'],
-			['/en'],
-			['/de'],
-			['/plan-du-site'],
-			['/en/sitemap'],
-			['/de/sitemap'],
-			['/sitemap.xml'],
-			['/en/sitemap.xml'],
-			['/de/sitemap.xml'],
-			['/rss'],
-			['/en/rss'],
-			['/de/rss'],
-			['/contact'],
-			['/en/contact'],
-			['/de/kontakt'],
-			//['/en/zmesh'],
-			//['/de/zmesh'],
-			//['/zmesh'],
-			//['/en/zmesh/conception'],
-			//['/de/zmesh/conception'],
-			//['/zmesh/conception']
-		];
+            ['/'],
+            ['/en'],
+            ['/de'],
+            ['/plan-du-site'],
+            ['/en/sitemap'],
+            ['/de/sitemap'],
+            ['/sitemap.xml'],
+            ['/en/sitemap.xml'],
+            ['/de/sitemap.xml'],
+            ['/rss'],
+            ['/en/rss'],
+            ['/de/rss'],
+            ['/contact'],
+            ['/en/contact'],
+            ['/de/kontakt'],
+            // ['/en/zmesh'],
+            // ['/de/zmesh'],
+            // ['/zmesh'],
+            // ['/en/zmesh/conception'],
+            // ['/de/zmesh/conception'],
+            // ['/zmesh/conception']
+        ];
     }
 }

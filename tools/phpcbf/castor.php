@@ -6,6 +6,7 @@ namespace App\Tools;
 
 use Castor\Attribute\AsTask;
 
+use function Castor\context;
 use function Castor\run;
 
 #[AsTask(description: 'Clean code with PHP Code Beautifier and Fixer', aliases: ['phpcbf'])]
@@ -13,6 +14,6 @@ function phpcbf(): int
 {
     return run(
         [__DIR__ . '/vendor/bin/phpcbf', '--standard=' . __DIR__ . '/phpcs.xml'],
-        allowFailure: true,
+        context()->withAllowFailure(),
     )->getExitCode();
 }

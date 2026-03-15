@@ -16,7 +16,7 @@ class DarkwoodTest extends CommonWebTestCase
         return 'darkwood_host';
     }
 
-    //#[DataProvider('urls')]
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);
@@ -30,13 +30,13 @@ class DarkwoodTest extends CommonWebTestCase
         self::assertStringContainsString('LLM / Agent Access', (string) file_get_contents($path), 'llms.txt should include "LLM / Agent Access"');
     }
 
-    #[DataProvider('urls')]
+    #[DataProvider('provideW3CCases')]
     public function testW3C($url)
     {
         $this->validateW3CUrl($url);
     }
 
-    public static function urls(): iterable
+    public static function provideW3CCases(): iterable
     {
         $commonUrls = [
             ['/profil/matyo'],
