@@ -41,6 +41,13 @@
 	/*background: var(--theme-menu-background, transparent);*/
 }
 
+.layout .theme-menu > *
+{
+	padding-left: 0;
+	padding-right: 0;
+	margin-top: 0;
+}
+
 .layout .theme-nav
 {
 	border-bottom: var(--theme-nav-border-bottom, 0 none transparent);
@@ -67,6 +74,7 @@
 	color: var(--theme-nav-brand-color, inherit);
 	flex-shrink: 0;
 	text-decoration: none;
+	padding-left: 12px;
 }
 
 .layout .theme-nav__brand:hover,
