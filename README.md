@@ -65,7 +65,7 @@ nix-env -iA nixpkgs.nodejs-18_x
 ## Bref
 
 ```sh
-nix shell github:loophp/nix-shell#env-php82 --extra-experimental-features nix-command --extra-experimental-features flakes
+nix shell github:loophp/nix-shell#env-php84 --extra-experimental-features nix-command --extra-experimental-features flakes
 vendor/bin/bref-dev-server --assets=public # http://localhost:8000/hello
 
 # https://bref.sh/docs/local-development/event-driven-functions#api-gateway-local-development
