@@ -14,7 +14,7 @@
       let
         php = pkgs.api.buildPhpFromComposer {
           src = inputs.self;
-          php = pkgs.php84;
+          php = pkgs.php85;
         };
       in
       {

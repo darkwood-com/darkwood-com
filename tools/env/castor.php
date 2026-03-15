@@ -13,7 +13,7 @@ use function Castor\run;
 function envDev(): int
 {
     return run(
-        ['nix shell github:loophp/nix-shell#env-php84 --extra-experimental-features nix-command --extra-experimental-features flakes'],
+        ['nix shell github:loophp/nix-shell#env-php85 --extra-experimental-features nix-command --extra-experimental-features flakes'],
         context()->withAllowFailure()->withTty(true),
     )->getExitCode();
 }
