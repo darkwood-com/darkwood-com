@@ -22,10 +22,10 @@ class RegistrationType extends AbstractType
     {
         $builder->add('username', null, [
             'constraints' => [
-                new Regex([
-                    'pattern' => '/^[a-z0-9\-]+$/',
-                    'message' => 'Username must contain only lowercase letters, numbers, and hyphens',
-                ]),
+                new Regex(
+                    '/^[a-z0-9\-]+$/',
+                    'Username must contain only lowercase letters, numbers, and hyphens',
+                ),
             ],
         ]);
         $builder->add('email', EmailType::class);

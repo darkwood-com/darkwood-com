@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png"/>
     <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png"/>
 
-    {{ render(controller('App\\Controller\\CommonController::seo', { 'context': _context })) }}
+    {{ render(controller('App\\Controller\\CommonController::seo', { 'context': { 'page': page, 'article': article | default(null) } })) }}
 
     <link rel="author" href="{{ asset('/humans.txt') }}" />
     <meta name="Owner" content="Mathieu Ledru"/>
