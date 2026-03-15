@@ -241,15 +241,16 @@
         "version": "0.12.89"
     },
     "phpunit/phpunit": {
-        "version": "11.5",
+        "version": "12.5",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "10.0",
-            "ref": "b786e93f0b38027289867faca488b8c511436fe0"
+            "version": "11.1",
+            "ref": "1117deb12541f35793eec9fff7494d7aa12283fc"
         },
         "files": [
             ".env.test",
+            "bin/phpunit",
             "phpunit.dist.xml",
             "tests/bootstrap.php"
         ]
