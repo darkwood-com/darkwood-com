@@ -16,16 +16,24 @@ use function is_string;
 
 final class RecaptchaValidator extends ConstraintValidator
 {
+    private const DISABLED_SECRET = 'recaptcha_disabled';
+
     public function __construct(
         #[Autowire(service: 'app.recaptcha')]
         private readonly ReCaptcha $reCaptcha,
         private readonly RequestStack $requestStack,
+        #[Autowire(param: 'recaptcha.secret')]
+        private readonly string $secret,
     ) {}
 
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof RecaptchaConstraint) {
             throw new UnexpectedTypeException($constraint, RecaptchaConstraint::class);
+        }
+
+        if ($this->secret === self::DISABLED_SECRET || $this->secret === '') {
+            return;
         }
 
         $token = is_string($value) ? trim($value) : '';

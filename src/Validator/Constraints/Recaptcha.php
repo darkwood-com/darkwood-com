@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Validator\Constraints;
 
+use App\Validator\RecaptchaValidator;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
@@ -11,4 +12,9 @@ use Symfony\Component\Validator\Constraint;
 final class Recaptcha extends Constraint
 {
     public string $message = 'Please complete the captcha.';
+
+    public function validatedBy(): string
+    {
+        return RecaptchaValidator::class;
+    }
 }
