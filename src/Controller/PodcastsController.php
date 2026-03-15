@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\BaserowService;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,20 +76,33 @@ class PodcastsController extends AbstractController
 
     private function fetchAndCachePodcasts(): array
     {
+        if (!$this->baserowService->isConfigured()) {
+            return [];
+        }
+
         return $this->cache->get('podcasts_items', function (ItemInterface $item) {
             $item->expiresAfter(86400); // Cache for 1 day
 
-            $token = $this->baserowService->getBaserowToken();
-            $baserowApiUrl = $this->baserowService->getHost() . '/api/applications/';
-            $response = $this->httpClient->request('GET', $baserowApiUrl, [
-                'headers' => [
-                    'Authorization' => 'JWT ' . $token,
-                ],
-            ]);
+            try {
+                $token = $this->baserowService->getBaserowToken();
+            } catch (ExceptionInterface $e) {
+                return [];
+            }
 
-            $databases = $response->toArray();
+            try {
+                $baserowApiUrl = $this->baserowService->getHost() . '/api/applications/';
+                $response = $this->httpClient->request('GET', $baserowApiUrl, [
+                    'headers' => [
+                        'Authorization' => 'JWT ' . $token,
+                    ],
+                ]);
+
+                $databases = $response->toArray();
+            } catch (ExceptionInterface $e) {
+                return [];
+            }
+
             $tableId = null;
-
             foreach ($databases as $database) {
                 $table = array_filter($database['tables'], static fn ($table) => $table['name'] === 'Podcasts');
                 if (!empty($table)) {
@@ -98,21 +111,25 @@ class PodcastsController extends AbstractController
             }
 
             if ($tableId === null) {
-                throw new Exception('Podcasts table not found in Baserow.');
+                return [];
             }
 
-            $baserowApiUrl = sprintf('%s/api/database/rows/table/%d/?%s', $this->baserowService->getHost(), $tableId, http_build_query([
-                'filter__field_5982__contains' => 'published',
-                'user_field_names' => 'true',
-            ]));
+            try {
+                $baserowApiUrl = sprintf('%s/api/database/rows/table/%d/?%s', $this->baserowService->getHost(), $tableId, http_build_query([
+                    'filter__field_5982__contains' => 'published',
+                    'user_field_names' => 'true',
+                ]));
 
-            $response = $this->httpClient->request('GET', $baserowApiUrl, [
-                'headers' => [
-                    'Authorization' => 'JWT ' . $token,
-                ],
-            ]);
+                $response = $this->httpClient->request('GET', $baserowApiUrl, [
+                    'headers' => [
+                        'Authorization' => 'JWT ' . $token,
+                    ],
+                ]);
 
-            return $response->toArray()['results'];
+                return $response->toArray()['results'];
+            } catch (ExceptionInterface $e) {
+                return [];
+            }
         });
     }
 }
