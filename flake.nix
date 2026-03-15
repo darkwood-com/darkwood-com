@@ -31,7 +31,7 @@
           buildInputs = [
             php
             php.packages.composer
-            php.packages.phpstan
+            pkgs.phpstan
             php.packages.psalm
             pkgs.phpunit
             self'.packages.satis
