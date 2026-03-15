@@ -90,8 +90,19 @@ class CommonController extends AbstractController
         return $response;
     }
 
-    public function seo(int $pageId, ?int $articleId = null)
+    public function seo(?int $pageId, ?int $articleId = null)
     {
+        if ($pageId === null) {
+            $empty = [
+                'title' => '',
+                'description' => '',
+                'keywords' => '',
+                'facebook' => ['site_name' => '', 'title' => '', 'description' => '', 'url' => '', 'type' => 'website', 'src' => ''],
+                'twitter' => ['card' => 'summary', 'site' => '', 'title' => '', 'description' => '', 'src' => ''],
+            ];
+
+            return $this->render('common/partials/seo.html.twig', ['data' => $empty]);
+        }
         $pageTranslation = $this->managerRegistry->getRepository(PageTranslation::class)->find($pageId);
         if ($pageTranslation === null) {
             $empty = [
