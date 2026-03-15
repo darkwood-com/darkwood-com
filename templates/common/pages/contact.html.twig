@@ -31,7 +31,7 @@
             {{ form_label(form.content, 'common.contact.message', {'label_attr':{'class': 'centered'}}) }}
             {{ form_widget(form.content, {'attr':{'class': 'centered', 'rows': '5', 'cols': '35'} }) }}
         </li>
-        {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
+        {% if form.recaptcha.vars.recaptcha_enabled %}
         {% if form.recaptcha.vars['errors'] |length > 0 %}<li><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></li>{% endif %}
         <li class="centered">
             <label class="required centered">{{ 'common.contact.recaptcha'|trans }}</label>

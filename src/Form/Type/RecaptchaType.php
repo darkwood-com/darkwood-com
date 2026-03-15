@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * reCAPTCHA v2 form type (replaces excelwebzone/recaptcha-bundle for Symfony 8).
- * Use same env vars: EWZ_RECAPTCHA_SITE_KEY, EWZ_RECAPTCHA_SECRET.
+ * Uses GOOGLE_RECAPTCHA_SITE_KEY and GOOGLE_RECAPTCHA_SECRET from .env.
  */
 final class RecaptchaType extends AbstractType
 {
@@ -23,7 +23,7 @@ final class RecaptchaType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['public_key'] = $this->siteKey;
-        $view->vars['ewz_recaptcha_enabled'] = $this->enabled;
+        $view->vars['recaptcha_enabled'] = $this->enabled;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

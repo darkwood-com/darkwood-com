@@ -287,7 +287,7 @@
                                     {{ form_widget(form.content, {'attr':{'class': 'form-control', 'rows': '5', 'cols': '35'} }) }}
                                 </div>
                             </div>
-                            {% if form.recaptcha.vars.ewz_recaptcha_enabled %}
+                            {% if form.recaptcha.vars.recaptcha_enabled %}
                             {% if form.recaptcha.vars['errors'] |length > 0 %}<div class="col-12"><div class="mb-3"><div class="alert_error">{{ form_errors(form.recaptcha) }}</div></div></div>{% endif %}
                             <div class="col-12">
                                 <div class="mb-3">

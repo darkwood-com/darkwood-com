@@ -76,7 +76,7 @@ vendor/bin/bref-local my-function.php '{"name": "Jane"}'
 ## Requirements
 
 - **PHP 8.4+** (required by Symfony 8)
-- reCAPTCHA: set `EWZ_RECAPTCHA_SITE_KEY` and `EWZ_RECAPTCHA_SECRET` in `.env` (in-app implementation; former excelwebzone/recaptcha-bundle was removed for Symfony 8 compatibility).
+- reCAPTCHA: set `GOOGLE_RECAPTCHA_SITE_KEY` and `GOOGLE_RECAPTCHA_SECRET` in `.env` (in-app implementation; excelwebzone/recaptcha-bundle was removed for Symfony 8 compatibility).
 
 ## Update packages
 

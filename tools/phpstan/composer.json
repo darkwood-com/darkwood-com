@@ -9,7 +9,7 @@
 		"doctrine/doctrine-bundle": "^2.10.2",
 		"doctrine/doctrine-migrations-bundle": "^3.2.4",
 		"doctrine/orm": "^3.2.0",
-		"excelwebzone/recaptcha-bundle": "^1.5.39",
+		"google/recaptcha": "^1.2",
 		"knplabs/knp-paginator-bundle": "^6.2.0",
 		"knpuniversity/oauth2-client-bundle": "^2.16",
 		"league/commonmark": "^2.4.1",
