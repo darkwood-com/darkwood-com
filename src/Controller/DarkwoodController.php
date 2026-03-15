@@ -125,7 +125,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/chat', 'en' => '/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
     public function chat(Request $request, $ref)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -154,7 +154,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/liste-des-joueurs', 'en' => '/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
     public function users(Request $request, $ref): Response
     {
-        if ($request->get('sort') && !in_array($request->get('sort'), ['u.created', 'u.username'], true)) {
+        if ($request->query->get('sort') && !in_array($request->query->get('sort'), ['u.created', 'u.username'], true)) {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -176,7 +176,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/livre-d-or', 'en' => '/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
     public function guestbook(Request $request, $ref)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -214,7 +214,7 @@ class DarkwoodController extends AbstractController
     public function rank(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
-        $mode = $request->get('mode');
+        $mode = $request->query->get('mode');
         $query = $this->gameService->findActiveQuery($mode);
         $request->query->set('sort', $pagination?->sort ?? '');
 

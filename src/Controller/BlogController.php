@@ -91,7 +91,7 @@ class BlogController extends AbstractController
     #[Route(path: ['fr' => '/fr/article/{slug}', 'en' => '/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'a.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'a.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 

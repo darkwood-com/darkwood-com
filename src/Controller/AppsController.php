@@ -91,7 +91,7 @@ class AppsController extends AbstractController
     #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(Request $request, $ref, $slug = null)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
