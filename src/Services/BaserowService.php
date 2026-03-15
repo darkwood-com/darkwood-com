@@ -17,16 +17,16 @@ class BaserowService
     public function __construct(
         HttpClientInterface $httpClient,
         #[Autowire('%baserow_host%')]
-        string $host,
+        ?string $host,
         #[Autowire('%baserow_username%')]
-        string $username,
+        ?string $username,
         #[Autowire('%baserow_password%')]
-        string $password
+        ?string $password
     ) {
         $this->httpClient = $httpClient;
-        $this->host = $host;
-        $this->username = $username;
-        $this->password = $password;
+        $this->host = $host ?? '';
+        $this->username = $username ?? '';
+        $this->password = $password ?? '';
     }
 
     public function isConfigured(): bool
