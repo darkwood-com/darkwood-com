@@ -42,7 +42,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
-#[ORM\UniqueConstraint(name: 'locale_article_unique', columns: ['locale', 'article_id'])]
+#[ORM\UniqueConstraint(name: 'article_unique_locale', columns: ['article_id', 'locale' ])]
+#[ORM\UniqueConstraint(name: 'locale_unique_slug', columns: ['locale', 'slug'])]
 class ArticleTranslation implements Stringable
 {
     use TimestampTrait;
