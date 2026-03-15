@@ -36,9 +36,7 @@ class RegistrationType extends AbstractType
             'invalid_message' => 'Les mots de passe ne correspondent pas.',
             'mapped' => false,
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Please enter a password',
-                ]),
+                new NotBlank(message: 'Please enter a password'),
             ],
         ]);
         $builder->add('recaptcha', RecaptchaType::class, [

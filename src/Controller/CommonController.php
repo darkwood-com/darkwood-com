@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Contact;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
@@ -24,6 +25,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Throwable;
 use Twig\Environment;
 
@@ -37,7 +39,8 @@ class CommonController extends AbstractController
         private readonly SiteService $siteService,
         private readonly ContactService $contactService,
         private readonly SeoService $seoService,
-        private readonly HtmlErrorRenderer $errorRenderer
+        private readonly HtmlErrorRenderer $errorRenderer,
+        private readonly ManagerRegistry $managerRegistry,
     ) {}
 
     /**
@@ -87,8 +90,28 @@ class CommonController extends AbstractController
         return $response;
     }
 
-    public function seo($context)
+    public function seo(int $pageId, ?int $articleId = null)
     {
+        $pageTranslation = $this->managerRegistry->getRepository(PageTranslation::class)->find($pageId);
+        if ($pageTranslation === null) {
+            $empty = [
+                'title' => '',
+                'description' => '',
+                'keywords' => '',
+                'facebook' => ['site_name' => '', 'title' => '', 'description' => '', 'url' => '', 'type' => 'website', 'src' => ''],
+                'twitter' => ['card' => 'summary', 'site' => '', 'title' => '', 'description' => '', 'src' => ''],
+            ];
+
+            return $this->render('common/partials/seo.html.twig', ['data' => $empty]);
+        }
+        $context = ['page' => $pageTranslation];
+        if ($articleId !== null) {
+            $article = $this->managerRegistry->getRepository(Article::class)->find($articleId);
+            if ($article instanceof Article) {
+                $context['article'] = $article;
+            }
+        }
+
         return $this->render('common/partials/seo.html.twig', ['data' => $this->seoService->getSeo($context)]);
     }
 
