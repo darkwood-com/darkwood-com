@@ -1,6 +1,7 @@
 /* -> layout */
 .theme-darkwood
 {
+	--darkwood-accent: #ffffff;
 	color: #808080;
 	background: #000000;
 }
@@ -33,12 +34,6 @@
 	margin-right: auto;
 }
 
-	.theme-darkwood .theme-menu
-	{
-		/** align menu and content backgrounds **/
-		padding-top: 16px;
-	}
-
 	.theme-darkwood .theme-content
 	{
 		/*max-width: 820px;*/
@@ -66,27 +61,8 @@
 			}
 		}
 
-.theme-darkwood .theme-footer
-{
-	margin: 0;
-	padding: 10px 0px 10px 0px;
-	text-align: center;
+@media(max-width:767px) {
 }
-
-	.theme-darkwood .theme-footer ul
-	{
-		list-style-type: none;
-		padding: 10px 0px 10px 0px;
-	}
-
-	.theme-darkwood .theme-footer .btn-github,
-	.theme-darkwood .theme-footer .btn-twitter,
-	.theme-darkwood .theme-footer .btn-linkedin,
-	.theme-darkwood .theme-footer .btn-discord
-	{
-		background-color: transparent;
-		border: 0 none;
-	}
 
 /* -> basics */
 .theme-darkwood h1
@@ -128,7 +104,7 @@
 
 .theme-darkwood a:hover
 {
-	color: #FFFFFF;
+	color: var(--darkwood-accent);
 	cursor: pointer;
 }
 

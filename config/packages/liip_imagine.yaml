@@ -1,5 +1,8 @@
 # Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
 liip_imagine:
+    # Use lazy Twig mode (avoids deprecated FilterExtension / FilterTrait)
+    twig:
+        mode: lazy
     # valid drivers options include "gd" or "gmagick" or "imagick"
     driver: "gd"
     resolvers:

@@ -1,9 +1,9 @@
 {% extends "common/base.html.twig" %}
 
-{% block layout %}layout layout-sky{% endblock %}
+{% block layout %}layout layout-hello{% endblock %}
 
 {% block body %}
-    <div class="container-fluid theme theme-sky">
+    <div class="container-fluid theme theme-hello">
         <div class="row theme-header">
             <div class="theme-header-logo"></div>
         </div>
@@ -23,7 +23,9 @@
         </div>
 
         <div class="row theme-footer">
-            {%- include "hello/partials/footer.html.twig" -%}
+            <div class="col-md-12">
+                {%- include "hello/partials/footer.html.twig" -%}
+            </div>
         </div>
     </div>
 {% endblock %}

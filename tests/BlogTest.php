@@ -13,9 +13,7 @@ class BlogTest extends CommonWebTestCase
         return 'blog_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);

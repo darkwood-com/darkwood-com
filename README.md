@@ -73,6 +73,11 @@ vendor/bin/bref-dev-server --assets=public # http://localhost:8000/hello
 vendor/bin/bref-local my-function.php '{"name": "Jane"}'
 ````
 
+## Requirements
+
+- **PHP 8.4+** (required by Symfony 8)
+- reCAPTCHA: set `EWZ_RECAPTCHA_SITE_KEY` and `EWZ_RECAPTCHA_SECRET` in `.env` (in-app implementation; former excelwebzone/recaptcha-bundle was removed for Symfony 8 compatibility).
+
 ## Update packages
 
 List packages to update with composer:
@@ -82,5 +87,5 @@ composer outdated -D
 
 Update Symfony recipes:
 ```sh
-composer symfony:recipes:update
+composer recipes:update
 ```

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[Vich\Uploadable]
 #[UniqueEntity('email', message: "The email '{{ value }}' is already used.")]
@@ -31,6 +31,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
 {
     use TimestampTrait;
+
+    /**
+     * Key used for the private $password property when this object is cast to array (PHP internal format).
+     */
+    private const PASSWORD_ARRAY_KEY = "\0" . self::class . "\0password";
 
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
@@ -130,28 +135,31 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     }
 
     /**
-     * String representation of object.
+     * Serialize the user for the session. We remove the password completely so it is never stored.
+     * After unserialization getPassword() returns null; Symfony refreshes the user from the provider
+     * without checking the password (see "Remove the password completely" in the Security doc).
      *
-     * @see http://php.net/manual/en/serializable.serialize.php
-     *
-     * @return array the string representation of the object or null
-     *
-     * @since 5.1.0
+     * @see https://symfony.com/doc/current/security.html#user_session_refresh
      */
     public function __serialize(): array
     {
-        return [$this->id, $this->username, $this->email, $this->password];
+        $data = (array) $this;
+        unset($data[self::PASSWORD_ARRAY_KEY]);
+
+        return $data;
     }
 
     /**
-     * Constructs the object.
+     * Restore the user from the session. Password is set to null (never restored from session).
      *
-     * @see http://php.net/manual/en/serializable.unserialize.php
-     * @since 5.1.0
+     * @see https://symfony.com/doc/current/security.html#user_session_refresh
      */
     public function __unserialize(array $data): void
     {
-        [$this->id, $this->username, $this->email, $this->password] = $data;
+        foreach ($data as $k => $v) {
+            $this->{$k} = $v;
+        }
+        $this->password = null;
     }
 
     public function getId(): ?int
@@ -217,6 +225,12 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     {
         return (string) $this->password;
     }
+
+    /**
+     * @see UserInterface
+     * No plain credentials are stored on the user; this is a no-op.
+     */
+    public function eraseCredentials(): void {}
 
     public function setPassword(string $password): self
     {
@@ -417,15 +431,6 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
         return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getEmailSent(): ?bool

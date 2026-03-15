@@ -873,7 +873,7 @@ class GameService
 
     public function play(Request $request, #[MapQueryString] ?PaginationDTO $pagination, ?User $user = null, $display = null): array|Response
     {
-        $parameters = ['user' => $user, 'state' => $request->get('state', 'main'), 'mode' => $request->get('mode'), 'display' => $display ?? 'web'];
+        $parameters = ['user' => $user, 'state' => $request->query->get('state', 'main'), 'mode' => $request->query->get('mode'), 'display' => $display ?? 'web'];
         if (!in_array($parameters['display'], ['web', 'iphone', 'ipad', 'mac'], true)) {
             $parameters['display'] = 'web';
         }
@@ -887,11 +887,11 @@ class GameService
                 return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
             }
 
-            if ($parameters['mode'] === 'login' && $request->get('_username') && $request->get('_password')) {
-                $user = $this->userService->findOneByUsername($request->get('_username'));
+            if ($parameters['mode'] === 'login' && $request->request->get('_username') && $request->request->get('_password')) {
+                $user = $this->userService->findOneByUsername($request->request->get('_username'));
                 $token = new UsernamePasswordToken($user, 'main');
                 // special case for apple validation
-                if ($request->get('_username') === 'apple' && $request->get('_password') === 'apple') {
+                if ($request->request->get('_username') === 'apple' && $request->request->get('_password') === 'apple') {
                     $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
@@ -930,7 +930,7 @@ class GameService
         }
 
         if ($parameters['state'] === 'profile') {
-            $username = $request->get('username');
+            $username = $request->query->get('username') ?? $request->request->get('username');
             if ($username) {
                 $user = $this->userService->findOneByUsername($username);
             } else {
@@ -948,7 +948,7 @@ class GameService
         }
 
         if ($parameters['state'] === 'report') {
-            $username = $request->get('username');
+            $username = $request->query->get('username') ?? $request->request->get('username');
             if ($username) {
                 $user = $this->userService->findOneByUsername($username);
             } else {
@@ -961,7 +961,7 @@ class GameService
             }
 
             $parameters['user'] = $user;
-            $parameters['confirm'] = $request->get('confirm') === 'true';
+            $parameters['confirm'] = ($request->query->get('confirm') ?? $request->request->get('confirm')) === 'true';
 
             return $parameters;
         }
@@ -1016,11 +1016,11 @@ class GameService
                 $parameters['mode'] = 'fight_not_ended';
             } elseif ($parameters['state'] === 'combat') {
                 if ($parameters['mode'] === 'combat' && $player->getLastFight()) {
-                    if ($request->get('actionFight')) {
+                    if ($request->request->get('actionFight')) {
                         $this->fight($user, 'fight');
-                    } elseif ($request->get('actionUsePotion')) {
+                    } elseif ($request->request->get('actionUsePotion')) {
                         $this->fight($user, 'potion');
-                    } elseif ($request->get('actionEndFight')) {
+                    } elseif ($request->request->get('actionEndFight')) {
                         $endFight = $this->endFight($user);
                         if ($endFight['mode'] === 'player_win' || $endFight['mode'] === 'player_death') {
                             $parameters['mode'] = $endFight['mode'];
@@ -1038,11 +1038,11 @@ class GameService
                     $parameters['data']['info'] = $this->getInfo($user);
                     $parameters['data']['session'] = $this->getSession($user);
                 } else {
-                    if ($request->get('actionEnemyNext')) {
+                    if ($request->request->get('actionEnemyNext')) {
                         $this->nextEnemy($user);
-                    } elseif ($request->get('actionEnemyPrevious')) {
+                    } elseif ($request->request->get('actionEnemyPrevious')) {
                         $this->previousEnemy($user);
-                    } elseif ($request->get('actionBeginFight')) {
+                    } elseif ($request->request->get('actionBeginFight')) {
                         if ($player->getLastFight()) {
                             // Already in a fight — do not allow starting a new one; return current fight state
                             $parameters['mode'] = 'combat';
@@ -1086,9 +1086,9 @@ class GameService
                 }
             } elseif ($parameters['state'] === 'daily-battle') {
                 if ($parameters['mode'] === 'combat') {
-                    if ($request->get('actionFight')) {
+                    if ($request->request->get('actionFight')) {
                         $this->fightDaily($user);
-                    } elseif ($request->get('actionEndFight')) {
+                    } elseif ($request->request->get('actionEndFight')) {
                         $endFight = $this->endFightDaily($user);
                         if ($endFight['mode'] === 'player_win' || $endFight['mode'] === 'player_death') {
                             $parameters['mode'] = $endFight['mode'];
@@ -1100,7 +1100,7 @@ class GameService
 
                     $parameters['data']['session'] = $this->getSessionDaily($user);
                 } else {
-                    if ($request->get('actionBeginFight')) {
+                    if ($request->request->get('actionBeginFight')) {
                         $request->attributes->set('mode', 'combat');
 
                         return $this->play($request, null, $user);
@@ -1112,37 +1112,37 @@ class GameService
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['dailyEnemyInfo'] = $this->getInfo($this->getOrCreateDailyEnemy());
             } elseif ($parameters['state'] === 'info') {
-                if ($request->get('actionChooseClasse')) {
-                    $this->chooseClasse($user, $request->get('actionChooseClasse'));
-                } elseif ($request->get('actionAddPoint')) {
-                    $this->addPoint($user, $request->get('actionAddPoint'));
+                if ($request->request->get('actionChooseClasse')) {
+                    $this->chooseClasse($user, $request->request->get('actionChooseClasse'));
+                } elseif ($request->request->get('actionAddPoint')) {
+                    $this->addPoint($user, $request->request->get('actionAddPoint'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['classes'] = $this->getClasses();
             } elseif ($parameters['state'] === 'equipment') {
-                if ($request->get('actionEquipGem')) {
-                    $this->equipGem($user, $request->get('actionEquipGem'));
-                } elseif ($request->get('actionThrowGem')) {
-                    $this->throwGem($user, $request->get('actionThrowGem'));
+                if ($request->request->get('actionEquipGem')) {
+                    $this->equipGem($user, $request->request->get('actionEquipGem'));
+                } elseif ($request->request->get('actionThrowGem')) {
+                    $this->throwGem($user, $request->request->get('actionThrowGem'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
             } elseif ($parameters['state'] === 'hostel') {
-                if ($request->get('actionRegeneration')) {
-                    $this->regen($user, $request->get('actionRegeneration'));
+                if ($request->request->get('actionRegeneration')) {
+                    $this->regen($user, $request->request->get('actionRegeneration'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['regenerations'] = $this->getRegenerations($user);
             } elseif ($parameters['state'] === 'armor') {
-                if ($request->get('actionArmorNext')) {
+                if ($request->request->get('actionArmorNext')) {
                     $this->nextArmor($user);
-                } elseif ($request->get('actionArmorPrevious')) {
+                } elseif ($request->request->get('actionArmorPrevious')) {
                     $this->previousArmor($user);
-                } elseif ($request->get('actionArmorBuy')) {
+                } elseif ($request->request->get('actionArmorBuy')) {
                     $this->buyArmor($user);
-                } elseif ($request->get('actionArmorSell')) {
+                } elseif ($request->request->get('actionArmorSell')) {
                     $this->sellArmor($user);
                 }
 
@@ -1150,11 +1150,11 @@ class GameService
                 $parameters['data']['armor'] = $this->getArmorInfo($player->getArmor());
                 $parameters['data']['currentArmor'] = $this->getArmorInfo($player->getCurrentDefaultArmor());
             } elseif ($parameters['state'] === 'potion') {
-                if ($request->get('actionPotionNext')) {
+                if ($request->request->get('actionPotionNext')) {
                     $this->nextPotion($user);
-                } elseif ($request->get('actionPotionPrevious')) {
+                } elseif ($request->request->get('actionPotionPrevious')) {
                     $this->previousPotion($user);
-                } elseif ($request->get('actionPotionBuy')) {
+                } elseif ($request->request->get('actionPotionBuy')) {
                     $this->buyPotion($user);
                 }
 
@@ -1162,13 +1162,13 @@ class GameService
                 $parameters['data']['potion'] = $this->getPotionInfo($player->getPotion());
                 $parameters['data']['currentPotion'] = $this->getPotionInfo($player->getCurrentDefaultPotion());
             } elseif ($parameters['state'] === 'sword') {
-                if ($request->get('actionSwordNext')) {
+                if ($request->request->get('actionSwordNext')) {
                     $this->nextSword($user);
-                } elseif ($request->get('actionSwordPrevious')) {
+                } elseif ($request->request->get('actionSwordPrevious')) {
                     $this->previousSword($user);
-                } elseif ($request->get('actionSwordBuy')) {
+                } elseif ($request->request->get('actionSwordBuy')) {
                     $this->buySword($user);
-                } elseif ($request->get('actionSwordSell')) {
+                } elseif ($request->request->get('actionSwordSell')) {
                     $this->sellSword($user);
                 }
 

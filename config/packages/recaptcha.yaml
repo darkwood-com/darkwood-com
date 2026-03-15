@@ -1,0 +1,17 @@
+# In-app reCAPTCHA (replaces excelwebzone/recaptcha-bundle for Symfony 8).
+# Uses same env vars as former EWZ bundle: EWZ_RECAPTCHA_SITE_KEY, EWZ_RECAPTCHA_SECRET.
+parameters:
+    recaptcha.site_key: '%env(EWZ_RECAPTCHA_SITE_KEY)%'
+    recaptcha.secret: '%env(EWZ_RECAPTCHA_SECRET)%'
+    recaptcha.enabled: true
+
+services:
+    app.recaptcha:
+        class: ReCaptcha\ReCaptcha
+        arguments:
+            $secret: '%recaptcha.secret%'
+
+    App\Form\Type\RecaptchaType:
+        arguments:
+            $siteKey: '%recaptcha.site_key%'
+            $enabled: '%recaptcha.enabled%'

@@ -3,6 +3,10 @@ common:
     error: Diese Seite existiert nicht!
   login:
     login: Login
+    no_account_intro: "Wenn Sie noch kein Konto haben, müssen Sie sich"
+    no_account_end: "."
+  action:
+    register: registrieren
   register:
     username: Spitzname
     email: Email
@@ -94,9 +98,12 @@ darkwood:
     player: Spieler
     home: Startseite
     play: Spiel
+    community: Gemeinschaft
+    leaderboard: Rangliste
     chat: Chat
     users: Liste der Spieler
     rules: Regeln des Spiels
+    rules_short: Regeln
     guestbook: Gästebuch
     extra: Extra
     rank: Rang
@@ -277,4 +284,3 @@ blog:
   home:
     article_on: der
     show_more: Lesen Sie mehr...
-

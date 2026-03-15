@@ -14,7 +14,7 @@ use function Castor\run;
 function phpunit(
     #[AsOption(description: 'Replace default result output with TestDox format')]
     bool $testDox,
-    #[AsOption(description: 'Apply XDEBUG_MODE', suggestedValues: ['coverage'])]
+    #[AsOption(description: 'Apply XDEBUG_MODE', autocomplete: ['coverage'])]
     ?string $xdebugMode,
     #[AsOption(description: 'Path to HTML coverage')]
     ?string $coverateHtmlPath,
@@ -22,10 +22,10 @@ function phpunit(
     ?string $coverateHtmlXml,
 ): int {
     $command = [__DIR__ . '/vendor/bin/phpunit', '--configuration=' . __DIR__ . '/phpunit.xml'];
-    $environment = null;
+    $ctx = context()->withAllowFailure();
 
     if ($xdebugMode !== null || $coverateHtmlPath !== null || $coverateHtmlXml !== null) {
-        $environment = ['XDEBUG_MODE=' => $xdebugMode ?? 'coverage'];
+        $ctx = $ctx->withEnvironment(['XDEBUG_MODE' => $xdebugMode ?? 'coverage']);
     }
 
     if ($testDox) {
@@ -42,5 +42,5 @@ function phpunit(
         $command[] = $coverateHtmlXml;
     }
 
-    return run($command, $environment, context: context()->withAllowFailure())->getExitCode();
+    return run($command, $ctx)->getExitCode();
 }

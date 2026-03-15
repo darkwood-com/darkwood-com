@@ -1,4 +1,3 @@
-/* -> layout */
 .theme-api
 {
 	color: #E0E0E0;
@@ -27,12 +26,6 @@
 	margin-right: auto;
 }
 
-	.theme-api .theme-menu
-	{
-		/** align menu and content backgrounds **/
-		padding-top: 16px;
-	}
-
 		@media(max-width:767px) {
 			.theme-api .theme-content-top
 			{
@@ -40,30 +33,6 @@
 				padding-left: 15px;
 			}
 		}
-
-.theme-api .theme-footer
-{
-	margin: 0;
-	padding: 10px 0px 10px 0px;
-	text-align: center;
-	background-color: #1A1A1A;
-}
-
-	.theme-api .theme-footer ul
-	{
-		list-style-type: none;
-		padding: 10px 0px 10px 0px;
-	}
-
-	.theme-api .theme-footer .btn-github,
-	.theme-api .theme-footer .btn-twitter,
-	.theme-api .theme-footer .btn-linkedin,
-	.theme-api .theme-footer .btn-discord
-	{
-		background-color: transparent;
-		border: 0 none;
-		color: #E0E0E0;
-	}
 
 /* -> basics */
 .theme-api h1

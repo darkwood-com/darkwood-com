@@ -6,6 +6,7 @@ namespace App\Tools;
 
 use Castor\Attribute\AsTask;
 
+use function Castor\context;
 use function Castor\run;
 
 #[AsTask(description: 'Run Infection', aliases: ['infection'])]
@@ -13,6 +14,6 @@ function infection(): int
 {
     return run(
         [__DIR__ . '/vendor/bin/infection', '--configuration=' . __DIR__ . '/infection.json'],
-        allowFailure: true,
+        context()->withAllowFailure(),
     )->getExitCode();
 }

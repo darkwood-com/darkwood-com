@@ -13,9 +13,7 @@ class PhotosTest extends CommonWebTestCase
         return 'photos_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);

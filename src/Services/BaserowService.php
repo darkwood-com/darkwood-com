@@ -16,17 +16,22 @@ class BaserowService
 
     public function __construct(
         HttpClientInterface $httpClient,
-        #[Autowire('%env(BASEROW_HOST)%')]
+        #[Autowire('%baserow_host%')]
         string $host,
-        #[Autowire('%env(BASEROW_USERNAME)%')]
+        #[Autowire('%baserow_username%')]
         string $username,
-        #[Autowire('%env(BASEROW_PASSWORD)%')]
+        #[Autowire('%baserow_password%')]
         string $password
     ) {
         $this->httpClient = $httpClient;
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
+    }
+
+    public function isConfigured(): bool
+    {
+        return $this->host !== '' && $this->username !== '' && $this->password !== '';
     }
 
     public function getHost(): string
@@ -36,7 +41,6 @@ class BaserowService
 
     public function getBaserowToken(): string
     {
-        // Get Baserow token
         $response = $this->httpClient->request('POST', $this->host . '/api/user/token-auth/', [
             'json' => [
                 'username' => $this->username,

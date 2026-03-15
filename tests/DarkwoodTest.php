@@ -16,9 +16,7 @@ class DarkwoodTest extends CommonWebTestCase
         return 'darkwood_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);

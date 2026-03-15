@@ -10,27 +10,24 @@
 
         <div class="row theme-body">
             <div class="col-md-12">
-                <div class="row theme-body-top">
-                    <div class="col-md-2">
-                        <div class="row theme-menu">
-                            <div class="col-md-12 theme-menu-top">
-                                {{ render(controller('App\\Controller\\AppsController::menu', { 'ref': page.page.ref, entity: entity | default(null) })) }}
-                            </div>
-                        </div>
+                <div class="row theme-menu">
+                    <div class="col-md-12">
+                        {{ render(controller('App\\Controller\\AppsController::menu', { 'ref': page.page.ref, entity: entity | default(null) })) }}
                     </div>
-                    <div class="col-md-10">
-                        <div class="row theme-content{% if showLinks is defined %} show_links{% endif %}">
-                            <div class="col-md-12 theme-content-top">
-                                {% block content %}{% endblock %}
-                            </div>
-                        </div>
+                </div>
+
+                <div class="row theme-content{% if showLinks is defined %} show_links{% endif %}">
+                    <div class="col-md-12 theme-content-top">
+                        {% block content %}{% endblock %}
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row theme-footer">
-            {%- include "apps/partials/footer.html.twig" -%}
+            <div class="col-md-12">
+                {%- include "apps/partials/footer.html.twig" -%}
+            </div>
         </div>
     </div>
 {% endblock %}

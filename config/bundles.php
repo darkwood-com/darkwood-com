@@ -7,7 +7,6 @@ use Darkwood\IaExceptionBundle\DarkwoodIaExceptionBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
-use EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle;
 use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
@@ -16,6 +15,7 @@ use Nelmio\CorsBundle\NelmioCorsBundle;
 use Sentry\SentryBundle\SentryBundle;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\AI\AiBundle\AiBundle;
+use Symfony\AI\McpBundle\McpBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MakerBundle\MakerBundle;
@@ -44,7 +44,6 @@ return [
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     LiipImagineBundle::class => ['all' => true],
     WebpackEncoreBundle::class => ['all' => true],
-    EWZRecaptchaBundle::class => ['all' => true],
     KnpPaginatorBundle::class => ['all' => true],
     KnpUOAuth2ClientBundle::class => ['all' => true],
     SymfonyCastsVerifyEmailBundle::class => ['all' => true],
@@ -54,4 +53,5 @@ return [
     LexikJWTAuthenticationBundle::class => ['all' => true],
     AiBundle::class => ['all' => true],
     DarkwoodIaExceptionBundle::class => ['all' => true],
+    McpBundle::class => ['all' => true],
 ];

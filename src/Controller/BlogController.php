@@ -13,9 +13,10 @@ use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -31,7 +32,8 @@ class BlogController extends AbstractController
         private readonly PageService $pageService,
         private readonly ArticleService $articleService,
         private readonly CommentService $commentService,
-        private readonly CsrfTokenManagerInterface $tokenManager
+        private readonly CsrfTokenManagerInterface $tokenManager,
+        private readonly RequestStack $requestStack
     ) {}
 
     public function menu(Request $request, $ref, $entity)
@@ -39,8 +41,9 @@ class BlogController extends AbstractController
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
 
-        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
+        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
@@ -88,7 +91,7 @@ class BlogController extends AbstractController
     #[Route(path: ['fr' => '/fr/article/{slug}', 'en' => '/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'a.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'a.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 

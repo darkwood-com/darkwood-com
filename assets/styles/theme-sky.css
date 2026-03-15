@@ -1,27 +1,12 @@
-/* -> layout */
 .theme-sky
 {
     color: #888888;
     background: #CDEEFF url('../../public/common/images/components/theme-sky/site/sky_pattern.jpg') repeat-x;
 }
 
-@media(max-width:767px) {
-    .theme-sky
-    {
-        background-size: 1px 415px;
-    }
-}
-
 .theme-sky .theme-header
 {
     height: 250px;
-}
-
-@media(max-width:767px) {
-    .theme-sky .theme-header
-    {
-        height: 125px;
-    }
 }
 
 	.theme-sky .theme-header-logo
@@ -32,13 +17,6 @@
         background-size: auto 100%;
 	}
 
-	@media(max-width:767px) {
-		.theme-sky .theme-header-logo
-        {
-			height: 225px;
-		}
-	}
-
 
 .theme-sky .theme-body
 {
@@ -46,8 +24,10 @@
 }
 
 .theme-sky .theme-body > * {
-    padding-right: 0px;
-    padding-left: 0px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+	padding: 32px 32px 0px 32px;
 }
 
 /*@media(max-width:767px) {
@@ -65,44 +45,6 @@
         background: transparent url('../../public/common/images/components/theme-sky/site/body/content_top.jpg') no-repeat top;
     }
 
-    @media(max-width:767px) {
-        .theme-sky .theme-body-top
-        {
-            padding: 20px 0px 0px 0px;
-            /*max-width: 500px;
-            background-size: 500px auto;*/
-        }
-    }
-
-.theme-sky .theme-footer
-{
-    padding: 0;
-    background-color: #FFFFFF;
-    text-align: center;
-}
-
-    .theme-sky .theme-footer-top
-    {
-        margin: 0px auto 0px auto;
-        padding: 0;
-        width: 1000px;
-    }
-
-    .theme-sky .theme-footer ul
-    {
-        list-style-type: none;
-        margin: 0;
-        padding: 10px 0px 10px 0px;
-    }
-
-    .theme-sky .theme-footer .btn-github,
-    .theme-sky .theme-footer .btn-twitter,
-	.theme-sky .theme-footer .btn-linkedin,
-	.theme-sky .theme-footer .btn-discord
-    {
-        background-color: transparent;
-        border: 0 none;
-    }
 
 .theme-sky h1
 {
@@ -959,4 +901,33 @@
 .theme-sky .theme-content table.ti89p a
 {
     text-decoration: underline;
+}
+
+@media(max-width:767px) {
+    .theme-sky
+    {
+        background-size: 1px 415px;
+    }
+
+	.theme-sky .theme-body > * {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+    .theme-sky .theme-header
+    {
+        height: 125px;
+    }
+
+	.theme-sky .theme-header-logo
+	{
+		height: 225px;
+	}
+
+	.theme-sky .theme-body-top
+	{
+		padding: 20px 0px 0px 0px;
+		/*max-width: 500px;
+		background-size: 500px auto;*/
+	}
 }

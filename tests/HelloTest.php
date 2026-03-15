@@ -13,9 +13,7 @@ class HelloTest extends CommonWebTestCase
         return 'hello_host';
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);

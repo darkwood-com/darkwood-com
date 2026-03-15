@@ -13,9 +13,7 @@ class AdminTest extends CommonWebTestCase
         return 'admin_host';
     }
 
-    /**
-     * @dataProvider provideW3CCases
-     */
+    // #[DataProvider('urls')]
     /*public function testPageIsSuccessful($url)
     {
         $this->validatePageUrl($url);

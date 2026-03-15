@@ -1,9 +1,15 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    baserow_host: '%env(default::BASEROW_HOST)%'
+    baserow_username: '%env(default::BASEROW_USERNAME)%'
+    baserow_password: '%env(default::BASEROW_PASSWORD)%'
     darkwood_host: '%env(DARKWOOD_HOST)%'
     apps_host: '%env(APPS_HOST)%'
     photos_host: '%env(PHOTOS_HOST)%'
@@ -33,6 +39,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Form/Type/RecaptchaType.php'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

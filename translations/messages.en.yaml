@@ -6,6 +6,10 @@ common:
     error: This page does not exist !
   login:
     login: Login
+    no_account_intro: "If you do not have an account yet, you need to"
+    no_account_end: "."
+  action:
+    register: Register
   register:
     username: Nickname
     email: Email
@@ -97,9 +101,12 @@ darkwood:
     player: Player
     home: Home
     play: Play
+    community: Community
+    leaderboard: Leaderboard
     chat: Chat
     users: Player list
     rules: Rules of the game
+    rules_short: Rules
     guestbook: Guestbook
     extra: Extra
     rank: Rank

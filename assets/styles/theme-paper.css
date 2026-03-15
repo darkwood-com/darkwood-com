@@ -1,4 +1,3 @@
-/* -> layout */
 .theme-paper
 {
     color: #692D00;
@@ -44,6 +43,7 @@
 .theme-paper .theme-body
 {
     background: transparent url('../../public/common/images/components/theme-paper/site/body/page_pattern.jpg') repeat-y center top;
+	padding-top: 60px;
 }
 
 @media(max-width:767px) {
@@ -55,8 +55,9 @@
 }
 
 .theme-paper .theme-body > * {
-    padding-right: 0px;
-    padding-left: 0px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*@media(max-width:767px) {
@@ -81,36 +82,6 @@
             /*max-width: 500px;
             background-size: 500px auto;*/
         }
-    }
-
-.theme-paper .theme-footer
-{
-    padding: 0;
-    background-color: #e9c7a9;
-    text-align: center;
-}
-
-    .theme-paper .theme-footer-top
-    {
-        margin: 0px auto 0px auto;
-        padding: 0;
-        width: 1000px;
-    }
-
-    .theme-paper .theme-footer ul
-    {
-        list-style-type: none;
-        margin: 0;
-        padding: 10px 0px 10px 0px;
-    }
-
-    .theme-paper .theme-footer .btn-github,
-    .theme-paper .theme-footer .btn-twitter,
-	.theme-paper .theme-footer .btn-linkedin,
-	.theme-paper .theme-footer .btn-discord
-    {
-        background-color: transparent;
-        border: 0 none;
     }
 
 .theme-paper h1
@@ -516,4 +487,3 @@
 {
     text-decoration: underline;
 }
-

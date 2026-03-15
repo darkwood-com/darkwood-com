@@ -21,9 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[ApiResource(
     security: "is_granted('ROLE_USER')",
@@ -42,7 +42,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
 #[ORM\Index(name: 'index_search', columns: ['active'])]
-#[ORM\UniqueConstraint(name: 'locale_article_unique', columns: ['locale', 'article_id'])]
+#[ORM\UniqueConstraint(name: 'article_unique_locale', columns: ['article_id', 'locale'])]
+#[ORM\UniqueConstraint(name: 'locale_unique_slug', columns: ['locale', 'slug'])]
 class ArticleTranslation implements Stringable
 {
     use TimestampTrait;

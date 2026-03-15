@@ -1,74 +1,82 @@
-{% embed 'common/components/navbar.html.twig' %}
-    {% block link %}{{ path('photos_home') }}{% endblock %}
-    {% block title %}Photos{% endblock %}
-    {% block theme %}navbar-light navbar-menu-brown{% endblock %}
-    {% block content %}
-        <ul class="nav nav-menu-box-brown">
-            <li><h2>{{ 'common.menu.login'|trans }}</h2></li>
-            {% if app.user %}
-                <li>
-                    <div class="user_icon">
-                        <a href="{{ path('common_profile') }}">
-                            <img src="{{ asset(vich_uploader_asset(app.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ app.user.username }}">
-                        </a>
-                    </div>
-                    <div class="user_info">
-                        <h3>{{ 'common.menu.login_welcome'|trans }}</h3>
-                        <h3><a href="{{ path('common_profile') }}">{{ app.user.username }}</a></h3>
-                    </div>
-                    <div class="user_logout">
-                        <form id="login_form" action="{{ path('security_logout') }}" method="get">
-                            <ul>
-                                <li><input type="submit" value="{{ 'common.menu.logout_btn'|trans }}"></li>
-                            </ul>
-                        </form>
-                    </div>
-                    <div class="clearfix"></div>
-                </li>
-            {% else %}
-                <li>
-                    <form id="login_form" action="{{ path('security_login') }}" method="post" novalidate="novalidate">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                        <ul>
-                            <li>
-                                <label for="username">{{ 'common.menu.login_username'|trans }}</label>
-                                <input type="text" id="username" name="username" autocomplete="username" title="{{ 'common.menu.login_username'|trans }}" class="validate['required']" value="{{ last_username }}">
-                            </li>
-                            <li>
-                                <label for="password">{{ 'common.menu.login_password'|trans }}</label>
-                                <input type="password" id="password" name="password" autocomplete="current-password" title="{{ 'common.menu.login_password'|trans }}" class="validate['required']" value="">
-                            </li>
-                        </ul>
-                        <ul>
-                            <li><input type="submit" id="login_login" name="login_login" class="validate[]" value="{{ 'common.menu.login_btn'|trans }}"></li>
-                        </ul>
-                    </form>
-                    <div class="clearfix"></div>
-                </li>
-                <li>
-                    <div class="facebook_connect">
-                        <a href="{{ path('connect_facebook_start') }}">{{ 'common.menu.login_btn'|trans }}</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </li>
-                <li><a href="{{ path('common_register') }}">{{ 'common.menu.register'|trans }}</a></li>
-            {% endif %}
-        </ul>
-        <ul class="nav nav-menu-box-brown">
-            <li><h2>{{ 'photos.menu.gallery'|trans }}</h2></li>
-            <li><a href="{{ path('photos_show') }}">{{ 'photos.menu.show'|trans }}</a></li>
-            <li><a href="{{ path('photos_demo') }}">{{ 'photos.menu.demo'|trans }}</a></li>
-            <li><a href="{{ path('photos_help') }}">{{ 'photos.menu.help'|trans }}</a></li>
-        </ul>
+<nav class="theme-nav row g-0 align-items-center" aria-label="Photos navigation">
+    <div class="theme-nav__primary col-md">
+        <a class="theme-nav__brand" href="{{ path('photos_home') }}">
+            <img src="{{ asset('logo.svg') }}" alt="Darkwood Photos" class="theme-nav__brand-mark">
+            <span class="theme-nav__brand-text">Photos</span>
+        </a>
 
-        <ul class="nav nav-menu-links-brown">
-            {% for locale, pageLink in pageLinks %}
-                <li>
-                    <a href="{{ pageLink }}">
-                        <img src="{{ asset('/common/images/site/flags/'~ locale ~'.png') }}" title="{{ locale }}" alt="{{ locale }}" class="flag" />
-                    </a>
-                </li>
-            {% endfor %}
+        <ul class="theme-nav__links">
+            <li>
+                <a href="{{ path('photos_show') }}" class="{% if currentRoute == 'photos_show' %}active{% endif %}">
+                    {{ 'photos.menu.show'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('photos_demo') }}" class="{% if currentRoute == 'photos_demo' %}active{% endif %}">
+                    {{ 'photos.menu.demo'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('photos_help') }}" class="{% if currentRoute == 'photos_help' %}active{% endif %}">
+                    {{ 'photos.menu.help'|trans }}
+                </a>
+            </li>
         </ul>
-    {% endblock %}
-{% endembed %}
+    </div>
+
+    <div class="theme-nav__actions col-md-auto">
+        <div class="theme-nav__locales dropdown" aria-label="Locales">
+            <a href="#" class="dropdown-toggle theme-nav__locale-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ asset('/common/images/site/flags/' ~ app.request.locale ~ '.png') }}" alt="{{ app.request.locale }}" class="theme-nav__flag">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                {% for locale, pageLink in pageLinks %}
+                    <li>
+                        <a href="{{ pageLink }}" class="dropdown-item{% if app.request.locale == locale %} active{% endif %}">
+                            <img src="{{ asset('/common/images/site/flags/' ~ locale ~ '.png') }}" alt="{{ locale }}" class="theme-nav__flag">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if app.user %}
+            <a class="theme-nav__profile" href="{{ path('common_profile') }}">
+                <img src="{{ asset(vich_uploader_asset(app.user, 'image')|default('/common/images/profile/default.jpg'))|imagine_filter('user') }}" alt="{{ app.user.username }}">
+                <span>{{ app.user.username }}</span>
+            </a>
+            <form action="{{ path('security_logout') }}" method="get">
+                <button type="submit" class="theme-nav__button theme-nav__button--logout">
+                    {{ 'common.menu.logout_btn'|trans }}
+                </button>
+            </form>
+        {% else %}
+            <a class="theme-nav__button theme-nav__button--login" href="{{ path('security_login') }}">
+                {{ 'common.menu.login_btn'|trans }}
+            </a>
+        {% endif %}
+    </div>
+</nav>
+
+<ul class="theme-mobile-nav">
+    <li class="theme-mobile-nav__home">
+        <a href="{{ path('photos_home') }}" class="{% if currentRoute == 'photos_home' %}active{% endif %}">
+            Photos
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('photos_show') }}" class="{% if currentRoute == 'photos_show' %}active{% endif %}">
+            {{ 'photos.menu.show'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('photos_demo') }}" class="{% if currentRoute == 'photos_demo' %}active{% endif %}">
+            {{ 'photos.menu.demo'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('photos_help') }}" class="{% if currentRoute == 'photos_help' %}active{% endif %}">
+            {{ 'photos.menu.help'|trans }}
+        </a>
+    </li>
+</ul>

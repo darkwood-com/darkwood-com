@@ -13,8 +13,9 @@ use App\Services\PageService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -29,7 +30,8 @@ class AppsController extends AbstractController
         private readonly PaginatorInterface $paginator,
         private readonly PageService $pageService,
         private readonly CommentService $commentService,
-        private readonly CsrfTokenManagerInterface $tokenManager
+        private readonly CsrfTokenManagerInterface $tokenManager,
+        private readonly RequestStack $requestStack
     ) {}
 
     public function menu(Request $request, $ref, $entity)
@@ -43,8 +45,9 @@ class AppsController extends AbstractController
         }
 
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
 
-        return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks]);
+        return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
@@ -85,10 +88,10 @@ class AppsController extends AbstractController
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route(path: ['en' => '/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'fr' => '/fr/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
+    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
     public function app(Request $request, $ref, $slug = null)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 

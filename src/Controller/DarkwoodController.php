@@ -15,9 +15,10 @@ use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -37,7 +38,8 @@ class DarkwoodController extends AbstractController
         private readonly CommentService $commentService,
         private readonly UserService $userService,
         private readonly GameService $gameService,
-        private readonly CsrfTokenManagerInterface $tokenManager
+        private readonly CsrfTokenManagerInterface $tokenManager,
+        private readonly RequestStack $requestStack
     ) {}
 
     public function menu(Request $request, $ref, $entity)
@@ -45,8 +47,11 @@ class DarkwoodController extends AbstractController
         $lastUsername = $this->authenticationUtils->getLastUsername();
         $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
+        $mainRequest = $this->requestStack->getMainRequest();
+        $currentRoute = $mainRequest?->attributes->get('_route');
+        $currentMode = $mainRequest?->query->get('mode');
 
-        return $this->render('darkwood/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks]);
+        return $this->render('darkwood/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute, 'currentMode' => $currentMode]);
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
@@ -120,7 +125,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/chat', 'en' => '/chat', 'de' => '/de/chat'], name: 'chat', defaults: ['ref' => 'chat'])]
     public function chat(Request $request, $ref)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -149,7 +154,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/liste-des-joueurs', 'en' => '/player-list', 'de' => '/de/liste-der-spieler'], name: 'users', defaults: ['ref' => 'users'])]
     public function users(Request $request, $ref): Response
     {
-        if ($request->get('sort') && !in_array($request->get('sort'), ['u.created', 'u.username'], true)) {
+        if ($request->query->get('sort') && !in_array($request->query->get('sort'), ['u.created', 'u.username'], true)) {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -171,7 +176,7 @@ class DarkwoodController extends AbstractController
     #[Route(path: ['fr' => '/fr/livre-d-or', 'en' => '/guestbook', 'de' => '/de/gastebuch'], name: 'guestbook', defaults: ['ref' => 'guestbook'])]
     public function guestbook(Request $request, $ref)
     {
-        if ($request->get('sort') && $request->get('sort') !== 'c.created') {
+        if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {
             throw $this->createNotFoundException('Sort query is not allowed');
         }
 
@@ -209,7 +214,7 @@ class DarkwoodController extends AbstractController
     public function rank(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
-        $mode = $request->get('mode');
+        $mode = $request->query->get('mode');
         $query = $this->gameService->findActiveQuery($mode);
         $request->query->set('sort', $pagination?->sort ?? '');
 
