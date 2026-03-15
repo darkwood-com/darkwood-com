@@ -151,13 +151,36 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Restore the user from the session. Password is set to null (never restored from session).
+     * Uses reflection because PHP 8+ forbids assigning to properties whose name starts with "\0".
      *
      * @see https://symfony.com/doc/current/security.html#user_session_refresh
      */
     public function __unserialize(array $data): void
     {
-        foreach ($data as $k => $v) {
-            $this->{$k} = $v;
+        $ref = new \ReflectionClass($this);
+        $classes = [$ref];
+        $parent = $ref->getParentClass();
+        while ($parent) {
+            $classes[] = $parent;
+            $parent = $parent->getParentClass();
+        }
+        foreach ($classes as $class) {
+            foreach ($class->getProperties() as $prop) {
+                if ($prop->getDeclaringClass()->getName() !== $class->getName()) {
+                    continue;
+                }
+                $name = $prop->getName();
+                if ($name === 'password') {
+                    continue;
+                }
+                $key = $prop->isPrivate()
+                    ? "\0" . $class->getName() . "\0" . $name
+                    : "\0*\0" . $name;
+                if (\array_key_exists($key, $data)) {
+                    $prop->setAccessible(true);
+                    $prop->setValue($this, $data[$key]);
+                }
+            }
         }
         $this->password = null;
     }
