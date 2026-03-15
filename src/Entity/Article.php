@@ -9,9 +9,15 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\McpTool;
+use ApiPlatform\Metadata\McpToolCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Dto\ArticleIdInput;
+use App\Dto\ListArticlesInput;
 use App\Entity\Traits\TimestampTrait;
+use App\State\GetArticleProcessor;
+use App\State\ListArticlesProcessor;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,7 +36,21 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Delete(security: "is_granted('ROLE_ADMIN')"),
     ],
     normalizationContext: ['groups' => ['article:read']],
-    denormalizationContext: ['groups' => ['article:write']]
+    denormalizationContext: ['groups' => ['article:write']],
+    mcp: [
+        'list_articles' => new McpToolCollection(
+            description: 'List articles (optionally by locale, with limit).',
+            input: ListArticlesInput::class,
+            processor: ListArticlesProcessor::class,
+            structuredContent: true,
+        ),
+        'get_article' => new McpTool(
+            description: 'Get a single article by ID.',
+            input: ArticleIdInput::class,
+            processor: GetArticleProcessor::class,
+            structuredContent: true,
+        ),
+    ],
 )]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
