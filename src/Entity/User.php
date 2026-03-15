@@ -143,10 +143,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     public function __serialize(): array
     {
-        $data = (array) $this;
-        unset($data[self::PASSWORD_ARRAY_KEY]);
-
-        return $data;
+        return [$this->id, $this->username, $this->email, $this->password];
     }
 
     /**
@@ -157,32 +154,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     public function __unserialize(array $data): void
     {
-        $ref = new \ReflectionClass($this);
-        $classes = [$ref];
-        $parent = $ref->getParentClass();
-        while ($parent) {
-            $classes[] = $parent;
-            $parent = $parent->getParentClass();
-        }
-        foreach ($classes as $class) {
-            foreach ($class->getProperties() as $prop) {
-                if ($prop->getDeclaringClass()->getName() !== $class->getName()) {
-                    continue;
-                }
-                $name = $prop->getName();
-                if ($name === 'password') {
-                    continue;
-                }
-                $key = $prop->isPrivate()
-                    ? "\0" . $class->getName() . "\0" . $name
-                    : "\0*\0" . $name;
-                if (\array_key_exists($key, $data)) {
-                    $prop->setAccessible(true);
-                    $prop->setValue($this, $data[$key]);
-                }
-            }
-        }
-        $this->password = null;
+        [$this->id, $this->username, $this->email, $this->password] = $data;
     }
 
     public function getId(): ?int
