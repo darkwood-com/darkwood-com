@@ -92,7 +92,8 @@
 		"allow-plugins": {
 			"symfony/flex": false,
 			"symfony/runtime": false,
-			"phpstan/extension-installer": false
+			"phpstan/extension-installer": false,
+			"php-http/discovery": true
 		}
 	}
 }
