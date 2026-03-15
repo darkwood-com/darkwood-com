@@ -25,6 +25,15 @@
 		margin-right: auto;
 	}
 
+	/* here do we remove padding ?
+	good to graphic align with menu but it remove padding for text too
+	.layout .theme-content-top
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	*/
+
 .layout .theme-footer ul
 {
 	list-style-type: none;
