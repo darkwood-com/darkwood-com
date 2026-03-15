@@ -7,5 +7,10 @@
 # To list all registered routes, run the following command:
 #   bin/console debug:router
 
+# MCP endpoint for AI agents (API Platform) — https://api-platform.com/docs/core/mcp/
+_mcp:
+    resource: .
+    type: mcp
+
 controllers:
     resource: routing.controllers

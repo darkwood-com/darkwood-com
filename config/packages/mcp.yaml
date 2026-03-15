@@ -1,0 +1,11 @@
+# MCP server config — see https://api-platform.com/docs/core/mcp/
+mcp:
+    client_transports:
+        http: true
+        stdio: false
+    http:
+        path: '/mcp'
+        session:
+            store: 'file'
+            directory: '%kernel.cache_dir%/mcp'
+            ttl: 3600

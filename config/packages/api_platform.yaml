@@ -1,4 +1,7 @@
 api_platform:
+    mcp:
+        enabled: true
+        format: jsonld
     title: Darkwood API Platform
     version: 1.0.0
     formats:
