@@ -36,11 +36,14 @@
 	padding-right: 0;
 }
 
+	.theme-photos .theme-body-top
+	{
+		margin-left: 0;
+		margin-right: 0;
+	}
+
 	.theme-photos .theme-body-top > *
 	{
-		max-width: 1000px;
-		margin-left: auto;
-		margin-right: auto;
 		padding: 100px 32px 0px 32px;
 		background: transparent url('../../public/common/images/components/theme-photos/site/body/page_top.jpg') no-repeat top;
 	}
@@ -51,6 +54,18 @@
 			padding: 50px 0px 0px 0px;
 			background-size: 500px auto;
 		}
+	}
+
+	.theme-photos .theme-menu
+	{
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.theme-photos .theme-content
+	{
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 /* -> basics */
