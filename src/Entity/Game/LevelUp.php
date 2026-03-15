@@ -8,7 +8,7 @@ use App\Entity\Traits\TimestampTrait;
 use App\Repository\Game\LevelUpRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: LevelUpRepository::class)]
