@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\User;
-use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
-use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue;
+use App\Form\Type\RecaptchaType;
+use App\Validator\Constraints\Recaptcha as RecaptchaConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -41,10 +41,10 @@ class RegistrationType extends AbstractType
                 ]),
             ],
         ]);
-        $builder->add('recaptcha', EWZRecaptchaType::class, [
+        $builder->add('recaptcha', RecaptchaType::class, [
             'mapped' => false,
             'constraints' => [
-                new IsTrue(),
+                new RecaptchaConstraint(),
             ],
         ]);
     }
