@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.0.4
 
 - Migrate app to Symfony 8 and PHP 8.5 (runtime, Nix, and CI).
 - Refactor controllers routing from annotations to PHP attributes and update recipes/configuration.
