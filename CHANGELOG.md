@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Migrate app to Symfony 8 and PHP 8.5 (runtime, Nix, and CI).
+- Refactor controllers routing from annotations to PHP attributes and update recipes/configuration.
+- Integrate Darkwood API MCP tools (Api Platform MCP) for AI-powered workflows.
+- Upgrade Darkwood IA Exception Bundle and fix related deprecations.
+- Make Baserow optional and harden behavior when disabled; fix various production issues (SEO, Castor, user serialisation, reCAPTCHA).
+- Apply Darkwood v4 UI across the site (menus, mobile navigation, login, footer, buttons, layout polish).
+
 ## v1.0.3
 
 - Darkwood API: access and monetization via API keys only (X-API-Key, no env or User).
