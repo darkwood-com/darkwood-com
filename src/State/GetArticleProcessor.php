@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use App\Dto\ArticleIdInput;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProcessorInterface;
 
 /**
  * MCP processor: returns a single Article by id.

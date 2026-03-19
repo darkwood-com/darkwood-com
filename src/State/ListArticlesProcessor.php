@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use App\Dto\ListArticlesInput;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProcessorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -40,8 +40,6 @@ final readonly class ListArticlesProcessor implements ProcessorInterface
         $qb = $this->articleRepository->findActivesQueryBuilder($locale, $limit);
 
         /** @var Paginator<Article> $paginator */
-        $paginator = new Paginator($qb->getQuery());
-
-        return $paginator;
+        return new Paginator($qb->getQuery());
     }
 }
