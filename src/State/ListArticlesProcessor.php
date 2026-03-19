@@ -21,7 +21,7 @@ final readonly class ListArticlesProcessor implements ProcessorInterface
     ) {}
 
     /**
-     * @return iterable<Article>
+     * @return Paginator<Article>
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): iterable
     {
@@ -39,7 +39,6 @@ final readonly class ListArticlesProcessor implements ProcessorInterface
 
         $qb = $this->articleRepository->findActivesQueryBuilder($locale, $limit);
 
-        /** @var Paginator<Article> $paginator */
         return new Paginator($qb->getQuery());
     }
 }
