@@ -67,6 +67,8 @@ security:
         - { path: ^/docs, host: '%api_host%', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI docs
         - { path: ^/auth, host: '%api_host%', roles: PUBLIC_ACCESS }
         - { path: ^/api/darkwood, host: '%api_host%', roles: PUBLIC_ACCESS } # Darkwood API: auth via X-API-Key in DarkwoodBetaAccessSubscriber
+        - { path: ^/api/hello_(profile|experiences|projects|skills)$, host: '%api_host%', roles: PUBLIC_ACCESS } # Hello CV read API
+        - { path: ^/mcp, host: '%api_host%', roles: PUBLIC_ACCESS } # MCP (Hello CV + API Platform tools)
 
 when@test:
     security:
