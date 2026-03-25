@@ -8,6 +8,9 @@ use App\ApiResource\HelloCvExperience;
 use App\ApiResource\HelloCvProject;
 use App\ApiResource\HelloCvSkill;
 
+use function array_slice;
+use function count;
+
 /**
  * Maps Hello CV repository data into a single view model for the Hello homepage.
  */
@@ -33,7 +36,7 @@ final readonly class HelloHomepageDataFactoryService
      *   profile: array{name: string, role: string, summary: string, location: string, hero_links: list<array{label: string, url: string}>},
      *   work: list<array{id: string, company: string, role: string, period: string, description: string, highlights: list<string>}>,
      *   skills: list<array{name: string, category: string}>,
-     *   projects: list<array{id: string, name: string, description: string, type: string, primary_url: string|null, tags: list<string>, image_asset: string|null}>
+     *   projects: list<array{id: string, name: string, description: string, type: string, primary_url: null|string, tags: list<string>, image_asset: null|string}>
      * }
      */
     public function build(): array
@@ -67,7 +70,7 @@ final readonly class HelloHomepageDataFactoryService
                 continue;
             }
             $out[] = $link;
-            if (\count($out) >= 8) {
+            if (count($out) >= 8) {
                 break;
             }
         }
@@ -103,9 +106,9 @@ final readonly class HelloHomepageDataFactoryService
             'id' => $exp->id,
             'company' => $exp->company,
             'role' => $exp->role,
-            'period' => $exp->startDate.' — '.$end,
+            'period' => $exp->startDate . ' — ' . $end,
             'description' => $exp->description,
-            'highlights' => \array_slice($exp->highlights, 0, 4),
+            'highlights' => array_slice($exp->highlights, 0, 4),
         ];
     }
 
@@ -122,7 +125,7 @@ final readonly class HelloHomepageDataFactoryService
         });
 
         $out = [];
-        foreach (\array_slice($skills, 0, self::SKILLS_MAX) as $skill) {
+        foreach (array_slice($skills, 0, self::SKILLS_MAX) as $skill) {
             $out[] = ['name' => $skill->name, 'category' => $skill->category];
         }
 
@@ -130,7 +133,7 @@ final readonly class HelloHomepageDataFactoryService
     }
 
     /**
-     * @return list<array{id: string, name: string, description: string, type: string, primary_url: string|null, tags: list<string>, image_asset: string|null}>
+     * @return list<array{id: string, name: string, description: string, type: string, primary_url: null|string, tags: list<string>, image_asset: null|string}>
      */
     private function selectProjects(): array
     {
@@ -155,7 +158,7 @@ final readonly class HelloHomepageDataFactoryService
             'description' => $proj->description,
             'type' => $proj->type,
             'primary_url' => $primary,
-            'tags' => \array_slice($proj->tags, 0, 6),
+            'tags' => array_slice($proj->tags, 0, 6),
             'image_asset' => $proj->imageAsset,
         ];
     }

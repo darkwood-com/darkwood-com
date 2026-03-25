@@ -24,7 +24,6 @@ final readonly class HelloGetProfileProcessor implements ProcessorInterface
     {
         $profile = $this->helloCvRepository->getProfile();
 
-        /** @var array<string, mixed> $normalized */
         return $this->normalizer->normalize($profile, null, [
             AbstractNormalizer::GROUPS => ['cv:read'],
         ]);

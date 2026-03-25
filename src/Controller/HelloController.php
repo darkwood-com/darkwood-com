@@ -7,8 +7,8 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ArticleRepository;
-use App\Service\HelloHomepageDataFactoryService;
 use App\Service\ContactService;
+use App\Service\HelloHomepageDataFactoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +57,7 @@ class HelloController extends AbstractController
 
                 $this->contactService->save($contact);
 
-                return $this->redirect($this->generateUrl('hello_home').'#contact');
+                return $this->redirect($this->generateUrl('hello_home') . '#contact');
             }
         }
 
