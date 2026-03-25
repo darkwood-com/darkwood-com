@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set up two-factor authentication</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; color: #111; margin: 0; }
+        .shell { max-width: 42rem; margin: 3rem auto; background: #fff; border: 1px solid #ddd; padding: 2rem; }
+        h1 { margin-top: 0; }
+        pre { white-space: pre-wrap; word-break: break-word; background: #f8f8f8; border: 1px solid #ddd; padding: 1rem; }
+        .flash-success, .flash-error { margin-bottom: 1rem; padding: .75rem 1rem; }
+        .flash-success { background: #e8f5e9; color: #1b5e20; }
+        .flash-error { background: #fce8e6; color: #8a1f17; }
+        input[type="text"] { width: 100%; padding: .75rem; font-size: 1rem; box-sizing: border-box; }
+        button, .link { display: inline-block; padding: .75rem 1rem; text-decoration: none; }
+        button { border: 0; background: #111; color: #fff; cursor: pointer; }
+        .link { color: #111; }
+        .actions { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <h1>Set up two-factor authentication</h1>
+
+    {% for flashMessage in app.flashes('success') %}
+        <div class="flash-success">{{ flashMessage }}</div>
+    {% endfor %}
+    {% for flashMessage in app.flashes('error') %}
+        <div class="flash-error">{{ flashMessage }}</div>
+    {% endfor %}
+
+    {% if totpEnabled %}
+        <p>Two-factor authentication is already enabled for your account.</p>
+        <div class="actions">
+            <a class="link" href="{{ backUrl }}">Back</a>
+            <a class="link" href="{{ path('security_logout') }}">Logout</a>
+        </div>
+    {% else %}
+        <p>Authenticated areas now require TOTP. Save this secret in an authenticator app, then enter the current 6-digit code to finish setup.</p>
+
+        <h2>Manual secret</h2>
+        <pre>{{ secret }}</pre>
+
+        <h2>Provisioning URI</h2>
+        <pre>{{ qrContent }}</pre>
+
+        <form method="post">
+            <label for="auth_code">Authenticator code</label>
+            <input id="auth_code" name="auth_code" type="text" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]*" autofocus>
+
+            <div class="actions">
+                <button type="submit">Enable 2FA</button>
+                <a class="link" href="{{ path('security_logout') }}">Logout</a>
+            </div>
+        </form>
+    {% endif %}
+</div>
+</body>
+</html>

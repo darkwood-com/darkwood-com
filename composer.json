@@ -23,6 +23,8 @@
 		"nelmio/cors-bundle": "^2.5",
 		"phpdocumentor/reflection-docblock": "^5.3",
 		"phpstan/phpdoc-parser": "^2.1.0",
+		"scheb/2fa-bundle": "^8.5",
+		"scheb/2fa-totp": "^8.5",
 		"sentry/sentry-symfony": "^5.0.1",
 		"stof/doctrine-extensions-bundle": "^1.9",
 		"symfony/ai-open-ai-platform": "^0.6",

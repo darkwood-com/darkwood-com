@@ -71,6 +71,28 @@
             </li>
         </ul>
     </fieldset>
+    <fieldset>
+        <legend>Two-factor authentication</legend>
+        <ul>
+            <li>
+                Status:
+                {% if app.user and app.user.totpAuthenticationEnabled %}
+                    Enabled
+                {% else %}
+                    Not configured
+                {% endif %}
+            </li>
+            <li>
+                <a href="{{ path('app_2fa_setup') }}">
+                    {% if app.user and app.user.totpAuthenticationEnabled %}
+                        Review 2FA setup
+                    {% else %}
+                        Configure TOTP 2FA
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+    </fieldset>
     <ul>
         <li><input type="submit" id="profile_update" name="profile_update" value="{{ 'common.profile.submit'|trans }}"></li>
     </ul>
