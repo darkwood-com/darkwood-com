@@ -39,10 +39,16 @@
     {% else %}
         <p>Authenticated areas now require TOTP. Save this secret in an authenticator app, then enter the current 6-digit code to finish setup.</p>
 
+        <h2>QR code</h2>
+        <p>Scan this QR code with your authenticator app.</p>
+        <p>
+            <img src="{{ qrCodeDataUri }}" alt="TOTP QR code" width="280" height="280">
+        </p>
+
         <h2>Manual secret</h2>
         <pre>{{ secret }}</pre>
 
-        <h2>Provisioning URI</h2>
+        <h2>Provisioning URI fallback</h2>
         <pre>{{ qrContent }}</pre>
 
         <form method="post">

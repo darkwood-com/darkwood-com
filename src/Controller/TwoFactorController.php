@@ -7,6 +7,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\SiteService;
 use App\Service\UserService;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +47,7 @@ class TwoFactorController extends AbstractController
                 'totpEnabled' => true,
                 'secret' => null,
                 'qrContent' => null,
+                'qrCodeDataUri' => null,
                 'backUrl' => $this->buildBackUrl($request),
             ]);
         }
@@ -55,6 +60,7 @@ class TwoFactorController extends AbstractController
         }
 
         $qrContent = $this->buildQrContent($user, $pendingSecret);
+        $qrCodeDataUri = $this->buildQrCodeDataUri($qrContent);
 
         if ($request->isMethod('POST')) {
             $code = trim((string) $request->request->get('auth_code'));
@@ -77,6 +83,7 @@ class TwoFactorController extends AbstractController
             'totpEnabled' => false,
             'secret' => $pendingSecret,
             'qrContent' => $qrContent,
+            'qrCodeDataUri' => $qrCodeDataUri,
             'backUrl' => $this->buildBackUrl($request),
         ]);
     }
@@ -103,6 +110,21 @@ class TwoFactorController extends AbstractController
         } finally {
             $user->setTotpSecret($previousSecret);
         }
+    }
+
+    private function buildQrCodeDataUri(string $qrContent): string
+    {
+        $qrCode = new QrCode(
+            data: $qrContent,
+            errorCorrectionLevel: ErrorCorrectionLevel::Medium,
+            size: 280,
+            margin: 16,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+        );
+
+        $writer = new PngWriter();
+
+        return $writer->write($qrCode)->getDataUri();
     }
 
     private function buildBackUrl(Request $request): string
