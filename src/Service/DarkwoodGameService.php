@@ -594,7 +594,7 @@ class DarkwoodGameService
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
-        $session = $this->requestStack->getSession()->get($sessionKey);
+        $session = $this->getActiveSession()->get($sessionKey);
         $enemy = $player->getLastFight();
         if (!is_array($session) && $enemy) {
             $session = ['player_life_lose' => 0, 'enemy_current_life' => $enemy->getLife(), 'enemy_life_lose' => 0];
@@ -607,7 +607,7 @@ class DarkwoodGameService
     {
         $player = $this->getOrCreate($user);
         $sessionKey = 'fight:' . $player->getId();
-        $this->requestStack->getSession()->set($sessionKey, $value);
+        $this->getActiveSession()->set($sessionKey, $value);
     }
 
     public function fight(User $user, $action)
@@ -778,7 +778,7 @@ class DarkwoodGameService
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
-        $sessionDaily = $this->requestStack->getSession()->get($sessionDailyKey);
+        $sessionDaily = $this->getActiveSession()->get($sessionDailyKey);
         $enemy = $this->getOrCreateDailyEnemy();
         if (!is_array($sessionDaily) && $enemy) {
             $sessionDaily = ['player_current_life' => $user->getPlayer()->getLifeMax(), 'player_life_lose' => 0, 'enemy_current_life' => $enemy->getPlayer()->getLifeMax(), 'enemy_life_lose' => 0];
@@ -791,7 +791,7 @@ class DarkwoodGameService
     {
         $player = $this->getOrCreate($user);
         $sessionDailyKey = 'fightDaily:' . $player->getId();
-        $this->requestStack->getSession()->set($sessionDailyKey, $value);
+        $this->getActiveSession()->set($sessionDailyKey, $value);
     }
 
     public function fightDaily(User $user)
@@ -887,11 +887,11 @@ class DarkwoodGameService
                 return new RedirectResponse($this->router->generate('darkwood_play', $parameters));
             }
 
-            if ($parameters['mode'] === 'login' && $request->request->get('_username') && $request->request->get('_password')) {
-                $user = $this->userService->findOneByUsername($request->request->get('_username'));
+            if ($parameters['mode'] === 'login' && $this->getRequestInput($request, '_username') && $this->getRequestInput($request, '_password')) {
+                $user = $this->userService->findOneByUsername((string) $this->getRequestInput($request, '_username'));
                 $token = new UsernamePasswordToken($user, 'main');
                 // special case for apple validation
-                if ($request->request->get('_username') === 'apple' && $request->request->get('_password') === 'apple') {
+                if ($this->getRequestInput($request, '_username') === 'apple' && $this->getRequestInput($request, '_password') === 'apple') {
                     $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                     $this->tokenStorage->setToken($token);
                     $token->setUser($user);
@@ -1016,11 +1016,11 @@ class DarkwoodGameService
                 $parameters['mode'] = 'fight_not_ended';
             } elseif ($parameters['state'] === 'combat') {
                 if ($parameters['mode'] === 'combat' && $player->getLastFight()) {
-                    if ($request->request->get('actionFight')) {
+                    if ($this->getRequestInput($request, 'actionFight')) {
                         $this->fight($user, 'fight');
-                    } elseif ($request->request->get('actionUsePotion')) {
+                    } elseif ($this->getRequestInput($request, 'actionUsePotion')) {
                         $this->fight($user, 'potion');
-                    } elseif ($request->request->get('actionEndFight')) {
+                    } elseif ($this->getRequestInput($request, 'actionEndFight')) {
                         $endFight = $this->endFight($user);
                         if ($endFight['mode'] === 'player_win' || $endFight['mode'] === 'player_death') {
                             $parameters['mode'] = $endFight['mode'];
@@ -1038,11 +1038,11 @@ class DarkwoodGameService
                     $parameters['data']['info'] = $this->getInfo($user);
                     $parameters['data']['session'] = $this->getSession($user);
                 } else {
-                    if ($request->request->get('actionEnemyNext')) {
+                    if ($this->getRequestInput($request, 'actionEnemyNext')) {
                         $this->nextEnemy($user);
-                    } elseif ($request->request->get('actionEnemyPrevious')) {
+                    } elseif ($this->getRequestInput($request, 'actionEnemyPrevious')) {
                         $this->previousEnemy($user);
-                    } elseif ($request->request->get('actionBeginFight')) {
+                    } elseif ($this->getRequestInput($request, 'actionBeginFight')) {
                         if ($player->getLastFight()) {
                             // Already in a fight — do not allow starting a new one; return current fight state
                             $parameters['mode'] = 'combat';
@@ -1086,9 +1086,9 @@ class DarkwoodGameService
                 }
             } elseif ($parameters['state'] === 'daily-battle') {
                 if ($parameters['mode'] === 'combat') {
-                    if ($request->request->get('actionFight')) {
+                    if ($this->getRequestInput($request, 'actionFight')) {
                         $this->fightDaily($user);
-                    } elseif ($request->request->get('actionEndFight')) {
+                    } elseif ($this->getRequestInput($request, 'actionEndFight')) {
                         $endFight = $this->endFightDaily($user);
                         if ($endFight['mode'] === 'player_win' || $endFight['mode'] === 'player_death') {
                             $parameters['mode'] = $endFight['mode'];
@@ -1100,7 +1100,7 @@ class DarkwoodGameService
 
                     $parameters['data']['session'] = $this->getSessionDaily($user);
                 } else {
-                    if ($request->request->get('actionBeginFight')) {
+                    if ($this->getRequestInput($request, 'actionBeginFight')) {
                         $request->attributes->set('mode', 'combat');
 
                         return $this->play($request, null, $user);
@@ -1112,37 +1112,37 @@ class DarkwoodGameService
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['dailyEnemyInfo'] = $this->getInfo($this->getOrCreateDailyEnemy());
             } elseif ($parameters['state'] === 'info') {
-                if ($request->request->get('actionChooseClasse')) {
-                    $this->chooseClasse($user, $request->request->get('actionChooseClasse'));
-                } elseif ($request->request->get('actionAddPoint')) {
-                    $this->addPoint($user, $request->request->get('actionAddPoint'));
+                if ($this->getRequestInput($request, 'actionChooseClasse')) {
+                    $this->chooseClasse($user, $this->getRequestInput($request, 'actionChooseClasse'));
+                } elseif ($this->getRequestInput($request, 'actionAddPoint')) {
+                    $this->addPoint($user, $this->getRequestInput($request, 'actionAddPoint'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['classes'] = $this->getClasses();
             } elseif ($parameters['state'] === 'equipment') {
-                if ($request->request->get('actionEquipGem')) {
-                    $this->equipGem($user, $request->request->get('actionEquipGem'));
-                } elseif ($request->request->get('actionThrowGem')) {
-                    $this->throwGem($user, $request->request->get('actionThrowGem'));
+                if ($this->getRequestInput($request, 'actionEquipGem')) {
+                    $this->equipGem($user, $this->getRequestInput($request, 'actionEquipGem'));
+                } elseif ($this->getRequestInput($request, 'actionThrowGem')) {
+                    $this->throwGem($user, $this->getRequestInput($request, 'actionThrowGem'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
             } elseif ($parameters['state'] === 'hostel') {
-                if ($request->request->get('actionRegeneration')) {
-                    $this->regen($user, $request->request->get('actionRegeneration'));
+                if ($this->getRequestInput($request, 'actionRegeneration')) {
+                    $this->regen($user, $this->getRequestInput($request, 'actionRegeneration'));
                 }
 
                 $parameters['data']['info'] = $this->getInfo($user);
                 $parameters['data']['regenerations'] = $this->getRegenerations($user);
             } elseif ($parameters['state'] === 'armor') {
-                if ($request->request->get('actionArmorNext')) {
+                if ($this->getRequestInput($request, 'actionArmorNext')) {
                     $this->nextArmor($user);
-                } elseif ($request->request->get('actionArmorPrevious')) {
+                } elseif ($this->getRequestInput($request, 'actionArmorPrevious')) {
                     $this->previousArmor($user);
-                } elseif ($request->request->get('actionArmorBuy')) {
+                } elseif ($this->getRequestInput($request, 'actionArmorBuy')) {
                     $this->buyArmor($user);
-                } elseif ($request->request->get('actionArmorSell')) {
+                } elseif ($this->getRequestInput($request, 'actionArmorSell')) {
                     $this->sellArmor($user);
                 }
 
@@ -1150,11 +1150,11 @@ class DarkwoodGameService
                 $parameters['data']['armor'] = $this->getArmorInfo($player->getArmor());
                 $parameters['data']['currentArmor'] = $this->getArmorInfo($player->getCurrentDefaultArmor());
             } elseif ($parameters['state'] === 'potion') {
-                if ($request->request->get('actionPotionNext')) {
+                if ($this->getRequestInput($request, 'actionPotionNext')) {
                     $this->nextPotion($user);
-                } elseif ($request->request->get('actionPotionPrevious')) {
+                } elseif ($this->getRequestInput($request, 'actionPotionPrevious')) {
                     $this->previousPotion($user);
-                } elseif ($request->request->get('actionPotionBuy')) {
+                } elseif ($this->getRequestInput($request, 'actionPotionBuy')) {
                     $this->buyPotion($user);
                 }
 
@@ -1162,13 +1162,13 @@ class DarkwoodGameService
                 $parameters['data']['potion'] = $this->getPotionInfo($player->getPotion());
                 $parameters['data']['currentPotion'] = $this->getPotionInfo($player->getCurrentDefaultPotion());
             } elseif ($parameters['state'] === 'sword') {
-                if ($request->request->get('actionSwordNext')) {
+                if ($this->getRequestInput($request, 'actionSwordNext')) {
                     $this->nextSword($user);
-                } elseif ($request->request->get('actionSwordPrevious')) {
+                } elseif ($this->getRequestInput($request, 'actionSwordPrevious')) {
                     $this->previousSword($user);
-                } elseif ($request->request->get('actionSwordBuy')) {
+                } elseif ($this->getRequestInput($request, 'actionSwordBuy')) {
                     $this->buySword($user);
-                } elseif ($request->request->get('actionSwordSell')) {
+                } elseif ($this->getRequestInput($request, 'actionSwordSell')) {
                     $this->sellSword($user);
                 }
 
@@ -1193,7 +1193,7 @@ class DarkwoodGameService
     protected function addFlash(string $type, mixed $message): void
     {
         try {
-            $session = $this->requestStack->getSession();
+            $session = $this->getActiveSession();
         } catch (SessionNotFoundException $e) {
             throw new LogicException('You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e);
         }
@@ -1203,5 +1203,25 @@ class DarkwoodGameService
         }
 
         $session->getFlashBag()->add($type, $message);
+    }
+
+    private function getActiveSession(): SessionInterface
+    {
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if ($currentRequest?->hasSession()) {
+            return $currentRequest->getSession();
+        }
+
+        $mainRequest = $this->requestStack->getMainRequest();
+        if ($mainRequest?->hasSession()) {
+            return $mainRequest->getSession();
+        }
+
+        throw new SessionNotFoundException('No active session available.');
+    }
+
+    private function getRequestInput(Request $request, string $key): mixed
+    {
+        return $request->request->get($key, $request->query->get($key));
     }
 }
