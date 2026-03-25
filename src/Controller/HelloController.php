@@ -7,8 +7,8 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ArticleRepository;
-use App\Service\HelloHomepageDataFactory;
-use App\Services\ContactService;
+use App\Service\HelloHomepageDataFactoryService;
+use App\Service\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ class HelloController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly CommonController $commonController,
         private readonly ContactService $contactService,
-        private readonly HelloHomepageDataFactory $helloHomepageDataFactory,
+        private readonly HelloHomepageDataFactoryService $helloHomepageDataFactory,
         private readonly ArticleRepository $articleRepository,
         private readonly CsrfTokenManagerInterface $tokenManager
     ) {}

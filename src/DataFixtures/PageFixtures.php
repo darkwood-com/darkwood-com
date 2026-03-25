@@ -6,7 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Page;
 use App\Entity\PageTranslation;
-use App\Services\SiteService;
+use App\Service\SiteService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;

@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Entity\DarkwoodArchive;
 use App\Repository\DarkwoodArchiveRepository;
-use App\Services\GameService;
+use App\Service\GameService;
 use BackedEnum;
 use DateTimeImmutable;
 use DateTimeInterface;

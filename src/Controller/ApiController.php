@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Entity\ArticleTranslation;
 use App\Repository\ArticleTranslationRepository;
-use App\Services\PageService;
-use App\Services\UserService;
+use App\Service\PageService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;

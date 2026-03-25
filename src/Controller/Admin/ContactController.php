@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contact;
 use App\Form\Admin\ContactType;
-use App\Services\ContactService;
+use App\Service\ContactService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

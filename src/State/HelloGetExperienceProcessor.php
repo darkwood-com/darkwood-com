@@ -7,7 +7,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\HelloCvExperienceInput;
-use App\Service\HelloCvRepository;
+use App\Service\HelloCvRepositoryService;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final readonly class HelloGetExperienceProcessor implements ProcessorInterface
 {
     public function __construct(
-        private HelloCvRepository $helloCvRepository,
+        private HelloCvRepositoryService $helloCvRepository,
         private NormalizerInterface $normalizer,
     ) {}
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -14,7 +14,7 @@ use function json_decode;
 /**
  * Forwards MCP tool calls to the Darkwood API via sub-requests so auth (X-API-Key, etc.) is applied.
  */
-final readonly class DarkwoodMcpForwarder
+final readonly class DarkwoodMcpForwarderService
 {
     public function __construct(
         private HttpKernelInterface $kernel,
@@ -43,8 +43,8 @@ final readonly class DarkwoodMcpForwarder
         ], $content);
 
         if ($current !== null) {
-            if ($current->headers->has(ApiKeyResolver::HEADER_NAME)) {
-                $subRequest->headers->set(ApiKeyResolver::HEADER_NAME, $current->headers->get(ApiKeyResolver::HEADER_NAME));
+            if ($current->headers->has(ApiKeyResolverService::HEADER_NAME)) {
+                $subRequest->headers->set(ApiKeyResolverService::HEADER_NAME, $current->headers->get(ApiKeyResolverService::HEADER_NAME));
             }
             if ($current->headers->has('Authorization')) {
                 $subRequest->headers->set('Authorization', $current->headers->get('Authorization'));

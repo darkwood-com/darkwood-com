@@ -7,7 +7,7 @@
 
 ## Where it lives in code
 
-- **Service:** `App\Service\HelloCvRepository` — single source of truth for API + MCP.
+- **Service:** `App\Service\HelloCvRepositoryService` — single source of truth for API + MCP.
 - **Shape:** `App\ApiResource\HelloCv*` DTOs (readonly) returned by providers and normalized for MCP processors.
 
 ## Normalization conventions

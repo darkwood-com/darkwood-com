@@ -15,7 +15,7 @@ use App\ApiResource\HelloCvSystem;
  *
  * Future: optional enrichment (AI or external sources) can wrap or decorate this service.
  */
-final class HelloCvRepository
+final class HelloCvRepositoryService
 {
     /** @var list<HelloCvExperience> */
     private array $experiences;

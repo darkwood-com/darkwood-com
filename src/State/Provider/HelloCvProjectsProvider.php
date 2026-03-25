@@ -7,7 +7,7 @@ namespace App\State\Provider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\HelloCvProject;
-use App\Service\HelloCvRepository;
+use App\Service\HelloCvRepositoryService;
 
 /**
  * @implements ProviderInterface<HelloCvProject>
@@ -15,7 +15,7 @@ use App\Service\HelloCvRepository;
 final readonly class HelloCvProjectsProvider implements ProviderInterface
 {
     public function __construct(
-        private HelloCvRepository $helloCvRepository,
+        private HelloCvRepositoryService $helloCvRepository,
     ) {}
 
     /**

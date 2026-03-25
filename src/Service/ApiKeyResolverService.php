@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Service;
 
 use App\Entity\ApiKey;
 use App\Repository\ApiKeyRepository;
@@ -13,7 +13,7 @@ use Throwable;
  * Resolves and validates API key from X-API-Key header.
  * Returns ApiKey entity only when key exists and is active.
  */
-class ApiKeyResolver
+class ApiKeyResolverService
 {
     public const HEADER_NAME = 'X-API-Key';
 

@@ -11,7 +11,7 @@ use App\ApiResource\HelloCvSkill;
 /**
  * Maps Hello CV repository data into a single view model for the Hello homepage.
  */
-final readonly class HelloHomepageDataFactory
+final readonly class HelloHomepageDataFactoryService
 {
     /** @var list<string> */
     private const WORK_EXPERIENCE_IDS = [
@@ -25,7 +25,7 @@ final readonly class HelloHomepageDataFactory
     private const SKILLS_MAX = 18;
 
     public function __construct(
-        private HelloCvRepository $helloCvRepository,
+        private HelloCvRepositoryService $helloCvRepository,
     ) {}
 
     /**

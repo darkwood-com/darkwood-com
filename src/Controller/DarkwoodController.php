@@ -6,11 +6,11 @@ namespace App\Controller;
 
 use App\Entity\CommentPage;
 use App\Form\CommentType;
-use App\Services\ArticleService;
-use App\Services\CommentService;
-use App\Services\GameService;
-use App\Services\PageService;
-use App\Services\UserService;
+use App\Service\ArticleService;
+use App\Service\CommentService;
+use App\Service\GameService;
+use App\Service\PageService;
+use App\Service\UserService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
