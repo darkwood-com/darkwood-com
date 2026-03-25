@@ -18,7 +18,7 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        # Darkwood API: stateful so GameService can use session (flash, combat state)
+        # Darkwood API: stateful so DarkwoodGameService can use session (flash, combat state)
         darkwood_api:
             pattern: ^/api/darkwood
             stateless: false

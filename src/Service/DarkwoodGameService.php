@@ -56,11 +56,11 @@ use function is_array;
 use function sprintf;
 
 /**
- * Class GameService.
+ * Class DarkwoodGameService.
  *
  * Object manager of newsTranslation.
  */
-class GameService
+class DarkwoodGameService
 {
     final public const RATIO_EQUIPMENT = 4.0;
 

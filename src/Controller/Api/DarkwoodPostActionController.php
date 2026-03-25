@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\User;
-use App\Service\GameService;
+use App\Service\DarkwoodGameService;
 use BackedEnum;
 use DateTimeInterface;
 use JsonException;
@@ -23,7 +23,7 @@ use function is_scalar;
 final class DarkwoodPostActionController extends AbstractController
 {
     public function __construct(
-        private readonly GameService $gameService,
+        private readonly DarkwoodGameService $gameService,
         private readonly TokenStorageInterface $tokenStorage,
     ) {}
 

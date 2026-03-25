@@ -103,7 +103,7 @@ class ApiController extends AbstractController
             // Use VichUploader to handle the upload
             $articleTranslation->setImage($uploadedFile);
 
-            // Generate unique filename using the same logic as in ArticleService::duplicate
+            // Generate unique filename using the same logic as in BlogArticleService::duplicate
             $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
             $fileName = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();

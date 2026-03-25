@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Form\Admin\ArticleTranslationType;
-use App\Service\ArticleService;
+use App\Service\BlogArticleService;
 use App\Service\TagService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
 class ArticleController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly ArticleService $articleService, private readonly TagService $tagService) {}
+    public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly BlogArticleService $articleService, private readonly TagService $tagService) {}
 
     #[Route('/list', name: 'list')]
     public function list(Request $request): Response

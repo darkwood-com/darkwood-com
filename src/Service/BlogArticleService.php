@@ -19,11 +19,11 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 use function count;
 
 /**
- * Class ArticleService.
+ * Class BlogArticleService.
  *
  * Object manager of articleTranslation.
  */
-class ArticleService
+class BlogArticleService
 {
     protected ArticleRepository $articleRepository;
 

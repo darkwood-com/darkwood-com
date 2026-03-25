@@ -6,9 +6,9 @@ namespace App\Controller;
 
 use App\Entity\CommentPage;
 use App\Form\CommentType;
-use App\Service\ArticleService;
+use App\Service\BlogArticleService;
 use App\Service\CommentService;
-use App\Service\GameService;
+use App\Service\DarkwoodGameService;
 use App\Service\PageService;
 use App\Service\UserService;
 use App\Validator\Constraints\PaginationDTO;
@@ -30,14 +30,14 @@ class DarkwoodController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
-        private readonly ArticleService $articleService,
+        private readonly BlogArticleService $articleService,
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
         private readonly PageService $pageService,
         private readonly CommentService $commentService,
         private readonly UserService $userService,
-        private readonly GameService $gameService,
+        private readonly DarkwoodGameService $gameService,
         private readonly CsrfTokenManagerInterface $tokenManager,
         private readonly RequestStack $requestStack
     ) {}

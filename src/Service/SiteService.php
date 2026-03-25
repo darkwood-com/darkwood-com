@@ -21,7 +21,7 @@ class SiteService
     public function __construct(
         protected EntityManagerInterface $em,
         protected PageService $pageService,
-        protected ArticleService $articleService,
+        protected BlogArticleService $articleService,
         protected TranslatorInterface $translator,
         protected Environment $templating,
         protected CacheInterface $appCache
