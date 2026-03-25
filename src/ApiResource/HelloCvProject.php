@@ -41,5 +41,7 @@ final readonly class HelloCvProject
         public array $links,
         #[Groups(['cv:read'])]
         public array $tags,
+        #[Groups(['cv:read'])]
+        public ?string $imageAsset = null,
     ) {}
 }

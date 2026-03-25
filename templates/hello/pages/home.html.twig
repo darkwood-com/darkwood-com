@@ -9,6 +9,8 @@
 
 {% set navItems = [
     { href: '#about', label: 'hello.menu.about'|trans },
+    { href: '#work', label: 'hello.menu.work'|trans },
+    { href: '#skills', label: 'hello.section.skills'|trans },
     { href: '#projects', label: 'hello.menu.projects'|trans },
     { href: '#blog', label: 'hello.menu.blog'|trans },
     { href: '#contact', label: 'hello.menu.contact'|trans }
@@ -31,32 +33,23 @@
             </div>
         </div>
     </nav>
-    <ul class="theme-mobile-nav hello-mobile-nav">
+    <ul class="theme-mobile-nav hello-mobile-nav hello-mobile-nav--many">
         {% for item in navItems %}
             <li><a href="{{ item.href }}">{{ item.label }}</a></li>
         {% endfor %}
     </ul>
-    <header class="masthead">
+    <header class="masthead{#} masthead--hybrid#}">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
             <div class="d-flex justify-content-center">
                 <div class="text-center">
                     <h1 class="mx-auto my-0 text-uppercase">{{ 'hello.hero.title'|trans|raw }}</h1>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-md-5 no_link">{{ 'hello.hero.description'|trans|raw }}</h2>
+                    <h2 class="text-white-50 mx-auto mt-3 mb-4 no_link">{{ 'hello.hero.description'|trans|raw }}</h2>
                     <a class="btn btn-primary" href="#about">{{ 'hello.hero.cta'|trans }}</a>
-                    {#<div id="newsletter-optin" class="col-md-8 offset-md-2">
-                        <form action="https://digest.darkwood.com/add_subscriber" method="post" id="revue-form" name="revue-form"  target="_blank">
-                            <h2 class="text-white-50 show_links">{{ 'hello.hero.newsletter.intro'|trans|raw }}</h2>
-                            <div class="input-group input-group-lg pb-2">
-                                <input type="email" name="member[email]" class="form-control" id="newsletter-email" value="" placeholder="{{ 'hello.hero.newsletter.email'|trans }}">
-                                <button type="submit" name="member[subscribe]" class="btn btn-primary input-group-text">{{ 'hello.hero.newsletter.submit'|trans }}</button>
-                            </div>
-                            <div class="text-white-50 show_links">{{ 'hello.hero.newsletter.footer'|trans|raw }}</div>
-                        </form>
-                    </div>#}
                 </div>
             </div>
         </div>
     </header>
+
     <section class="section about-section" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -64,12 +57,27 @@
                     <h2 class="text-white mb-4">{{ 'hello.about.title'|trans }}</h2>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 col-lg-8 offset-lg-2 ml-auto text-white-50 show_links">
-                    <p>{{ 'hello.about.text'|trans|raw|nl2br }}</p>
+            <div class="row align-items-start gx-lg-5 gy-4 mb-4">
+                <div class="col-lg-5 text-center text-lg-start">
+                    <figure class="hello-about-banner mb-0">
+                        <img src="{{ asset('/hello/mathieu-ledru.jpg') }}" alt="{{ hello.profile.name }}" class="img-fluid rounded-3 shadow" width="480" height="640" loading="lazy">
+                    </figure>
+                </div>
+                <div class="col-lg-7">
+                    <p class="text-white-50 lead hello-about-lead">{{ 'hello.about.lead'|trans }}</p>
+                    {% if hello.profile.hero_links is not empty %}
+                    <p class="text-white-50 show_links hello-about-links-list mb-4">
+                        {% for link in hello.profile.hero_links %}
+                            <a href="{{ link.url }}" rel="noreferrer" target="_blank">{{ link.label }}</a>{% if not loop.last %} · {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    <div class="text-white-50 show_links hello-about-body">
+                        <p>{{ 'hello.about.text'|trans|raw|nl2br }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="row justify-content-center g-4">
+            <div class="row justify-content-center g-4 mt-2">
                 <div class="col-6 col-xs-4 col-xl-2">
                     <div class="d-grid gap-2 h-100">
                         <a href="#contact" class="btn btn-lg btn-primary">
@@ -89,6 +97,51 @@
             </div>
         </div>
     </section>
+
+    <section class="section about-section hello-work-section" id="work">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="text-white mb-4">{{ 'hello.section.work'|trans }}</h2>
+                </div>
+            </div>
+            {% for job in hello.work %}
+            <div class="row hello-work-item">
+                <div class="col-12 col-lg-8 offset-lg-2 ml-auto text-white-50">
+                    <h3 class="text-white h4 mb-2">{{ job.company }}</h3>
+                    <p class="mb-1 text-white-50">{{ job.role }}</p>
+                    <p class="hello-work-period">{{ job.period }}</p>
+                    <p>{{ job.description }}</p>
+                    {% if job.highlights is not empty %}
+                    <ul class="hello-work-highlights">
+                        {% for line in job.highlights %}
+                        <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if hello.skills is not empty %}
+    <section class="section blog-area" id="skills">
+        <div class="container">
+            <div class="row p-5 gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-white mb-4 text-center">{{ 'hello.section.skills'|trans }}</h2>
+                </div>
+            </div>
+            <ul class="hello-skills-compact">
+                {% for skill in hello.skills %}
+                <li>{{ skill.name }} · {{ skill.category }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endif %}
+
     <section class="section projects-section" id="projects">
         <div class="container">
             <div class="row p-5 gx-4 gx-lg-5 justify-content-center">
@@ -98,127 +151,48 @@
                 </div>
             </div>
             <div class="row justify-content-center g-4">
+                {% for project in hello.projects %}
                 <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://uniflow.io" target="_blank" rel="noreferrer" class="single-block">
+                    {% if project.primary_url %}
+                    <a href="{{ project.primary_url }}" target="_blank" rel="noreferrer" class="single-block">
                         <div class="mt-30">
                             <div class="block-image">
-                                <img src="{{ asset('/hello/projects/uniflow.png')|imagine_filter('hello_blog') }}" alt="Uniflow">
+                                {% if project.image_asset %}
+                                <img src="{{ asset(project.image_asset)|imagine_filter('hello_blog') }}" alt="{{ project.name }}">
+                                {% else %}
+                                <div class="hello-api-placeholder" role="presentation" aria-hidden="true"></div>
+                                {% endif %}
                             </div>
                             <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.uniflow.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.uniflow.description'|trans }}</span>
+                                <h4 class="block-title">{{ ('hello.projects.items.' ~ project.id ~ '.title')|trans }}</h4>
+                                <span>{{ ('hello.projects.items.' ~ project.id ~ '.description')|trans }}</span>
                             </div>
                         </div>
                     </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://www.bonzai.pro/matyo91" target="_blank" rel="noreferrer" class="single-block">
+                    {% else %}
+                    <div class="single-block">
                         <div class="mt-30">
                             <div class="block-image">
-                                <img src="{{ asset('/hello/projects/bonzai.png')|imagine_filter('hello_blog') }}" alt="Bonzai">
+                                {% if project.image_asset %}
+                                <img src="{{ asset(project.image_asset)|imagine_filter('hello_blog') }}" alt="{{ project.name }}">
+                                {% else %}
+                                <div class="hello-api-placeholder" role="presentation" aria-hidden="true"></div>
+                                {% endif %}
                             </div>
                             <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.bonzai.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.bonzai.description'|trans }}</span>
+                                <h4 class="block-title">{{ ('hello.projects.items.' ~ project.id ~ '.title')|trans }}</h4>
+                                <span>{{ ('hello.projects.items.' ~ project.id ~ '.description')|trans }}</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://flow.darkwood.com" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/flow.png')|imagine_filter('hello_blog') }}" alt="Railway FBP">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.flow.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.flow.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://darkwaar.com" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/darkwaar.png')|imagine_filter('hello_blog') }}" alt="Darkwaar">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.darkwaar.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.darkwaar.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://github.com/darkwood-com/wysiwyl" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/wysiwyl.png')|imagine_filter('hello_blog') }}" alt="wysiwyl">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">wysiwyl</h4>
-                                <span>What you see is what you like</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://github.com/darkwood-com/dj-stream" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/dj-stream.png')|imagine_filter('hello_blog') }}" alt="DJ Stream">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.djstream.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.djstream.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://www.youtube.com/@matyo91" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/youtube.png')|imagine_filter('hello_blog') }}" alt="Matyo91 Youtube">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.youtube.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.youtube.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://speakerdeck.com/matyo91" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/speakerdeck.png')|imagine_filter('hello_blog') }}" alt="Darkwaar">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.speakerdeck.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.speakerdeck.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-9">
-                    <a href="https://www.youtube.com/@djmatyo91" target="_blank" rel="noreferrer" class="single-block">
-                        <div class="mt-30">
-                            <div class="block-image">
-                                <img src="{{ asset('/hello/projects/djmatyo91.png')|imagine_filter('hello_blog') }}" alt="Darkwaar">
-                            </div>
-                            <div class="block-content">
-                                <h4 class="block-title">{{ 'hello.projects.items.djmatyo91.title'|trans }}</h4>
-                                <span>{{ 'hello.projects.items.djmatyo91.description'|trans }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-    <section class="section blog-area pt-125 pb-130" id="blog">
+
+    <section class="section blog-area" id="blog">
         <div class="container">
             <div class="row p-5 gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
@@ -233,7 +207,7 @@
                     <a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}" target="_blank" rel="noreferrer" class="single-block">
                         <div class="mt-30">
                             <div class="block-image">
-                                <img src="{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('hello_blog') }}" alt="Blog">
+                                <img src="{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('hello_blog') }}" alt="">
                             </div>
                             <div class="block-content">
                                 <h4 class="block-title">{{ articleTranslation.title }}</h4>
@@ -253,12 +227,14 @@
             </div>
         </div>
     </section>
+
     <section class="section contact-section" id="contact">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
                 <div class="col-md-10 col-lg-8 mx-auto text-center">
                     <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
                     <h2 class="text-white mb-5">{{ 'hello.contact.title'|trans }}</h2>
+                    <p class="text-white-50 mb-4 small">{{ 'hello.contact.lede'|trans }}</p>
                     <form id="contact_form" action="{{ path('hello_home') }}#contact_form" method="post" novalidate="novalidate">
                         {{ form_errors(form._token) }}
                         {{ form_widget(form._token) }}

@@ -150,6 +150,47 @@
   background-attachment: scroll;
   background-size: cover;
 }
+
+/* Minimal hero: shorter, no full-viewport takeover, calmer type scale */
+.theme-hello .masthead.masthead--minimal {
+  min-height: 20rem;
+  padding: 7rem 0 4rem;
+}
+
+.theme-hello .masthead.masthead--minimal .masthead-tagline {
+  max-width: 28rem;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 768px) {
+  .theme-hello .masthead.masthead--minimal {
+    min-height: 24rem;
+    padding: 9rem 0 5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .theme-hello .masthead.masthead--minimal {
+    height: auto;
+    min-height: 28rem;
+    max-height: none;
+    padding: 10rem 0 6rem;
+  }
+
+  .theme-hello .masthead.masthead--minimal h1,
+  .theme-hello .masthead.masthead--minimal .h1 {
+    font-size: 3.5rem;
+    line-height: 3.75rem;
+    letter-spacing: 0.45rem;
+  }
+
+  .theme-hello .masthead.masthead--minimal .masthead-tagline {
+    font-size: 1.1rem;
+    max-width: 36rem;
+  }
+}
 .theme-hello .masthead h1, .theme-hello .masthead .h1 {
   font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 2.5rem;
@@ -186,6 +227,42 @@
   }
 }
 
+/* Hybrid masthead: classic hero copy, not full-viewport, calmer type than default */
+.theme-hello .masthead.masthead--hybrid {
+  height: auto;
+  min-height: 26rem;
+  padding: 7rem 0 4rem;
+}
+
+@media (min-width: 768px) {
+  .theme-hello .masthead.masthead--hybrid {
+    min-height: 30rem;
+    padding: 8rem 0 5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .theme-hello .masthead.masthead--hybrid {
+    height: auto;
+    min-height: 36rem;
+    max-height: none;
+    padding: 9rem 0 7rem;
+  }
+
+  .theme-hello .masthead.masthead--hybrid h1,
+  .theme-hello .masthead.masthead--hybrid .h1 {
+    font-size: 4.25rem;
+    line-height: 4.5rem;
+    letter-spacing: 0.55rem;
+  }
+
+  .theme-hello .masthead.masthead--hybrid h2,
+  .theme-hello .masthead.masthead--hybrid .h2 {
+    max-width: 28rem;
+    font-size: 1.15rem;
+  }
+}
+
 @media (max-width: 991.98px) {
   .theme-hello {
     padding-bottom: calc(10px + var(--hello-mobile-nav-height));
@@ -214,6 +291,12 @@
 
   .theme-hello .hello-mobile-nav li {
     flex: 1 1 25%;
+  }
+
+  .theme-hello .hello-mobile-nav--many li {
+    flex: 1 1 33.33%;
+    max-width: 33.33%;
+    font-size: 0.72rem;
   }
 
   .theme-hello .hello-mobile-nav a {
@@ -257,6 +340,24 @@
 }
 .theme-hello .about-section p {
   margin-bottom: 5rem;
+}
+
+.theme-hello .about-section p.hello-about-lead {
+  margin-bottom: 1.5rem;
+}
+
+.theme-hello .about-section.hello-work-section {
+  padding-top: 6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.theme-hello .hello-about-banner img {
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-hello .about-section .hello-about-body p {
+  margin-bottom: 0;
 }
 
 .theme-hello .products-section .projects-section {
@@ -304,6 +405,18 @@
   -ms-transition: all .3s ease-out 0s;
   -o-transition: all .3s ease-out 0s;
   transition: all .3s ease-out 0s
+}
+
+.theme-hello .single-block .block-image .hello-api-placeholder {
+  display: block;
+  min-height: 220px;
+  width: 100%;
+  background: linear-gradient(160deg, #1f1f1f 0%, #0a0a0a 100%);
+  -webkit-transition: all .3s ease-out 0s;
+  -moz-transition: all .3s ease-out 0s;
+  -ms-transition: all .3s ease-out 0s;
+  -o-transition: all .3s ease-out 0s;
+  transition: all .3s ease-out 0s;
 }
 
 .theme-hello .single-block .block-content {
@@ -362,6 +475,14 @@
   transform: scale(1.2)
 }
 
+.theme-hello .single-block:hover .block-image .hello-api-placeholder {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
 .theme-hello .single-block:hover .block-content {
   background-color: #0a58ca
 }
@@ -372,6 +493,10 @@
 
 .theme-hello .single-block:hover .block-content span {
   color: #fff
+}
+
+.theme-hello .single-block:hover .block-content a {
+  color: #fff;
 }
 
 .theme-hello .contact-section {
@@ -403,4 +528,47 @@
     margin: 0px;
     list-style-type: none;
     clear: both;
+}
+
+/* Hello API-driven homepage: work/skills (historical Hello patterns retained) */
+.theme-hello .about-section .hello-work-item p {
+  margin-bottom: 1rem;
+}
+
+.theme-hello .hello-work-item {
+  margin-bottom: 3rem;
+}
+
+.theme-hello .hello-work-item:last-child {
+  margin-bottom: 0;
+}
+
+.theme-hello .hello-work-period {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-bottom: 0.75rem;
+}
+
+.theme-hello .hello-work-highlights {
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.theme-hello .hello-skills-compact {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 52rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  justify-content: center;
+}
+
+.theme-hello .hello-skills-compact li {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.3rem 0.55rem;
+  border-radius: 2px;
 }

@@ -6,7 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
-use App\Services\ArticleService;
+use App\Repository\ArticleRepository;
+use App\Service\HelloHomepageDataFactory;
 use App\Services\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,8 @@ class HelloController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly CommonController $commonController,
         private readonly ContactService $contactService,
-        private readonly ArticleService $articleService,
+        private readonly HelloHomepageDataFactory $helloHomepageDataFactory,
+        private readonly ArticleRepository $articleRepository,
         private readonly CsrfTokenManagerInterface $tokenManager
     ) {}
 
@@ -55,13 +57,20 @@ class HelloController extends AbstractController
 
                 $this->contactService->save($contact);
 
-                return $this->redirectToRoute('hello_home', ['ref' => 'contact']);
+                return $this->redirect($this->generateUrl('hello_home').'#contact');
             }
         }
 
-        $articles = $this->articleService->findActives($request->getLocale(), 3);
+        $hello = $this->helloHomepageDataFactory->build();
+        $articles = $this->articleRepository->findActives($request->getLocale(), 3);
 
-        return $this->render('hello/pages/home.html.twig', ['form' => $form, 'page' => $page, 'showLinks' => true, 'cv' => true, 'articles' => $articles]);
+        return $this->render('hello/pages/home.html.twig', [
+            'form' => $form,
+            'page' => $page,
+            'showLinks' => true,
+            'hello' => $hello,
+            'articles' => $articles,
+        ]);
     }
 
     #[Route(path: ['fr' => '/fr/cv', 'en' => '/cv', 'de' => '/de/cv'], name: 'cv', defaults: ['ref' => 'cv'])]

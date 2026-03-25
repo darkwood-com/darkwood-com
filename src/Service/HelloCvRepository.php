@@ -195,7 +195,7 @@ final class HelloCvRepository
                 id: 'darkwood',
                 name: 'Darkwood',
                 description: 'Automation products, APIs, and monetization experiments (Flow, Uniflow, API keys).',
-                links: [['label' => 'GitHub org', 'url' => 'https://github.com/darkwood-fr']],
+                links: [['label' => 'GitHub org', 'url' => 'https://github.com/darkwood-com']],
             ),
         ];
 
@@ -205,9 +205,9 @@ final class HelloCvRepository
             summary: 'Ten+ years delivering PHP/Symfony backends, APIs, and data pipelines in high-traffic and regulated contexts. Focus on API design, DDD, CI/CD, containers, observability, and deterministic automation. Work on orchestration systems (Flow, Uniflow) and pragmatic LLM/MCP integration in maintainable architectures.',
             location: 'Brussels, Belgium',
             links: [
-                ['label' => 'Freelance (Hello)', 'url' => 'https://hello.darkwood.fr'],
-                ['label' => 'Blog', 'url' => 'https://blog.darkwood.fr'],
-                ['label' => 'GitHub', 'url' => 'https://github.com/darkwood-fr'],
+                ['label' => 'Freelance (Hello)', 'url' => 'https://hello.darkwood.com'],
+                ['label' => 'Blog', 'url' => 'https://blog.darkwood.com'],
+                ['label' => 'GitHub', 'url' => 'https://github.com/darkwood-com'],
                 ['label' => 'LinkedIn', 'url' => 'https://www.linkedin.com/in/mathieu-ledru'],
                 ['label' => 'Twitter', 'url' => 'https://twitter.com/matyo91'],
                 ['label' => 'Discord', 'url' => 'https://discord.com/invite/tMDCF8RyvE'],
@@ -372,34 +372,94 @@ final class HelloCvRepository
     }
 
     /**
+     * Homepage showcase order and assets mirror the historical Hello landing (pre–API cards).
+     * `imageAsset` is a public path under `/public` for LiipImagine (`hello_blog` filter in Twig).
+     *
      * @return list<HelloCvProject>
      */
     private function buildProjects(): array
     {
         return [
             new HelloCvProject(
-                id: 'flow',
-                name: 'Flow',
-                description: 'PHP orchestration: asynchronous composition, functional pipelines, reusable components.',
-                type: 'open-source library',
-                links: [['label' => 'Repository', 'url' => 'https://github.com/darkwood-fr/flow']],
-                tags: ['PHP', 'orchestration', 'async', 'Darkwood'],
-            ),
-            new HelloCvProject(
                 id: 'uniflow',
                 name: 'Uniflow',
-                description: 'TypeScript orchestration connecting business tools and workflows.',
-                type: 'open-source platform',
-                links: [['label' => 'Repository', 'url' => 'https://github.com/uniflow-io/uniflow']],
-                tags: ['TypeScript', 'orchestration', 'automation', 'Darkwood'],
+                description: 'Automate your recurring tasks',
+                type: 'product',
+                links: [['label' => 'Site', 'url' => 'https://uniflow.io']],
+                tags: ['TypeScript', 'automation', 'orchestration'],
+                imageAsset: '/hello/projects/uniflow.png',
             ),
             new HelloCvProject(
-                id: 'hello-darkwood',
-                name: 'Hello',
-                description: 'Freelance / contact entry point on the Darkwood domain.',
-                type: 'web presence',
-                links: [['label' => 'Site', 'url' => 'https://hello.darkwood.fr']],
-                tags: ['freelance', 'Darkwood', 'Hello'],
+                id: 'bonzai',
+                name: 'Matyo91 Bonzai',
+                description: 'See my creator page on Bonzai',
+                type: 'profile',
+                links: [['label' => 'Bonzai', 'url' => 'https://www.bonzai.pro/matyo91']],
+                tags: ['creator', 'Bonzai'],
+                imageAsset: '/hello/projects/bonzai.png',
+            ),
+            new HelloCvProject(
+                id: 'flow',
+                name: 'Flow',
+                description: 'Asynchronous Functional Programming',
+                type: 'open-source',
+                links: [['label' => 'Flow', 'url' => 'https://flow.darkwood.com']],
+                tags: ['PHP', 'async', 'FBP'],
+                imageAsset: '/hello/projects/flow.png',
+            ),
+            new HelloCvProject(
+                id: 'darkwaar',
+                name: 'Darkwaar',
+                description: 'Will you be the darkest one at waar?',
+                type: 'game',
+                links: [['label' => 'Play', 'url' => 'https://darkwaar.com']],
+                tags: ['game', 'multiplayer'],
+                imageAsset: '/hello/projects/darkwaar.png',
+            ),
+            new HelloCvProject(
+                id: 'wysiwyl',
+                name: 'wysiwyl',
+                description: 'What you see is what you like',
+                type: 'open-source',
+                links: [['label' => 'GitHub', 'url' => 'https://github.com/darkwood-com/wysiwyl']],
+                tags: ['experiment', 'UI'],
+                imageAsset: '/hello/projects/wysiwyl.png',
+            ),
+            new HelloCvProject(
+                id: 'djstream',
+                name: 'DJ Stream',
+                description: 'DJ setup for streaming online',
+                type: 'open-source',
+                links: [['label' => 'GitHub', 'url' => 'https://github.com/darkwood-com/dj-stream']],
+                tags: ['DJ', 'streaming'],
+                imageAsset: '/hello/projects/dj-stream.png',
+            ),
+            new HelloCvProject(
+                id: 'youtube',
+                name: 'Matyo91 Youtube',
+                description: 'My YouTube channel about tech and games',
+                type: 'channel',
+                links: [['label' => 'YouTube', 'url' => 'https://www.youtube.com/@matyo91']],
+                tags: ['YouTube', 'tech'],
+                imageAsset: '/hello/projects/youtube.png',
+            ),
+            new HelloCvProject(
+                id: 'speakerdeck',
+                name: 'Speakerdeck',
+                description: 'My talks and slides about tech',
+                type: 'speaking',
+                links: [['label' => 'Speaker Deck', 'url' => 'https://speakerdeck.com/matyo91']],
+                tags: ['talks', 'slides'],
+                imageAsset: '/hello/projects/speakerdeck.png',
+            ),
+            new HelloCvProject(
+                id: 'djmatyo91',
+                name: 'DJMatyo91 Youtube',
+                description: 'My DJ YouTube channel about Happy Hardcore',
+                type: 'channel',
+                links: [['label' => 'YouTube', 'url' => 'https://www.youtube.com/@djmatyo91']],
+                tags: ['DJ', 'music'],
+                imageAsset: '/hello/projects/djmatyo91.png',
             ),
         ];
     }
