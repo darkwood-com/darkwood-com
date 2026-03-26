@@ -1,0 +1,58 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block content %}
+<style>
+    .two-factor-shell { max-width: 42rem; margin: 2rem auto; background: #fff; border: 1px solid #ddd; padding: 2rem; }
+    .two-factor-shell h1 { margin-top: 0; }
+    .two-factor-shell pre { white-space: pre-wrap; word-break: break-word; background: #f8f8f8; border: 1px solid #ddd; padding: 1rem; }
+    .two-factor-shell .flash-success, .two-factor-shell .flash-error { margin-bottom: 1rem; padding: .75rem 1rem; }
+    .two-factor-shell .flash-success { background: #e8f5e9; color: #1b5e20; }
+    .two-factor-shell .flash-error { background: #fce8e6; color: #8a1f17; }
+    .two-factor-shell input[type="text"] { width: 100%; padding: .75rem; font-size: 1rem; box-sizing: border-box; }
+    .two-factor-shell .actions { margin-top: 1rem; }
+    .two-factor-shell .actions .btn { margin-right: .5rem; margin-bottom: .5rem; }
+</style>
+
+<div class="two-factor-shell">
+    <h1>Set up two-factor authentication</h1>
+
+    {% for flashMessage in app.flashes('success') %}
+        <div class="flash-success">{{ flashMessage }}</div>
+    {% endfor %}
+    {% for flashMessage in app.flashes('error') %}
+        <div class="flash-error">{{ flashMessage }}</div>
+    {% endfor %}
+
+    {% if totpEnabled %}
+        <p>Two-factor authentication is already enabled for your account.</p>
+        <div class="actions">
+            <a class="link" href="{{ backUrl }}">Back</a>
+            <a class="link" href="{{ path('security_logout') }}">Logout</a>
+        </div>
+    {% else %}
+        <p>Authenticated areas now require TOTP. Save this secret in an authenticator app, then enter the current 6-digit code to finish setup.</p>
+
+        <h2>QR code</h2>
+        <p>Scan this QR code with your authenticator app.</p>
+        <p>
+            <img src="{{ qrCodeDataUri }}" alt="TOTP QR code" width="280" height="280">
+        </p>
+
+        <h2>Manual secret</h2>
+        <pre>{{ secret }}</pre>
+
+        <h2>Provisioning URI fallback</h2>
+        <pre>{{ qrContent }}</pre>
+
+        <form method="post">
+            <label for="auth_code">Authenticator code</label>
+            <input id="auth_code" name="auth_code" type="text" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]*" autofocus class="form-control">
+
+            <div class="actions">
+                <button type="submit" class="btn btn-dark">Enable 2FA</button>
+                <a class="btn btn-outline-secondary" href="{{ path('security_logout') }}">Logout</a>
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

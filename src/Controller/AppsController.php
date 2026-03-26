@@ -88,7 +88,7 @@ class AppsController extends AbstractController
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
+    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null], priority: -10)]
     public function app(Request $request, $ref, $slug = null)
     {
         if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {

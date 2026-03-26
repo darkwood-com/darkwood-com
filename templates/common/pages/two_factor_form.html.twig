@@ -1,0 +1,47 @@
+{% extends ""~ site_ref ~"/base.html.twig" %}
+
+{% block content %}
+<style>
+    .two-factor-shell { max-width: 32rem; margin: 2rem auto; background: #fff; border: 1px solid #ddd; padding: 2rem; }
+    .two-factor-shell h1 { margin-top: 0; }
+    .two-factor-shell .error { margin-bottom: 1rem; padding: .75rem 1rem; background: #fce8e6; color: #8a1f17; }
+    .two-factor-shell form { display: block; }
+    .two-factor-shell label { display: block; margin-bottom: .5rem; }
+    .two-factor-shell input[type="text"] { display: block; width: 100%; margin: 0; padding: .75rem; font-size: 1rem; line-height: 1.25; box-sizing: border-box; }
+    .two-factor-shell .actions { margin-top: 1rem; }
+    .two-factor-shell .actions .btn { margin-right: .5rem; margin-bottom: .5rem; }
+</style>
+
+<div class="two-factor-shell">
+    <h1>Two-factor authentication</h1>
+
+    {% if authenticationError %}
+        <div class="error">{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</div>
+    {% endif %}
+
+    <p>Enter the 6-digit code from your authenticator app to complete sign-in.</p>
+
+    <form action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post">
+        <label for="_auth_code">Authentication code</label>
+        <input
+            id="_auth_code"
+            type="text"
+            name="{{ authCodeParameterName }}"
+            autocomplete="one-time-code"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            autofocus
+            class="form-control"
+        >
+
+        {% if isCsrfProtectionEnabled %}
+            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+        {% endif %}
+
+        <div class="actions">
+            <button type="submit" class="btn btn-dark">Verify</button>
+            <a class="btn btn-outline-secondary" href="{{ logoutPath }}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

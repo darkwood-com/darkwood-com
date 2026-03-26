@@ -7,7 +7,7 @@ scheb_two_factor:
         enabled: true
         issuer: Darkwood
         server_name: Darkwood
-        template: security/2fa_form.html.twig
+        template: common/pages/two_factor_form.html.twig
         parameters:
             algorithm: sha1
             digits: 6

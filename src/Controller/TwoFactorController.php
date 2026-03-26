@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Controller\CommonController;
 use App\Service\SiteService;
 use App\Service\UserService;
 use Endroid\QrCode\ErrorCorrectionLevel;
@@ -32,6 +33,7 @@ class TwoFactorController extends AbstractController
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly SiteService $siteService,
         private readonly ParameterBagInterface $parameterBag,
+        private readonly CommonController $commonController,
     ) {
     }
 
@@ -43,12 +45,15 @@ class TwoFactorController extends AbstractController
         }
 
         if ($user->isTotpAuthenticationEnabled()) {
-            return $this->render('security/two_factor_setup.html.twig', [
+            return $this->render('common/pages/two_factor_setup.html.twig', [
                 'totpEnabled' => true,
                 'secret' => null,
                 'qrContent' => null,
                 'qrCodeDataUri' => null,
                 'backUrl' => $this->buildBackUrl($request),
+                'site_ref' => $this->buildSiteRef($request),
+                'page' => $this->buildPage($request),
+                'showLinks' => true,
             ]);
         }
 
@@ -79,12 +84,15 @@ class TwoFactorController extends AbstractController
             }
         }
 
-        return $this->render('security/two_factor_setup.html.twig', [
+        return $this->render('common/pages/two_factor_setup.html.twig', [
             'totpEnabled' => false,
             'secret' => $pendingSecret,
             'qrContent' => $qrContent,
             'qrCodeDataUri' => $qrCodeDataUri,
             'backUrl' => $this->buildBackUrl($request),
+            'site_ref' => $this->buildSiteRef($request),
+            'page' => $this->buildPage($request),
+            'showLinks' => true,
         ]);
     }
 
@@ -130,17 +138,39 @@ class TwoFactorController extends AbstractController
     private function buildBackUrl(Request $request): string
     {
         $locale = $request->getLocale() ?: 'en';
+        $siteRef = $this->buildSiteRef($request);
+
+        if ('admin' === $siteRef) {
+            return $this->urlGenerator->generate('admin_home', ['_locale' => $locale]);
+        }
+
+        return $this->urlGenerator->generate($siteRef . '_home', ['_locale' => $locale]);
+    }
+
+    private function buildSiteRef(Request $request): string
+    {
         $host = $request->getHost();
 
         if ($host === $this->parameterBag->get('admin_host')) {
-            return $this->urlGenerator->generate('admin_home', ['_locale' => $locale]);
+            return 'admin';
         }
 
         $site = $this->siteService->findOneByHost($host);
         if (null !== $site) {
-            return $this->urlGenerator->generate($site->getRef() . '_home', ['_locale' => $locale]);
+            return $site->getRef();
         }
 
-        return $this->urlGenerator->generate('darkwood_home', ['_locale' => $locale]);
+        return 'darkwood';
+    }
+
+    private function buildPage(Request $request): mixed
+    {
+        $siteRef = $this->buildSiteRef($request);
+
+        if ('admin' === $siteRef) {
+            return null;
+        }
+
+        return $this->commonController->getPage($request, 'login');
     }
 }
