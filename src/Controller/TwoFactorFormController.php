@@ -30,8 +30,7 @@ class TwoFactorFormController extends AbstractController
         private readonly LogoutUrlGenerator $logoutUrlGenerator,
         private readonly CommonController $commonController,
         private readonly ParameterBagInterface $parameterBag,
-    ) {
-    }
+    ) {}
 
     public function form(Request $request): Response
     {

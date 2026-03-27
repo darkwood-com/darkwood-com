@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Controller\CommonController;
 use App\Service\SiteService;
 use App\Service\UserService;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
+
+use function is_string;
 
 #[Route('/2fa/setup', name: 'app_2fa_setup', methods: ['GET', 'POST'])]
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -34,8 +35,7 @@ class TwoFactorController extends AbstractController
         private readonly SiteService $siteService,
         private readonly ParameterBagInterface $parameterBag,
         private readonly CommonController $commonController,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -59,7 +59,7 @@ class TwoFactorController extends AbstractController
 
         $session = $request->getSession();
         $pendingSecret = $session->get(self::SESSION_PENDING_SECRET_KEY);
-        if (!\is_string($pendingSecret) || '' === $pendingSecret) {
+        if (!is_string($pendingSecret) || '' === $pendingSecret) {
             $pendingSecret = $this->totpAuthenticator->generateSecret();
             $session->set(self::SESSION_PENDING_SECRET_KEY, $pendingSecret);
         }

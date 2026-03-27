@@ -24,8 +24,7 @@ class TwoFactorSuccessHandler implements AuthenticationSuccessHandlerInterface
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly SiteService $siteService,
         private readonly ParameterBagInterface $parameterBag,
-    ) {
-    }
+    ) {}
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
     {
