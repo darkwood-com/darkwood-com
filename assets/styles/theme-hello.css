@@ -688,6 +688,8 @@
   position: relative;
   width: min(100%, 1200px);
   aspect-ratio: 16 / 9;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   border-radius: var(--showreel-radius-xl);
   overflow: hidden;
   border: 1px solid var(--showreel-line);
@@ -714,6 +716,13 @@
   pointer-events: none;
 }
 
+.theme-hello .hello-showreel__stage-main {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
 .theme-hello .hello-showreel__vignette {
   background:
     radial-gradient(circle at 18% 20%, rgba(201, 168, 106, 0.12), transparent 28%),
@@ -729,6 +738,37 @@
   opacity: 0.24;
 }
 
+.theme-hello .hello-showreel__visualizer {
+  position: relative;
+  margin: 0 3rem 2rem;
+  z-index: 6;
+  height: 4.5rem;
+  border: 1px solid rgba(242, 238, 231, 0.08);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+    rgba(9, 11, 13, 0.52);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-hello .hello-showreel__visualizer::before {
+  content: "";
+  position: absolute;
+  inset: 0.7rem 1rem;
+  border-top: 1px solid rgba(242, 238, 231, 0.08);
+  border-bottom: 1px solid rgba(242, 238, 231, 0.04);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.theme-hello .hello-showreel__visualizer-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .theme-hello .hello-showreel__rupture-overlay {
   z-index: 5;
   background:
@@ -739,7 +779,7 @@
 .theme-hello .hello-showreel__timecode {
   position: absolute;
   inset: 1.1rem 1.2rem auto 1.2rem;
-  z-index: 6;
+  z-index: 7;
   display: flex;
   justify-content: space-between;
   font-size: 0.74rem;
@@ -751,7 +791,7 @@
 .theme-hello .hello-showreel__scene {
   position: absolute;
   inset: 0;
-  padding: 3rem;
+  padding: 3rem 3rem 1.5rem;
   display: grid;
   grid-template-rows: auto 1fr;
   opacity: 0;
@@ -1136,6 +1176,11 @@
 
   .theme-hello .hello-showreel__scene {
     padding: 1.2rem;
+  }
+
+  .theme-hello .hello-showreel__visualizer {
+    margin: 0 1rem 1rem;
+    height: 3.6rem;
   }
 
   .theme-hello .hello-showreel__assembly-stage {

@@ -64,7 +64,9 @@ function initHelloShowreel(scopeRoot) {
     const timecode = showreel.querySelector('[data-timecode]');
     const audioLabel = showreel.querySelector('[data-audio-label]');
     const stage = showreel.querySelector('[data-stage]');
+    const stageMain = showreel.querySelector('[data-stage-main]');
     const assemblyStage = showreel.querySelector('.hello-showreel__assembly-stage');
+    const visualizerCanvas = showreel.querySelector('[data-audio-visualizer]');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const audioDuration = Number(showreel.dataset.audioDuration || '497.533979');
@@ -95,6 +97,13 @@ function initHelloShowreel(scopeRoot) {
         usingAudioSync: false,
         syncAttached: false,
         sync: null,
+        audioContext: null,
+        analyser: null,
+        sourceNode: null,
+        frequencyData: null,
+        visualizerFrame: null,
+        visualizerReady: false,
+        canvasContext: visualizerCanvas ? visualizerCanvas.getContext('2d') : null,
     };
 
     if (soundtrack && !soundtrack.getAttribute('src')) {
@@ -108,6 +117,7 @@ function initHelloShowreel(scopeRoot) {
         if (playToggle) {
             playToggle.disabled = true;
         }
+        drawVisualizerFrame(true);
         updateTimecode(0);
         return;
     }
@@ -129,6 +139,8 @@ function initHelloShowreel(scopeRoot) {
         if (audioLabel) {
             audioLabel.textContent = `${soundtrackTitle} ${formatDuration(audioDuration)}`;
         }
+        resizeVisualizer();
+        drawVisualizerFrame(true);
     });
 
     soundtrack?.addEventListener('ended', () => stopPlaybackAtEnd(master));
@@ -136,6 +148,7 @@ function initHelloShowreel(scopeRoot) {
         if (playback.usingAudioSync && soundtrack.currentTime < audioDuration) {
             updatePlaybackUI(false);
         }
+        stopVisualizer();
     });
     soundtrack?.addEventListener('error', () => {
         if (audioLabel) {
@@ -143,11 +156,13 @@ function initHelloShowreel(scopeRoot) {
         }
     });
 
+    window.addEventListener('resize', resizeVisualizer);
+
     function ensureStageHelpers() {
-        if (stage && !stage.querySelector('.hello-showreel__rupture-overlay')) {
+        if (stageMain && !stageMain.querySelector('.hello-showreel__rupture-overlay')) {
             const ruptureOverlay = document.createElement('div');
             ruptureOverlay.className = 'hello-showreel__rupture-overlay';
-            stage.appendChild(ruptureOverlay);
+            stageMain.appendChild(ruptureOverlay);
         }
 
         if (assemblyStage && !assemblyStage.querySelector('.hello-showreel__assembly-cursor')) {
@@ -355,9 +370,11 @@ function initHelloShowreel(scopeRoot) {
         if (soundtrack) {
             soundtrack.currentTime = 0;
             try {
+                await ensureAudioVisualizer();
                 await soundtrack.play();
                 playback.usingAudioSync = true;
                 attachAudioSync(master);
+                startVisualizer();
                 updatePlaybackUI(true);
                 if (audioLabel) {
                     audioLabel.textContent = `${soundtrackTitle} ${formatDuration(audioDuration)}`;
@@ -384,6 +401,7 @@ function initHelloShowreel(scopeRoot) {
                         audioLabel.textContent = 'Soundtrack blocked';
                     }
                 });
+                startVisualizer();
                 updatePlaybackUI(true);
             } else {
                 soundtrack.pause();
@@ -412,6 +430,7 @@ function initHelloShowreel(scopeRoot) {
             soundtrack.currentTime = 0;
         }
 
+        stopVisualizer();
         detachAudioSync();
         playback.usingAudioSync = false;
         master.pause(0);
@@ -464,6 +483,7 @@ function initHelloShowreel(scopeRoot) {
         if (soundtrack) {
             soundtrack.currentTime = audioDuration;
         }
+        stopVisualizer();
         playback.usingAudioSync = false;
         detachAudioSync();
         master.pause(audioDuration);
@@ -530,6 +550,152 @@ function initHelloShowreel(scopeRoot) {
         const seconds = String(Math.floor((totalMilliseconds % 60000) / 1000)).padStart(2, '0');
         const milliseconds = String(totalMilliseconds % 1000).padStart(3, '0');
         return `${minutes}:${seconds}.${milliseconds}`;
+    }
+
+    async function ensureAudioVisualizer() {
+        if (!soundtrack || !visualizerCanvas || playback.visualizerReady) {
+            return;
+        }
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+            return;
+        }
+
+        playback.audioContext = playback.audioContext || new AudioContextClass();
+        if (playback.audioContext.state === 'suspended') {
+            await playback.audioContext.resume();
+        }
+
+        playback.sourceNode = playback.sourceNode || playback.audioContext.createMediaElementSource(soundtrack);
+        playback.analyser = playback.analyser || playback.audioContext.createAnalyser();
+        playback.analyser.fftSize = 256;
+        playback.analyser.smoothingTimeConstant = 0.82;
+        playback.frequencyData = playback.frequencyData || new Uint8Array(playback.analyser.frequencyBinCount);
+
+        if (!playback.visualizerReady) {
+            playback.sourceNode.connect(playback.analyser);
+            playback.analyser.connect(playback.audioContext.destination);
+            playback.visualizerReady = true;
+        }
+
+        resizeVisualizer();
+        drawVisualizerFrame(true);
+    }
+
+    function startVisualizer() {
+        if (!playback.analyser || playback.visualizerFrame) {
+            return;
+        }
+
+        const render = () => {
+            playback.visualizerFrame = window.requestAnimationFrame(render);
+            drawVisualizerFrame(false);
+        };
+
+        render();
+    }
+
+    function stopVisualizer() {
+        if (playback.visualizerFrame) {
+            window.cancelAnimationFrame(playback.visualizerFrame);
+            playback.visualizerFrame = null;
+        }
+        drawVisualizerFrame(true);
+    }
+
+    function resizeVisualizer() {
+        if (!visualizerCanvas) {
+            return;
+        }
+
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(1, Math.round(visualizerCanvas.clientWidth * ratio));
+        const height = Math.max(1, Math.round(visualizerCanvas.clientHeight * ratio));
+
+        if (visualizerCanvas.width !== width || visualizerCanvas.height !== height) {
+            visualizerCanvas.width = width;
+            visualizerCanvas.height = height;
+        }
+    }
+
+    function drawVisualizerFrame(resting) {
+        if (!visualizerCanvas || !playback.canvasContext) {
+            return;
+        }
+
+        const ctx = playback.canvasContext;
+        const width = visualizerCanvas.width || 1;
+        const height = visualizerCanvas.height || 1;
+        const baselineY = height * 0.72;
+        const barCount = 48;
+        const innerWidth = width * 0.84;
+        const startX = width * 0.08;
+        const gap = innerWidth / barCount;
+        const barWidth = Math.max(2, gap * 0.42);
+
+        ctx.clearRect(0, 0, width, height);
+
+        const fade = ctx.createLinearGradient(0, 0, width, 0);
+        fade.addColorStop(0, 'rgba(201, 168, 106, 0)');
+        fade.addColorStop(0.12, 'rgba(201, 168, 106, 0.9)');
+        fade.addColorStop(0.88, 'rgba(201, 168, 106, 0.9)');
+        fade.addColorStop(1, 'rgba(201, 168, 106, 0)');
+
+        ctx.strokeStyle = 'rgba(242, 238, 231, 0.08)';
+        ctx.lineWidth = Math.max(1, height * 0.02);
+        ctx.beginPath();
+        ctx.moveTo(width * 0.05, baselineY);
+        ctx.lineTo(width * 0.95, baselineY);
+        ctx.stroke();
+
+        if (!resting && playback.analyser && playback.frequencyData) {
+            playback.analyser.getByteFrequencyData(playback.frequencyData);
+        }
+
+        ctx.fillStyle = fade;
+        ctx.shadowColor = 'rgba(201, 168, 106, 0.24)';
+        ctx.shadowBlur = height * 0.08;
+
+        for (let index = 0; index < barCount; index += 1) {
+            let normalized = 0.08;
+
+            if (!resting && playback.frequencyData) {
+                const dataIndex = Math.min(
+                    playback.frequencyData.length - 1,
+                    Math.floor((index / barCount) * playback.frequencyData.length * 0.72)
+                );
+                const raw = playback.frequencyData[dataIndex] / 255;
+                normalized = Math.pow(raw, 1.35);
+            }
+
+            const heightBias = 0.14 + Math.sin(index / barCount * Math.PI) * 0.16;
+            const amplitude = resting ? 0.06 : Math.max(0.04, normalized * 0.78 + heightBias * 0.25);
+            const barHeight = amplitude * height * 0.58;
+            const x = startX + index * gap + (gap - barWidth) * 0.5;
+            const y = baselineY - barHeight;
+            const radius = Math.min(barWidth * 0.5, 4 * (window.devicePixelRatio || 1));
+
+            drawRoundedBar(ctx, x, y, barWidth, barHeight, radius);
+        }
+
+        ctx.shadowBlur = 0;
+    }
+
+    function drawRoundedBar(ctx, x, y, width, height, radius) {
+        const r = Math.min(radius, width / 2, height / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + width - r, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+        ctx.lineTo(x + width, y + height - r);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+        ctx.lineTo(x + r, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        ctx.fill();
     }
 
     function q(selector) {
