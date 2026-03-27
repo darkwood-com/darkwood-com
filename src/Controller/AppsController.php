@@ -8,8 +8,8 @@ use App\Entity\App;
 use App\Entity\AppContent;
 use App\Entity\CommentPage;
 use App\Form\CommentType;
-use App\Services\CommentService;
-use App\Services\PageService;
+use App\Service\CommentService;
+use App\Service\PageService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +88,7 @@ class AppsController extends AbstractController
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null])]
+    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null], priority: -10)]
     public function app(Request $request, $ref, $slug = null)
     {
         if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {

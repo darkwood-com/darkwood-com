@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Services\ApiKeyResolver;
+use App\Service\ApiKeyResolverService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
     private const PATH_PREFIX = '/api/darkwood';
 
     public function __construct(
-        private readonly ApiKeyResolver $apiKeyResolver,
+        private readonly ApiKeyResolverService $apiKeyResolver,
     ) {}
 
     public static function getSubscribedEvents(): array

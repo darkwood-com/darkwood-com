@@ -1,0 +1,14 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+    totp:
+        enabled: true
+        issuer: Darkwood
+        server_name: Darkwood
+        template: common/pages/two_factor_form.html.twig
+        parameters:
+            algorithm: sha1
+            digits: 6
+            period: 30

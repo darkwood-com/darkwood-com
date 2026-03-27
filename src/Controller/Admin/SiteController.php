@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Site;
 use App\Form\Admin\SiteType;
-use App\Services\SiteService;
+use App\Service\SiteService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

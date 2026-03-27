@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Entity\ArticleTranslation;
 use App\Repository\ArticleTranslationRepository;
-use App\Services\PageService;
-use App\Services\UserService;
+use App\Service\PageService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -103,7 +103,7 @@ class ApiController extends AbstractController
             // Use VichUploader to handle the upload
             $articleTranslation->setImage($uploadedFile);
 
-            // Generate unique filename using the same logic as in ArticleService::duplicate
+            // Generate unique filename using the same logic as in BlogArticleService::duplicate
             $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
             $fileName = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();

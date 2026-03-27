@@ -6,9 +6,9 @@ namespace App\Controller;
 
 use App\Entity\CommentArticle;
 use App\Form\CommentType;
-use App\Services\ArticleService;
-use App\Services\CommentService;
-use App\Services\PageService;
+use App\Service\BlogArticleService;
+use App\Service\CommentService;
+use App\Service\PageService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +30,7 @@ class BlogController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
         private readonly PageService $pageService,
-        private readonly ArticleService $articleService,
+        private readonly BlogArticleService $articleService,
         private readonly CommentService $commentService,
         private readonly CsrfTokenManagerInterface $tokenManager,
         private readonly RequestStack $requestStack

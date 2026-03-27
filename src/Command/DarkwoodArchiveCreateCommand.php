@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Entity\DarkwoodArchive;
 use App\Repository\DarkwoodArchiveRepository;
-use App\Services\GameService;
+use App\Service\DarkwoodGameService;
 use BackedEnum;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -33,7 +33,7 @@ use function sprintf;
 final class DarkwoodArchiveCreateCommand extends Command
 {
     public function __construct(
-        private readonly GameService $gameService,
+        private readonly DarkwoodGameService $gameService,
         private readonly DarkwoodArchiveRepository $archiveRepository,
         private readonly EntityManagerInterface $em,
     ) {

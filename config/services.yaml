@@ -47,10 +47,15 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Controller\TwoFactorFormController:
+        arguments:
+            $providerRegistry: '@scheb_two_factor.provider_registry'
+            $twoFactorFirewallContext: '@scheb_two_factor.firewall_context'
+            $logoutUrlGenerator: '@security.logout_url_generator'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     twig.extension.stringloader:
         class: Twig\Extension\StringLoaderExtension
         tags:
             - { name: twig.extension }
-

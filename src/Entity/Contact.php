@@ -68,18 +68,16 @@ class Contact
 
     /**
      * Set website.
-     *
-     * @param string $website
      */
-    public function setWebsite($website): void
+    public function setWebsite(?string $website): void
     {
         $this->website = $website;
     }
 
     /**
-     * Get website.
+     * Get website (optional field; may be null).
      */
-    public function getWebsite(): string
+    public function getWebsite(): ?string
     {
         return $this->website;
     }

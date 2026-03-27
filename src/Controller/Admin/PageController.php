@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Form\Admin\PageTranslationType;
-use App\Services\PageService;
+use App\Service\PageService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

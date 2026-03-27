@@ -7,12 +7,12 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\DarkwoodArchiveIdInput;
-use App\Services\DarkwoodMcpForwarder;
+use App\Service\DarkwoodMcpForwarderService;
 
 final readonly class DarkwoodArchiveGetProcessor implements ProcessorInterface
 {
     public function __construct(
-        private DarkwoodMcpForwarder $forwarder,
+        private DarkwoodMcpForwarderService $forwarder,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed

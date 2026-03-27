@@ -6,7 +6,7 @@ namespace App\Form\Transformer;
 
 use App\Entity\Tag;
 use App\Entity\TagTranslation;
-use App\Services\TagService;
+use App\Service\TagService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 

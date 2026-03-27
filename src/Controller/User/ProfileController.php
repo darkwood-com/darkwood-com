@@ -7,8 +7,8 @@ namespace App\Controller\User;
 use App\Controller\CommonController;
 use App\Entity\User;
 use App\Form\ProfileType;
-use App\Services\GameService;
-use App\Services\UserService;
+use App\Service\DarkwoodGameService;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,7 +21,7 @@ class ProfileController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly CommonController $commonController,
         private readonly UserService $userService,
-        private readonly GameService $gameService
+        private readonly DarkwoodGameService $gameService
     ) {}
 
     #[Route(path: ['fr' => '/fr/profil/{username}', 'en' => '/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]

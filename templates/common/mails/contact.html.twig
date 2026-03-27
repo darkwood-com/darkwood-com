@@ -6,6 +6,6 @@
 
 Une nouvelle demande de contact sur le site :<br /><br />
 email : {{ contact.email }}<br />
-site web : {{ contact.website }}<br />
+site web : {{ contact.website|default('—') }}<br />
 contenu : {{ contact.content }}<br />
 {% endblock %}

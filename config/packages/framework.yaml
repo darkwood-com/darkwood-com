@@ -5,6 +5,9 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session:
         cookie_domain: '%env(COOKIE_DOMAIN)%'
+        cookie_secure: auto
+        cookie_samesite: lax
+        cookie_httponly: true
 
     #esi: true
     #fragments: true

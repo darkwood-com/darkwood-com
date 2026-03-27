@@ -12,6 +12,7 @@ use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
 use Liip\ImagineBundle\LiipImagineBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
+use Scheb\TwoFactorBundle\SchebTwoFactorBundle;
 use Sentry\SentryBundle\SentryBundle;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\AI\AiBundle\AiBundle;
@@ -54,4 +55,5 @@ return [
     AiBundle::class => ['all' => true],
     DarkwoodIaExceptionBundle::class => ['all' => true],
     McpBundle::class => ['all' => true],
+    SchebTwoFactorBundle::class => ['all' => true],
 ];

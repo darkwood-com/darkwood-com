@@ -293,7 +293,19 @@ hello:
     blog: Blog
     projects: Projets
     contact: Contact
+    systems: Systèmes
+    work: Parcours
+  a11y:
+    primary_links: Liens de référence
+  section:
+    systems: Systèmes
+    work: Parcours
+    projects: Projets
+    skills: Outils
+    showreel: Showreel
+    contact: Contact
   hero:
+    scroll: Suite
     title: Hello !<br />I'm Mathieu
     description: Un developpeur Freelance spécialisé en<br /><a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React</a> et <a href="https://darkwood-com.github.io/flow" target="_blank" rel="nofollow noopener noreferrer">Flow</a>.
     cta: Se rencontrer
@@ -304,37 +316,21 @@ hello:
       footer: En vous abonnant, vous acceptez les <a target="_blank" href="https://www.getrevue.co/terms?locale=fr">Conditions d'utilisation</a> et la <a target="_blank" href="https://www.getrevue.co/privacy?locale=fr">Politique de confidentialité</a> du service Revue.
   about:
     title: A propos
+    lead: Ingénieur senior spécialisé dans la conception de systèmes fiables, d'API et de pipelines d'automatisation.
     text: |
-      Bienvenue ! Diplômé Ingénieur en Informatique et développeur FullStack depuis plus de 10 ans. J'ai travaillé pour de gros comptes sur Paris et en Remote. Je vous accompagne dans le développement de vos projets. Je mets en place de nouvelles fonctionnalités, fait évoluer des solutions existantes ou vient renforcer une équipe technique.
+      Je travaille à l'intersection de l'architecture backend, de l'orchestration des données et de l'intégration pragmatique de l'IA, en privilégiant la maintenabilité et la performance.
 
-      Chez Darkwood, je travaille sur des produits axés sur l'Automation et le NoCode
-      - Flow : <a href="https://github.com/darkwood-com/flow" target="_blank" rel="nofollow noopener noreferrer">https://github.com/darkwood-com/flow</a> en full PHP utilise l'asynchrone, la programmation fonctionnelle et l'assemblage visuel de composants réutilisables.
-      - Uniflow : <a href="https://github.com/uniflow-io/uniflow" target="_blank" rel="nofollow noopener noreferrer">https://github.com/uniflow-io/uniflow</a> le grand frère de Flow en full Typescript et interconnecte les outils.
+      Je structure les systèmes pour qu'ils restent lisibles et évolutifs. De la conception des API à l'orchestration en production, je m'attache à créer des systèmes dont le comportement est prévisible face aux contraintes du monde réel.
 
-      Vous pouvez retrouver mon travail sur
-      - Twitter <a href="https://twitter.com/matyo91" target="_blank" rel="nofollow noopener noreferrer">https://twitter.com/matyo91</a>
-      - Github <a href="https://github.com/darkwood-com" target="_blank" rel="nofollow noopener noreferrer">https://github.com/darkwood-com</a>
-      - Blog <a href="https://blog.darkwood.com" target="_blank" rel="nofollow noopener noreferrer">https://blog.darkwood.com</a>
-      - Linkedin <a href="https://www.linkedin.com/in/mathieu-ledru" target="_blank" rel="nofollow noopener noreferrer">https://www.linkedin.com/in/mathieu-ledru</a>
-      - Discord <a href="https://discord.com/invite/tMDCF8RyvE" target="_blank" rel="nofollow noopener noreferrer">https://discord.com/invite/tMDCF8RyvE</a>
-      - Youtube <a href="https://www.youtube.com/@matyo91" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/@matyo91</a>
-      - Speaker <a href="https://speakerdeck.com/matyo91" target="_blank" rel="nofollow noopener noreferrer">https://speakerdeck.com/matyo91</a>
-      - DJ <a href="https://www.youtube.com/@djmatyo91" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/@djmatyo91</a>
+      L'automatisation et les pipelines de données sont les véritables terrains d'expérimentation des systèmes : observabilité, déploiement progressif et maîtrise de la complexité.
 
-      Compétences clés :
-      - Backend : <a href="https://www.php.net" target="_blank" rel="nofollow noopener noreferrer">PHP</a>, <a href="https://symfony.com" target="_blank" rel="nofollow noopener noreferrer">Symfony</a>, <a href="https://api-platform.com" target="_blank" rel="nofollow noopener noreferrer">API-Platform</a>, <a href="https://nodejs.org/" target="_blank" rel="nofollow noopener noreferrer">Node.js</a>
-      - Frontend : <a href="https://www.typescriptlang.org" target="_blank" rel="nofollow noopener noreferrer">Typescript</a>, <a href="https://fr.reactjs.org" target="_blank" rel="nofollow noopener noreferrer">React.js</a>, <a href="https://getbootstrap.com" target="_blank" rel="nofollow noopener noreferrer">Bootstrap</a>, <a href="https://nextjs.org" target="_blank" rel="nofollow noopener noreferrer">Next.js</a>
-      - Automation : <a href="https://github.com/darkwood-com/flow" target="_blank" rel="nofollow noopener noreferrer">Flow</a>, <a href="https://uniflow.io" target="_blank" rel="nofollow noopener noreferrer">Uniflow</a>, <a href="https://kestra.io" target="_blank" rel="nofollow noopener noreferrer">Kestra</a>, <a href="https://n8n.io" target="_blank" rel="nofollow noopener noreferrer">n8n</a>
-      - CMS : <a href="https://sulu.io" target="_blank" rel="nofollow noopener noreferrer">Sulu</a>
-      - Dev stack : <a href="https://git-scm.com" target="_blank" rel="nofollow noopener noreferrer">Git</a>, <a href="https://www.docker.com" target="_blank" rel="nofollow noopener noreferrer">Docker</a>
-      - Pratiques : Designs patterns, DDD, TDD, Architecture hexagonal, Clean architecture.
-      - Qualité : Intégration continue, tests unitaires, code review
-      - Méthodes agiles : Scrum, Kanban
+      L'intégration de l'IA reste pragmatique : mise en place de garde-fous, systèmes mesurables et performances prévisibles à grande échelle.
     cta_contact: Me contacter
     cta_cv: Voir mon CV
   projects:
     title: Projets
     description: Consultez mon travail
+    open: Ouvrir
     items:
         uniflow:
             title: Uniflow
@@ -360,6 +356,80 @@ hello:
         bonzai:
             title: Matyo91 Bonzai
             description: See my creator page on Bonzai
+        wysiwyl:
+            title: wysiwyl
+            description: What you see is what you like
+  showreel:
+    brand:
+      caption: Showreel / Composition 16:9
+    meta:
+      soundtrack_title: "Bande-son : Contraption - Higher, Forever"
+      soundtrack_unavailable: Bande-son indisponible
+      soundtrack_blocked: Bande-son bloquée
+      timeline: Timeline GSAP
+      study: Darkwood / Étude de mouvement
+    start:
+      eyebrow: Showreel Darkwood
+      title: Lancer la séquence.
+      body: Le reel est construit comme une timeline 16:9 unique et déclenche la bande-son à l'interaction.
+      button: Lancer le reel
+    controls:
+      play: Lecture
+      pause: Pause
+      restart: Relancer
+    scenes:
+      opening:
+        label: Plan d'ouverture
+        eyebrow: Artisanat logiciel, réglé avec intention.
+        title_line_1: Mouvement
+        title_line_2: enterprise,
+        title_line_3: sans bruit.
+        statement: Des années d'exécution condensées en contrôle, rythme éditorial et systèmes qui avancent avec certitude.
+        integrity: Intégrité de séquence
+        integrity_status: Stable
+      statement:
+        label: Enterprise / précision
+        kicker: Construit sous contrainte. Aucune approximation.
+        body: Systèmes complexes. Cycles longs. Exigence élevée. Le détail, là où il n'est pas négociable.
+        card_1_title: Cadence enterprise
+        card_1_body: Délivrer sous contrainte, avec tenue.
+        card_2_title: Du design à l'implémentation
+        card_2_body: Le concept traduit avec fidélité technique.
+        card_3_title: Confiance opérationnelle
+        card_3_body: Des systèmes qui ne cèdent pas sous pression.
+      calibration:
+        label: Calibration / instrumentation
+        eyebrow: Mesuré. Séquencé. Répétable.
+        title_line_1: La précision devient visible
+        title_line_2: par la calibration.
+        readout_1_label: Dérive de latence
+        readout_2_label: Verrou module
+        readout_2_value: Nominal
+      assembly:
+        label: Assemblage / orchestration
+        module_a_title: Structure
+        module_a_body: Architecture lisible, mouvement net, hiérarchie alignée.
+        module_b_title: Orchestration
+        module_b_body: Des transitions liées comme une seule séquence composée.
+        module_c_title: Répétabilité
+        module_c_body: Des systèmes qui changent d'échelle parce que le rythme reste fiable.
+      continuity:
+        label: Continuité / automatisation
+        eyebrow: L'automatisation par le mouvement.
+        title_line_1: Rien à expliquer.
+        title_line_2: Tout se ressent dans la continuité.
+        node_1_title: Entrée
+        node_1_body: Les signaux entrent avec clarté.
+        node_2_title: Transformation
+        node_2_body: Les états se reforment sans friction.
+        node_3_title: Sortie
+        node_3_body: Le résultat se pose avec finition et certitude.
+      closing:
+        label: Signature finale
+        eyebrow: Plan final
+        title_line_2: Le savoir-faire en mouvement.
+        body: Conçu pour accueillir les médias finaux, une narration mesurée et une bande-son prête pour la capture finale.
+        caption_1: Darkwood, tous droits reservés.
   blog:
     title: Blog
     description: Lire les derniers articles du blog
@@ -367,5 +437,6 @@ hello:
   contact:
     title: Vous souhaitez me contacter ?
     btn_send: Envoyer
+    lede: Échanges techniques uniquement.
   footer:
     credit: Thème par <a href="https://github.com/StartBootstrap/startbootstrap-grayscale" target="_blank" rel="nofollow noopener noreferrer">Startbootstrap</a>

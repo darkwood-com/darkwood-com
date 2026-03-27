@@ -13,6 +13,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterface;
 use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -28,9 +31,13 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'user')]
-class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
+class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface, TotpTwoFactorInterface
 {
     use TimestampTrait;
+
+    private const TOTP_ALGORITHM = TotpConfiguration::ALGORITHM_SHA1;
+    private const TOTP_PERIOD = 30;
+    private const TOTP_DIGITS = 6;
 
     /**
      * Key used for the private $password property when this object is cast to array (PHP internal format).
@@ -119,6 +126,9 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isVerified = false;
+
+    #[ORM\Column(type: Types::STRING, length: 64, nullable: true)]
+    private ?string $totpSecret = null;
 
     /**
      * Constructor.
@@ -210,7 +220,43 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->id;
+        return (string) ($this->email ?? $this->username);
+    }
+
+    public function isTotpAuthenticationEnabled(): bool
+    {
+        return null !== $this->totpSecret;
+    }
+
+    public function getTotpAuthenticationUsername(): ?string
+    {
+        return $this->email ?? $this->username;
+    }
+
+    public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
+    {
+        if (!$this->isTotpAuthenticationEnabled()) {
+            return null;
+        }
+
+        return new TotpConfiguration(
+            $this->totpSecret,
+            self::TOTP_ALGORITHM,
+            self::TOTP_PERIOD,
+            self::TOTP_DIGITS,
+        );
+    }
+
+    public function getTotpSecret(): ?string
+    {
+        return $this->totpSecret;
+    }
+
+    public function setTotpSecret(?string $totpSecret): self
+    {
+        $this->totpSecret = $totpSecret;
+
+        return $this;
     }
 
     /**

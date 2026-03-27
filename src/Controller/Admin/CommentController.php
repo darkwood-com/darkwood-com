@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Comment;
 use App\Entity\CommentPage;
 use App\Form\Admin\CommentType;
-use App\Services\CommentService;
+use App\Service\CommentService;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
