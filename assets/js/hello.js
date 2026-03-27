@@ -71,7 +71,11 @@ function initHelloShowreel(scopeRoot) {
 
     const audioDuration = Number(showreel.dataset.audioDuration || '497.533979');
     const configuredAudioSrc = showreel.dataset.audioSrc || '/hello/showreel-track.mp3';
-    const soundtrackTitle = 'Soundtrack Contraption - Higher, Forever';
+    const soundtrackTitle = showreel.dataset.audioTitle || 'Soundtrack: Contraption - Higher, Forever';
+    const soundtrackUnavailableLabel = showreel.dataset.audioUnavailable || 'Soundtrack unavailable';
+    const soundtrackBlockedLabel = showreel.dataset.audioBlocked || 'Soundtrack blocked';
+    const playLabel = showreel.dataset.playLabel || 'Play';
+    const pauseLabel = showreel.dataset.pauseLabel || 'Pause';
 
     const PHASES = {
         opening: { start: 0, end: 80 },
@@ -83,14 +87,14 @@ function initHelloShowreel(scopeRoot) {
         closing: { start: 390, end: audioDuration },
     };
 
-    const sceneNames = {
-        opening: 'Opening frame',
-        statement: 'Enterprise / precision',
-        calibration: 'Calibration / instrumentation',
-        assembly: 'Assembly / orchestration',
-        continuity: 'Continuity / automation',
-        closing: 'Closing signature',
-    };
+    const sceneNames = {};
+    showreel.querySelectorAll('[data-scene]').forEach((scene) => {
+        const sceneName = scene.dataset.scene;
+        const label = scene.querySelector('.hello-showreel__scene-label')?.textContent?.trim();
+        if (sceneName && label) {
+            sceneNames[sceneName] = label;
+        }
+    });
 
     const playback = {
         master: null,
@@ -152,7 +156,7 @@ function initHelloShowreel(scopeRoot) {
     });
     soundtrack?.addEventListener('error', () => {
         if (audioLabel) {
-            audioLabel.textContent = 'Soundtrack unavailable';
+            audioLabel.textContent = soundtrackUnavailableLabel;
         }
     });
 
@@ -182,7 +186,7 @@ function initHelloShowreel(scopeRoot) {
         gsap.set(q('.hello-showreel__hero-line, .hello-showreel__scene-line, .hello-showreel__closing-title span'), { yPercent: 110 });
         gsap.set(q('.hello-showreel__hero-statement, .hello-showreel__statement-panel, .hello-showreel__marker-card, .hello-showreel__closing-body, .hello-showreel__closing-caption'), { autoAlpha: 0, y: 30 });
         gsap.set(q('.hello-showreel__scene--calibration .hello-showreel__eyebrow'), { autoAlpha: 0, y: 20 });
-        gsap.set(q('.hello-showreel__instrument-panel, .hello-showreel__media-plate--portrait'), { autoAlpha: 0, y: 36 });
+        //gsap.set(q('.hello-showreel__instrument-panel, .hello-showreel__media-plate--portrait'), { autoAlpha: 0, y: 36 });
         gsap.set(q('.hello-showreel__meter span'), { scaleY: 0.12 });
         gsap.set(q('.hello-showreel__signal'), { scaleX: 0.08, autoAlpha: 0, transformOrigin: 'left center' });
         gsap.set(q('.hello-showreel__board-readout'), { autoAlpha: 0, y: 22 });
@@ -227,7 +231,7 @@ function initHelloShowreel(scopeRoot) {
             .from(q('.hello-showreel__scene--opening .hello-showreel__scene-header'), { autoAlpha: 0, y: -18, duration: 2.8 }, p('opening', 0.015))
             .to(q('.hello-showreel__scene--opening .hello-showreel__hero-line'), { yPercent: 0, duration: 9, stagger: 0.8, ease: 'power4.out' }, p('opening', 0.035))
             .to(q('.hello-showreel__scene--opening .hello-showreel__instrument-panel'), { autoAlpha: 1, y: 0, duration: 5.5 }, p('opening', 0.1))
-            .to(q('.hello-showreel__scene--opening .hello-showreel__media-plate--portrait'), { autoAlpha: 1, y: 0, duration: 6.2 }, p('opening', 0.14))
+            //.to(q('.hello-showreel__scene--opening .hello-showreel__media-plate--portrait'), { autoAlpha: 1, y: 0, duration: 6.2 }, p('opening', 0.14))
             .to(q('.hello-showreel__scene--opening .hello-showreel__hero-statement'), { autoAlpha: 1, y: 0, duration: 5.5 }, p('opening', 0.18))
             .to(q('.hello-showreel__scene--opening .hello-showreel__meter span'), { scaleY: 1, duration: 4.4, stagger: 0.35, ease: 'back.out(1.3)' }, p('opening', 0.16))
             .to(q('.hello-showreel__scene--opening .hello-showreel__title-cluster'), { y: -16, duration: 14, ease: 'sine.inOut' }, p('opening', 0.28))
@@ -384,7 +388,7 @@ function initHelloShowreel(scopeRoot) {
                 playback.usingAudioSync = false;
                 detachAudioSync();
                 if (audioLabel) {
-                    audioLabel.textContent = 'Soundtrack blocked';
+                    audioLabel.textContent = soundtrackBlockedLabel;
                 }
             }
         }
@@ -398,7 +402,7 @@ function initHelloShowreel(scopeRoot) {
             if (soundtrack.paused) {
                 soundtrack.play().catch(() => {
                     if (audioLabel) {
-                        audioLabel.textContent = 'Soundtrack blocked';
+                        audioLabel.textContent = soundtrackBlockedLabel;
                     }
                 });
                 startVisualizer();
@@ -517,7 +521,7 @@ function initHelloShowreel(scopeRoot) {
 
     function updatePlaybackUI(isPlaying) {
         if (playToggle) {
-            playToggle.textContent = isPlaying ? 'Pause' : 'Play';
+            playToggle.textContent = isPlaying ? pauseLabel : playLabel;
         }
     }
 

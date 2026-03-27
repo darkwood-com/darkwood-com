@@ -145,17 +145,32 @@
 
     <section class="section hello-showreel-section" id="showreel">
         <div class="container px-4 px-lg-5">
-            <div class="hello-showreel" data-showreel data-audio-duration="497.533979" data-audio-src="{{ asset('/hello/showreel-track.mp3') }}">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="text-white mb-4">{{ 'hello.section.showreel'|trans }}</h2>
+                </div>
+            </div>
+            <div
+                class="hello-showreel"
+                data-showreel
+                data-audio-duration="497.533979"
+                data-audio-src="{{ asset('/hello/showreel-track.mp3') }}"
+                data-audio-title="{{ 'hello.showreel.meta.soundtrack_title'|trans }}"
+                data-audio-unavailable="{{ 'hello.showreel.meta.soundtrack_unavailable'|trans }}"
+                data-audio-blocked="{{ 'hello.showreel.meta.soundtrack_blocked'|trans }}"
+                data-play-label="{{ 'hello.showreel.controls.play'|trans }}"
+                data-pause-label="{{ 'hello.showreel.controls.pause'|trans }}"
+            >
                 <div class="hello-showreel__ambient-grid" aria-hidden="true"></div>
 
                 <header class="hello-showreel__chrome">
                     <div class="hello-showreel__brand">
                         <span class="hello-showreel__brand-name">Darkwood</span>
-                        <span class="hello-showreel__brand-caption">Motion Reel / 16:9 Composition</span>
+                        <span class="hello-showreel__brand-caption">{{ 'hello.showreel.brand.caption'|trans }}</span>
                     </div>
                     <div class="hello-showreel__meta">
-                        <span data-audio-label>Soundtrack Contraption - Higher, Forever</span>
-                        <span>GSAP timeline</span>
+                        <span data-audio-label>{{ 'hello.showreel.meta.soundtrack_title'|trans }}</span>
+                        <span>{{ 'hello.showreel.meta.timeline'|trans }}</span>
                     </div>
                 </header>
 
@@ -167,24 +182,24 @@
                             <div class="hello-showreel__stage-main" data-stage-main>
                                 <div class="hello-showreel__timecode">
                                     <span data-timecode>00:00.000</span>
-                                    <span>Darkwood / Motion Study</span>
+                                    <span>{{ 'hello.showreel.meta.study'|trans }}</span>
                                 </div>
 
                                 <div class="hello-showreel__scene hello-showreel__scene--opening" data-scene="opening">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">01</span>
-                                        <span class="hello-showreel__scene-label">Opening frame</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.opening.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content hello-showreel__scene-content--opening">
                                         <div class="hello-showreel__title-cluster">
-                                            <p class="hello-showreel__eyebrow">Software craft, tuned with intent.</p>
+                                            <p class="hello-showreel__eyebrow">{{ 'hello.showreel.scenes.opening.eyebrow'|trans }}</p>
                                             <h2 class="hello-showreel__hero-title">
-                                                <span class="hello-showreel__hero-line">Enterprise</span>
-                                                <span class="hello-showreel__hero-line hello-showreel__hero-line--accent">motion,</span>
-                                                <span class="hello-showreel__hero-line">without noise.</span>
+                                                <span class="hello-showreel__hero-line">{{ 'hello.showreel.scenes.opening.title_line_1'|trans }}</span>
+                                                <span class="hello-showreel__hero-line hello-showreel__hero-line--accent">{{ 'hello.showreel.scenes.opening.title_line_2'|trans }}</span>
+                                                <span class="hello-showreel__hero-line">{{ 'hello.showreel.scenes.opening.title_line_3'|trans }}</span>
                                             </h2>
                                             <p class="hello-showreel__hero-statement">
-                                                Years of delivery condensed into control, editorial rhythm, and systems that move with certainty.
+                                                {{ 'hello.showreel.scenes.opening.statement'|trans }}
                                             </p>
                                         </div>
 
@@ -203,15 +218,15 @@
                                                     <span></span>
                                                 </div>
                                                 <div class="hello-showreel__instrument-row hello-showreel__instrument-row--muted">
-                                                    <span>Sequence integrity</span>
-                                                    <span>Stable</span>
+                                                    <span>{{ 'hello.showreel.scenes.opening.integrity'|trans }}</span>
+                                                    <span>{{ 'hello.showreel.scenes.opening.integrity_status'|trans }}</span>
                                                 </div>
                                             </div>
 
-                                            <div class="hello-showreel__media-plate hello-showreel__media-plate--portrait">
+                                            {#<div class="hello-showreel__media-plate hello-showreel__media-plate--portrait">
                                                 <span class="hello-showreel__media-label">Replaceable opening plate</span>
                                                 <p>Portrait, title still, or short opening clip.</p>
-                                            </div>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>
@@ -219,27 +234,27 @@
                                 <div class="hello-showreel__scene hello-showreel__scene--statement" data-scene="statement">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">02</span>
-                                        <span class="hello-showreel__scene-label">Enterprise / precision</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.statement.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content">
                                         <div class="hello-showreel__statement-panel">
-                                            <p class="hello-showreel__statement-kicker">Built under constraint. No approximation.</p>
+                                            <p class="hello-showreel__statement-kicker">{{ 'hello.showreel.scenes.statement.kicker'|trans }}</p>
                                             <p class="hello-showreel__statement-body">
-                                                Complex systems. Long cycles. High standards. Detail where detail is not optional.
+                                                {{ 'hello.showreel.scenes.statement.body'|trans }}
                                             </p>
                                         </div>
                                         <div class="hello-showreel__marker-row">
                                             <article class="hello-showreel__marker-card">
-                                                <span>Enterprise cadence</span>
-                                                <p>Delivery under constraint, with composure.</p>
+                                                <span>{{ 'hello.showreel.scenes.statement.card_1_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.statement.card_1_body'|trans }}</p>
                                             </article>
                                             <article class="hello-showreel__marker-card">
-                                                <span>Design to implementation</span>
-                                                <p>Concept translated with technical fidelity.</p>
+                                                <span>{{ 'hello.showreel.scenes.statement.card_2_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.statement.card_2_body'|trans }}</p>
                                             </article>
                                             <article class="hello-showreel__marker-card">
-                                                <span>Operational trust</span>
-                                                <p>Systems that do not fail under pressure.</p>
+                                                <span>{{ 'hello.showreel.scenes.statement.card_3_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.statement.card_3_body'|trans }}</p>
                                             </article>
                                         </div>
                                     </div>
@@ -248,14 +263,14 @@
                                 <div class="hello-showreel__scene hello-showreel__scene--calibration" data-scene="calibration">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">03</span>
-                                        <span class="hello-showreel__scene-label">Calibration / instrumentation</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.calibration.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content hello-showreel__scene-content--split">
                                         <div class="hello-showreel__calibration-copy">
-                                            <p class="hello-showreel__eyebrow">Measured. Sequenced. Repeatable.</p>
+                                            <p class="hello-showreel__eyebrow">{{ 'hello.showreel.scenes.calibration.eyebrow'|trans }}</p>
                                             <h2 class="hello-showreel__scene-title">
-                                                <span class="hello-showreel__scene-line">Precision becomes visible</span>
-                                                <span class="hello-showreel__scene-line">through calibration.</span>
+                                                <span class="hello-showreel__scene-line">{{ 'hello.showreel.scenes.calibration.title_line_1'|trans }}</span>
+                                                <span class="hello-showreel__scene-line">{{ 'hello.showreel.scenes.calibration.title_line_2'|trans }}</span>
                                             </h2>
                                         </div>
                                         <div class="hello-showreel__calibration-board">
@@ -263,12 +278,12 @@
                                             <div class="hello-showreel__signal hello-showreel__signal--mid"></div>
                                             <div class="hello-showreel__signal hello-showreel__signal--narrow"></div>
                                             <div class="hello-showreel__board-readout">
-                                                <span>Latency drift</span>
+                                                <span>{{ 'hello.showreel.scenes.calibration.readout_1_label'|trans }}</span>
                                                 <strong>00.3 ms</strong>
                                             </div>
                                             <div class="hello-showreel__board-readout">
-                                                <span>Module lock</span>
-                                                <strong>Nominal</strong>
+                                                <span>{{ 'hello.showreel.scenes.calibration.readout_2_label'|trans }}</span>
+                                                <strong>{{ 'hello.showreel.scenes.calibration.readout_2_value'|trans }}</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -277,31 +292,31 @@
                                 <div class="hello-showreel__scene hello-showreel__scene--assembly" data-scene="assembly">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">04</span>
-                                        <span class="hello-showreel__scene-label">Assembly / orchestration</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.assembly.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content">
                                         <div class="hello-showreel__assembly-stage">
                                             <div class="hello-showreel__assembly-grid"></div>
                                             <article class="hello-showreel__assembly-module hello-showreel__assembly-module--a">
                                                 <span class="hello-showreel__assembly-index">A1</span>
-                                                <h3>Structure</h3>
-                                                <p>Clear architecture, readable movement, aligned hierarchy.</p>
+                                                <h3>{{ 'hello.showreel.scenes.assembly.module_a_title'|trans }}</h3>
+                                                <p>{{ 'hello.showreel.scenes.assembly.module_a_body'|trans }}</p>
                                             </article>
                                             <article class="hello-showreel__assembly-module hello-showreel__assembly-module--b">
                                                 <span class="hello-showreel__assembly-index">B2</span>
-                                                <h3>Orchestration</h3>
-                                                <p>Transitions linked as one composed sequence.</p>
+                                                <h3>{{ 'hello.showreel.scenes.assembly.module_b_title'|trans }}</h3>
+                                                <p>{{ 'hello.showreel.scenes.assembly.module_b_body'|trans }}</p>
                                             </article>
                                             <article class="hello-showreel__assembly-module hello-showreel__assembly-module--c">
                                                 <span class="hello-showreel__assembly-index">C3</span>
-                                                <h3>Repeatability</h3>
-                                                <p>Systems that scale because the rhythm remains dependable.</p>
+                                                <h3>{{ 'hello.showreel.scenes.assembly.module_c_title'|trans }}</h3>
+                                                <p>{{ 'hello.showreel.scenes.assembly.module_c_body'|trans }}</p>
                                             </article>
-                                            <article class="hello-showreel__assembly-module hello-showreel__assembly-module--d hello-showreel__media-plate">
+                                            {#<article class="hello-showreel__assembly-module hello-showreel__assembly-module--d hello-showreel__media-plate">
                                                 <span class="hello-showreel__assembly-index">D4</span>
                                                 <h3>Replaceable visual plate</h3>
                                                 <p>UI captures, project stills, client marks, or footage.</p>
-                                            </article>
+                                            </article>#}
                                         </div>
                                     </div>
                                 </div>
@@ -309,30 +324,30 @@
                                 <div class="hello-showreel__scene hello-showreel__scene--continuity" data-scene="continuity">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">05</span>
-                                        <span class="hello-showreel__scene-label">Continuity / automation</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.continuity.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content hello-showreel__scene-content--continuity">
                                         <div class="hello-showreel__continuity-copy">
-                                            <p class="hello-showreel__eyebrow">Automation through motion.</p>
+                                            <p class="hello-showreel__eyebrow">{{ 'hello.showreel.scenes.continuity.eyebrow'|trans }}</p>
                                             <h2 class="hello-showreel__scene-title">
-                                                <span class="hello-showreel__scene-line">Not explained.</span>
-                                                <span class="hello-showreel__scene-line">Felt through continuity.</span>
+                                                <span class="hello-showreel__scene-line">{{ 'hello.showreel.scenes.continuity.title_line_1'|trans }}</span>
+                                                <span class="hello-showreel__scene-line">{{ 'hello.showreel.scenes.continuity.title_line_2'|trans }}</span>
                                             </h2>
                                         </div>
                                         <div class="hello-showreel__chain-track">
                                             <div class="hello-showreel__chain-node">
-                                                <span>Input</span>
-                                                <p>Signals enter with clarity.</p>
+                                                <span>{{ 'hello.showreel.scenes.continuity.node_1_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.continuity.node_1_body'|trans }}</p>
                                             </div>
                                             <div class="hello-showreel__chain-link"></div>
                                             <div class="hello-showreel__chain-node">
-                                                <span>Transform</span>
-                                                <p>States reshape without friction.</p>
+                                                <span>{{ 'hello.showreel.scenes.continuity.node_2_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.continuity.node_2_body'|trans }}</p>
                                             </div>
                                             <div class="hello-showreel__chain-link"></div>
                                             <div class="hello-showreel__chain-node">
-                                                <span>Release</span>
-                                                <p>Output lands with polish and certainty.</p>
+                                                <span>{{ 'hello.showreel.scenes.continuity.node_3_title'|trans }}</span>
+                                                <p>{{ 'hello.showreel.scenes.continuity.node_3_body'|trans }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -341,21 +356,21 @@
                                 <div class="hello-showreel__scene hello-showreel__scene--closing" data-scene="closing">
                                     <div class="hello-showreel__scene-header">
                                         <span class="hello-showreel__scene-index">06</span>
-                                        <span class="hello-showreel__scene-label">Closing signature</span>
+                                        <span class="hello-showreel__scene-label">{{ 'hello.showreel.scenes.closing.label'|trans }}</span>
                                     </div>
                                     <div class="hello-showreel__scene-content hello-showreel__scene-content--closing">
                                         <div class="hello-showreel__closing-panel">
-                                            <p class="hello-showreel__eyebrow">Closing frame</p>
+                                            <p class="hello-showreel__eyebrow">{{ 'hello.showreel.scenes.closing.eyebrow'|trans }}</p>
                                             <h2 class="hello-showreel__closing-title">
                                                 <span>Artisanat logiciel.</span>
-                                                <span>Savoir-faire in motion.</span>
+                                                <span>{{ 'hello.showreel.scenes.closing.title_line_2'|trans }}</span>
                                             </h2>
                                             <p class="hello-showreel__closing-body">
-                                                Built for replacement-ready media, measured storytelling, and a soundtrack layer for final capture.
+                                                {{ 'hello.showreel.scenes.closing.body'|trans }}
                                             </p>
                                         </div>
                                         <div class="hello-showreel__closing-caption">
-                                            <span>Insert final identity, contact, or lockup here.</span>
+                                            <span>{{ 'hello.showreel.scenes.closing.caption_1'|trans }}</span>
                                             <span>HTML / CSS / JavaScript / GSAP</span>
                                         </div>
                                     </div>
@@ -369,24 +384,24 @@
 
                         <div class="hello-showreel__start-overlay" data-start-overlay>
                             <div class="hello-showreel__start-panel">
-                                <p class="hello-showreel__start-eyebrow">Darkwood motion reel</p>
-                                <h2>Start the sequence.</h2>
-                                <p>The reel is built as a single 16:9 timeline and will trigger the soundtrack on user interaction.</p>
-                                <button class="hello-showreel__start-button" type="button" data-start-button>Play reel</button>
+                                <p class="hello-showreel__start-eyebrow">{{ 'hello.showreel.start.eyebrow'|trans }}</p>
+                                <h2>{{ 'hello.showreel.start.title'|trans }}</h2>
+                                <p>{{ 'hello.showreel.start.body'|trans }}</p>
+                                <button class="hello-showreel__start-button" type="button" data-start-button>{{ 'hello.showreel.start.button'|trans }}</button>
                             </div>
                         </div>
                     </div>
 
                     <footer class="hello-showreel__controls">
                         <div class="hello-showreel__controls-left">
-                            <button type="button" data-play-toggle>Pause</button>
-                            <button type="button" data-restart>Restart</button>
+                            <button type="button" data-play-toggle>{{ 'hello.showreel.controls.pause'|trans }}</button>
+                            <button type="button" data-restart>{{ 'hello.showreel.controls.restart'|trans }}</button>
                         </div>
                         <div class="hello-showreel__controls-right">
                             <div class="hello-showreel__progress-rail">
                                 <span class="hello-showreel__progress-fill" data-progress-fill></span>
                             </div>
-                            <span data-scene-label>Opening frame</span>
+                            <span data-scene-label>{{ 'hello.showreel.scenes.opening.label'|trans }}</span>
                         </div>
                     </footer>
                 </div>

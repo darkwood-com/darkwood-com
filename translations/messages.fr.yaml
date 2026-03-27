@@ -302,6 +302,7 @@ hello:
     work: Parcours
     projects: Projets
     skills: Outils
+    showreel: Showreel
     contact: Contact
   hero:
     scroll: Suite
@@ -358,6 +359,77 @@ hello:
         wysiwyl:
             title: wysiwyl
             description: What you see is what you like
+  showreel:
+    brand:
+      caption: Showreel / Composition 16:9
+    meta:
+      soundtrack_title: "Bande-son : Contraption - Higher, Forever"
+      soundtrack_unavailable: Bande-son indisponible
+      soundtrack_blocked: Bande-son bloquée
+      timeline: Timeline GSAP
+      study: Darkwood / Étude de mouvement
+    start:
+      eyebrow: Showreel Darkwood
+      title: Lancer la séquence.
+      body: Le reel est construit comme une timeline 16:9 unique et déclenche la bande-son à l'interaction.
+      button: Lancer le reel
+    controls:
+      play: Lecture
+      pause: Pause
+      restart: Relancer
+    scenes:
+      opening:
+        label: Plan d'ouverture
+        eyebrow: Artisanat logiciel, réglé avec intention.
+        title_line_1: Mouvement
+        title_line_2: enterprise,
+        title_line_3: sans bruit.
+        statement: Des années d'exécution condensées en contrôle, rythme éditorial et systèmes qui avancent avec certitude.
+        integrity: Intégrité de séquence
+        integrity_status: Stable
+      statement:
+        label: Enterprise / précision
+        kicker: Construit sous contrainte. Aucune approximation.
+        body: Systèmes complexes. Cycles longs. Exigence élevée. Le détail, là où il n'est pas négociable.
+        card_1_title: Cadence enterprise
+        card_1_body: Délivrer sous contrainte, avec tenue.
+        card_2_title: Du design à l'implémentation
+        card_2_body: Le concept traduit avec fidélité technique.
+        card_3_title: Confiance opérationnelle
+        card_3_body: Des systèmes qui ne cèdent pas sous pression.
+      calibration:
+        label: Calibration / instrumentation
+        eyebrow: Mesuré. Séquencé. Répétable.
+        title_line_1: La précision devient visible
+        title_line_2: par la calibration.
+        readout_1_label: Dérive de latence
+        readout_2_label: Verrou module
+        readout_2_value: Nominal
+      assembly:
+        label: Assemblage / orchestration
+        module_a_title: Structure
+        module_a_body: Architecture lisible, mouvement net, hiérarchie alignée.
+        module_b_title: Orchestration
+        module_b_body: Des transitions liées comme une seule séquence composée.
+        module_c_title: Répétabilité
+        module_c_body: Des systèmes qui changent d'échelle parce que le rythme reste fiable.
+      continuity:
+        label: Continuité / automatisation
+        eyebrow: L'automatisation par le mouvement.
+        title_line_1: Rien à expliquer.
+        title_line_2: Tout se ressent dans la continuité.
+        node_1_title: Entrée
+        node_1_body: Les signaux entrent avec clarté.
+        node_2_title: Transformation
+        node_2_body: Les états se reforment sans friction.
+        node_3_title: Sortie
+        node_3_body: Le résultat se pose avec finition et certitude.
+      closing:
+        label: Signature finale
+        eyebrow: Plan final
+        title_line_2: Le savoir-faire en mouvement.
+        body: Conçu pour accueillir les médias finaux, une narration mesurée et une bande-son prête pour la capture finale.
+        caption_1: Darkwood, tous droits reservés.
   blog:
     title: Blog
     description: Lire les derniers articles du blog

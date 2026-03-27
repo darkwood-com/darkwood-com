@@ -757,9 +757,9 @@
   content: "";
   position: absolute;
   inset: 0.7rem 1rem;
-  border-top: 1px solid rgba(242, 238, 231, 0.08);
+  /*border-top: 1px solid rgba(242, 238, 231, 0.08);
   border-bottom: 1px solid rgba(242, 238, 231, 0.04);
-  border-radius: 999px;
+  border-radius: 999px;*/
   pointer-events: none;
 }
 
@@ -826,7 +826,7 @@
   margin: 0.8rem 0 0;
   font-family: "Cormorant Garamond", serif;
   font-weight: 600;
-  line-height: 0.88;
+  line-height: 0.76;
   color: var(--showreel-text);
 }
 
@@ -839,6 +839,14 @@
 .theme-hello .hello-showreel__closing-title span {
   display: block;
   overflow: hidden;
+}
+
+.theme-hello .hello-showreel__scene-line {
+  padding-bottom: 0.08em;
+}
+
+.theme-hello .hello-showreel__scene--calibration .hello-showreel__scene-title {
+  line-height: 0.96;
 }
 
 .theme-hello .hello-showreel__hero-line--accent,

@@ -303,6 +303,7 @@ hello:
     work: Work
     projects: Projects
     skills: Tools
+    showreel: Showreel
     contact: Contact
   hero:
     scroll: Continue
@@ -359,6 +360,77 @@ hello:
         wysiwyl:
             title: wysiwyl
             description: What you see is what you like
+  showreel:
+    brand:
+      caption: Motion Reel / 16:9 Composition
+    meta:
+      soundtrack_title: "Soundtrack: Contraption - Higher, Forever"
+      soundtrack_unavailable: Soundtrack unavailable
+      soundtrack_blocked: Soundtrack blocked
+      timeline: GSAP timeline
+      study: Darkwood / Motion Study
+    start:
+      eyebrow: Darkwood motion reel
+      title: Start the sequence.
+      body: The reel is built as a single 16:9 timeline and will trigger the soundtrack on user interaction.
+      button: Play reel
+    controls:
+      play: Play
+      pause: Pause
+      restart: Restart
+    scenes:
+      opening:
+        label: Opening frame
+        eyebrow: Software craft, tuned with intent.
+        title_line_1: Enterprise
+        title_line_2: motion,
+        title_line_3: without noise.
+        statement: Years of delivery condensed into control, editorial rhythm, and systems that move with certainty.
+        integrity: Sequence integrity
+        integrity_status: Stable
+      statement:
+        label: Enterprise / precision
+        kicker: Built under constraint. No approximation.
+        body: Complex systems. Long cycles. High standards. Detail where detail is not optional.
+        card_1_title: Enterprise cadence
+        card_1_body: Delivery under constraint, with composure.
+        card_2_title: Design to implementation
+        card_2_body: Concept translated with technical fidelity.
+        card_3_title: Operational trust
+        card_3_body: Systems that do not fail under pressure.
+      calibration:
+        label: Calibration / instrumentation
+        eyebrow: Measured. Sequenced. Repeatable.
+        title_line_1: Precision becomes visible
+        title_line_2: through calibration.
+        readout_1_label: Latency drift
+        readout_2_label: Module lock
+        readout_2_value: Nominal
+      assembly:
+        label: Assembly / orchestration
+        module_a_title: Structure
+        module_a_body: Clear architecture, readable movement, aligned hierarchy.
+        module_b_title: Orchestration
+        module_b_body: Transitions linked as one composed sequence.
+        module_c_title: Repeatability
+        module_c_body: Systems that scale because the rhythm remains dependable.
+      continuity:
+        label: Continuity / automation
+        eyebrow: Automation through motion.
+        title_line_1: Not explained.
+        title_line_2: Felt through continuity.
+        node_1_title: Input
+        node_1_body: Signals enter with clarity.
+        node_2_title: Transform
+        node_2_body: States reshape without friction.
+        node_3_title: Release
+        node_3_body: Output lands with polish and certainty.
+      closing:
+        label: Closing signature
+        eyebrow: Closing frame
+        title_line_2: Savoir-faire in motion.
+        body: Built for replacement-ready media, measured storytelling, and a soundtrack layer for final capture.
+        caption_1: Darkwood, all rights reserved.
 
   blog:
     title: From the blog
