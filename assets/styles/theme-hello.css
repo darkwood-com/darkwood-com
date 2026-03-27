@@ -585,6 +585,8 @@
   --showreel-shadow: 0 36px 90px rgba(0, 0, 0, 0.44);
   --showreel-radius-xl: 30px;
   --showreel-radius-lg: 22px;
+  --showreel-visualizer-safe-space: clamp(6rem, 10vw, 7.5rem);
+  --showreel-visualizer-opacity: 1;
   position: relative;
   margin: 0 auto;
   padding: 1rem 0 0;
@@ -688,8 +690,6 @@
   position: relative;
   width: min(100%, 1200px);
   aspect-ratio: 16 / 9;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
   border-radius: var(--showreel-radius-xl);
   overflow: hidden;
   border: 1px solid var(--showreel-line);
@@ -718,9 +718,10 @@
 
 .theme-hello .hello-showreel__stage-main {
   position: relative;
-  min-height: 0;
+  min-height: 100%;
   overflow: hidden;
   z-index: 2;
+  padding-bottom: 6.5rem;
 }
 
 .theme-hello .hello-showreel__vignette {
@@ -739,10 +740,13 @@
 }
 
 .theme-hello .hello-showreel__visualizer {
-  position: relative;
-  margin: 0 3rem 2rem;
+  position: absolute;
+  right: 3rem;
+  bottom: 2rem;
+  left: 3rem;
   z-index: 6;
   height: 4.5rem;
+  opacity: var(--showreel-visualizer-opacity);
   border: 1px solid rgba(242, 238, 231, 0.08);
   border-radius: 999px;
   background:
@@ -757,6 +761,7 @@
   content: "";
   position: absolute;
   inset: 0.7rem 1rem;
+  opacity: var(--showreel-visualizer-opacity);
   /*border-top: 1px solid rgba(242, 238, 231, 0.08);
   border-bottom: 1px solid rgba(242, 238, 231, 0.04);
   border-radius: 999px;*/
@@ -767,6 +772,7 @@
   display: block;
   width: 100%;
   height: 100%;
+  opacity: var(--showreel-visualizer-opacity);
 }
 
 .theme-hello .hello-showreel__rupture-overlay {
@@ -791,11 +797,15 @@
 .theme-hello .hello-showreel__scene {
   position: absolute;
   inset: 0;
-  padding: 3rem 3rem 1.5rem;
+  padding: 3rem 3rem var(--showreel-visualizer-safe-space);
   display: grid;
   grid-template-rows: auto 1fr;
   opacity: 0;
   visibility: hidden;
+}
+
+.theme-hello .hello-showreel__scene--closing {
+  padding-bottom: 1.5rem;
 }
 
 .theme-hello .hello-showreel__scene-header {
@@ -1184,10 +1194,17 @@
 
   .theme-hello .hello-showreel__scene {
     padding: 1.2rem;
+    padding-bottom: calc(var(--showreel-visualizer-safe-space) + 0.2rem);
+  }
+
+  .theme-hello .hello-showreel__scene--closing {
+    padding-bottom: 1.2rem;
   }
 
   .theme-hello .hello-showreel__visualizer {
-    margin: 0 1rem 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
     height: 3.6rem;
   }
 

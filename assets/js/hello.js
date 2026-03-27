@@ -66,6 +66,7 @@ function initHelloShowreel(scopeRoot) {
     const stage = showreel.querySelector('[data-stage]');
     const stageMain = showreel.querySelector('[data-stage-main]');
     const assemblyStage = showreel.querySelector('.hello-showreel__assembly-stage');
+    const visualizerWrap = showreel.querySelector('.hello-showreel__visualizer');
     const visualizerCanvas = showreel.querySelector('[data-audio-visualizer]');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -134,6 +135,7 @@ function initHelloShowreel(scopeRoot) {
     updatePlaybackUI(false);
     updateProgressUI(0);
     updateTimecode(0);
+    updateVisualizerVisibility(0);
 
     startButton?.addEventListener('click', () => startReel(master));
     playToggle?.addEventListener('click', () => togglePlayback(master));
@@ -204,9 +206,11 @@ function initHelloShowreel(scopeRoot) {
             paused: true,
             defaults: { ease: 'power3.inOut' },
             onUpdate: () => {
-                updateProgressUI(master.time());
-                updateTimecode(master.time());
-                updateScene(getSceneForTime(master.time()));
+                const currentTime = master.time();
+                updateProgressUI(currentTime);
+                updateTimecode(currentTime);
+                updateScene(getSceneForTime(currentTime));
+                updateVisualizerVisibility(currentTime);
             },
             onComplete: () => {
                 updatePlaybackUI(false);
@@ -370,6 +374,7 @@ function initHelloShowreel(scopeRoot) {
 
     async function startReel(master) {
         startOverlay?.setAttribute('hidden', 'hidden');
+        fadeInVisualizer();
 
         if (soundtrack) {
             soundtrack.currentTime = 0;
@@ -442,6 +447,7 @@ function initHelloShowreel(scopeRoot) {
         updateProgressUI(0);
         updateTimecode(0);
         updateScene(getSceneForTime(0));
+        updateVisualizerVisibility(0);
         updatePlaybackUI(false);
         startReel(master);
     }
@@ -462,6 +468,7 @@ function initHelloShowreel(scopeRoot) {
             updateProgressUI(clamped);
             updateTimecode(clamped);
             updateScene(getSceneForTime(clamped));
+            updateVisualizerVisibility(clamped);
 
             if (clamped >= audioDuration) {
                 stopPlaybackAtEnd(master);
@@ -495,6 +502,7 @@ function initHelloShowreel(scopeRoot) {
         updateProgressUI(audioDuration);
         updateTimecode(audioDuration);
         updateScene(getSceneForTime(audioDuration));
+        updateVisualizerVisibility(audioDuration);
         updatePlaybackUI(false);
     }
 
@@ -523,6 +531,31 @@ function initHelloShowreel(scopeRoot) {
         if (playToggle) {
             playToggle.textContent = isPlaying ? pauseLabel : playLabel;
         }
+    }
+
+    function fadeInVisualizer() {
+        if (!showreel) {
+            return;
+        }
+
+        gsap.killTweensOf(showreel);
+        gsap.to(showreel, {
+            '--showreel-visualizer-opacity': 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            overwrite: true,
+        });
+    }
+
+    function updateVisualizerVisibility(currentSeconds) {
+        if (!showreel) {
+            return;
+        }
+
+        const fadeStart = PHASES.closing.start;
+        const fadeDuration = Math.max(audioDuration - fadeStart, 0.001);
+        const fadeProgress = Math.max(0, Math.min((currentSeconds - fadeStart) / fadeDuration, 1));
+        showreel.style.setProperty('--showreel-visualizer-opacity', String(1 - fadeProgress));
     }
 
     function updateScene(sceneName) {
