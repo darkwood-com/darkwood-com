@@ -69,6 +69,7 @@ function initHelloShowreel(scopeRoot) {
 
     const audioDuration = Number(showreel.dataset.audioDuration || '497.533979');
     const configuredAudioSrc = showreel.dataset.audioSrc || '/hello/showreel-track.mp3';
+    const soundtrackTitle = 'Soundtrack Contraption - Higher, Forever';
 
     const PHASES = {
         opening: { start: 0, end: 80 },
@@ -126,7 +127,7 @@ function initHelloShowreel(scopeRoot) {
 
     soundtrack?.addEventListener('loadedmetadata', () => {
         if (audioLabel) {
-            audioLabel.textContent = `Soundtrack ${formatDuration(audioDuration)}`;
+            audioLabel.textContent = `${soundtrackTitle} ${formatDuration(audioDuration)}`;
         }
     });
 
@@ -359,7 +360,7 @@ function initHelloShowreel(scopeRoot) {
                 attachAudioSync(master);
                 updatePlaybackUI(true);
                 if (audioLabel) {
-                    audioLabel.textContent = `Soundtrack synced ${formatDuration(audioDuration)}`;
+                    audioLabel.textContent = `${soundtrackTitle} ${formatDuration(audioDuration)}`;
                 }
                 return;
             } catch (error) {
