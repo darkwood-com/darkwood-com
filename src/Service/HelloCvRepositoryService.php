@@ -226,7 +226,7 @@ final class HelloCvRepositoryService
         return [
             new HelloCvExperience(
                 id: 'eeas-2025-2026',
-                company: 'EEAS',
+                company: 'European External Action Service',
                 role: 'Senior Symfony / React engineer',
                 startDate: '2025-06',
                 endDate: null,
@@ -390,13 +390,13 @@ final class HelloCvRepositoryService
                 imageAsset: '/hello/projects/uniflow.png',
             ),
             new HelloCvProject(
-                id: 'bonzai',
-                name: 'Matyo91 Bonzai',
-                description: 'See my creator page on Bonzai',
-                type: 'profile',
-                links: [['label' => 'Bonzai', 'url' => 'https://www.bonzai.pro/matyo91']],
-                tags: ['creator', 'Bonzai'],
-                imageAsset: '/hello/projects/bonzai.png',
+                id: 'navi',
+                name: 'Navi',
+                description: 'Personnal assistant',
+                type: 'open-source',
+                links: [['label' => 'Navi', 'url' => 'https://navi.darkwood.com']],
+                tags: ['PHP', 'DDD'],
+                imageAsset: '/hello/projects/navi.png',
             ),
             new HelloCvProject(
                 id: 'flow',
@@ -460,6 +460,15 @@ final class HelloCvRepositoryService
                 links: [['label' => 'YouTube', 'url' => 'https://www.youtube.com/@djmatyo91']],
                 tags: ['DJ', 'music'],
                 imageAsset: '/hello/projects/djmatyo91.png',
+            ),
+            new HelloCvProject(
+                id: 'bonzai',
+                name: 'Matyo91 Bonzai',
+                description: 'See my creator page on Bonzai',
+                type: 'profile',
+                links: [['label' => 'Bonzai', 'url' => 'https://www.bonzai.pro/matyo91']],
+                tags: ['creator', 'Bonzai'],
+                imageAsset: '/hello/projects/bonzai.png',
             ),
         ];
     }

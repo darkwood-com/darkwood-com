@@ -45,6 +45,7 @@ class App extends Page
      */
     public function __construct()
     {
+        parent::__construct();
         $this->contents = new ArrayCollection();
     }
 
@@ -53,7 +54,7 @@ class App extends Page
      */
     public function addContent(AppContent $content): void
     {
-        $this->contents[] = $content;
+        $this->contents->add($content);
         $content->setApp($this);
     }
 

@@ -335,6 +335,9 @@ hello:
         uniflow:
             title: Uniflow
             description: Automatisez vos taches récurrentes
+        navi:
+            title: Navi
+            description: Assistant personnel
         flow:
             title: Flow
             description: Asynchron Functionnal Programming

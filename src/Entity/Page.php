@@ -111,7 +111,7 @@ class Page implements Stringable
      */
     public function addTranslation(PageTranslation $translations): void
     {
-        $this->translations[] = $translations;
+        $this->translations->add($translations);
         $translations->setPage($this);
     }
 
@@ -184,7 +184,7 @@ class Page implements Stringable
      */
     public function addComment(Comment $comment): void
     {
-        $this->comments[] = $comment;
+        $this->comments->add($comment);
         $comment->setPage($this);
     }
 
