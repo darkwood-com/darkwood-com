@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Put;
 use App\Dto\ArticleIdInput;
 use App\Dto\ListArticlesInput;
 use App\Entity\Traits\TimestampTrait;
+use App\Enum\ArticleType;
 use App\Repository\ArticleRepository;
 use App\State\GetArticleProcessor;
 use App\State\ListArticlesProcessor;
@@ -89,6 +90,18 @@ class Article implements Stringable
     #[Groups(['article:read'])]
     #[ORM\OneToMany(targetEntity: CommentArticle::class, mappedBy: 'article')]
     private Collection $comments;
+
+    #[ORM\Column(type: Types::STRING, length: 16, enumType: ArticleType::class, options: ['default' => 'manual'])]
+    private ArticleType $type = ArticleType::Manual;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isPremium = false;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true, unique: true)]
+    private ?string $generationId = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $metadata = [];
 
     /**
      * Constructor.
@@ -224,5 +237,53 @@ class Article implements Stringable
         }
 
         return $tagTitles;
+    }
+
+    public function getType(): ArticleType
+    {
+        return $this->type;
+    }
+
+    public function setType(ArticleType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function isPremium(): bool
+    {
+        return $this->isPremium;
+    }
+
+    public function setIsPremium(bool $isPremium): self
+    {
+        $this->isPremium = $isPremium;
+
+        return $this;
+    }
+
+    public function getGenerationId(): ?string
+    {
+        return $this->generationId;
+    }
+
+    public function setGenerationId(?string $generationId): self
+    {
+        $this->generationId = $generationId;
+
+        return $this;
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata ?? [];
+    }
+
+    public function setMetadata(array $metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
     }
 }

@@ -130,6 +130,18 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\Column(type: Types::STRING, length: 64, nullable: true)]
     private ?string $totpSecret = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $bonzaiOrderId = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isPremium = false;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $newsletterEnabled = false;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $customPrompt = null;
+
     /**
      * Constructor.
      */
@@ -494,6 +506,54 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getBonzaiOrderId(): ?string
+    {
+        return $this->bonzaiOrderId;
+    }
+
+    public function setBonzaiOrderId(?string $bonzaiOrderId): self
+    {
+        $this->bonzaiOrderId = $bonzaiOrderId;
+
+        return $this;
+    }
+
+    public function isPremium(): bool
+    {
+        return $this->isPremium;
+    }
+
+    public function setIsPremium(bool $isPremium): self
+    {
+        $this->isPremium = $isPremium;
+
+        return $this;
+    }
+
+    public function isNewsletterEnabled(): bool
+    {
+        return $this->newsletterEnabled;
+    }
+
+    public function setNewsletterEnabled(bool $newsletterEnabled): self
+    {
+        $this->newsletterEnabled = $newsletterEnabled;
+
+        return $this;
+    }
+
+    public function getCustomPrompt(): ?string
+    {
+        return $this->customPrompt;
+    }
+
+    public function setCustomPrompt(?string $customPrompt): self
+    {
+        $this->customPrompt = $customPrompt;
 
         return $this;
     }

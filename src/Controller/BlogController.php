@@ -8,6 +8,7 @@ use App\Entity\CommentArticle;
 use App\Form\CommentType;
 use App\Service\BlogArticleService;
 use App\Service\CommentService;
+use App\Service\DarkwoodEntitlementService;
 use App\Service\PageService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
@@ -32,6 +33,7 @@ class BlogController extends AbstractController
         private readonly PageService $pageService,
         private readonly BlogArticleService $articleService,
         private readonly CommentService $commentService,
+        private readonly DarkwoodEntitlementService $entitlementService,
         private readonly CsrfTokenManagerInterface $tokenManager,
         private readonly RequestStack $requestStack
     ) {}
@@ -55,7 +57,25 @@ class BlogController extends AbstractController
 
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
 
-        return $this->render('blog/pages/home.html.twig', ['page' => $page, 'articles' => $articles, 'showLinks' => true]);
+        return $this->render('blog/pages/home.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'showLinks' => true,
+        ]);
+    }
+
+    #[Route(path: ['fr' => '/fr/auto', 'en' => '/auto', 'de' => '/de/auto'], name: 'auto', defaults: ['ref' => 'auto'])]
+    public function auto(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
+    {
+        $page = $this->commonController->getPage($request, $ref);
+        $query = $this->articleService->findAutoActivesQueryBuilder($request->getLocale());
+        $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
+
+        return $this->render('blog/pages/home.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'showLinks' => true,
+        ]);
     }
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
@@ -120,6 +140,8 @@ class BlogController extends AbstractController
         $query = $this->commentService->findActiveCommentByArticleQuery($article);
         $comments = $this->paginator->paginate($query, max(1, $request->query->getInt('page', 1)), 10);
 
-        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments]);
+        $isPremiumUser = $this->entitlementService->isPremium($this->getUser());
+
+        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments, 'isPremiumUser' => $isPremiumUser]);
     }
 }

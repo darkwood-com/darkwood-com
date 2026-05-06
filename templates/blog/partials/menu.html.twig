@@ -11,6 +11,11 @@
                     {{ 'blog.menu.articles'|trans }}
                 </a>
             </li>
+            <li>
+                <a href="{{ path('blog_auto') }}" class="{% if currentRoute == 'blog_auto' %}active{% endif %}">
+                    {{ 'blog.menu.auto'|trans }}
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -57,6 +62,11 @@
     <li>
         <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}active{% endif %}">
             {{ 'blog.menu.articles'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('blog_auto') }}" class="{% if currentRoute == 'blog_auto' %}active{% endif %}">
+            {{ 'blog.menu.auto'|trans }}
         </a>
     </li>
 </ul>

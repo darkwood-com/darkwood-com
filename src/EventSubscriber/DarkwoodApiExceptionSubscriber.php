@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
 final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
 {
@@ -36,14 +37,24 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
 
         $throwable = $event->getThrowable();
 
+        if ($throwable instanceof NotEncodableValueException) {
+            $event->setResponse(new JsonResponse([
+                'error' => 'bad_request',
+                'message' => 'Could not decode request body.',
+            ], Response::HTTP_BAD_REQUEST));
+
+            return;
+        }
+
         if ($throwable instanceof HttpExceptionInterface) {
             $status = $throwable->getStatusCode();
             $message = $throwable->getMessage() !== ''
                 ? $throwable->getMessage()
                 : (Response::$statusTexts[$status] ?? 'HTTP error');
+            $messageLower = strtolower($message);
 
             $event->setResponse(new JsonResponse([
-                'error' => $this->errorCodeFromStatus($status),
+                'error' => $this->errorCodeFromStatus($status, $messageLower),
                 'message' => $message,
             ], $status, $throwable->getHeaders()));
 
@@ -79,8 +90,15 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
         ));
     }
 
-    private function errorCodeFromStatus(int $status): string
+    private function errorCodeFromStatus(int $status, string $messageLower): string
     {
+        if ($status === Response::HTTP_FORBIDDEN && str_contains($messageLower, 'premium access required')) {
+            return 'premium_required';
+        }
+        if ($status === Response::HTTP_NOT_FOUND && str_contains($messageLower, 'archive not found')) {
+            return 'archive_not_found';
+        }
+
         return match ($status) {
             Response::HTTP_BAD_REQUEST => 'bad_request',
             Response::HTTP_UNAUTHORIZED => 'unauthorized',

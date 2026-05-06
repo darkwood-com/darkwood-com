@@ -192,6 +192,11 @@ class BlogArticleService
         return $this->articleRepository->findActivesQueryBuilder($locale, $limit);
     }
 
+    public function findAutoActivesQueryBuilder($locale = null, $limit = null)
+    {
+        return $this->articleRepository->findAutoActivesQueryBuilder($locale, $limit);
+    }
+
     /**
      * @param null $locale
      * @param null $limit

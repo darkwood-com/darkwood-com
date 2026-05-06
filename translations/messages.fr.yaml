@@ -283,6 +283,7 @@ blog:
   menu:
     blog: Blog
     articles: Articles
+    auto: Auto
   home:
     article_on: le
     show_more: Lire la suite...

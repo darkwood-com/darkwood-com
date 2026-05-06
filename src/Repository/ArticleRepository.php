@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Enum\ArticleType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -96,7 +97,14 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findActivesQueryBuilder($locale = null, $limit = null)
     {
-        $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc')->andWhere('nts.active = true');
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->addOrderBy('n.created', 'desc')
+            ->andWhere('nts.active = true')
+            ->andWhere('n.type = :manualType')
+            ->setParameter('manualType', ArticleType::Manual)
+        ;
         if ($locale) {
             $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         }
@@ -106,6 +114,47 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    public function findAutoActivesQueryBuilder($locale = null, $limit = null)
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->andWhere('n.type = :type')
+            ->setParameter('type', ArticleType::Auto)
+            ->addOrderBy('n.created', 'desc')
+        ;
+
+        if ($locale) {
+            $qb->andWhere('(nts.locale = :locale OR nts.id IS NULL)')->setParameter('locale', $locale);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
+    }
+
+    public function findOneByGenerationId(string $generationId): ?Article
+    {
+        return $this->findOneBy(['generationId' => $generationId]);
+    }
+
+    public function findOneBySlugAndLocale(string $slug, string $locale): ?Article
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->andWhere('nts.slug = :slug')
+            ->andWhere('nts.locale = :locale')
+            ->setParameter('slug', $slug)
+            ->setParameter('locale', $locale)
+            ->setMaxResults(1)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function findActives($locale = null, $limit = null): Paginator

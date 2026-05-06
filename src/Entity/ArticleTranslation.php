@@ -85,6 +85,10 @@ class ArticleTranslation implements Stringable
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    protected ?string $premiumContent = null;
+
     /**
      * @var File
      */
@@ -171,6 +175,16 @@ class ArticleTranslation implements Stringable
     public function setContent(mixed $content)
     {
         $this->content = $content;
+    }
+
+    public function getPremiumContent(): ?string
+    {
+        return $this->premiumContent;
+    }
+
+    public function setPremiumContent(?string $premiumContent): void
+    {
+        $this->premiumContent = $premiumContent;
     }
 
     public function getImage(): mixed

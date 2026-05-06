@@ -284,6 +284,7 @@ blog:
   menu:
     blog: Blog
     articles: Articles
+    auto: Auto
   home:
     article_on: on
     show_more: Read more...

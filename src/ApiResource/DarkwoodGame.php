@@ -10,39 +10,41 @@ use ApiPlatform\Metadata\McpTool;
 use ApiPlatform\Metadata\Post;
 use App\Dto\DarkwoodActionInput;
 use App\Dto\DarkwoodArchiveIdInput;
+use App\State\DarkwoodActionHttpProcessor;
 use App\State\DarkwoodActionProcessor;
 use App\State\DarkwoodArchiveGetProcessor;
 use App\State\DarkwoodArchivesProcessor;
 use App\State\DarkwoodStateProcessor;
+use App\State\Provider\DarkwoodArchiveProvider;
+use App\State\Provider\DarkwoodArchivesProvider;
+use App\State\Provider\DarkwoodStateProvider;
 
 #[ApiResource(
     operations: [
         new Get(
             uriTemplate: '/darkwood/state',
-            controller: 'App\Controller\Api\DarkwoodGetStateController',
-            read: false,
+            provider: DarkwoodStateProvider::class,
             name: 'api_darkwood_get_state',
             stateless: false,
         ),
         new Post(
             uriTemplate: '/darkwood/action',
-            controller: 'App\Controller\Api\DarkwoodPostActionController',
+            processor: DarkwoodActionHttpProcessor::class,
             read: false,
-            deserialize: false,
+            input: DarkwoodActionInput::class,
+            inputFormats: ['json' => ['application/json', 'application/x-www-form-urlencoded']],
             name: 'api_darkwood_post_action',
             stateless: false,
         ),
         new Get(
             uriTemplate: '/darkwood/archives',
-            controller: 'App\Controller\Api\DarkwoodArchivesController',
-            read: false,
+            provider: DarkwoodArchivesProvider::class,
             name: 'api_darkwood_archives',
             stateless: false,
         ),
         new Get(
             uriTemplate: '/darkwood/archives/{id}',
-            controller: 'App\Controller\Api\DarkwoodArchiveGetController',
-            read: false,
+            provider: DarkwoodArchiveProvider::class,
             name: 'api_darkwood_archive_get',
             stateless: false,
         ),
