@@ -59,3 +59,8 @@ services:
         class: Twig\Extension\StringLoaderExtension
         tags:
             - { name: twig.extension }
+
+    # Pipe tables (GFM-style) are not part of core CommonMark; Twig Extra wires extensions by tag.
+    League\CommonMark\Extension\Table\TableExtension:
+        tags:
+            - { name: twig.markdown.league_extension }
