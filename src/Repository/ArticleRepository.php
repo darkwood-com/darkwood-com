@@ -187,10 +187,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findLatestAutoArticle(?string $locale): ?Article
     {
         $qb = $this->findAutoActivesQueryBuilder($locale, 1);
+        $result = $qb->getQuery()->getOneOrNullResult();
 
-        /** @var Article|null $article */
-        $article = $qb->getQuery()->getOneOrNullResult();
-
-        return $article;
+        return $result instanceof Article ? $result : null;
     }
 }
