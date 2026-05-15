@@ -58,9 +58,10 @@ class DarkwoodController extends AbstractController
     public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
-        $articles = $this->articleService->findActives($request->getLocale(), 5);
+        $articles = $this->articleService->findManualActives($request->getLocale(), 5);
+        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
 
-        return $this->render('darkwood/pages/home.html.twig', ['page' => $page, 'news' => $articles, 'showLinks' => true]);
+        return $this->render('darkwood/pages/home.html.twig', ['page' => $page, 'news' => $articles, 'lastAutoArticle' => $lastAutoArticle, 'showLinks' => true]);
     }
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]

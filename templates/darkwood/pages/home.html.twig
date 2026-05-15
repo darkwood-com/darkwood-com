@@ -12,6 +12,20 @@
 </ul>
 </a>
 
+{% if lastAutoArticle %}
+<h2>{{ 'blog.home.automation_heading'|trans }}</h2>
+<ul class="itemlist">
+    {% set autoTranslation = lastAutoArticle.getOneTranslation(app.request.locale) %}
+    <li>
+        <h3>{{ autoTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ autoTranslation.created|format_date('long') }}</em></h3>
+        <p>{{ autoTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>
+            <a href="{{ path('blog_article', {'slug': autoTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>{#<a href="{{ path('blog_auto') }}">{{ 'blog.home.automation_all'|trans }}</a>#}
+        </p>
+    </li>
+</ul>
+{% endif %}
+
 <h2>{{ 'darkwood.home.news'|trans }}</h2>
 <ul class="itemlist">
     {% for article in news %}

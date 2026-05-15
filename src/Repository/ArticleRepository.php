@@ -173,4 +173,24 @@ class ArticleRepository extends ServiceEntityRepository
 
         return new Paginator($query);
     }
+
+    /**
+     * @return Paginator<Article>
+     */
+    public function findManualActives(?string $locale = null, ?int $limit = null): Paginator
+    {
+        $qb = $this->findActivesQueryBuilder($locale, $limit);
+
+        return new Paginator($qb->getQuery());
+    }
+
+    public function findLatestAutoArticle(?string $locale): ?Article
+    {
+        $qb = $this->findAutoActivesQueryBuilder($locale, 1);
+
+        /** @var Article|null $article */
+        $article = $qb->getQuery()->getOneOrNullResult();
+
+        return $article;
+    }
 }

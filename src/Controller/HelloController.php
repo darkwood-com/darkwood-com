@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
-use App\Repository\ArticleRepository;
+use App\Service\BlogArticleService;
 use App\Service\ContactService;
 use App\Service\HelloHomepageDataFactoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +31,7 @@ class HelloController extends AbstractController
         private readonly CommonController $commonController,
         private readonly ContactService $contactService,
         private readonly HelloHomepageDataFactoryService $helloHomepageDataFactory,
-        private readonly ArticleRepository $articleRepository,
+        private readonly BlogArticleService $articleService,
         private readonly CsrfTokenManagerInterface $tokenManager
     ) {}
 
@@ -62,7 +62,8 @@ class HelloController extends AbstractController
         }
 
         $hello = $this->helloHomepageDataFactory->build();
-        $articles = $this->articleRepository->findActives($request->getLocale(), 3);
+        $articles = $this->articleService->findManualActives($request->getLocale(), 3);
+        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
 
         return $this->render('hello/pages/home.html.twig', [
             'form' => $form,
@@ -70,6 +71,7 @@ class HelloController extends AbstractController
             'showLinks' => true,
             'hello' => $hello,
             'articles' => $articles,
+            'lastAutoArticle' => $lastAutoArticle,
         ]);
     }
 

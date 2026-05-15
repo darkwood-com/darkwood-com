@@ -469,6 +469,21 @@
                     <p class="text-white-50 text-center">{{ 'hello.blog.description'|trans }}</p>
                 </div>
             </div>
+            {% if lastAutoArticle %}
+            {% set autoTranslation = lastAutoArticle.getOneTranslation(app.request.locale) %}
+            <div class="row justify-content-center g-4 mb-4">
+                <div class="col-lg-8 col-md-10">
+                    <div class="text-center mb-3">
+                        <h3 class="text-white h5 mb-2">{{ 'blog.home.automation_heading'|trans }}</h3>
+                        <p class="text-white-50 small mb-0">{{ autoTranslation.title }} — {{ autoTranslation.created|format_date('long') }}</p>
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 gap-sm-3 align-items-center">
+                        {#<a href="{{ path('blog_article', {'slug': autoTranslation.slug}) }}" target="_blank" rel="noreferrer" class="btn btn-outline-light btn-sm">{{ 'blog.home.automation_read'|trans }}</a>#}
+                        <a href="{{ path('blog_auto') }}" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">{{ 'hello.blog.cta_more'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             <div class="row justify-content-center g-4">
                 {% for article in articles %}
                 {% set articleTranslation = article.getOneTranslation(app.request.locale) %}

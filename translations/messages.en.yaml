@@ -288,6 +288,10 @@ blog:
   home:
     article_on: on
     show_more: Read more...
+    news_heading: Articles
+    automation_heading: Latest automated article
+    automation_read: Read the article
+    automation_all: All automated articles
 
 hello:
   menu:
@@ -439,7 +443,7 @@ hello:
   blog:
     title: From the blog
     description: Read my last articles from the blog
-    cta_more: More posts
+    cta_more: More articles
   contact:
     title: Do you wish contact me ?
     btn_send: Send Message

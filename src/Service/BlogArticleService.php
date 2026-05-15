@@ -207,4 +207,17 @@ class BlogArticleService
     {
         return $this->articleRepository->findActives($locale, $limit);
     }
+
+    /**
+     * @return Paginator<Article>
+     */
+    public function findManualActives(?string $locale = null, ?int $limit = null): Paginator
+    {
+        return $this->articleRepository->findManualActives($locale, $limit);
+    }
+
+    public function findLatestAutoArticle(?string $locale): ?Article
+    {
+        return $this->articleRepository->findLatestAutoArticle($locale);
+    }
 }

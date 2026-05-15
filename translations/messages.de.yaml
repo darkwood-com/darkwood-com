@@ -283,5 +283,9 @@ blog:
     articles: Artikel
     auto: Auto
   home:
-    article_on: der
-    show_more: Lesen Sie mehr...
+    article_on: vom
+    show_more: Weiterlesen
+    news_heading: Artikel
+    automation_heading: Letzter automatisierter Artikel
+    automation_read: Artikel lesen
+    automation_all: Alle automatisierten Artikel

@@ -56,10 +56,12 @@ class BlogController extends AbstractController
         $request->query->set('sort', $pagination?->sort ?? '');
 
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
+        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
 
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
+            'lastAutoArticle' => $lastAutoArticle,
             'showLinks' => true,
         ]);
     }
@@ -74,6 +76,7 @@ class BlogController extends AbstractController
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
+            'lastAutoArticle' => null,
             'showLinks' => true,
         ]);
     }
