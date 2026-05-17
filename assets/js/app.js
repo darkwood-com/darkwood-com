@@ -34,3 +34,4 @@ import '../libs/prism.js';
 import './darkwood.js'
 import './play.js'
 import './hello.js'
+import './mermaid.js'

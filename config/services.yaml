@@ -64,3 +64,7 @@ services:
     League\CommonMark\Extension\Table\TableExtension:
         tags:
             - { name: twig.markdown.league_extension }
+
+    App\Markdown\MermaidExtension:
+        tags:
+            - { name: twig.markdown.league_extension }

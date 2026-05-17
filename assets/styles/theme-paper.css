@@ -161,6 +161,21 @@
     height: auto;
 }
 
+/* -> article content: mermaid diagrams */
+.theme-paper .theme-content pre.mermaid {
+    background: transparent;
+    border: none;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    padding: 0;
+    text-align: center;
+}
+
+.theme-paper .theme-content pre.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
 /* -> article content: markdown tables (same palette as ul.itemlist) */
 .theme-paper .theme-content table
 {
