@@ -7,12 +7,12 @@
 
         <ul class="theme-nav__links">
             <li>
-                <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}active{% endif %}">
+                <a href="{{ path('blog_home') }}" class="{% if activeRoute == 'blog_home' %}active{% endif %}">
                     {{ 'blog.menu.articles'|trans }}
                 </a>
             </li>
             <li>
-                <a href="{{ path('blog_auto') }}" class="{% if currentRoute == 'blog_auto' %}active{% endif %}">
+                <a href="{{ path('blog_auto') }}" class="{% if activeRoute == 'blog_auto' %}active{% endif %}">
                     {{ 'blog.menu.auto'|trans }}
                 </a>
             </li>
@@ -60,12 +60,12 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('blog_home') }}" class="{% if currentRoute == 'blog_home' or currentRoute == 'blog_article' %}active{% endif %}">
+        <a href="{{ path('blog_home') }}" class="{% if activeRoute == 'blog_home' %}active{% endif %}">
             {{ 'blog.menu.articles'|trans }}
         </a>
     </li>
     <li>
-        <a href="{{ path('blog_auto') }}" class="{% if currentRoute == 'blog_auto' %}active{% endif %}">
+        <a href="{{ path('blog_auto') }}" class="{% if activeRoute == 'blog_auto' %}active{% endif %}">
             {{ 'blog.menu.auto'|trans }}
         </a>
     </li>

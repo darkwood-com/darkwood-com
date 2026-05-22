@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\ArticleTranslation;
 use App\Entity\CommentArticle;
 use App\Form\CommentType;
 use App\Service\BlogArticleService;
@@ -44,8 +45,13 @@ class BlogController extends AbstractController
         $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
         $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
         $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
+        $activeRoute = $currentRoute;
 
-        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
+        if ('blog_article' === $currentRoute && $entity instanceof ArticleTranslation) {
+            $activeRoute = $entity->getArticle()->getType()->blogListRouteName();
+        }
+
+        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute, 'activeRoute' => $activeRoute]);
     }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]

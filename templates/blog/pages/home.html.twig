@@ -15,7 +15,8 @@
         <p>
             {#<a href="{{ path('blog_article', {'slug': autoTranslation.slug}) }}">{{ 'blog.home.automation_read'|trans }}</a>
             ·
-            #}<a href="{{ path('blog_auto') }}">{{ 'blog.home.show_more'|trans }}</a>
+            <a href="{{ path('blog_auto') }}">{{ 'blog.home.show_more'|trans }}</a>#}
+            <a href="{{ path('blog_article', {'slug': autoTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a>
         </p>
     </li>
 </ul>
