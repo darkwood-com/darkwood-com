@@ -1,0 +1,55 @@
+{% set hasCounts = summary.counts|default({})|filter(v => v > 0)|length > 0 %}
+{% set emojiGlyphs = {} %}
+{% for emoji in reactionEmojis %}
+    {% set emojiGlyphs = emojiGlyphs|merge({ (emoji.value): (':' ~ emoji.textShortCode ~ ':')|emojify(emoji.emojifyCatalog) }) %}
+{% endfor %}
+
+{% if not compact|default(false) or hasCounts %}
+<div
+    class="article-reactions{% if compact|default(false) %} article-reactions--compact{% endif %}"
+    data-article-reactions
+    data-toggle-url="{{ path('blog_article_reaction', { slug: slug }) }}"
+    data-csrf-token="{{ csrf_token('article_reaction') }}"
+    data-login-url="{{ path('security_login') }}"
+    data-emoji-glyphs="{{ emojiGlyphs|json_encode }}"
+>
+    {% if not compact|default(false) %}
+        {% if not app.user %}
+            <p class="article-reactions__login">
+                <a href="{{ path('security_login') }}">{{ 'blog.reactions.login'|trans }}</a>
+                {{ 'blog.reactions.login_suffix'|trans }}
+            </p>
+        {% endif %}
+
+        <ul class="article-reactions__panel-list"{% if not app.user %} hidden{% endif %}>
+            {% for emoji in reactionEmojis %}
+                {% set isActive = emoji.value in summary.userReactions %}
+                <li>
+                    <button
+                        type="button"
+                        class="article-reactions__button article-reactions__button--emoji{% if isActive %} is-active{% endif %}"
+                        style="--index: {{ loop.index }}"
+                        data-reaction="{{ emoji.value }}"
+                        data-emoji="{{ emoji.value }}"
+                        aria-pressed="{{ isActive ? 'true' : 'false' }}"
+                        title="{{ emoji.value }}"
+                    >
+                        <span class="article-reactions__icon article-reactions__icon--{{ emoji.value }}">{{ emojiGlyphs[emoji.value] }}</span>
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="article-reactions__counts">
+        {% for emoji in reactionEmojis %}
+            {% set count = summary.counts[emoji.value]|default(0) %}
+            {% if count > 0 %}
+                <span class="article-reactions__count{% if emoji.value in summary.userReactions %} is-active{% endif %}" data-emoji-count="{{ emoji.value }}">
+                    {{ emojiGlyphs[emoji.value] }} {{ count }}
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

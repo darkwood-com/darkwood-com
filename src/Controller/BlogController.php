@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Enum\ArticleReactionEmoji;
+use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Entity\CommentArticle;
+use App\Entity\User;
 use App\Form\CommentType;
+use App\Service\ArticleReactionService;
 use App\Service\BlogArticleService;
 use App\Service\CommentService;
 use App\Service\DarkwoodEntitlementService;
@@ -14,13 +18,15 @@ use App\Service\PageService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'blog_', host: '%blog_host%')]
@@ -35,6 +41,7 @@ class BlogController extends AbstractController
         private readonly BlogArticleService $articleService,
         private readonly CommentService $commentService,
         private readonly DarkwoodEntitlementService $entitlementService,
+        private readonly ArticleReactionService $articleReactionService,
         private readonly CsrfTokenManagerInterface $tokenManager,
         private readonly RequestStack $requestStack
     ) {}
@@ -63,11 +70,19 @@ class BlogController extends AbstractController
 
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
         $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
+        $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
+        $reactionArticles = array_values(array_filter([$lastAutoArticle, $lastReleaseArticle]));
+        foreach ($articles as $article) {
+            $reactionArticles[] = $article;
+        }
 
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
             'lastAutoArticle' => $lastAutoArticle,
+            'lastReleaseArticle' => $lastReleaseArticle,
+            'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
         ]);
     }
@@ -83,6 +98,27 @@ class BlogController extends AbstractController
             'page' => $page,
             'articles' => $articles,
             'lastAutoArticle' => null,
+            'lastReleaseArticle' => null,
+            'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
+            'showLinks' => true,
+        ]);
+    }
+
+    #[Route(path: ['fr' => '/fr/release', 'en' => '/release', 'de' => '/de/release'], name: 'release', defaults: ['ref' => 'release'])]
+    public function release(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
+    {
+        $page = $this->commonController->getPage($request, $ref);
+        $query = $this->articleService->findReleaseActivesQueryBuilder($request->getLocale());
+        $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
+
+        return $this->render('blog/pages/home.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'lastAutoArticle' => null,
+            'lastReleaseArticle' => null,
+            'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
         ]);
     }
@@ -151,6 +187,54 @@ class BlogController extends AbstractController
 
         $isPremiumUser = $this->entitlementService->isPremium($this->getUser());
 
-        return $this->render('blog/pages/article.html.twig', ['page' => $page, 'article' => $article, 'entity' => $article->getOneTranslation($request->getLocale()), 'showLinks' => true, 'form' => $form, 'comments' => $comments, 'isPremiumUser' => $isPremiumUser]);
+        return $this->render('blog/pages/article.html.twig', [
+            'page' => $page,
+            'article' => $article,
+            'entity' => $article->getOneTranslation($request->getLocale()),
+            'showLinks' => true,
+            'form' => $form,
+            'comments' => $comments,
+            'isPremiumUser' => $isPremiumUser,
+            'reactionSummary' => $this->articleReactionService->getSummary($article, $this->getUser()),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
+        ]);
+    }
+
+    #[Route(path: ['fr' => '/fr/article/{slug}/reactions', 'en' => '/article/{slug}/reactions', 'de' => '/de/article/{slug}/reactions'], name: 'article_reaction', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function toggleArticleReaction(Request $request, string $slug): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('article_reaction', (string) $request->request->get('_token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $emoji = ArticleReactionEmoji::tryFromRequest($request->request->getString('emoji'));
+        if (!$emoji instanceof ArticleReactionEmoji) {
+            return new JsonResponse(['error' => 'Invalid emoji.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
+        if (!$article instanceof Article) {
+            throw $this->createNotFoundException('Article not found !');
+        }
+
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return new JsonResponse(['error' => 'Authentication required.'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $summary = $this->articleReactionService->toggleReaction($article, $emoji, $user);
+
+        return new JsonResponse($summary);
+    }
+
+    /**
+     * @param list<Article> $articles
+     *
+     * @return array<int, array{counts: array<string, int>, userReactions: list<string>}>
+     */
+    private function buildReactionSummaries(array $articles): array
+    {
+        return $this->articleReactionService->getSummariesForArticles($articles, $this->getUser());
     }
 }

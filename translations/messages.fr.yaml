@@ -284,6 +284,7 @@ blog:
     blog: Blog
     articles: Articles
     auto: Auto
+    release: Release
   home:
     article_on: le
     show_more: Lire la suite...
@@ -291,6 +292,21 @@ blog:
     automation_heading: Dernier article automatisé
     automation_read: Lire l'article
     automation_all: Tous les articles automatisés
+    release_heading: Dernière release
+    release_read: Lire la release
+    release_all: Toutes les releases
+  reactions:
+    login: Connectez-vous
+    login_suffix: pour réagir à cet article
+    emoji:
+      plus1: Pouce en l'air
+      heart: J'aime
+      smile: Sourire
+      party: Fête
+      rocket: Super
+      eyes: Intéressant
+      clapclap: Applaudissements
+      mindblown: Époustouflant
 
 hello:
   menu:

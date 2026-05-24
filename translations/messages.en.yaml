@@ -285,6 +285,7 @@ blog:
     blog: Blog
     articles: Articles
     auto: Auto
+    release: Release
   home:
     article_on: on
     show_more: Read more...
@@ -292,6 +293,21 @@ blog:
     automation_heading: Latest automated article
     automation_read: Read the article
     automation_all: All automated articles
+    release_heading: Latest release
+    release_read: Read the release
+    release_all: All releases
+  reactions:
+    login: Log in
+    login_suffix: to add a reaction to this post
+    emoji:
+      plus1: Thumbs up
+      heart: Love
+      smile: Smile
+      party: Party
+      rocket: Rocket
+      eyes: Eyes
+      clapclap: Applause
+      mindblown: Mind blown
 
 hello:
   menu:

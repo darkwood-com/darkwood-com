@@ -282,6 +282,7 @@ blog:
     blog: Blog
     articles: Artikel
     auto: Auto
+    release: Release
   home:
     article_on: vom
     show_more: Weiterlesen
@@ -289,3 +290,18 @@ blog:
     automation_heading: Letzter automatisierter Artikel
     automation_read: Artikel lesen
     automation_all: Alle automatisierten Artikel
+    release_heading: Neuestes Release
+    release_read: Release lesen
+    release_all: Alle Releases
+  reactions:
+    login: Anmelden
+    login_suffix: um auf diesen Beitrag zu reagieren
+    emoji:
+      plus1: Daumen hoch
+      heart: Gefällt mir
+      smile: Lächeln
+      party: Party
+      rocket: Rakete
+      eyes: Interessant
+      clapclap: Applaus
+      mindblown: Umwerfend

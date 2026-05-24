@@ -37,6 +37,15 @@
 {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
 <h1>{{ articleTranslation.title }}</h1>
 <p class="text-right py-2"><em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></p>
+
+{{ include('blog/partials/article-reactions.html.twig', {
+    article: article,
+    slug: articleTranslation.slug,
+    summary: reactionSummary,
+    reactionEmojis: reactionEmojis,
+    compact: false,
+}) }}
+
 {% set isAuto = article.type is defined and article.type.value is defined and article.type.value == 'auto' %}
 {% if isAuto and article.isPremium and not isPremiumUser %}
     {{ (articleTranslation.content|default(''))|markdown_to_html }}
@@ -48,6 +57,14 @@
 {% else %}
     {{ include(template_from_string(articleTranslation.content))|markdown_to_html }}
 {% endif %}
+
+{{ include('blog/partials/article-reactions.html.twig', {
+    article: article,
+    slug: articleTranslation.slug,
+    summary: reactionSummary,
+    reactionEmojis: reactionEmojis,
+    compact: false,
+}) }}
 
 <ul class="comments">
     <li>

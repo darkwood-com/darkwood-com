@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Form\Admin;
 
 use App\Entity\Article;
+use App\Enum\ArticleType as ArticleTypeEnum;
 use App\Form\Transformer\TagTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,6 +32,14 @@ class ArticleType extends AbstractType
     {
         $locale = $options['locale'];
         $this->tagTransformer->setLocale($locale);
+        $builder->add('type', EnumType::class, [
+            'class' => ArticleTypeEnum::class,
+            'choice_label' => static fn (ArticleTypeEnum $type): string => match ($type) {
+                ArticleTypeEnum::Manual => 'Articles',
+                ArticleTypeEnum::Auto => 'Auto',
+                ArticleTypeEnum::Release => 'Release',
+            },
+        ]);
         $builder->add($builder->create('tags', TextType::class)->addModelTransformer($this->tagTransformer));
     }
 

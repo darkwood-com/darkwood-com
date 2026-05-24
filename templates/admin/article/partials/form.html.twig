@@ -121,6 +121,15 @@
                             <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
                         </div>
 
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Type</strong></div>
+                        <div class="col-md-8">{% if form.article.type.vars['errors'] |length > 0 %}<div class="alert alert-danger alert-form">{{ form_errors(form.article.type) }}</div>{% endif %}
+                            <div class="form-group {% if form.article.type.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_widget(form.article.type, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
                         {#<div class="col-md-12"><hr/></div>
 
 						<div class="col-md-4 text-right"><strong>Article public</strong></div>
@@ -168,6 +177,17 @@
                         <div class="col-md-8">
                             <img src="{{ asset('/admin/images/locales/'~form.vars['value'].locale~'.png') }}" style="width: 25px; margin-top: -2px;" />
                         </div>
+
+                        <div class="col-md-12"><hr/></div>
+
+                        <div class="col-md-4 text-right"><strong>Type</strong></div>
+                        <div class="col-md-8">{% if form.article.type.vars['errors'] |length > 0 %}<div class="alert alert-danger alert-form">{{ form_errors(form.article.type) }}</div>{% endif %}
+                            <div class="form-group {% if form.article.type.vars['errors'] |length > 0 %}has-error has-feedback{% endif %}">
+                                {{ form_widget(form.article.type, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr/></div>
 
                         <div class="col-md-4 text-right"><strong>Export locales</strong></div>
                         <div class="col-md-8">{% if form.export_locales.vars['errors'] |length > 0 %}<div class="col-md-2 control-label"></div><div class="col-md-10"><div class="alert alert-danger alert-form">{{ form_errors(form.export_locales) }}</div></div>{% endif %}
