@@ -282,7 +282,7 @@ blog:
     blog: Blog
     articles: Artikel
     auto: Auto
-    release: Release
+    release: Releases
   home:
     article_on: vom
     show_more: Weiterlesen

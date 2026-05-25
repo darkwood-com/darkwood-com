@@ -40,9 +40,9 @@ enum ArticleReactionEmoji: string
     {
         static $transliterators = [];
 
-        $catalog = $this->emojifyCatalog().'-emoji';
+        $catalog = $this->emojifyCatalog() . '-emoji';
         $transliterator = $transliterators[$catalog] ??= EmojiTransliterator::create($catalog);
-        $result = $transliterator->transliterate(':'.$this->textShortCode().':');
+        $result = $transliterator->transliterate(':' . $this->textShortCode() . ':');
 
         if (str_starts_with($result, ':')) {
             return $this->fallbackGlyph();

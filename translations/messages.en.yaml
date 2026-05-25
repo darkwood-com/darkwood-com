@@ -285,7 +285,7 @@ blog:
     blog: Blog
     articles: Articles
     auto: Auto
-    release: Release
+    release: Releases
   home:
     article_on: on
     show_more: Read more...

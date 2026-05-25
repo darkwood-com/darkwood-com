@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\CommentPage;
 use App\Form\CommentType;
+use App\Service\ArticleReactionService;
 use App\Service\BlogArticleService;
 use App\Service\CommentService;
 use App\Service\DarkwoodGameService;
@@ -31,6 +33,7 @@ class DarkwoodController extends AbstractController
     public function __construct(
         private readonly CommonController $commonController,
         private readonly BlogArticleService $articleService,
+        private readonly ArticleReactionService $articleReactionService,
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
@@ -60,8 +63,21 @@ class DarkwoodController extends AbstractController
         $page = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findManualActives($request->getLocale(), 5);
         $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
+        $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
+        $reactionArticles = array_values(array_filter([$lastAutoArticle, $lastReleaseArticle]));
+        foreach ($articles as $article) {
+            $reactionArticles[] = $article;
+        }
 
-        return $this->render('darkwood/pages/home.html.twig', ['page' => $page, 'news' => $articles, 'lastAutoArticle' => $lastAutoArticle, 'showLinks' => true]);
+        return $this->render('darkwood/pages/home.html.twig', [
+            'page' => $page,
+            'news' => $articles,
+            'lastAutoArticle' => $lastAutoArticle,
+            'lastReleaseArticle' => $lastReleaseArticle,
+            'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
+            'showLinks' => true,
+        ]);
     }
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
@@ -222,5 +238,15 @@ class DarkwoodController extends AbstractController
         $players = $this->paginator->paginate($query, $pagination?->page ?? 1, 56);
 
         return $this->render('darkwood/pages/rank.html.twig', ['page' => $page, 'players' => $players, 'mode' => $mode]);
+    }
+
+    /**
+     * @param list<Article> $articles
+     *
+     * @return array<int, array{counts: array<string, int>, userReactions: list<string>}>
+     */
+    private function buildReactionSummaries(array $articles): array
+    {
+        return $this->articleReactionService->getSummariesForArticles($articles, $this->getUser());
     }
 }

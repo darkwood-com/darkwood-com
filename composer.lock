@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f139e42de3851c0bb8d91e8e185848d",
+    "content-hash": "48beb07c8658af3a32208ca07daa9397",
     "packages": [
         {
             "name": "api-platform/core",
@@ -474,6 +474,63 @@
                 "source": "https://github.com/darkwood-com/ia-exception-bundle/tree/v1.0.3"
             },
             "time": "2026-03-15T15:37:14+00:00"
+        },
+        {
+            "name": "darkwood/navi",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/darkwood-com/navi.git",
+                "reference": "20e3c4b93186a2b7ba1e07380951f9b1b0e5e104"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/darkwood-com/navi/zipball/20e3c4b93186a2b7ba1e07380951f9b1b0e5e104",
+                "reference": "20e3c4b93186a2b7ba1e07380951f9b1b0e5e104",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "php": ">=8.5",
+                "symfony/console": "8.0.*",
+                "symfony/dotenv": "8.0.*",
+                "symfony/flex": "^2.10",
+                "symfony/framework-bundle": "8.0.*",
+                "symfony/runtime": "8.0.*",
+                "symfony/yaml": "8.0.*"
+            },
+            "conflict": {
+                "symfony/symfony": "*"
+            },
+            "type": "project",
+            "extra": {
+                "symfony": {
+                    "require": "8.0.*",
+                    "allow-contrib": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Navi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Public architectural layer for structured workflow execution.",
+            "support": {
+                "issues": "https://github.com/darkwood-com/navi/issues",
+                "source": "https://github.com/darkwood-com/navi/tree/v1.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/matyo91",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-05-21T22:31:14+00:00"
         },
         {
             "name": "dasprid/enum",

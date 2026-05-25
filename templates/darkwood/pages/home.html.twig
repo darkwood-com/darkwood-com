@@ -22,6 +22,34 @@
         <p>
             <a href="{{ path('blog_article', {'slug': autoTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>{#<a href="{{ path('blog_auto') }}">{{ 'blog.home.automation_all'|trans }}</a>#}
         </p>
+        {{ include('blog/partials/article-reactions.html.twig', {
+            article: lastAutoArticle,
+            slug: autoTranslation.slug,
+            summary: reactionSummaries[lastAutoArticle.id]|default({counts: {}, userReactions: []}),
+            reactionEmojis: reactionEmojis,
+            compact: true,
+        }) }}
+    </li>
+</ul>
+{% endif %}
+
+{% if lastReleaseArticle %}
+<h2>{{ 'blog.home.release_heading'|trans }}</h2>
+<ul class="itemlist">
+    {% set releaseTranslation = lastReleaseArticle.getOneTranslation(app.request.locale) %}
+    <li>
+        <h3>{{ releaseTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ releaseTranslation.created|format_date('long') }}</em></h3>
+        <p>{{ releaseTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>
+            <a href="{{ path('blog_article', {'slug': releaseTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>
+        </p>
+        {{ include('blog/partials/article-reactions.html.twig', {
+            article: lastReleaseArticle,
+            slug: releaseTranslation.slug,
+            summary: reactionSummaries[lastReleaseArticle.id]|default({counts: {}, userReactions: []}),
+            reactionEmojis: reactionEmojis,
+            compact: true,
+        }) }}
     </li>
 </ul>
 {% endif %}
@@ -34,6 +62,13 @@
         <h3>{{ articleTranslation.title }} <em>{{ 'darkwood.home.news_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
         <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
         <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a></p>
+        {{ include('blog/partials/article-reactions.html.twig', {
+            article: article,
+            slug: articleTranslation.slug,
+            summary: reactionSummaries[article.id]|default({counts: {}, userReactions: []}),
+            reactionEmojis: reactionEmojis,
+            compact: true,
+        }) }}
     </li>
     {% endfor %}
 </ul>
