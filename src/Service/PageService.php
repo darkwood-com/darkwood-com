@@ -128,13 +128,13 @@ class PageService
 
             $this->em->flush();
             $contents = $this->appContentRepository->findByAppAndLocale($page, $entity->getLocale());
-            foreach ($contents as $content) {
+            foreach ($contents as $index => $content) {
                 $duplicateContent = new AppContent();
                 $duplicateContent->setApp($page);
                 $duplicateContent->setLocale($locale);
                 $duplicateContent->setTitle($content->getTitle());
                 $duplicateContent->setContent($content->getContent());
-                $duplicateContent->setPosition($content->getPosition());
+                $duplicateContent->setPosition($content->getPosition() ?? $index);
                 $this->em->persist($duplicateContent);
             }
 

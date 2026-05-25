@@ -106,8 +106,9 @@ class AppController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 /** @var App $app */
                 $app = $entityTranslation->getPage();
-                foreach ($app->getContents() as $content) {
+                foreach ($app->getContents() as $index => $content) {
                     $content->setLocale($request->getLocale());
+                    $content->setPosition($index);
                 }
 
                 $this->pageService->saveTranslation($entityTranslation, $form->get('export_locales')->getData() === true);

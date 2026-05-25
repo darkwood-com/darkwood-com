@@ -148,15 +148,12 @@ class AppContent
         return $this->app;
     }
 
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition($position)
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
     }
