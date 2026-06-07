@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 use function is_string;
 use function preg_match;
+use function sprintf;
 use function trim;
 
 final readonly class ArticleReactionProcessor implements ProcessorInterface
