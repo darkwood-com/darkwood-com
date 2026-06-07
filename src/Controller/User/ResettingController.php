@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * @todo use : bin/console make:reset-password
  * Controller managing the resetting of the password.
  */
-#[Route(name: 'common_resetting')]
+#[Route]
 class ResettingController extends AbstractController
 {
     public function __construct(

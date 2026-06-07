@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(name: 'admin_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
+#[Route(requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class HomeController extends AbstractController
 {
     public function __construct(private readonly KernelInterface $kernel) {}

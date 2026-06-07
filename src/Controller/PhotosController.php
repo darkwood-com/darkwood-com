@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[Route(name: 'photos_', host: '%photos_host%')]
+#[Route(host: '%photos_host%')]
 class PhotosController extends AbstractController
 {
     public function __construct(

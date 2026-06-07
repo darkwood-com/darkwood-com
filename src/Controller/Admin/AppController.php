@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(name: 'admin_app_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
+#[Route(requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class AppController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly AppService $appService, private readonly PageService $pageService, private readonly SiteService $siteService) {}

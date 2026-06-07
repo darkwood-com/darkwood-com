@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(name: 'common_profile')]
+#[Route]
 class ProfileController extends AbstractController
 {
     public function __construct(

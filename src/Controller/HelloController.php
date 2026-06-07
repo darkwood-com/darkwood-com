@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 use Twig\Environment;
 
-#[Route(name: 'hello_', host: '%hello_host%')]
+#[Route(host: '%hello_host%')]
 class HelloController extends AbstractController
 {
     public function __construct(
