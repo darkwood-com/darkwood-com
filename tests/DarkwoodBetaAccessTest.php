@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Entity\ApiKey;
 use Doctrine\ORM\EntityManagerInterface;
+use Override;
 use Throwable;
 
 /**
@@ -14,7 +15,7 @@ use Throwable;
  */
 class DarkwoodBetaAccessTest extends CommonWebTestCase
 {
-    #[\Override]
+    #[Override]
     public function getHostParameter(): string
     {
         return 'api_host';

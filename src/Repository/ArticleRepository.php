@@ -10,9 +10,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 /**
  * Class ArticleRepository.
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Article>
  */
 class ArticleRepository extends ServiceEntityRepository
@@ -87,7 +89,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @param array $parameters
      */
-    #[\Override]
+    #[Override]
     public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc');

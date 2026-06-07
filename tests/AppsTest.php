@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class AppsTest extends CommonWebTestCase
 {
-    #[\Override]
+    #[Override]
     public function getHostParameter(): string
     {
         return 'apps_host';

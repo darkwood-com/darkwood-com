@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class AdminTest extends CommonWebTestCase
 {
-    #[\Override]
+    #[Override]
     public function getHostParameter(): string
     {
         return 'admin_host';
@@ -55,7 +56,7 @@ class AdminTest extends CommonWebTestCase
             ['/de', '/de/login'],
         ]);
 
-        $flattenedUrls = array_map(static fn($url) => $url[0], $urls);
+        $flattenedUrls = array_map(static fn ($url) => $url[0], $urls);
 
         return array_combine($flattenedUrls, $urls);
     }

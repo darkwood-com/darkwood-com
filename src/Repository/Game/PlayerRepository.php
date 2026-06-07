@@ -12,6 +12,7 @@ use function in_array;
 
 /**
  * Class PlayerRepository.
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Game\Player>
  */
 class PlayerRepository extends ServiceEntityRepository

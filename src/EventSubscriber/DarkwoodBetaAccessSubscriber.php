@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Entity\ApiKey;
 use App\Service\ApiKeyResolverService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,7 +46,7 @@ final readonly class DarkwoodBetaAccessSubscriber implements EventSubscriberInte
 
         $apiKey = $this->apiKeyResolver->resolveForGate($request);
 
-        if (!$apiKey instanceof \App\Entity\ApiKey) {
+        if (!$apiKey instanceof ApiKey) {
             $event->setResponse(new JsonResponse([
                 'error' => 'A valid API key is required',
             ], Response::HTTP_UNAUTHORIZED));

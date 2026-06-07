@@ -142,7 +142,8 @@ class Article implements Stringable
 
     /**
      * Get translations.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\ArticleTranslation>
+     *
+     * @return Collection<int, ArticleTranslation>
      */
     public function getTranslations(): Collection
     {
@@ -186,7 +187,8 @@ class Article implements Stringable
 
     /**
      * Get comments.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\CommentArticle>
+     *
+     * @return Collection<int, CommentArticle>
      */
     public function getComments(): Collection
     {
@@ -221,7 +223,7 @@ class Article implements Stringable
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Tag>
+     * @return Collection<int, Tag>
      */
     public function getTags(): Collection
     {

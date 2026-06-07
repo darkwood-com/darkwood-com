@@ -57,7 +57,7 @@ class ArticleController extends AbstractController
     public function edit(Request $request, $id)
     {
         $entity = $this->articleService->findOneToEdit($id);
-        if (!$entity instanceof \App\Entity\Article) {
+        if (!$entity instanceof Article) {
             throw $this->createNotFoundException('Article not found');
         }
 

@@ -162,7 +162,7 @@ class BlogController extends AbstractController
 
         $page = $this->commonController->getPage($request, $ref);
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
-        if (!$article instanceof \App\Entity\Article) {
+        if (!$article instanceof Article) {
             throw $this->createNotFoundException('Article not found !');
         }
 

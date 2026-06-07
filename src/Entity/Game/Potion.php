@@ -181,7 +181,8 @@ class Potion
 
     /**
      * Get players.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {
@@ -206,7 +207,8 @@ class Potion
 
     /**
      * Get currentPotionPlayers.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentPotionPlayers(): Collection
     {

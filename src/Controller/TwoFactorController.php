@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Service\SiteService;
 use App\Service\UserService;
@@ -156,7 +157,7 @@ class TwoFactorController extends AbstractController
         }
 
         $site = $this->siteService->findOneByHost($host);
-        if ($site instanceof \App\Entity\Site) {
+        if ($site instanceof Site) {
             return $site->getRef();
         }
 

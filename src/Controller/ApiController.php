@@ -83,20 +83,20 @@ class ApiController extends AbstractController
         // Find the ArticleTranslation
         $articleTranslation = $this->articleTranslationRepository->find($id);
         if ($articleTranslation === null) {
-            return new JsonResponse(['error' => 'ArticleTranslation not found'], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => 'ArticleTranslation not found'], Response::HTTP_NOT_FOUND);
         }
 
         /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('image');
 
         if (!$uploadedFile) {
-            return new JsonResponse(['error' => 'No image file provided'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'No image file provided'], Response::HTTP_BAD_REQUEST);
         }
 
         // Validate file type
         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!in_array($uploadedFile->getMimeType(), $allowedMimeTypes, true)) {
-            return new JsonResponse(['error' => 'Invalid file type. Only JPEG, PNG, GIF and WebP are allowed.'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Invalid file type. Only JPEG, PNG, GIF and WebP are allowed.'], Response::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -124,7 +124,7 @@ class ApiController extends AbstractController
                 'url' => $imageUrl,
             ]);
         } catch (FileException $fileException) {
-            return new JsonResponse(['error' => 'Failed to upload file: ' . $fileException->getMessage()], \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => 'Failed to upload file: ' . $fileException->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

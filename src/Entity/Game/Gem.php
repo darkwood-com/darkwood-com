@@ -148,7 +148,8 @@ class Gem
 
     /**
      * Get equipment1Players.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment1Players(): Collection
     {
@@ -173,7 +174,8 @@ class Gem
 
     /**
      * Get equipment2Players.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment2Players(): Collection
     {
@@ -198,7 +200,8 @@ class Gem
 
     /**
      * Get equipment3Players.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment3Players(): Collection
     {

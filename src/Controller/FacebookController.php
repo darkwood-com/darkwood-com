@@ -13,9 +13,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FacebookController extends AbstractController
 {
-    public function __construct(private readonly \KnpU\OAuth2ClientBundle\Client\ClientRegistry $clientRegistry)
-    {
-    }
+    public function __construct(private readonly ClientRegistry $clientRegistry) {}
+
     /**
      * Link to this controller to start the "connect" process.
      */
@@ -40,6 +39,7 @@ class FacebookController extends AbstractController
         // (read below)
         /** @var FacebookClient $client */
         $client = $this->clientRegistry->getClient('facebook_main');
+
         try {
             // the exact class depends on which provider you're using
             /** @var FacebookUser $user */

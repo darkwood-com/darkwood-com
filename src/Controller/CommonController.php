@@ -8,6 +8,7 @@ use App\Entity\Article;
 use App\Entity\Contact;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
+use App\Entity\Site;
 use App\Form\ContactType;
 use App\Service\ContactService;
 use App\Service\PageService;
@@ -68,7 +69,7 @@ class CommonController extends AbstractController
 
         $host = $request->getHost();
         $site = $this->siteService->findOneByHost($host);
-        if (!$site instanceof \App\Entity\Site) {
+        if (!$site instanceof Site) {
             $site = $this->siteService->findOneToEdit($this->container->get('request_stack')->getSession()->get('siteId'));
             if (!$site) {
                 $site = $this->siteService->findOneByRef('darkwood');
@@ -142,7 +143,7 @@ class CommonController extends AbstractController
     public function getPage(Request $request, $ref): PageTranslation
     {
         $page = $this->pageService->findOneActiveByRefAndHost($ref, $request->getHost());
-        if (!$page instanceof \App\Entity\Page) {
+        if (!$page instanceof Page) {
             throw $this->createNotFoundException('Page not found !');
         }
 

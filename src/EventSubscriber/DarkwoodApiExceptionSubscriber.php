@@ -71,7 +71,7 @@ final readonly class DarkwoodApiExceptionSubscriber implements EventSubscriberIn
                 'message' => $throwable->getMessage(),
                 'class' => $throwable::class,
                 'trace' => array_map(
-                    static fn(array $frame): array => [
+                    static fn (array $frame): array => [
                         'file' => $frame['file'] ?? null,
                         'line' => $frame['line'] ?? null,
                         'function' => $frame['function'] ?? null,

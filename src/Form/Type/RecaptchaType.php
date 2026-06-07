@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -34,7 +35,7 @@ final class RecaptchaType extends AbstractType
         ]);
     }
 
-    #[\Override]
+    #[Override]
     public function getBlockPrefix(): string
     {
         return 'recaptcha';

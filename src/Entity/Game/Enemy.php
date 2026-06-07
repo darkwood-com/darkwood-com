@@ -295,7 +295,8 @@ class Enemy
 
     /**
      * Get lastFightPlayers.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getLastFightPlayers(): Collection
     {
@@ -320,7 +321,8 @@ class Enemy
 
     /**
      * Get maxFightPlayers.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getMaxFightPlayers(): Collection
     {
@@ -345,7 +347,8 @@ class Enemy
 
     /**
      * Get currentEnemyPlayers.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentEnemyPlayers(): Collection
     {

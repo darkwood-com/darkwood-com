@@ -143,7 +143,7 @@ class DarkwoodGameService
     public function getOrCreate(User $user): Player
     {
         $player = $user->getPlayer();
-        if (!$player instanceof \App\Entity\Game\Player) {
+        if (!$player instanceof Player) {
             $player = new Player();
             $player->setLifeMin(50);
             $player->setLifeMax(50);
@@ -186,21 +186,21 @@ class DarkwoodGameService
         $equipmentDamage = 0;
         if ($player->getEquipment1IsUse()) {
             $gem = $player->getEquipment1();
-            if ($gem instanceof \App\Entity\Game\Gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
 
         if ($player->getEquipment2IsUse()) {
             $gem = $player->getEquipment2();
-            if ($gem instanceof \App\Entity\Game\Gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
 
         if ($player->getEquipment3IsUse()) {
             $gem = $player->getEquipment3();
-            if ($gem instanceof \App\Entity\Game\Gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
@@ -584,7 +584,7 @@ class DarkwoodGameService
     public function setLastFight(User $user)
     {
         $player = $this->getOrCreate($user);
-        if (!$player->getLastFight() instanceof \App\Entity\Game\Enemy) {
+        if (!$player->getLastFight() instanceof Enemy) {
             $player->setLastFight($player->getCurrentEnemy() ?: $this->enemyRepository->findDefault());
             $this->em->flush();
         }
@@ -684,7 +684,7 @@ class DarkwoodGameService
             $player->setLastFight(null);
             // set player max fight
             $maxEnemy = $player->getMaxFight();
-            if (!$maxEnemy instanceof \App\Entity\Game\Enemy || $enemy->getXp() > $maxEnemy->getXp()) {
+            if (!$maxEnemy instanceof Enemy || $enemy->getXp() > $maxEnemy->getXp()) {
                 $player->setMaxFight($enemy);
             }
 
@@ -724,11 +724,11 @@ class DarkwoodGameService
 
                 $result['gem'] = 'found';
                 $result['gem_item'] = $gem;
-                if (!$player->getEquipment1() instanceof \App\Entity\Game\Gem) {
+                if (!$player->getEquipment1() instanceof Gem) {
                     $player->setEquipment1($gem);
-                } elseif (!$player->getEquipment2() instanceof \App\Entity\Game\Gem) {
+                } elseif (!$player->getEquipment2() instanceof Gem) {
                     $player->setEquipment2($gem);
-                } elseif (!$player->getEquipment3() instanceof \App\Entity\Game\Gem) {
+                } elseif (!$player->getEquipment3() instanceof Gem) {
                     $player->setEquipment3($gem);
                 } else {
                     // no more place to hase a new gem
@@ -1043,7 +1043,7 @@ class DarkwoodGameService
                     } elseif ($this->getRequestInput($request, 'actionEnemyPrevious')) {
                         $this->previousEnemy($user);
                     } elseif ($this->getRequestInput($request, 'actionBeginFight')) {
-                        if ($player->getLastFight() instanceof \App\Entity\Game\Enemy) {
+                        if ($player->getLastFight() instanceof Enemy) {
                             // Already in a fight — do not allow starting a new one; return current fight state
                             $parameters['mode'] = 'combat';
                             $parameters['data']['info'] = $this->getInfo($user);

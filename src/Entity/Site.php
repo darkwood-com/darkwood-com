@@ -184,7 +184,8 @@ class Site implements Stringable
 
     /**
      * Get pages.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Page>
+     *
+     * @return Collection<int, Page>
      */
     public function getPages(): Collection
     {

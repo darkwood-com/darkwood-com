@@ -12,6 +12,7 @@ use App\Enum\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\BlogArticleService;
 use JsonException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -32,7 +33,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
+        if (!$request instanceof Request) {
             throw new BadRequestHttpException('No current request.');
         }
 
@@ -146,7 +147,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
             'id' => $article->getId(),
             'generation_id' => $article->getGenerationId(),
             'slug' => $primaryTranslation instanceof ArticleTranslation ? $primaryTranslation->getSlug() : null,
-            'status' => $existing instanceof \App\Entity\Article ? 'updated' : 'created',
+            'status' => $existing instanceof Article ? 'updated' : 'created',
         ];
     }
 }

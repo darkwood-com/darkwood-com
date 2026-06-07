@@ -10,7 +10,9 @@ use App\Repository\DarkwoodArchiveRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
+use Override;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
 /**
@@ -18,7 +20,7 @@ use Throwable;
  */
 class DarkwoodArchivesTest extends CommonWebTestCase
 {
-    #[\Override]
+    #[Override]
     public function getHostParameter(): string
     {
         return 'api_host';
@@ -29,7 +31,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         $client = $this->createApiClientWithPremiumKey();
         $this->createArchive($client, '2026-03-08', ['state' => 'main', 'data' => []]);
 
-        $client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/darkwood/archives/2026-03-08');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives/2026-03-08');
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -42,7 +44,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithPremiumKey();
 
-        $client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/darkwood/archives/1999-01-01');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives/1999-01-01');
         self::assertSame(404, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -56,7 +58,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         $payload = ['state' => 'not-logged', 'user' => null, 'data' => []];
         $this->createArchive($client, '2026-02-01', $payload);
 
-        $client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/darkwood/archives/2026-02-01');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives/2026-02-01');
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -67,7 +69,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithBetaKey(isPremium: false, dailyLimit: 10);
 
-        $client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/darkwood/archives/2026-03-07');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives/2026-03-07');
         self::assertSame(403, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -83,7 +85,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         $repo = $em->getRepository(DarkwoodArchive::class);
         if ($repo instanceof DarkwoodArchiveRepository) {
             $existing = $repo->findOneByDateId('2026-01-15');
-            if ($existing instanceof \App\Entity\DarkwoodArchive) {
+            if ($existing instanceof DarkwoodArchive) {
                 $em->remove($existing);
                 $em->flush();
             }
@@ -186,7 +188,7 @@ class DarkwoodArchivesTest extends CommonWebTestCase
         $repo = $em->getRepository(DarkwoodArchive::class);
         if ($repo instanceof DarkwoodArchiveRepository) {
             $existing = $repo->findOneByDateId($dateId);
-            if ($existing instanceof \App\Entity\DarkwoodArchive) {
+            if ($existing instanceof DarkwoodArchive) {
                 $em->remove($existing);
                 $em->flush();
             }

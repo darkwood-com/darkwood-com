@@ -57,7 +57,7 @@ class AppController extends AbstractController
     public function edit(Request $request, $id)
     {
         $entity = $this->appService->findOneToEdit($id, $request->getLocale());
-        if (!$entity instanceof \App\Entity\App) {
+        if (!$entity instanceof App) {
             throw $this->createNotFoundException('App not found');
         }
 

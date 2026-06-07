@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(name: 'admin_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class HomeController extends AbstractController
 {
-    public function __construct(private readonly KernelInterface $kernel)
-    {
-    }
+    public function __construct(private readonly KernelInterface $kernel) {}
 
     #[Route('/{_locale}/', name: 'admin_home')]
     public function index(): Response

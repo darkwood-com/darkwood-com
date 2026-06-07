@@ -10,8 +10,10 @@ use App\Entity\User;
 use App\Service\DarkwoodGameService;
 use App\State\DarkwoodResultNormalizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final readonly class DarkwoodStateProvider implements ProviderInterface
 {
@@ -25,7 +27,7 @@ final readonly class DarkwoodStateProvider implements ProviderInterface
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|JsonResponse|null
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
+        if (!$request instanceof Request) {
             return null;
         }
 
@@ -37,7 +39,7 @@ final readonly class DarkwoodStateProvider implements ProviderInterface
     private function getCurrentUser(): ?User
     {
         $token = $this->tokenStorage->getToken();
-        $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
+        $user = $token instanceof TokenInterface ? $token->getUser() : null;
 
         return $user instanceof User ? $user : null;
     }

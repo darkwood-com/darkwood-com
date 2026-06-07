@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Entity\Site;
 use App\Service\SiteService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -45,7 +46,7 @@ class TwoFactorSuccessHandler implements AuthenticationSuccessHandlerInterface
         }
 
         $site = $this->siteService->findOneByHost($host);
-        $route = $site instanceof \App\Entity\Site ? $site->getRef() . '_home' : 'darkwood_home';
+        $route = $site instanceof Site ? $site->getRef() . '_home' : 'darkwood_home';
 
         return new RedirectResponse($this->urlGenerator->generate($route, ['_locale' => $locale], UrlGeneratorInterface::ABSOLUTE_URL));
     }

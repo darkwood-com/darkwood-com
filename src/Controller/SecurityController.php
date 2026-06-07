@@ -16,7 +16,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly CommonController $commonController, private readonly \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils, private readonly \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag
+        private readonly CommonController $commonController,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly ParameterBagInterface $parameterBag
     ) {}
 
     #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'login'], priority: 10)]

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Entity\Site;
 use App\Repository\UserRepository;
 use App\Service\SiteService;
+use Override;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +46,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         private readonly UserProviderInterface $userProvider
     ) {}
 
-    #[\Override]
+    #[Override]
     public function supports(Request $request): bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
@@ -115,7 +117,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $site = $this->siteService->findOneByHost($host);
             if ($host === $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } elseif ($site instanceof \App\Entity\Site) {
+            } elseif ($site instanceof Site) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }

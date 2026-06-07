@@ -115,7 +115,7 @@ class DarkwoodController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
         $news = $this->articleService->findOneBySlug($slug, $request->getLocale());
-        if (!$news instanceof \App\Entity\Article) {
+        if (!$news instanceof Article) {
             throw $this->createNotFoundException('News not found !');
         }
 

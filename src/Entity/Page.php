@@ -194,7 +194,8 @@ class Page implements Stringable
 
     /**
      * Get comments.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Comment>
+     *
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {

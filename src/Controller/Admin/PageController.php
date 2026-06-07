@@ -61,7 +61,7 @@ class PageController extends AbstractController
     public function edit(Request $request, $id)
     {
         $entity = $this->pageService->findOneToEdit($id);
-        if (!$entity instanceof \App\Entity\Page) {
+        if (!$entity instanceof Page) {
             throw $this->createNotFoundException('Page not found');
         }
 

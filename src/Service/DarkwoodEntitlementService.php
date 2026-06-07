@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Entitlement;
 use App\Entity\User;
 use App\Repository\EntitlementRepository;
 
@@ -19,10 +20,10 @@ class DarkwoodEntitlementService
 
     public function isPremium(?User $user): bool
     {
-        if (!$user instanceof \App\Entity\User) {
+        if (!$user instanceof User) {
             return false;
         }
 
-        return $this->entitlementRepository->findActivePremiumForUser($user) instanceof \App\Entity\Entitlement;
+        return $this->entitlementRepository->findActivePremiumForUser($user) instanceof Entitlement;
     }
 }

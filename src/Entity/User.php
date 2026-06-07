@@ -431,7 +431,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get comments.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Comment>
+     *
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {
@@ -458,7 +459,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get contacts.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Contact>
+     *
+     * @return Collection<int, Contact>
      */
     public function getContacts(): Collection
     {

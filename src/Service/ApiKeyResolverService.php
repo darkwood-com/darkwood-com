@@ -30,7 +30,7 @@ class ApiKeyResolverService
 
         $keyHash = hash('sha256', $rawKey);
         $apiKey = $this->apiKeyRepository->findOneByKeyHash($keyHash);
-        if (!$apiKey instanceof \App\Entity\ApiKey) {
+        if (!$apiKey instanceof ApiKey) {
             return null;
         }
 

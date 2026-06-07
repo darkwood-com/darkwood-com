@@ -243,7 +243,7 @@ class PageService
      */
     public function find($id): ?PageTranslation
     {
-        return $this->pageRepository->find($id);
+        return $this->entityRepository->find($id);
     }
 
     /**
@@ -308,7 +308,7 @@ class PageService
     public function getPageUrl($ref, $host, $locale = null)
     {
         $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host, $locale);
-        if (!$page instanceof \App\Entity\Page) {
+        if (!$page instanceof Page) {
             return null;
         }
 
@@ -343,7 +343,7 @@ class PageService
             }
         } else {
             $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host);
-            if ($page instanceof \App\Entity\Page) {
+            if ($page instanceof Page) {
                 foreach ($page->getTranslations() as $pageTranslation) {
                     if ($pageTranslation->getLocale() === $locale) {
                         continue;

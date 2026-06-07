@@ -24,7 +24,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 #[Route(name: 'common_register')]
 class RegistrationController extends AbstractController
 {
-    public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController, private readonly \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher, private readonly \Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface $userAuthenticator, private readonly \App\Security\LoginFormAuthenticator $authenticator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager) {}
+    public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController, private readonly UserPasswordHasherInterface $passwordHasher, private readonly UserAuthenticatorInterface $userAuthenticator, private readonly LoginFormAuthenticator $authenticator, private readonly EntityManagerInterface $entityManager) {}
 
     #[Route(path: ['fr' => '/fr/inscription', 'en' => '/register', 'de' => '/de/registrieren'], name: 'common_register', defaults: ['ref' => 'register'])]
     public function register(Request $request, $ref): Response

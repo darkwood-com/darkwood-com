@@ -9,7 +9,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BaserowService
 {
-
     private readonly string $host;
 
     private readonly string $username;
@@ -17,7 +16,7 @@ class BaserowService
     private readonly string $password;
 
     public function __construct(
-        private readonly \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient,
+        private readonly HttpClientInterface $httpClient,
         #[Autowire('%baserow_host%')]
         ?string $host,
         #[Autowire('%baserow_username%')]

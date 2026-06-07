@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class PageRepository.
+ *
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Page>
  */
 class PageRepository extends ServiceEntityRepository

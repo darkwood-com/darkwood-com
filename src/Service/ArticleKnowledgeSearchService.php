@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\Entitlement;
 use App\Enum\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\EntitlementRepository;
@@ -76,6 +77,6 @@ final readonly class ArticleKnowledgeSearchService
             return false;
         }
 
-        return $user->isPremium() || $this->entitlements->findActivePremiumForUser($user) instanceof \App\Entity\Entitlement;
+        return $user->isPremium() || $this->entitlements->findActivePremiumForUser($user) instanceof Entitlement;
     }
 }

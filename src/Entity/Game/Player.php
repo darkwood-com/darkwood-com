@@ -468,7 +468,8 @@ class Player
 
     /**
      * Get dailyBattles.
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\DailyBattle>
+     *
+     * @return Collection<int, DailyBattle>
      */
     public function getDailyBattles(): Collection
     {

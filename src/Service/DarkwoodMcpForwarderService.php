@@ -42,7 +42,7 @@ final readonly class DarkwoodMcpForwarderService
             'HTTP_CONTENT_TYPE' => 'application/json',
         ], $content);
 
-        if ($current instanceof \Symfony\Component\HttpFoundation\Request) {
+        if ($current instanceof Request) {
             if ($current->headers->has(ApiKeyResolverService::HEADER_NAME)) {
                 $subRequest->headers->set(ApiKeyResolverService::HEADER_NAME, $current->headers->get(ApiKeyResolverService::HEADER_NAME));
             }

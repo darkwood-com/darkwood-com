@@ -167,7 +167,7 @@ final readonly class HelloCvRepositoryService
      */
     private function anyContains(array $haystacks, string $q): bool
     {
-        return array_any($haystacks, fn($text) => $text !== '' && str_contains(mb_strtolower((string) $text), $q));
+        return array_any($haystacks, static fn ($text) => $text !== '' && str_contains(mb_strtolower((string) $text), $q));
     }
 
     private function buildProfile(): HelloCvProfile
