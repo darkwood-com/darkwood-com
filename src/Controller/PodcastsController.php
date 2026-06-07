@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function sprintf;
 
-#[Route(name: 'podcasts_', host: '%podcasts_host%')]
+#[Route(host: '%podcasts_host%')]
 class PodcastsController extends AbstractController
 {
     public function __construct(

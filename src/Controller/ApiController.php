@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 
 use function in_array;
 
-#[Route(name: 'api_', host: '%api_host%')]
+#[Route(host: '%api_host%')]
 class ApiController extends AbstractController
 {
     public function __construct(

@@ -27,7 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function in_array;
 
-#[Route(name: 'darkwood_', host: '%darkwood_host%')]
+#[Route(host: '%darkwood_host%')]
 class DarkwoodController extends AbstractController
 {
     public function __construct(

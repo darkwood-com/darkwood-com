@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(name: 'admin_article_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
+#[Route(requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class ArticleController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly BlogArticleService $articleService, private readonly TagService $tagService) {}

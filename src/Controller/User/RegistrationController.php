@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-#[Route(name: 'common_register')]
+#[Route]
 class RegistrationController extends AbstractController
 {
     public function __construct(private readonly EmailVerifier $emailVerifier, private readonly CommonController $commonController, private readonly UserPasswordHasherInterface $passwordHasher, private readonly UserAuthenticatorInterface $userAuthenticator, private readonly LoginFormAuthenticator $authenticator, private readonly EntityManagerInterface $entityManager) {}
