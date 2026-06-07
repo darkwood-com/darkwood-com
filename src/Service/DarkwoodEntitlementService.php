@@ -19,10 +19,10 @@ class DarkwoodEntitlementService
 
     public function isPremium(?User $user): bool
     {
-        if ($user === null) {
+        if (!$user instanceof \App\Entity\User) {
             return false;
         }
 
-        return $this->entitlementRepository->findActivePremiumForUser($user) !== null;
+        return $this->entitlementRepository->findActivePremiumForUser($user) instanceof \App\Entity\Entitlement;
     }
 }

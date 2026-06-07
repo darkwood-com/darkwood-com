@@ -25,7 +25,7 @@ final readonly class DarkwoodStateProvider implements ProviderInterface
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|JsonResponse|null
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             return null;
         }
 
@@ -37,7 +37,7 @@ final readonly class DarkwoodStateProvider implements ProviderInterface
     private function getCurrentUser(): ?User
     {
         $token = $this->tokenStorage->getToken();
-        $user = $token ? $token->getUser() : null;
+        $user = $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $token->getUser() : null;
 
         return $user instanceof User ? $user : null;
     }

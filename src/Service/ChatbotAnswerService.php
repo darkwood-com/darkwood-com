@@ -6,9 +6,9 @@ namespace App\Service;
 
 use function sprintf;
 
-final class ChatbotAnswerService
+final readonly class ChatbotAnswerService
 {
-    public function __construct(private readonly ArticleKnowledgeSearchService $knowledge) {}
+    public function __construct(private ArticleKnowledgeSearchService $knowledge) {}
 
     /**
      * @return array{answer:string,sources:list<int>,premium_context_used:bool}
@@ -32,6 +32,7 @@ final class ChatbotAnswerService
             if ((bool) $match['premium']) {
                 $premiumUsed = true;
             }
+
             $lines[] = sprintf('%d) %s - %s', $index + 1, $match['title'], mb_substr($content, 0, 280));
         }
 

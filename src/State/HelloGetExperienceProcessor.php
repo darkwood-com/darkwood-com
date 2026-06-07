@@ -32,7 +32,7 @@ final readonly class HelloGetExperienceProcessor implements ProcessorInterface
             }
         }
 
-        if ($exp === null) {
+        if (!$exp instanceof \App\ApiResource\HelloCvExperience) {
             return ['matched' => false, 'experience' => null];
         }
 

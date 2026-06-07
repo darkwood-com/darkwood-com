@@ -308,7 +308,7 @@ class PageService
     public function getPageUrl($ref, $host, $locale = null)
     {
         $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host, $locale);
-        if ($page === null) {
+        if (!$page instanceof \App\Entity\Page) {
             return null;
         }
 
@@ -343,7 +343,7 @@ class PageService
             }
         } else {
             $page = $this->pageRepository->findOneActiveByRefAndHost($ref, $host);
-            if ($page !== null) {
+            if ($page instanceof \App\Entity\Page) {
                 foreach ($page->getTranslations() as $pageTranslation) {
                     if ($pageTranslation->getLocale() === $locale) {
                         continue;

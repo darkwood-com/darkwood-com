@@ -27,7 +27,7 @@ class CommonWebTestCase extends WebTestCase
         $container = $client->getContainer();
         $client->setServerParameters([
             'HTTPS' => false,
-            'HTTP_HOST' => $container->getParameter($this->getHostParameter()) . ($this->getPortParameter() ? ':' . $this->getPortParameter() : ''),
+            'HTTP_HOST' => $container->getParameter($this->getHostParameter()) . ($this->getPortParameter() !== 0 ? ':' . $this->getPortParameter() : ''),
         ]);
         $client->enableProfiler();
 

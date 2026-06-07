@@ -11,6 +11,7 @@ use function sprintf;
 
 class DarkwoodTest extends CommonWebTestCase
 {
+    #[\Override]
     public function getHostParameter(): string
     {
         return 'darkwood_host';

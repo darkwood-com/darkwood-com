@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class PhotosTest extends CommonWebTestCase
 {
+    #[\Override]
     public function getHostParameter(): string
     {
         return 'photos_host';

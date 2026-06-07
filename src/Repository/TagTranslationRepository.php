@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class TagTranslationRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\TagTranslation>
  */
 class TagTranslationRepository extends ServiceEntityRepository
 {

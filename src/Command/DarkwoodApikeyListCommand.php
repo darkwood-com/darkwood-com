@@ -48,6 +48,7 @@ final class DarkwoodApikeyListCommand extends Command
                 $key->getCreated()?->format('Y-m-d H:i') ?? '-',
             ]);
         }
+
         $table->render();
 
         return Command::SUCCESS;

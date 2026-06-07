@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method null|ApiKey findOneBy(array $criteria, array $orderBy = null)
  * @method ApiKey[]    findAll()
  * @method ApiKey[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\ApiKey>
  */
 class ApiKeyRepository extends ServiceEntityRepository
 {

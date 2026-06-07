@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/articles', name: 'admin_article_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_article_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class ArticleController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly BlogArticleService $articleService, private readonly TagService $tagService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/articles/list', name: 'admin_article_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -37,7 +37,7 @@ class ArticleController extends AbstractController
         return $this->render('admin/article/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/articles/create', name: 'admin_article_create')]
     public function create(Request $request)
     {
         $entity = new Article();
@@ -53,11 +53,11 @@ class ArticleController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/articles/edit/{id}', name: 'admin_article_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->articleService->findOneToEdit($id);
-        if ($entity === null) {
+        if (!$entity instanceof \App\Entity\Article) {
             throw $this->createNotFoundException('Article not found');
         }
 
@@ -74,7 +74,7 @@ class ArticleController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/articles/delete/{id}', name: 'admin_article_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Article $article */

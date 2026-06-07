@@ -22,7 +22,7 @@ use function sprintf;
 )]
 final class DarkwoodApikeyRotateCommand extends Command
 {
-    private const KEY_BYTES = 32;
+    private const int KEY_BYTES = 32;
 
     public function __construct(
         private readonly ApiKeyRepository $apiKeyRepository,

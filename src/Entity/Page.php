@@ -22,18 +22,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ApiResource(
-    security: "is_granted('ROLE_USER')",
-    operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
-    ],
-    normalizationContext: ['groups' => ['page:read']],
-    denormalizationContext: ['groups' => ['page:write']]
-)]
+#[ApiResource(operations: [
+    new Get(),
+    new GetCollection(),
+    new Post(security: "is_granted('ROLE_ADMIN')"),
+    new Put(security: "is_granted('ROLE_ADMIN')"),
+    new Delete(security: "is_granted('ROLE_ADMIN')"),
+], normalizationContext: ['groups' => ['page:read']], denormalizationContext: ['groups' => ['page:write']], security: "is_granted('ROLE_USER')")]
 #[UniqueEntity(fields: ['site', 'ref'])]
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 #[ORM\InheritanceType('JOINED')]
@@ -69,7 +64,7 @@ class Page implements Stringable
 
     #[Groups(['page:read', 'page:write'])]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'pages', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Site::class, cascade: ['persist'], inversedBy: 'pages')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id')]
     protected ?Site $site = null;
 
@@ -199,6 +194,7 @@ class Page implements Stringable
 
     /**
      * Get comments.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Comment>
      */
     public function getComments(): Collection
     {

@@ -14,6 +14,7 @@ use Throwable;
  */
 class DarkwoodBetaAccessTest extends CommonWebTestCase
 {
+    #[\Override]
     public function getHostParameter(): string
     {
         return 'api_host';
@@ -25,7 +26,7 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         $client->request('GET', '/api/darkwood/state');
 
         self::assertSame(401, $client->getResponse()->getStatusCode());
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = json_decode((string) $client->getResponse()->getContent(), true);
         self::assertSame('A valid API key is required', $data['error'] ?? null);
     }
 
@@ -37,7 +38,7 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         ]);
 
         self::assertSame(401, $client->getResponse()->getStatusCode());
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $data = json_decode((string) $client->getResponse()->getContent(), true);
         self::assertSame('A valid API key is required', $data['error'] ?? null);
     }
 
@@ -59,8 +60,8 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (Throwable $e) {
-            self::markTestSkipped('Database not available: ' . $e->getMessage());
+        } catch (Throwable $throwable) {
+            self::markTestSkipped('Database not available: ' . $throwable->getMessage());
         }
 
         try {
@@ -68,7 +69,7 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
                 'HTTP_X_API_KEY' => $rawKey,
             ]);
             self::assertSame(403, $client->getResponse()->getStatusCode());
-            $data = json_decode($client->getResponse()->getContent(), true);
+            $data = json_decode((string) $client->getResponse()->getContent(), true);
             self::assertSame('API key is inactive', $data['error'] ?? null);
         } finally {
             $em->remove($apiKey);
@@ -94,8 +95,8 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (Throwable $e) {
-            self::markTestSkipped('Database not available: ' . $e->getMessage());
+        } catch (Throwable $throwable) {
+            self::markTestSkipped('Database not available: ' . $throwable->getMessage());
         }
 
         try {
@@ -103,7 +104,7 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
                 'HTTP_X_API_KEY' => $rawKey,
             ]);
             self::assertSame(403, $client->getResponse()->getStatusCode());
-            $data = json_decode($client->getResponse()->getContent(), true);
+            $data = json_decode((string) $client->getResponse()->getContent(), true);
             self::assertSame('Beta access required', $data['error'] ?? null);
         } finally {
             $em->remove($apiKey);
@@ -129,8 +130,8 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (Throwable $e) {
-            self::markTestSkipped('Database not available: ' . $e->getMessage());
+        } catch (Throwable $throwable) {
+            self::markTestSkipped('Database not available: ' . $throwable->getMessage());
         }
 
         try {
@@ -162,8 +163,8 @@ class DarkwoodBetaAccessTest extends CommonWebTestCase
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (Throwable $e) {
-            self::markTestSkipped('Database not available: ' . $e->getMessage());
+        } catch (Throwable $throwable) {
+            self::markTestSkipped('Database not available: ' . $throwable->getMessage());
         }
 
         try {

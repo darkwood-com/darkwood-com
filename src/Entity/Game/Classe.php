@@ -178,6 +178,7 @@ class Classe
 
     /**
      * Get players.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
      */
     public function getPlayers(): Collection
     {

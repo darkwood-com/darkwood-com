@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class BlogTest extends CommonWebTestCase
 {
+    #[\Override]
     public function getHostParameter(): string
     {
         return 'blog_host';

@@ -202,6 +202,7 @@ class Armor
 
     /**
      * Get players.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
      */
     public function getPlayers(): Collection
     {
@@ -226,6 +227,7 @@ class Armor
 
     /**
      * Get currentArmorPlayers.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
      */
     public function getCurrentArmorPlayers(): Collection
     {

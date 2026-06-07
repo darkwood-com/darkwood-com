@@ -22,12 +22,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/apps', name: 'admin_app_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_app_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class AppController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly AppService $appService, private readonly PageService $pageService, private readonly SiteService $siteService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/apps/list', name: 'admin_app_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -39,7 +39,7 @@ class AppController extends AbstractController
         return $this->render('admin/app/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/apps/create', name: 'admin_app_create')]
     public function create(Request $request)
     {
         $entity = new App();
@@ -53,11 +53,11 @@ class AppController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/apps/edit/{id}', name: 'admin_app_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->appService->findOneToEdit($id, $request->getLocale());
-        if ($entity === null) {
+        if (!$entity instanceof \App\Entity\App) {
             throw $this->createNotFoundException('App not found');
         }
 
@@ -74,7 +74,7 @@ class AppController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/apps/delete/{id}', name: 'admin_app_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var App $app */

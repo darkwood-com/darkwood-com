@@ -59,7 +59,7 @@ class TagTransformer implements DataTransformerInterface
             $tags = '';
         }
 
-        $arrayTags = array_filter(array_map('trim', explode(',', (string) $tags)));
+        $arrayTags = array_filter(array_map(trim(...), explode(',', (string) $tags)));
         foreach ($arrayTags as $tag) {
             $tagPersisited = $this->tagService->findOneByTitle($tag);
             if (!$tagPersisited) {

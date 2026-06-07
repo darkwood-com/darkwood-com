@@ -17,10 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new Post(
             uriTemplate: '/article_reactions',
-            processor: ArticleReactionProcessor::class,
-            read: false,
             security: "is_granted('ROLE_USER')",
+            read: false,
             name: 'api_article_reactions_create',
+            processor: ArticleReactionProcessor::class,
         ),
     ],
 )]

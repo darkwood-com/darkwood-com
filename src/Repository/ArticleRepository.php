@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ArticleRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Article>
  */
 class ArticleRepository extends ServiceEntityRepository
 {
@@ -86,6 +87,7 @@ class ArticleRepository extends ServiceEntityRepository
      *
      * @param array $parameters
      */
+    #[\Override]
     public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc');

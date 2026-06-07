@@ -35,14 +35,16 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 {
     use TimestampTrait;
 
-    private const TOTP_ALGORITHM = TotpConfiguration::ALGORITHM_SHA1;
-    private const TOTP_PERIOD = 30;
-    private const TOTP_DIGITS = 6;
+    private const string TOTP_ALGORITHM = TotpConfiguration::ALGORITHM_SHA1;
+
+    private const int TOTP_PERIOD = 30;
+
+    private const int TOTP_DIGITS = 6;
 
     /**
      * Key used for the private $password property when this object is cast to array (PHP internal format).
      */
-    private const PASSWORD_ARRAY_KEY = "\0" . self::class . "\0password";
+    private const string PASSWORD_ARRAY_KEY = "\0" . self::class . "\0password";
 
     #[Assert\NotBlank(message: 'form.general.required')]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.", mode: 'strict')]
@@ -429,6 +431,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get comments.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Comment>
      */
     public function getComments(): Collection
     {
@@ -455,6 +458,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Get contacts.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Contact>
      */
     public function getContacts(): Collection
     {

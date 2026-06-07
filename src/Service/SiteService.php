@@ -124,7 +124,7 @@ class SiteService
             foreach ($sites as $site) {
                 $ref = $site->getRef();
                 $host = $site->getHost();
-                if ($ref === 'hello' || $ref === 'api' || $ref === 'podcasts') {
+                if (in_array($ref, ['hello', 'api', 'podcasts'], true)) {
                     continue;
                 }
 
@@ -163,7 +163,7 @@ class SiteService
                     $child['link'] = null;
                     if (isset($child['item']['host'], $child['item']['ref'])) {
                         $page = $this->pageService->findOneActiveByRefAndHost($child['item']['ref'], $child['item']['host']);
-                        if ($page !== null) {
+                        if ($page instanceof \App\Entity\Page) {
                             $pageTranslation = $page->getOneTranslation($locale);
                             if ($pageTranslation) {
                                 $child['label'] = $pageTranslation->getTitle();

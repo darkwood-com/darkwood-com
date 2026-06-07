@@ -12,11 +12,11 @@ use App\State\BonzaiWebhookProcessor;
     operations: [
         new Post(
             uriTemplate: '/bonzai/webhook',
-            processor: BonzaiWebhookProcessor::class,
+            security: "is_granted('ROLE_ADMIN')",
             read: false,
             deserialize: false,
-            security: "is_granted('ROLE_ADMIN')",
             name: 'api_bonzai_webhook',
+            processor: BonzaiWebhookProcessor::class,
         ),
     ],
 )]

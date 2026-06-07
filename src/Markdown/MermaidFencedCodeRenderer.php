@@ -14,10 +14,10 @@ use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\Xml;
 use Stringable;
 
-final class MermaidFencedCodeRenderer implements NodeRendererInterface
+final readonly class MermaidFencedCodeRenderer implements NodeRendererInterface
 {
     public function __construct(
-        private readonly FencedCodeRenderer $defaultRenderer = new FencedCodeRenderer(),
+        private FencedCodeRenderer $defaultRenderer = new FencedCodeRenderer(),
     ) {}
 
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable

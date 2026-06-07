@@ -26,7 +26,7 @@ use function is_string;
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class TwoFactorController extends AbstractController
 {
-    private const SESSION_PENDING_SECRET_KEY = 'app.2fa.pending_secret';
+    private const string SESSION_PENDING_SECRET_KEY = 'app.2fa.pending_secret';
 
     public function __construct(
         private readonly TotpAuthenticatorInterface $totpAuthenticator,
@@ -156,7 +156,7 @@ class TwoFactorController extends AbstractController
         }
 
         $site = $this->siteService->findOneByHost($host);
-        if (null !== $site) {
+        if ($site instanceof \App\Entity\Site) {
             return $site->getRef();
         }
 

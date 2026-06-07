@@ -32,7 +32,8 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
-    final public const LOGIN_ROUTE = 'security_login';
+
+    final public const string LOGIN_ROUTE = 'security_login';
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -43,6 +44,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         private readonly UserProviderInterface $userProvider
     ) {}
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
@@ -113,7 +115,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $site = $this->siteService->findOneByHost($host);
             if ($host === $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } elseif ($site !== null) {
+            } elseif ($site instanceof \App\Entity\Site) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }

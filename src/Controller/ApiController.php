@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 
 use function in_array;
 
-#[Route('/', name: 'api_', host: '%api_host%')]
+#[Route(name: 'api_', host: '%api_host%')]
 class ApiController extends AbstractController
 {
     public function __construct(
@@ -38,7 +38,7 @@ class ApiController extends AbstractController
         private readonly string $projectDir
     ) {}
 
-    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'api_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -46,57 +46,57 @@ class ApiController extends AbstractController
         return $this->render('api/pages/home.html.twig', ['page' => $page]);
     }
 
-    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'api_legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)
     {
         return $this->commonController->legalMention($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
+    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'api_sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'api_sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
 
-    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'rss')]
+    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'api_rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
 
-    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
+    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'api_contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route('/api/article-translation/{id}/upload-image', name: 'article_translation_upload_image', methods: ['POST'])]
+    #[Route('//api/article-translation/{id}/upload-image', name: 'api_article_translation_upload_image', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function articleTranslationUploadImage(Request $request, int $id): JsonResponse
     {
         // Find the ArticleTranslation
         $articleTranslation = $this->articleTranslationRepository->find($id);
-        if (!$articleTranslation) {
-            return new JsonResponse(['error' => 'ArticleTranslation not found'], 404);
+        if ($articleTranslation === null) {
+            return new JsonResponse(['error' => 'ArticleTranslation not found'], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
 
         /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('image');
 
         if (!$uploadedFile) {
-            return new JsonResponse(['error' => 'No image file provided'], 400);
+            return new JsonResponse(['error' => 'No image file provided'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
         }
 
         // Validate file type
         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!in_array($uploadedFile->getMimeType(), $allowedMimeTypes, true)) {
-            return new JsonResponse(['error' => 'Invalid file type. Only JPEG, PNG, GIF and WebP are allowed.'], 400);
+            return new JsonResponse(['error' => 'Invalid file type. Only JPEG, PNG, GIF and WebP are allowed.'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -123,8 +123,8 @@ class ApiController extends AbstractController
                 'path' => '/articles/' . $fileName,
                 'url' => $imageUrl,
             ]);
-        } catch (FileException $e) {
-            return new JsonResponse(['error' => 'Failed to upload file: ' . $e->getMessage()], 500);
+        } catch (FileException $fileException) {
+            return new JsonResponse(['error' => 'Failed to upload file: ' . $fileException->getMessage()], \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

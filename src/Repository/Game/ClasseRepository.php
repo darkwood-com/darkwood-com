@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ClasseRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Game\Classe>
  */
 class ClasseRepository extends ServiceEntityRepository
 {

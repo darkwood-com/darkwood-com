@@ -31,7 +31,7 @@ final readonly class DarkwoodArchiveProvider implements ProviderInterface
 
         $id = (string) ($uriVariables['id'] ?? '');
         $archive = $this->archiveRepository->findOneByDateId($id);
-        if ($archive === null) {
+        if (!$archive instanceof \App\Entity\DarkwoodArchive) {
             throw new NotFoundHttpException('Archive not found');
         }
 

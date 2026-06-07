@@ -15,7 +15,7 @@ use App\ApiResource\HelloCvSystem;
  *
  * Future: optional enrichment (AI or external sources) can wrap or decorate this service.
  */
-final class HelloCvRepositoryService
+final readonly class HelloCvRepositoryService
 {
     /** @var list<HelloCvExperience> */
     private array $experiences;
@@ -167,13 +167,7 @@ final class HelloCvRepositoryService
      */
     private function anyContains(array $haystacks, string $q): bool
     {
-        foreach ($haystacks as $text) {
-            if ($text !== '' && str_contains(mb_strtolower($text), $q)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($haystacks, fn($text) => $text !== '' && str_contains(mb_strtolower((string) $text), $q));
     }
 
     private function buildProfile(): HelloCvProfile

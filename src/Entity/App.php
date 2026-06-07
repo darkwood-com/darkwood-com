@@ -69,6 +69,7 @@ class App extends Page
 
     /**
      * Get contents.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\AppContent>
      */
     public function getContents(): Collection
     {

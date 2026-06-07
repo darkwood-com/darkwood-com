@@ -23,12 +23,12 @@ abstract class Comment
     protected ?bool $active = true;
 
     #[Assert\NotNull(message: 'common.comment.required_user')]
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'comments')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected ?User $user = null;
 
     #[Assert\NotNull(message: 'common.comment.required_page')]
-    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Page::class, cascade: ['persist'], inversedBy: 'comments')]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id')]
     protected ?Page $page = null;
 

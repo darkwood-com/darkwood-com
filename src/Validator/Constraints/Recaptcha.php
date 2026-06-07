@@ -13,6 +13,7 @@ final class Recaptcha extends Constraint
 {
     public string $message = 'Please complete the captcha.';
 
+    #[\Override]
     public function validatedBy(): string
     {
         return RecaptchaValidator::class;

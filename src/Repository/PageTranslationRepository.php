@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class PageTranslationRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\PageTranslation>
  */
 class PageTranslationRepository extends ServiceEntityRepository
 {

@@ -44,7 +44,7 @@ enum ArticleReactionEmoji: string
         $transliterator = $transliterators[$catalog] ??= EmojiTransliterator::create($catalog);
         $result = $transliterator->transliterate(':' . $this->textShortCode() . ':');
 
-        if (str_starts_with($result, ':')) {
+        if (str_starts_with((string) $result, ':')) {
             return $this->fallbackGlyph();
         }
 

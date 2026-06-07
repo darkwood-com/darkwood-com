@@ -25,7 +25,7 @@ final readonly class BonzaiWebhookProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             throw new BadRequestHttpException('No current request.');
         }
 
@@ -50,6 +50,7 @@ final readonly class BonzaiWebhookProcessor implements ProcessorInterface
 
         $user->setBonzaiOrderId($orderId);
         $user->setIsPremium(true);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

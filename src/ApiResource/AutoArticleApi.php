@@ -12,10 +12,10 @@ use App\State\AutoArticleProcessor;
     operations: [
         new Post(
             uriTemplate: '/auto-articles',
-            processor: AutoArticleProcessor::class,
-            read: false,
             security: "is_granted('ROLE_ADMIN')",
+            read: false,
             name: 'api_auto_articles_create',
+            processor: AutoArticleProcessor::class,
         ),
     ],
 )]

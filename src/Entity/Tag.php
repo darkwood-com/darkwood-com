@@ -81,6 +81,7 @@ class Tag implements Stringable
 
     /**
      * Get translations.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\TagTranslation>
      */
     public function getTranslations(): Collection
     {
@@ -129,6 +130,9 @@ class Tag implements Stringable
         }
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Article>
+     */
     public function getArticles(): Collection
     {
         return $this->articles;

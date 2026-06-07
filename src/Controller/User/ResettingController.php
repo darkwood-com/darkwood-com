@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * @todo use : bin/console make:reset-password
  * Controller managing the resetting of the password.
  */
-#[Route('/', name: 'common_resetting')]
+#[Route(name: 'common_resetting')]
 class ResettingController extends AbstractController
 {
     public function __construct(
@@ -35,7 +35,7 @@ class ResettingController extends AbstractController
     /**
      * Request reset user password: show form.
      */
-    #[Route(path: ['fr' => '/fr/resetting/request', 'en' => '/resetting/request', 'de' => '/de/resetting/request'], name: '_request', defaults: ['ref' => 'resetting'])]
+    #[Route(path: ['fr' => '/fr/resetting/request', 'en' => '/resetting/request', 'de' => '/de/resetting/request'], name: 'common_resetting_request', defaults: ['ref' => 'resetting'])]
     public function request(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -47,7 +47,7 @@ class ResettingController extends AbstractController
     /**
      * Request reset user password: submit form and send email.
      */
-    #[Route(path: ['fr' => '/fr/resetting/send-email', 'en' => '/resetting/send-email', 'de' => '/de/resetting/send-email'], name: '_send_email', defaults: ['ref' => 'resetting'])]
+    #[Route(path: ['fr' => '/fr/resetting/send-email', 'en' => '/resetting/send-email', 'de' => '/de/resetting/send-email'], name: 'common_resetting_send_email', defaults: ['ref' => 'resetting'])]
     public function sendEmail(Request $request, $ref): RedirectResponse
     {
         $page = $this->commonController->getPage($request, $ref);

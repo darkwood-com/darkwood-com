@@ -18,12 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/contacts', name: 'admin_contact_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_contact_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class ContactController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly ContactService $contactService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/contacts/list', name: 'admin_contact_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -35,7 +35,7 @@ class ContactController extends AbstractController
         return $this->render('admin/contact/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/contacts/create', name: 'admin_contact_create')]
     public function create(Request $request)
     {
         $entity = new Contact();
@@ -44,7 +44,7 @@ class ContactController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/contacts/edit/{id}', name: 'admin_contact_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->contactService->findOneToEdit($id);
@@ -57,7 +57,7 @@ class ContactController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/contacts/delete/{id}', name: 'admin_contact_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Contact $contact */

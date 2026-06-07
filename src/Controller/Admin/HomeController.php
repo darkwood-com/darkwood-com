@@ -10,23 +10,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/{_locale}', name: 'admin_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class HomeController extends AbstractController
 {
-    private KernelInterface $kernel;
-
-    public function __construct(KernelInterface $kernel)
+    public function __construct(private readonly KernelInterface $kernel)
     {
-        $this->kernel = $kernel;
     }
 
-    #[Route('/', name: 'home')]
+    #[Route('/{_locale}/', name: 'admin_home')]
     public function index(): Response
     {
         return $this->render('admin/home/index.html.twig');
     }
 
-    #[Route('/upload', name: 'upload')]
+    #[Route('/{_locale}/upload', name: 'admin_upload')]
     public function upload(Request $request): Response
     {
         $file = $request->files->get('upload');
@@ -40,7 +37,7 @@ class HomeController extends AbstractController
         return new Response($html);
     }
 
-    #[Route('/browser', name: 'browser')]
+    #[Route('/{_locale}/browser', name: 'admin_browser')]
     public function browser(): Response
     {
         $dirname = $this->kernel->getProjectDir() . '/../web/uploads/ckeditor';
@@ -63,9 +60,9 @@ class HomeController extends AbstractController
         return new Response($results);
     }
 
-    #[Route('/imagine/flush', name: 'imagine_flush')]
+    #[Route('/{_locale}/imagine/flush', name: 'admin_imagine_flush')]
     public function imagineFlush() {}
 
-    #[Route('/imagine/generate', name: 'imagine_generate')]
+    #[Route('/{_locale}/imagine/generate', name: 'admin_imagine_generate')]
     public function imagineGenerate() {}
 }

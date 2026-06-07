@@ -68,7 +68,7 @@ class CommonController extends AbstractController
 
         $host = $request->getHost();
         $site = $this->siteService->findOneByHost($host);
-        if ($site === null) {
+        if (!$site instanceof \App\Entity\Site) {
             $site = $this->siteService->findOneToEdit($this->container->get('request_stack')->getSession()->get('siteId'));
             if (!$site) {
                 $site = $this->siteService->findOneByRef('darkwood');
@@ -103,6 +103,7 @@ class CommonController extends AbstractController
 
             return $this->render('common/partials/seo.html.twig', ['data' => $empty]);
         }
+
         $pageTranslation = $this->managerRegistry->getRepository(PageTranslation::class)->find($pageId);
         if ($pageTranslation === null) {
             $empty = [
@@ -115,6 +116,7 @@ class CommonController extends AbstractController
 
             return $this->render('common/partials/seo.html.twig', ['data' => $empty]);
         }
+
         $context = ['page' => $pageTranslation];
         if ($articleId !== null) {
             $article = $this->managerRegistry->getRepository(Article::class)->find($articleId);
@@ -140,7 +142,7 @@ class CommonController extends AbstractController
     public function getPage(Request $request, $ref): PageTranslation
     {
         $page = $this->pageService->findOneActiveByRefAndHost($ref, $request->getHost());
-        if ($page === null) {
+        if (!$page instanceof \App\Entity\Page) {
             throw $this->createNotFoundException('Page not found !');
         }
 
@@ -225,7 +227,7 @@ class CommonController extends AbstractController
         $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
-        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        $message = new Email()->from($fromEmail)->to($toEmail)->subject($subject);
         if ($htmlBody !== '') {
             $message->html($htmlBody)->text($textBody);
         } else {

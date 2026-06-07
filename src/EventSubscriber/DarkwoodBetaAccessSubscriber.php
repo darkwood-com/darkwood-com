@@ -15,12 +15,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Beta access gate for /api/darkwood/* endpoints.
  * Requires valid X-API-Key header with an active, beta-enabled key.
  */
-final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
+final readonly class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
 {
-    private const PATH_PREFIX = '/api/darkwood';
+    private const string PATH_PREFIX = '/api/darkwood';
 
     public function __construct(
-        private readonly ApiKeyResolverService $apiKeyResolver,
+        private ApiKeyResolverService $apiKeyResolver,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -45,7 +45,7 @@ final class DarkwoodBetaAccessSubscriber implements EventSubscriberInterface
 
         $apiKey = $this->apiKeyResolver->resolveForGate($request);
 
-        if ($apiKey === null) {
+        if (!$apiKey instanceof \App\Entity\ApiKey) {
             $event->setResponse(new JsonResponse([
                 'error' => 'A valid API key is required',
             ], Response::HTTP_UNAUTHORIZED));

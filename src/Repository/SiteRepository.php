@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class SiteRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Site>
  */
 class SiteRepository extends ServiceEntityRepository
 {
@@ -78,6 +79,7 @@ class SiteRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
+    #[\Override]
     public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('s')->select('s')->orderBy('s.position', 'asc');

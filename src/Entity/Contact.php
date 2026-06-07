@@ -16,7 +16,7 @@ class Contact
 {
     use TimestampTrait;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'contacts', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'contacts')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected ?User $user = null;
 

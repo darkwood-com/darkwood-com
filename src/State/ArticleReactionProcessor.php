@@ -37,7 +37,7 @@ final readonly class ArticleReactionProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             throw new BadRequestHttpException('No current request.');
         }
 

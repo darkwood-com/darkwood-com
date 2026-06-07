@@ -223,6 +223,7 @@ class Sword
 
     /**
      * Get players.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
      */
     public function getPlayers(): Collection
     {
@@ -247,6 +248,7 @@ class Sword
 
     /**
      * Get currentSwordPlayers.
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Game\Player>
      */
     public function getCurrentSwordPlayers(): Collection
     {

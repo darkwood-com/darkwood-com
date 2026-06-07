@@ -23,18 +23,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
-#[ApiResource(
-    security: "is_granted('ROLE_USER')",
-    operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
-    ],
-    normalizationContext: ['groups' => ['page_translation:read']],
-    denormalizationContext: ['groups' => ['page_translation:write']],
-)]
+#[ApiResource(operations: [
+    new Get(),
+    new GetCollection(),
+    new Post(security: "is_granted('ROLE_ADMIN')"),
+    new Put(security: "is_granted('ROLE_ADMIN')"),
+    new Delete(security: "is_granted('ROLE_ADMIN')"),
+], normalizationContext: ['groups' => ['page_translation:read']], denormalizationContext: ['groups' => ['page_translation:write']], security: "is_granted('ROLE_USER')")]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
@@ -50,7 +45,7 @@ class PageTranslation implements Stringable
 
     #[Groups(['page_translation:read', 'page_translation:write'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Page::class, cascade: ['persist'], inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Page $page = null;
 

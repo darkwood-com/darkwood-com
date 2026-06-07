@@ -13,12 +13,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use function count;
 
-final class ArticleKnowledgeSearchService
+final readonly class ArticleKnowledgeSearchService
 {
     public function __construct(
-        private readonly ArticleRepository $articles,
-        private readonly UserRepository $users,
-        private readonly EntitlementRepository $entitlements,
+        private ArticleRepository $articles,
+        private UserRepository $users,
+        private EntitlementRepository $entitlements,
     ) {}
 
     /**
@@ -39,6 +39,7 @@ final class ArticleKnowledgeSearchService
             if (!$article instanceof Article) {
                 continue;
             }
+
             $translation = $article->getOneTranslation($locale);
             $title = (string) $translation->getTitle();
             $content = $article->getType() === ArticleType::Auto
@@ -69,11 +70,12 @@ final class ArticleKnowledgeSearchService
         if (null === $userId) {
             return false;
         }
+
         $user = $this->users->find($userId);
         if (null === $user) {
             return false;
         }
 
-        return $user->isPremium() || null !== $this->entitlements->findActivePremiumForUser($user);
+        return $user->isPremium() || $this->entitlements->findActivePremiumForUser($user) instanceof \App\Entity\Entitlement;
     }
 }

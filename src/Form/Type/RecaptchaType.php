@@ -34,6 +34,7 @@ final class RecaptchaType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'recaptcha';

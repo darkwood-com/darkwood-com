@@ -25,19 +25,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
-#[ApiResource(
-    security: "is_granted('ROLE_USER')",
-    operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Patch(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
-    ],
-    normalizationContext: ['groups' => ['article_translation:read']],
-    denormalizationContext: ['groups' => ['article_translation:write']]
-)]
+#[ApiResource(operations: [
+    new Get(),
+    new GetCollection(),
+    new Post(security: "is_granted('ROLE_ADMIN')"),
+    new Put(security: "is_granted('ROLE_ADMIN')"),
+    new Patch(security: "is_granted('ROLE_ADMIN')"),
+    new Delete(security: "is_granted('ROLE_ADMIN')"),
+], normalizationContext: ['groups' => ['article_translation:read']], denormalizationContext: ['groups' => ['article_translation:write']], security: "is_granted('ROLE_USER')")]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ArticleTranslationRepository::class)]
 #[ORM\Table(name: 'article_translation')]
@@ -47,6 +42,7 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 class ArticleTranslation implements Stringable
 {
     use TimestampTrait;
+
     /**
      * Locale.
      */
@@ -56,7 +52,7 @@ class ArticleTranslation implements Stringable
 
     #[Groups(['article_translation:read', 'article_translation:write'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Article::class, cascade: ['persist'], inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Article $article = null;
 

@@ -18,12 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/sites', name: 'admin_site_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_site_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class SiteController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly SiteService $siteService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/sites/list', name: 'admin_site_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -35,7 +35,7 @@ class SiteController extends AbstractController
         return $this->render('admin/site/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/sites/create', name: 'admin_site_create')]
     public function create(Request $request)
     {
         $entity = new Site();
@@ -44,7 +44,7 @@ class SiteController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/sites/edit/{id}', name: 'admin_site_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->siteService->findOneToEdit($id);
@@ -57,7 +57,7 @@ class SiteController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/sites/delete/{id}', name: 'admin_site_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Site $site */

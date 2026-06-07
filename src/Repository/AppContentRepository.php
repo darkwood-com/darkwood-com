@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class AppContentRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\AppContent>
  */
 class AppContentRepository extends ServiceEntityRepository
 {
@@ -82,6 +83,7 @@ class AppContentRepository extends ServiceEntityRepository
      *
      * @param array $parameters
      */
+    #[\Override]
     public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('ac')->select('ac');
