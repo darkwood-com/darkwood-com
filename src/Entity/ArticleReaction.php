@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Traits\TimestampTrait;
 use App\Enum\ArticleReactionEmoji;
 use App\Repository\ArticleReactionRepository;
+use App\State\ArticleReactionProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    operations: [
+        new Post(
+            uriTemplate: '/article_reactions',
+            processor: ArticleReactionProcessor::class,
+            read: false,
+            security: "is_granted('ROLE_USER')",
+            name: 'api_article_reactions_create',
+        ),
+    ],
+)]
 #[ORM\Entity(repositoryClass: ArticleReactionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'article_reaction')]

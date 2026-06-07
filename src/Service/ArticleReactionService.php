@@ -67,6 +67,34 @@ class ArticleReactionService
     /**
      * @return array{counts: array<string, int>, userReactions: list<string>, active: bool}
      */
+    public function addReaction(Article $article, ArticleReactionEmoji $emoji, User $user): array
+    {
+        $existingReaction = $this->articleReactionRepository->findOneByArticleUserAndEmoji(
+            (int) $article->getId(),
+            $user,
+            $emoji,
+        );
+
+        if (!$existingReaction instanceof ArticleReaction) {
+            $reaction = new ArticleReaction();
+            $reaction->setArticle($article);
+            $reaction->setUser($user);
+            $reaction->setEmoji($emoji);
+            $reaction->setCreated(new DateTime('now'));
+            $reaction->setUpdated(new DateTime('now'));
+            $this->em->persist($reaction);
+            $this->em->flush();
+        }
+
+        $summary = $this->getSummary($article, $user);
+        $summary['active'] = true;
+
+        return $summary;
+    }
+
+    /**
+     * @return array{counts: array<string, int>, userReactions: list<string>, active: bool}
+     */
     public function toggleReaction(Article $article, ArticleReactionEmoji $emoji, User $user): array
     {
         $existingReaction = $this->articleReactionRepository->findOneByArticleUserAndEmoji(
