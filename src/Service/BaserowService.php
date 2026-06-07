@@ -9,13 +9,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BaserowService
 {
-    private $httpClient;
-    private $host;
-    private $username;
-    private $password;
+    private readonly string $host;
+
+    private readonly string $username;
+
+    private readonly string $password;
 
     public function __construct(
-        HttpClientInterface $httpClient,
+        private readonly HttpClientInterface $httpClient,
         #[Autowire('%baserow_host%')]
         ?string $host,
         #[Autowire('%baserow_username%')]
@@ -23,7 +24,6 @@ class BaserowService
         #[Autowire('%baserow_password%')]
         ?string $password
     ) {
-        $this->httpClient = $httpClient;
         $this->host = $host ?? '';
         $this->username = $username ?? '';
         $this->password = $password ?? '';

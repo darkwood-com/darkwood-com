@@ -178,6 +178,8 @@ class Classe
 
     /**
      * Get players.
+     *
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {

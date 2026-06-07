@@ -12,6 +12,9 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function sprintf;
 
+/**
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\ApiKeyUsage>
+ */
 final class ApiKeyUsageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

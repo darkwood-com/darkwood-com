@@ -176,7 +176,7 @@ class BlogArticleService
      */
     public function find($id): ?ArticleTranslation
     {
-        return $this->articleRepository->find($id);
+        return $this->articleTranslationRepository->find($id);
     }
 
     /**

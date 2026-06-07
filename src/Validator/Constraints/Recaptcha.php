@@ -6,6 +6,7 @@ namespace App\Validator\Constraints;
 
 use App\Validator\RecaptchaValidator;
 use Attribute;
+use Override;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD)]
@@ -13,6 +14,7 @@ final class Recaptcha extends Constraint
 {
     public string $message = 'Please complete the captcha.';
 
+    #[Override]
     public function validatedBy(): string
     {
         return RecaptchaValidator::class;

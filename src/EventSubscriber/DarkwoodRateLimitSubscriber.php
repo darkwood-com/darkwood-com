@@ -14,12 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
+final readonly class DarkwoodRateLimitSubscriber implements EventSubscriberInterface
 {
-    private const ROUTE = 'api_darkwood_post_action';
+    private const string ROUTE = 'api_darkwood_post_action';
 
     public function __construct(
-        private readonly ApiKeyUsageRepository $apiKeyUsageRepository,
+        private ApiKeyUsageRepository $apiKeyUsageRepository,
     ) {}
 
     public static function getSubscribedEvents(): array

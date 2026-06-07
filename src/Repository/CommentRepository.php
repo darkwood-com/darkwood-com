@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class CommentRepository.
+ *
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Comment>
  */
 class CommentRepository extends ServiceEntityRepository
 {

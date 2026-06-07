@@ -12,21 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[Route('/', name: 'security_')]
+#[Route(name: 'security_')]
 class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly CommonController $commonController
+        private readonly CommonController $commonController,
+        private readonly AuthenticationUtils $authenticationUtils,
+        private readonly ParameterBagInterface $parameterBag
     ) {}
 
-    #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'login', defaults: ['ref' => 'login'], priority: 10)]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, ParameterBagInterface $parameterBag, $ref): Response
+    #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'login'], priority: 10)]
+    public function login(Request $request, $ref): Response
     {
-        if ($request->getHost() === $parameterBag->get('admin_host')) {
+        if ($request->getHost() === $this->parameterBag->get('admin_host')) {
             // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
+            $error = $this->authenticationUtils->getLastAuthenticationError();
             // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
+            $lastUsername = $this->authenticationUtils->getLastUsername();
 
             return $this->render('admin/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
@@ -37,14 +39,14 @@ class SecurityController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $this->authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $lastUsername = $this->authenticationUtils->getLastUsername();
 
         return $this->render('common/pages/login.html.twig', ['page' => $page, 'site_ref' => $siteRef, 'last_username' => $lastUsername, 'error' => $error, 'showLinks' => true]);
     }
 
-    #[Route(path: ['fr' => '/fr/logout', 'en' => '/logout', 'de' => '/de/logout'], name: 'logout', priority: 10)]
+    #[Route(path: ['fr' => '/fr/logout', 'en' => '/logout', 'de' => '/de/logout'], name: 'security_logout', priority: 10)]
     public function logout(): never
     {
         throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

@@ -6,11 +6,14 @@ namespace App\Tests;
 
 use App\Entity\ApiKey;
 use Doctrine\ORM\EntityManagerInterface;
+use Override;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
 class DarkwoodMonetizationTest extends CommonWebTestCase
 {
+    #[Override]
     public function getHostParameter(): string
     {
         return 'api_host';
@@ -20,13 +23,13 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithBetaKey(isPremium: false, dailyLimit: 2);
 
-        $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
+        $client->request(Request::METHOD_POST, '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
-        $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
+        $client->request(Request::METHOD_POST, '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
-        $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
+        $client->request(Request::METHOD_POST, '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
         self::assertSame(429, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -40,7 +43,7 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
         $client = $this->createApiClientWithBetaKey(isPremium: true, dailyLimit: 1);
 
         for ($i = 0; $i < 4; $i++) {
-            $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
+            $client->request(Request::METHOD_POST, '/api/darkwood/action', [], [], [], '{"query":{"state":"main"}}');
             self::assertSame(200, $client->getResponse()->getStatusCode());
         }
     }
@@ -49,7 +52,7 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithBetaKey(isPremium: false, dailyLimit: 10);
 
-        $client->request('GET', '/api/darkwood/archives');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives');
         self::assertSame(403, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -61,7 +64,7 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithBetaKey(isPremium: true, dailyLimit: 10);
 
-        $client->request('GET', '/api/darkwood/archives');
+        $client->request(Request::METHOD_GET, '/api/darkwood/archives');
         self::assertSame(200, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -77,7 +80,7 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
     {
         $client = $this->createApiClientWithBetaKey(isPremium: false, dailyLimit: 10);
 
-        $client->request('POST', '/api/darkwood/action', [], [], [], '{"query":');
+        $client->request(Request::METHOD_POST, '/api/darkwood/action', [], [], [], '{"query":');
 
         self::assertSame(400, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -103,8 +106,8 @@ class DarkwoodMonetizationTest extends CommonWebTestCase
         try {
             $em->persist($apiKey);
             $em->flush();
-        } catch (Throwable $e) {
-            self::markTestSkipped('Database not available for API key: ' . $e->getMessage());
+        } catch (Throwable $throwable) {
+            self::markTestSkipped('Database not available for API key: ' . $throwable->getMessage());
         }
 
         return $rawKey;

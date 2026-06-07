@@ -21,31 +21,31 @@ class Player
 {
     use TimestampTrait;
 
-    #[ORM\ManyToOne(targetEntity: Sword::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Sword::class, cascade: ['persist'], inversedBy: 'players')]
     #[ORM\JoinColumn(name: 'sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Sword $sword = null;
 
-    #[ORM\ManyToOne(targetEntity: Armor::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Armor::class, cascade: ['persist'], inversedBy: 'players')]
     #[ORM\JoinColumn(name: 'armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Armor $armor = null;
 
-    #[ORM\ManyToOne(targetEntity: Potion::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Potion::class, cascade: ['persist'], inversedBy: 'players')]
     #[ORM\JoinColumn(name: 'potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Potion $potion = null;
 
-    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'lastFightPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Enemy::class, cascade: ['persist'], inversedBy: 'lastFightPlayers')]
     #[ORM\JoinColumn(name: 'last_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Enemy $lastFight = null;
 
-    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'maxFightPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Enemy::class, cascade: ['persist'], inversedBy: 'maxFightPlayers')]
     #[ORM\JoinColumn(name: 'max_fight_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Enemy $maxFight = null;
 
-    #[ORM\ManyToOne(targetEntity: Enemy::class, inversedBy: 'currentEnemyPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Enemy::class, cascade: ['persist'], inversedBy: 'currentEnemyPlayers')]
     #[ORM\JoinColumn(name: 'current_enemy_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Enemy $currentEnemy = null;
 
-    #[ORM\ManyToOne(targetEntity: Classe::class, inversedBy: 'players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Classe::class, cascade: ['persist'], inversedBy: 'players')]
     #[ORM\JoinColumn(name: 'classe_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Classe $classe = null;
 
@@ -61,27 +61,27 @@ class Player
     #[ORM\OneToMany(targetEntity: DailyBattle::class, mappedBy: 'player', cascade: ['persist', 'remove'])]
     protected Collection $dailyBattles;
 
-    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment1Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, cascade: ['persist'], inversedBy: 'equipment1Players')]
     #[ORM\JoinColumn(name: 'equipment1_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Gem $equipment1 = null;
 
-    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment2Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, cascade: ['persist'], inversedBy: 'equipment2Players')]
     #[ORM\JoinColumn(name: 'equipment2_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Gem $equipment2 = null;
 
-    #[ORM\ManyToOne(targetEntity: Gem::class, inversedBy: 'equipment3Players', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Gem::class, cascade: ['persist'], inversedBy: 'equipment3Players')]
     #[ORM\JoinColumn(name: 'equipment3_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Gem $equipment3 = null;
 
-    #[ORM\ManyToOne(targetEntity: Sword::class, inversedBy: 'currentSwordPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Sword::class, cascade: ['persist'], inversedBy: 'currentSwordPlayers')]
     #[ORM\JoinColumn(name: 'current_sword_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Sword $currentSword = null;
 
-    #[ORM\ManyToOne(targetEntity: Potion::class, inversedBy: 'currentPotionPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Potion::class, cascade: ['persist'], inversedBy: 'currentPotionPlayers')]
     #[ORM\JoinColumn(name: 'current_potion_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Potion $currentPotion = null;
 
-    #[ORM\ManyToOne(targetEntity: Armor::class, inversedBy: 'currentArmorPlayers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Armor::class, cascade: ['persist'], inversedBy: 'currentArmorPlayers')]
     #[ORM\JoinColumn(name: 'current_armor_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Armor $currentArmor = null;
 
@@ -468,6 +468,8 @@ class Player
 
     /**
      * Get dailyBattles.
+     *
+     * @return Collection<int, DailyBattle>
      */
     public function getDailyBattles(): Collection
     {

@@ -13,12 +13,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
-final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
+final readonly class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
 {
-    private const PATH_PREFIX = '/api/darkwood/';
+    private const string PATH_PREFIX = '/api/darkwood/';
 
     public function __construct(
-        private readonly KernelInterface $kernel,
+        private KernelInterface $kernel,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -71,14 +71,12 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
                 'message' => $throwable->getMessage(),
                 'class' => $throwable::class,
                 'trace' => array_map(
-                    static function (array $frame): array {
-                        return [
-                            'file' => $frame['file'] ?? null,
-                            'line' => $frame['line'] ?? null,
-                            'function' => $frame['function'] ?? null,
-                            'class' => $frame['class'] ?? null,
-                        ];
-                    },
+                    static fn (array $frame): array => [
+                        'file' => $frame['file'] ?? null,
+                        'line' => $frame['line'] ?? null,
+                        'function' => $frame['function'] ?? null,
+                        'class' => $frame['class'] ?? null,
+                    ],
                     $throwable->getTrace()
                 ),
             ];
@@ -95,6 +93,7 @@ final class DarkwoodApiExceptionSubscriber implements EventSubscriberInterface
         if ($status === Response::HTTP_FORBIDDEN && str_contains($messageLower, 'premium access required')) {
             return 'premium_required';
         }
+
         if ($status === Response::HTTP_NOT_FOUND && str_contains($messageLower, 'archive not found')) {
             return 'archive_not_found';
         }

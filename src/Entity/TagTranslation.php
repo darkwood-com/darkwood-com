@@ -17,13 +17,14 @@ use Stringable;
 class TagTranslation implements Stringable
 {
     use TimestampTrait;
+
     /**
      * Locale.
      */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
-    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'translations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Tag::class, cascade: ['persist'], inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Tag $tag = null;
 

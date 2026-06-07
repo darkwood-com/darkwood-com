@@ -32,6 +32,7 @@ final readonly class ListArticlesProcessor implements ProcessorInterface
             if ($data->limit !== null && $data->limit > 0) {
                 $limit = min($data->limit, 100);
             }
+
             if ($data->locale !== null && $data->locale !== '') {
                 $locale = $data->locale;
             }

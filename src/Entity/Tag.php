@@ -81,6 +81,8 @@ class Tag implements Stringable
 
     /**
      * Get translations.
+     *
+     * @return Collection<int, TagTranslation>
      */
     public function getTranslations(): Collection
     {
@@ -129,6 +131,9 @@ class Tag implements Stringable
         }
     }
 
+    /**
+     * @return Collection<int, Article>
+     */
     public function getArticles(): Collection
     {
         return $this->articles;

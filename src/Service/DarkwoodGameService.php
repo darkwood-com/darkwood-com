@@ -62,15 +62,15 @@ use function sprintf;
  */
 class DarkwoodGameService
 {
-    final public const RATIO_EQUIPMENT = 4.0;
+    final public const float RATIO_EQUIPMENT = 4.0;
 
-    final public const RATIO_HIT_LUCK = 5.0;
+    final public const float RATIO_HIT_LUCK = 5.0;
 
-    final public const POINTS_BY_LEVEL = 15;
+    final public const int POINTS_BY_LEVEL = 15;
 
-    final public const LIFE_BY_VITALITY = 25;
+    final public const int LIFE_BY_VITALITY = 25;
 
-    final public const DEATH_LOSE_STATS = 10.0;
+    final public const float DEATH_LOSE_STATS = 10.0;
 
     protected ArmorRepository $armorRepository;
 
@@ -143,7 +143,7 @@ class DarkwoodGameService
     public function getOrCreate(User $user): Player
     {
         $player = $user->getPlayer();
-        if (!$player) {
+        if (!$player instanceof Player) {
             $player = new Player();
             $player->setLifeMin(50);
             $player->setLifeMax(50);
@@ -186,21 +186,21 @@ class DarkwoodGameService
         $equipmentDamage = 0;
         if ($player->getEquipment1IsUse()) {
             $gem = $player->getEquipment1();
-            if ($gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
 
         if ($player->getEquipment2IsUse()) {
             $gem = $player->getEquipment2();
-            if ($gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
 
         if ($player->getEquipment3IsUse()) {
             $gem = $player->getEquipment3();
-            if ($gem) {
+            if ($gem instanceof Gem) {
                 $equipmentDamage += $gem->getPower();
             }
         }
@@ -584,7 +584,7 @@ class DarkwoodGameService
     public function setLastFight(User $user)
     {
         $player = $this->getOrCreate($user);
-        if (!$player->getLastFight()) {
+        if (!$player->getLastFight() instanceof Enemy) {
             $player->setLastFight($player->getCurrentEnemy() ?: $this->enemyRepository->findDefault());
             $this->em->flush();
         }
@@ -684,7 +684,7 @@ class DarkwoodGameService
             $player->setLastFight(null);
             // set player max fight
             $maxEnemy = $player->getMaxFight();
-            if ($maxEnemy === null || $enemy->getXp() > $maxEnemy->getXp()) {
+            if (!$maxEnemy instanceof Enemy || $enemy->getXp() > $maxEnemy->getXp()) {
                 $player->setMaxFight($enemy);
             }
 
@@ -724,11 +724,11 @@ class DarkwoodGameService
 
                 $result['gem'] = 'found';
                 $result['gem_item'] = $gem;
-                if (!$player->getEquipment1()) {
+                if (!$player->getEquipment1() instanceof Gem) {
                     $player->setEquipment1($gem);
-                } elseif (!$player->getEquipment2()) {
+                } elseif (!$player->getEquipment2() instanceof Gem) {
                     $player->setEquipment2($gem);
-                } elseif (!$player->getEquipment3()) {
+                } elseif (!$player->getEquipment3() instanceof Gem) {
                     $player->setEquipment3($gem);
                 } else {
                     // no more place to hase a new gem
@@ -1043,7 +1043,7 @@ class DarkwoodGameService
                     } elseif ($this->getRequestInput($request, 'actionEnemyPrevious')) {
                         $this->previousEnemy($user);
                     } elseif ($this->getRequestInput($request, 'actionBeginFight')) {
-                        if ($player->getLastFight()) {
+                        if ($player->getLastFight() instanceof Enemy) {
                             // Already in a fight — do not allow starting a new one; return current fight state
                             $parameters['mode'] = 'combat';
                             $parameters['data']['info'] = $this->getInfo($user);
@@ -1053,23 +1053,16 @@ class DarkwoodGameService
                             $defaultEnemy = $this->enemyRepository->findDefault();
                             $enemy = $player->getCurrentEnemy() ?: $defaultEnemy;
                             $enemyInfo = $this->getEnemyInfo($enemy);
-                            $enemyAllowed = !((
-                                $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
-                            ) || (
-                                !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
-                            ));
+                            $enemyAllowed = !($player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()) && !(!$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId());
                             // If chosen enemy not allowed (e.g. no maxFight but currentEnemy was set from another session), try default so fight can start (API / first load)
                             if (!$enemyAllowed && $enemy->getId() !== $defaultEnemy->getId()) {
                                 $enemy = $defaultEnemy;
                                 $enemyInfo = $this->getEnemyInfo($enemy);
                                 $player->setCurrentEnemy($defaultEnemy);
                                 $this->em->flush();
-                                $enemyAllowed = !((
-                                    $player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()
-                                ) || (
-                                    !$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId()
-                                ));
+                                $enemyAllowed = !($player->getMaxFight() && $enemyInfo['previous'] && $enemyInfo['previous']->getXp() > $player->getMaxFight()->getXp()) && !(!$player->getMaxFight() && $enemy->getId() !== $defaultEnemy->getId());
                             }
+
                             if (!$enemyAllowed) {
                                 $this->addFlash('warning', $this->translator->trans('darkwood.play.label.required_enemy_alert'));
                             } else {
@@ -1194,8 +1187,8 @@ class DarkwoodGameService
     {
         try {
             $session = $this->getActiveSession();
-        } catch (SessionNotFoundException $e) {
-            throw new LogicException('You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e);
+        } catch (SessionNotFoundException $sessionNotFoundException) {
+            throw new LogicException('You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $sessionNotFoundException);
         }
 
         if (!$session instanceof FlashBagAwareSessionInterface) {

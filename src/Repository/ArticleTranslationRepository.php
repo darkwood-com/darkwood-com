@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ArticleTranslationRepository.
+ *
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\ArticleTranslation>
  */
 class ArticleTranslationRepository extends ServiceEntityRepository
 {

@@ -14,10 +14,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new GetCollection(
             uriTemplate: '/hello_experiences',
-            provider: HelloCvExperiencesProvider::class,
-            name: 'api_hello_experiences_get_collection',
-            security: "is_granted('PUBLIC_ACCESS')",
             paginationEnabled: false,
+            security: "is_granted('PUBLIC_ACCESS')",
+            name: 'api_hello_experiences_get_collection',
+            provider: HelloCvExperiencesProvider::class,
         ),
     ],
     normalizationContext: ['groups' => ['cv:read']],

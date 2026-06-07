@@ -15,7 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Entitlement
 {
     use TimestampTrait;
+
     public const PLAN_FREE = 'FREE';
+
     public const PLAN_PREMIUM = 'PREMIUM';
 
     #[ORM\Id]

@@ -18,12 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/users', name: 'admin_user_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_user_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class UserController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly UserService $userService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/users/list', name: 'admin_user_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -35,7 +35,7 @@ class UserController extends AbstractController
         return $this->render('admin/user/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/users/create', name: 'admin_user_create')]
     public function create(Request $request)
     {
         $entity = new User();
@@ -45,7 +45,7 @@ class UserController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/users/edit/{id}', name: 'admin_user_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->userService->findOneToEdit($id);
@@ -58,7 +58,7 @@ class UserController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/users/delete/{id}', name: 'admin_user_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var User $user */

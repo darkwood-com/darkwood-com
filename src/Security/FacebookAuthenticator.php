@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Service\SiteService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,7 +98,7 @@ class FacebookAuthenticator // extends SocialAuthenticator
             $site = $this->siteService->findOneByHost($host);
             if ($host === $this->parameterBag->get('admin_host')) {
                 $redirectUrl = $this->urlGenerator->generate('admin_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-            } elseif ($site !== null) {
+            } elseif ($site instanceof Site) {
                 $redirectUrl = $this->urlGenerator->generate($site->getRef() . '_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         }

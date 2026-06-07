@@ -69,6 +69,8 @@ class App extends Page
 
     /**
      * Get contents.
+     *
+     * @return Collection<int, AppContent>
      */
     public function getContents(): Collection
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Service\SiteService;
 use App\Service\UserService;
@@ -26,7 +27,7 @@ use function is_string;
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class TwoFactorController extends AbstractController
 {
-    private const SESSION_PENDING_SECRET_KEY = 'app.2fa.pending_secret';
+    private const string SESSION_PENDING_SECRET_KEY = 'app.2fa.pending_secret';
 
     public function __construct(
         private readonly TotpAuthenticatorInterface $totpAuthenticator,
@@ -156,7 +157,7 @@ class TwoFactorController extends AbstractController
         }
 
         $site = $this->siteService->findOneByHost($host);
-        if (null !== $site) {
+        if ($site instanceof Site) {
             return $site->getRef();
         }
 

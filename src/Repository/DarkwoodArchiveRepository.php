@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method null|DarkwoodArchive findOneBy(array $criteria, array $orderBy = null)
  * @method DarkwoodArchive[]    findAll()
  * @method DarkwoodArchive[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\DarkwoodArchive>
  */
 class DarkwoodArchiveRepository extends ServiceEntityRepository
 {

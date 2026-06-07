@@ -29,7 +29,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'blog_', host: '%blog_host%')]
+#[Route(name: 'blog_', host: '%blog_host%')]
 class BlogController extends AbstractController
 {
     public function __construct(
@@ -61,7 +61,7 @@ class BlogController extends AbstractController
         return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute, 'activeRoute' => $activeRoute]);
     }
 
-    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'blog_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -87,7 +87,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/auto', 'en' => '/auto', 'de' => '/de/auto'], name: 'auto', defaults: ['ref' => 'auto'])]
+    #[Route(path: ['fr' => '/fr/auto', 'en' => '/auto', 'de' => '/de/auto'], name: 'blog_auto', defaults: ['ref' => 'auto'])]
     public function auto(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -105,7 +105,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/release', 'en' => '/release', 'de' => '/de/release'], name: 'release', defaults: ['ref' => 'release'])]
+    #[Route(path: ['fr' => '/fr/release', 'en' => '/release', 'de' => '/de/release'], name: 'blog_release', defaults: ['ref' => 'release'])]
     public function release(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -123,37 +123,37 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'blog_legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)
     {
         return $this->commonController->legalMention($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
+    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'blog_sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'blog_sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
 
-    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'rss')]
+    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'blog_rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
 
-    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
+    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'blog_contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/article/{slug}', 'en' => '/article/{slug}', 'de' => '/de/article/{slug}'], name: 'article', defaults: ['ref' => 'article', 'slug' => null])]
+    #[Route(path: ['fr' => '/fr/article/{slug}', 'en' => '/article/{slug}', 'de' => '/de/article/{slug}'], name: 'blog_article', defaults: ['ref' => 'article', 'slug' => null])]
     public function article(Request $request, $ref, $slug)
     {
         if ($request->query->get('sort') && $request->query->get('sort') !== 'a.created') {
@@ -162,7 +162,7 @@ class BlogController extends AbstractController
 
         $page = $this->commonController->getPage($request, $ref);
         $article = $this->articleService->findOneBySlug($slug, $request->getLocale());
-        if (!$article) {
+        if (!$article instanceof Article) {
             throw $this->createNotFoundException('Article not found !');
         }
 
@@ -200,7 +200,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/article/{slug}/reactions', 'en' => '/article/{slug}/reactions', 'de' => '/de/article/{slug}/reactions'], name: 'article_reaction', methods: ['POST'])]
+    #[Route(path: ['fr' => '/fr/article/{slug}/reactions', 'en' => '/article/{slug}/reactions', 'de' => '/de/article/{slug}/reactions'], name: 'blog_article_reaction', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function toggleArticleReaction(Request $request, string $slug): JsonResponse
     {

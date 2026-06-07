@@ -295,6 +295,8 @@ class Enemy
 
     /**
      * Get lastFightPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getLastFightPlayers(): Collection
     {
@@ -319,6 +321,8 @@ class Enemy
 
     /**
      * Get maxFightPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getMaxFightPlayers(): Collection
     {
@@ -343,6 +347,8 @@ class Enemy
 
     /**
      * Get currentEnemyPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentEnemyPlayers(): Collection
     {

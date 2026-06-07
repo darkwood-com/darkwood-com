@@ -17,7 +17,7 @@ use function in_array;
 
 class EnforceTwoFactorSetupSubscriber implements EventSubscriberInterface
 {
-    private const EXCLUDED_ROUTES = [
+    private const array EXCLUDED_ROUTES = [
         'app_2fa_setup',
         'security_login',
         'security_logout',

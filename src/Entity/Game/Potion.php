@@ -181,6 +181,8 @@ class Potion
 
     /**
      * Get players.
+     *
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {
@@ -205,6 +207,8 @@ class Potion
 
     /**
      * Get currentPotionPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentPotionPlayers(): Collection
     {

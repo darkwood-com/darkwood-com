@@ -10,9 +10,12 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 /**
  * Class AppRepository.
+ *
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\App>
  */
 class AppRepository extends ServiceEntityRepository
 {
@@ -77,6 +80,7 @@ class AppRepository extends ServiceEntityRepository
      *
      * @param array $parameters
      */
+    #[Override]
     public function findAll($parameters = []): array
     {
         $qb = $this->createQueryBuilder('a')->select('a');

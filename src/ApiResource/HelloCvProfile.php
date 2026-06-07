@@ -14,9 +14,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new Get(
             uriTemplate: '/hello_profile',
-            provider: HelloCvProfileProvider::class,
-            name: 'api_hello_profile_get',
             security: "is_granted('PUBLIC_ACCESS')",
+            name: 'api_hello_profile_get',
+            provider: HelloCvProfileProvider::class,
         ),
     ],
     normalizationContext: ['groups' => ['cv:read']],

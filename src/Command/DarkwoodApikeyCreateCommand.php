@@ -21,7 +21,7 @@ use function sprintf;
 )]
 final class DarkwoodApikeyCreateCommand extends Command
 {
-    private const KEY_BYTES = 32;
+    private const int KEY_BYTES = 32;
 
     public function __construct(
         private readonly EntityManagerInterface $em,

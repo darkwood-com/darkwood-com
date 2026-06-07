@@ -42,10 +42,11 @@ final readonly class DarkwoodMcpForwarderService
             'HTTP_CONTENT_TYPE' => 'application/json',
         ], $content);
 
-        if ($current !== null) {
+        if ($current instanceof Request) {
             if ($current->headers->has(ApiKeyResolverService::HEADER_NAME)) {
                 $subRequest->headers->set(ApiKeyResolverService::HEADER_NAME, $current->headers->get(ApiKeyResolverService::HEADER_NAME));
             }
+
             if ($current->headers->has('Authorization')) {
                 $subRequest->headers->set('Authorization', $current->headers->get('Authorization'));
             }
@@ -60,6 +61,6 @@ final readonly class DarkwoodMcpForwarderService
 
         $decoded = json_decode($responseContent, true);
 
-        return $decoded !== null ? $decoded : $responseContent;
+        return $decoded ?? $responseContent;
     }
 }

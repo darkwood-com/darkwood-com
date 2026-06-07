@@ -19,12 +19,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/comments', name: 'admin_comment_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_comment_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class CommentController extends AbstractController
 {
     public function __construct(private readonly TranslatorInterface $translator, private readonly PaginatorInterface $paginator, private readonly CommentService $commentService) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/comments/list', name: 'admin_comment_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -36,7 +36,7 @@ class CommentController extends AbstractController
         return $this->render('admin/comment/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/comments/create', name: 'admin_comment_create')]
     public function create(Request $request)
     {
         $entity = new CommentPage();
@@ -45,7 +45,7 @@ class CommentController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/comments/edit/{id}', name: 'admin_comment_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->commentService->findOneToEdit($id);
@@ -58,7 +58,7 @@ class CommentController extends AbstractController
         return $this->manage($request, $entity);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/comments/delete/{id}', name: 'admin_comment_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Comment $comment */

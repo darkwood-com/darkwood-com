@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function dirname;
@@ -11,6 +12,7 @@ use function sprintf;
 
 class DarkwoodTest extends CommonWebTestCase
 {
+    #[Override]
     public function getHostParameter(): string
     {
         return 'darkwood_host';

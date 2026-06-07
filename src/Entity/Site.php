@@ -36,7 +36,7 @@ class Site implements Stringable
     #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     protected ?string $name = null;
 
-    #[Gedmo\Slug(fields: ['name'], separator: '-', unique: true, updatable: false)]
+    #[Gedmo\Slug(fields: ['name'], updatable: false, unique: true, separator: '-')]
     #[ORM\Column(length: 255, unique: true)]
     protected $ref;
 
@@ -184,6 +184,8 @@ class Site implements Stringable
 
     /**
      * Get pages.
+     *
+     * @return Collection<int, Page>
      */
     public function getPages(): Collection
     {

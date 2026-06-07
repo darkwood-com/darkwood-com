@@ -13,15 +13,17 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FacebookController extends AbstractController
 {
+    public function __construct(private readonly ClientRegistry $clientRegistry) {}
+
     /**
      * Link to this controller to start the "connect" process.
      */
     #[Route('/connect/facebook', name: 'connect_facebook_start')]
-    public function connect(ClientRegistry $clientRegistry)
+    public function connect()
     {
         // on Symfony 3.3 or lower, $clientRegistry = $this->get('knpu.oauth2.registry');
         // will redirect to Facebook!
-        return $clientRegistry->getClient('facebook_main')->redirect(['public_profile', 'email'], []);
+        return $this->clientRegistry->getClient('facebook_main')->redirect(['public_profile', 'email'], []);
     }
 
     /**
@@ -30,13 +32,13 @@ class FacebookController extends AbstractController
      * in config/packages/knpu_oauth2_client.yaml.
      */
     #[Route('/connect/facebook/check', name: 'connect_facebook_check')]
-    public function connectCheck(ClientRegistry $clientRegistry)
+    public function connectCheck()
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
         // (read below)
         /** @var FacebookClient $client */
-        $client = $clientRegistry->getClient('facebook_main');
+        $client = $this->clientRegistry->getClient('facebook_main');
 
         try {
             // the exact class depends on which provider you're using

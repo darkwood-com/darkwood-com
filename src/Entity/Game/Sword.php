@@ -223,6 +223,8 @@ class Sword
 
     /**
      * Get players.
+     *
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {
@@ -247,6 +249,8 @@ class Sword
 
     /**
      * Get currentSwordPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentSwordPlayers(): Collection
     {

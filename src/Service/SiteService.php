@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Page;
 use App\Entity\Site;
 use App\Repository\SiteRepository;
 use DateTime;
@@ -13,6 +14,8 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+
+use function in_array;
 
 class SiteService
 {
@@ -124,7 +127,7 @@ class SiteService
             foreach ($sites as $site) {
                 $ref = $site->getRef();
                 $host = $site->getHost();
-                if ($ref === 'hello' || $ref === 'api' || $ref === 'podcasts') {
+                if (in_array($ref, ['hello', 'api', 'podcasts'], true)) {
                     continue;
                 }
 
@@ -163,7 +166,7 @@ class SiteService
                     $child['link'] = null;
                     if (isset($child['item']['host'], $child['item']['ref'])) {
                         $page = $this->pageService->findOneActiveByRefAndHost($child['item']['ref'], $child['item']['host']);
-                        if ($page !== null) {
+                        if ($page instanceof Page) {
                             $pageTranslation = $page->getOneTranslation($locale);
                             if ($pageTranslation) {
                                 $child['label'] = $pageTranslation->getTitle();

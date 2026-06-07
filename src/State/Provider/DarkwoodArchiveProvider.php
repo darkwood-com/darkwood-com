@@ -7,6 +7,7 @@ namespace App\State\Provider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Entity\ApiKey;
+use App\Entity\DarkwoodArchive;
 use App\Repository\DarkwoodArchiveRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,7 +32,7 @@ final readonly class DarkwoodArchiveProvider implements ProviderInterface
 
         $id = (string) ($uriVariables['id'] ?? '');
         $archive = $this->archiveRepository->findOneByDateId($id);
-        if ($archive === null) {
+        if (!$archive instanceof DarkwoodArchive) {
             throw new NotFoundHttpException('Archive not found');
         }
 

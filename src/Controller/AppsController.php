@@ -20,7 +20,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'apps_', host: '%apps_host%')]
+#[Route(name: 'apps_', host: '%apps_host%')]
 class AppsController extends AbstractController
 {
     public function __construct(
@@ -50,7 +50,7 @@ class AppsController extends AbstractController
         return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
     }
 
-    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'apps_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -58,37 +58,37 @@ class AppsController extends AbstractController
         return $this->render('apps/pages/home.html.twig', ['page' => $page]);
     }
 
-    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'apps_legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)
     {
         return $this->commonController->legalMention($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
+    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'apps_sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'apps_sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
 
-    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'rss')]
+    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'apps_rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
 
-    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
+    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'apps_contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'app', defaults: ['ref' => null, 'slug' => null], priority: -10)]
+    #[Route(path: ['fr' => '/fr/{ref}/{slug}', 'de' => '/de/{ref}/{slug}', 'en' => '/{ref}/{slug}'], name: 'apps_app', defaults: ['ref' => null, 'slug' => null], priority: -10)]
     public function app(Request $request, $ref, $slug = null)
     {
         if ($request->query->get('sort') && $request->query->get('sort') !== 'c.created') {

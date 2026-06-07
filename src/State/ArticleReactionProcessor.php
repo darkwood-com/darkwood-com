@@ -11,6 +11,7 @@ use App\Enum\ArticleReactionEmoji;
 use App\Repository\ArticleRepository;
 use App\Service\ArticleReactionService;
 use JsonException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -37,7 +38,7 @@ final readonly class ArticleReactionProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
+        if (!$request instanceof Request) {
             throw new BadRequestHttpException('No current request.');
         }
 

@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function sprintf;
 
-#[Route('/', name: 'podcasts_', host: '%podcasts_host%')]
+#[Route(name: 'podcasts_', host: '%podcasts_host%')]
 class PodcastsController extends AbstractController
 {
     public function __construct(
@@ -26,13 +26,13 @@ class PodcastsController extends AbstractController
         private readonly CacheInterface $cache,
     ) {}
 
-    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'podcasts_sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
 
-    #[Route('/feed.rss', name: 'rss')]
+    #[Route('//feed.rss', name: 'podcasts_rss')]
     public function generateRssFeed(): Response
     {
         $podcasts = $this->fetchAndCachePodcasts();
@@ -45,7 +45,7 @@ class PodcastsController extends AbstractController
         ], $response);
     }
 
-    #[Route(path: ['fr' => '/fr/{slug}', 'en' => '/{slug}', 'de' => '/de/{slug}'], name: 'home', defaults: ['ref' => 'home', 'slug' => null])]
+    #[Route(path: ['fr' => '/fr/{slug}', 'en' => '/{slug}', 'de' => '/de/{slug}'], name: 'podcasts_home', defaults: ['ref' => 'home', 'slug' => null])]
     public function home(Request $request, $ref, ?string $slug = null): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -54,7 +54,7 @@ class PodcastsController extends AbstractController
 
         if ($slug !== null) {
             $podcast = array_filter($podcasts, static fn ($podcast) => $podcast['slug'] === $slug);
-            if (empty($podcast)) {
+            if ($podcast === []) {
                 throw $this->createNotFoundException('Podcast not found');
             }
         }
@@ -85,7 +85,7 @@ class PodcastsController extends AbstractController
 
             try {
                 $token = $this->baserowService->getBaserowToken();
-            } catch (ExceptionInterface $e) {
+            } catch (ExceptionInterface $exception) {
                 return [];
             }
 
@@ -98,14 +98,14 @@ class PodcastsController extends AbstractController
                 ]);
 
                 $databases = $response->toArray();
-            } catch (ExceptionInterface $e) {
+            } catch (ExceptionInterface $exception) {
                 return [];
             }
 
             $tableId = null;
             foreach ($databases as $database) {
                 $table = array_filter($database['tables'], static fn ($table) => $table['name'] === 'Podcasts');
-                if (!empty($table)) {
+                if ($table !== []) {
                     $tableId = reset($table)['id'];
                 }
             }
@@ -127,7 +127,7 @@ class PodcastsController extends AbstractController
                 ]);
 
                 return $response->toArray()['results'];
-            } catch (ExceptionInterface $e) {
+            } catch (ExceptionInterface) {
                 return [];
             }
         });

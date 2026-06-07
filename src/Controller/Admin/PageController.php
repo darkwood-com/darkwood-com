@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/{_locale}/pages', name: 'admin_page_', host: '%admin_host%', priority : 10, requirements: ['_locale' => 'en|fr|de'])]
+#[Route(name: 'admin_page_', requirements: ['_locale' => 'en|fr|de'], host: '%admin_host%', priority : 10)]
 class PageController extends AbstractController
 {
     public function __construct(
@@ -29,7 +29,7 @@ class PageController extends AbstractController
         private readonly PageService $pageService
     ) {}
 
-    #[Route('/list', name: 'list')]
+    #[Route('/{_locale}/pages/list', name: 'admin_page_list')]
     public function list(Request $request): Response
     {
         $form = $this->createSearchForm();
@@ -41,7 +41,7 @@ class PageController extends AbstractController
         return $this->render('admin/page/index.html.twig', ['entities' => $entities, 'search_form' => $form->createView()]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/{_locale}/pages/create', name: 'admin_page_create')]
     public function create(Request $request)
     {
         $entity = new Page();
@@ -57,11 +57,11 @@ class PageController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/{_locale}/pages/edit/{id}', name: 'admin_page_edit')]
     public function edit(Request $request, $id)
     {
         $entity = $this->pageService->findOneToEdit($id);
-        if ($entity === null) {
+        if (!$entity instanceof Page) {
             throw $this->createNotFoundException('Page not found');
         }
 
@@ -78,7 +78,7 @@ class PageController extends AbstractController
         return $this->manage($request, $entityTranslation);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{_locale}/pages/delete/{id}', name: 'admin_page_delete')]
     public function delete(Request $request, $id): RedirectResponse
     {
         /** @var Page $page */

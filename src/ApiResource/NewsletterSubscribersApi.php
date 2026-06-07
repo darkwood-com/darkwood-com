@@ -12,9 +12,9 @@ use App\State\Provider\NewsletterSubscribersProvider;
     operations: [
         new GetCollection(
             uriTemplate: '/newsletter-subscribers',
-            provider: NewsletterSubscribersProvider::class,
             security: "is_granted('ROLE_ADMIN')",
             name: 'api_newsletter_subscribers',
+            provider: NewsletterSubscribersProvider::class,
         ),
     ],
 )]

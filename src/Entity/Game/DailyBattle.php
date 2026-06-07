@@ -17,15 +17,16 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 class DailyBattle
 {
     use TimestampTrait;
-    final public const STATUS_DAILY_USER = 0;
+
+    final public const int STATUS_DAILY_USER = 0;
 
     // user of the day
-    final public const STATUS_NEW_WIN = 1;
+    final public const int STATUS_NEW_WIN = 1;
 
     // user that win the fight
-    final public const STATUS_NEW_LOSE = 2;
+    final public const int STATUS_NEW_LOSE = 2;
 
-    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'dailyBattles', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Player::class, cascade: ['persist'], inversedBy: 'dailyBattles')]
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?Player $player = null;
 

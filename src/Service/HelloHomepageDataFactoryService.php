@@ -17,7 +17,7 @@ use function count;
 final readonly class HelloHomepageDataFactoryService
 {
     /** @var list<string> */
-    private const WORK_EXPERIENCE_IDS = [
+    private const array WORK_EXPERIENCE_IDS = [
         'eeas-2025-2026',
         'twenga-2024-2025',
         'gamestream-2023-2024',
@@ -25,7 +25,7 @@ final readonly class HelloHomepageDataFactoryService
         'bigyouth-2012-2019',
     ];
 
-    private const SKILLS_MAX = 18;
+    private const int SKILLS_MAX = 18;
 
     public function __construct(
         private HelloCvRepositoryService $helloCvRepository,
@@ -69,6 +69,7 @@ final readonly class HelloHomepageDataFactoryService
             if (str_contains(mb_strtolower($link['label']), 'freelance')) {
                 continue;
             }
+
             $out[] = $link;
             if (count($out) >= 8) {
                 break;

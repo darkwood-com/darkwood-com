@@ -202,6 +202,8 @@ class Armor
 
     /**
      * Get players.
+     *
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {
@@ -226,6 +228,8 @@ class Armor
 
     /**
      * Get currentArmorPlayers.
+     *
+     * @return Collection<int, Player>
      */
     public function getCurrentArmorPlayers(): Collection
     {

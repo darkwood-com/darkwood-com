@@ -17,13 +17,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AppContent
 {
     use TimestampTrait;
+
     /**
      * Locale.
      */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $locale;
 
-    #[ORM\ManyToOne(targetEntity: App::class, inversedBy: 'contents', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: App::class, cascade: ['persist'], inversedBy: 'contents')]
     #[ORM\JoinColumn(name: 'app_id', referencedColumnName: 'id', onDelete: 'cascade')]
     protected ?App $app = null;
 

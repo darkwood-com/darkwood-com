@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 use Twig\Environment;
 
-#[Route('/', name: 'hello_', host: '%hello_host%')]
+#[Route(name: 'hello_', host: '%hello_host%')]
 class HelloController extends AbstractController
 {
     public function __construct(
@@ -35,7 +35,7 @@ class HelloController extends AbstractController
         private readonly CsrfTokenManagerInterface $tokenManager
     ) {}
 
-    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'home', defaults: ['ref' => 'home'])]
+    #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'hello_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref)
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -75,7 +75,7 @@ class HelloController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/cv', 'en' => '/cv', 'de' => '/de/cv'], name: 'cv', defaults: ['ref' => 'cv'])]
+    #[Route(path: ['fr' => '/fr/cv', 'en' => '/cv', 'de' => '/de/cv'], name: 'hello_cv', defaults: ['ref' => 'cv'])]
     public function cv(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
@@ -83,31 +83,31 @@ class HelloController extends AbstractController
         return $this->render('hello/pages/cv.html.twig', ['page' => $page, 'showLinks' => true, 'cv' => true]);
     }
 
-    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'legal_mention', defaults: ['ref' => 'legal_mention'])]
+    #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'hello_legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)
     {
         return $this->commonController->legalMention($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'sitemap', defaults: ['ref' => 'sitemap'])]
+    #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'hello_sitemap', defaults: ['ref' => 'sitemap'])]
     public function sitemap(Request $request, $ref)
     {
         return $this->commonController->sitemap($request, $ref);
     }
 
-    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'sitemap_xml')]
+    #[Route(path: ['fr' => '/fr/sitemap.xml', 'en' => '/sitemap.xml', 'de' => '/de/sitemap.xml'], name: 'hello_sitemap_xml')]
     public function sitemapXml(Request $request)
     {
         return $this->commonController->sitemapXml($request);
     }
 
-    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'rss')]
+    #[Route(path: ['fr' => '/fr/rss', 'en' => '/rss', 'de' => '/de/rss'], name: 'hello_rss')]
     public function rss(Request $request)
     {
         return $this->commonController->rss($request);
     }
 
-    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'contact', defaults: ['ref' => 'contact'])]
+    #[Route(path: ['fr' => '/fr/contact', 'en' => '/contact', 'de' => '/de/kontakt'], name: 'hello_contact', defaults: ['ref' => 'contact'])]
     public function contact(Request $request, $ref)
     {
         return $this->commonController->contact($request, $ref);
@@ -127,7 +127,7 @@ class HelloController extends AbstractController
         $subject = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
-        $message = (new Email())->from($fromEmail)->to($toEmail)->subject($subject);
+        $message = new Email()->from($fromEmail)->to($toEmail)->subject($subject);
         if ($htmlBody !== '') {
             $message->html($htmlBody)->text($textBody);
         } else {

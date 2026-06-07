@@ -148,6 +148,8 @@ class Gem
 
     /**
      * Get equipment1Players.
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment1Players(): Collection
     {
@@ -172,6 +174,8 @@ class Gem
 
     /**
      * Get equipment2Players.
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment2Players(): Collection
     {
@@ -196,6 +200,8 @@ class Gem
 
     /**
      * Get equipment3Players.
+     *
+     * @return Collection<int, Player>
      */
     public function getEquipment3Players(): Collection
     {

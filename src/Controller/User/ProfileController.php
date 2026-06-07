@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/', name: 'common_profile')]
+#[Route(name: 'common_profile')]
 class ProfileController extends AbstractController
 {
     public function __construct(
@@ -24,7 +24,7 @@ class ProfileController extends AbstractController
         private readonly DarkwoodGameService $gameService
     ) {}
 
-    #[Route(path: ['fr' => '/fr/profil/{username}', 'en' => '/profile/{username}', 'de' => '/de/profil/{username}'], name: '', defaults: ['ref' => 'profile'])]
+    #[Route(path: ['fr' => '/fr/profil/{username}', 'en' => '/profile/{username}', 'de' => '/de/profil/{username}'], name: 'common_profile', defaults: ['ref' => 'profile'])]
     public function profile(Request $request, $ref, $username = null)
     {
         $page = $this->commonController->getPage($request, $ref);

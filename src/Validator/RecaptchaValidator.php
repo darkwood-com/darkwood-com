@@ -16,7 +16,7 @@ use function is_string;
 
 final class RecaptchaValidator extends ConstraintValidator
 {
-    private const DISABLED_SECRET = 'recaptcha_disabled';
+    private const string DISABLED_SECRET = 'recaptcha_disabled';
 
     public function __construct(
         #[Autowire(service: 'app.recaptcha')]
@@ -40,6 +40,7 @@ final class RecaptchaValidator extends ConstraintValidator
         if ($token === '' && $this->requestStack->getCurrentRequest()) {
             $token = trim((string) $this->requestStack->getCurrentRequest()->request->get('g-recaptcha-response', ''));
         }
+
         if ($token === '') {
             $this->context->buildViolation($constraint->message)
                 ->addViolation()

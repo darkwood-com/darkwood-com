@@ -27,32 +27,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(
-    security: "is_granted('ROLE_USER')",
-    operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
-    ],
-    normalizationContext: ['groups' => ['article:read']],
-    denormalizationContext: ['groups' => ['article:write']],
-    mcp: [
-        'list_articles' => new McpToolCollection(
-            description: 'List articles (optionally by locale, with limit).',
-            input: ListArticlesInput::class,
-            processor: ListArticlesProcessor::class,
-            structuredContent: true,
-        ),
-        'get_article' => new McpTool(
-            description: 'Get a single article by ID.',
-            input: ArticleIdInput::class,
-            processor: GetArticleProcessor::class,
-            structuredContent: true,
-        ),
-    ],
-)]
+#[ApiResource(operations: [
+    new Get(),
+    new GetCollection(),
+    new Post(security: "is_granted('ROLE_ADMIN')"),
+    new Put(security: "is_granted('ROLE_ADMIN')"),
+    new Delete(security: "is_granted('ROLE_ADMIN')"),
+], normalizationContext: ['groups' => ['article:read']], denormalizationContext: ['groups' => ['article:write']], security: "is_granted('ROLE_USER')", mcp: [
+    'list_articles' => new McpToolCollection(
+        description: 'List articles (optionally by locale, with limit).',
+        structuredContent: true,
+        input: ListArticlesInput::class,
+        processor: ListArticlesProcessor::class,
+    ),
+    'get_article' => new McpTool(
+        description: 'Get a single article by ID.',
+        structuredContent: true,
+        input: ArticleIdInput::class,
+        processor: GetArticleProcessor::class,
+    ),
+])]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'article')]
@@ -97,7 +91,7 @@ class Article implements Stringable
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $isPremium = false;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: true)]
     private ?string $generationId = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -148,6 +142,8 @@ class Article implements Stringable
 
     /**
      * Get translations.
+     *
+     * @return Collection<int, ArticleTranslation>
      */
     public function getTranslations(): Collection
     {
@@ -191,6 +187,8 @@ class Article implements Stringable
 
     /**
      * Get comments.
+     *
+     * @return Collection<int, CommentArticle>
      */
     public function getComments(): Collection
     {
@@ -224,6 +222,9 @@ class Article implements Stringable
         }
     }
 
+    /**
+     * @return Collection<int, Tag>
+     */
     public function getTags(): Collection
     {
         return $this->tags;

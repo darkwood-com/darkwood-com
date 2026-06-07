@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class DailyBattleRepository.
+ *
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Game\DailyBattle>
  */
 class DailyBattleRepository extends ServiceEntityRepository
 {

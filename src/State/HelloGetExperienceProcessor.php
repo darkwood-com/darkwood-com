@@ -6,6 +6,7 @@ namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use App\ApiResource\HelloCvExperience;
 use App\Dto\HelloCvExperienceInput;
 use App\Service\HelloCvRepositoryService;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -32,7 +33,7 @@ final readonly class HelloGetExperienceProcessor implements ProcessorInterface
             }
         }
 
-        if ($exp === null) {
+        if (!$exp instanceof HelloCvExperience) {
             return ['matched' => false, 'experience' => null];
         }
 

@@ -12,6 +12,7 @@ use App\Enum\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\BlogArticleService;
 use JsonException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -32,7 +33,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
+        if (!$request instanceof Request) {
             throw new BadRequestHttpException('No current request.');
         }
 
@@ -73,10 +74,12 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
         $existing = $this->articles->findOneByGenerationId((string) $payload['generation_id']);
         $article = $existing ?? new Article();
         $article->setType(ArticleType::Auto);
+
         $isPremium = $payload['is_premium'] ?? true;
         if (!is_bool($isPremium)) {
             throw new BadRequestHttpException('Field "is_premium" must be a boolean.');
         }
+
         $article->setIsPremium($isPremium);
         $article->setGenerationId((string) $payload['generation_id']);
         $article->setMetadata(is_array($payload['metadata'] ?? null) ? $payload['metadata'] : []);
@@ -95,15 +98,19 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
             if (!is_string($locale) || '' === trim($locale)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].locale" is required.', $index));
             }
+
             if (!is_string($title) || '' === trim($title)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].title" is required.', $index));
             }
+
             if (!is_string($slug) || '' === trim($slug)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].slug" is required.', $index));
             }
+
             if (!is_string($content) || '' === trim($content)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].content" is required.', $index));
             }
+
             if (!is_string($premiumContent) || '' === trim($premiumContent)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].premium_content" is required.', $index));
             }
@@ -116,6 +123,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
                     break;
                 }
             }
+
             if (!$translation instanceof ArticleTranslation) {
                 $translation = new ArticleTranslation();
                 $translation->setLocale($locale);
@@ -139,7 +147,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
             'id' => $article->getId(),
             'generation_id' => $article->getGenerationId(),
             'slug' => $primaryTranslation instanceof ArticleTranslation ? $primaryTranslation->getSlug() : null,
-            'status' => $existing === null ? 'created' : 'updated',
+            'status' => $existing instanceof Article ? 'updated' : 'created',
         ];
     }
 }

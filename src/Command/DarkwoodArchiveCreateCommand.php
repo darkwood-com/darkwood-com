@@ -63,7 +63,7 @@ final class DarkwoodArchiveCreateCommand extends Command
         $archiveDate = $archiveDate->setTime(0, 0, 0);
         $dateId = $archiveDate->format('Y-m-d');
 
-        if ($this->archiveRepository->findOneByDateId($dateId) !== null) {
+        if ($this->archiveRepository->findOneByDateId($dateId) instanceof DarkwoodArchive) {
             $io->note(sprintf('Archive for %s already exists, skipping.', $dateId));
 
             return self::SUCCESS;

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CommentArticle extends Comment
 {
     #[Assert\NotNull(message: 'common.comment.required_page')]
-    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Article::class, cascade: ['persist'], inversedBy: 'comments')]
     #[ORM\JoinColumn(name: 'article_id', referencedColumnName: 'id')]
     protected ?Article $article = null;
 
