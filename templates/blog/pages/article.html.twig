@@ -50,7 +50,7 @@
 {% if isAuto and article.isPremium and not isPremiumUser %}
     {{ (articleTranslation.content|default(''))|markdown_to_html }}
     <div class="alert_warning mt-3">
-        {{ '🚨 <b>Premium content.</b><br />⬆️ Upgrade to access full analysis.<br />👉 Subscribe here : <a href="https://www.bonzai.pro/matyo91/shop/48ov_2168/automation-avec-flow-en-php">https://www.bonzai.pro/matyo91/shop/48ov_2168/automation-avec-flow-en-php</a>' }}
+        {{ 'blog.article.premium_notice'|trans|raw }}
     </div>
 {% elseif isAuto and articleTranslation.premiumContent %}
     {{ articleTranslation.premiumContent|markdown_to_html }}
