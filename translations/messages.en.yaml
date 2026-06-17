@@ -296,6 +296,8 @@ blog:
     release_heading: Latest release
     release_read: Read the release
     release_all: All releases
+  article:
+    premium_notice: '🚨 <b>Premium content.</b><br />⬆️ Upgrade to access full analysis.<br />👉 Subscribe here : <a href="https://www.bonzai.pro/matyo91/shop/48ov_2168/automation-avec-flow-en-php">https://www.bonzai.pro/matyo91/shop/48ov_2168/automation-avec-flow-en-php</a>'
   reactions:
     login: Log in
     login_suffix: to add a reaction to this post
