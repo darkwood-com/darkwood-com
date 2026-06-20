@@ -49,26 +49,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
 
         $translationsPayload = $payload['translations'] ?? null;
         if (!is_array($translationsPayload) || [] === $translationsPayload) {
-            // Backward-compatible fallback to legacy flat payload.
-            $legacyRequired = ['title', 'slug', 'premium_content'];
-            foreach ($legacyRequired as $field) {
-                if (!isset($payload[$field]) || !is_string($payload[$field]) || '' === trim($payload[$field])) {
-                    throw new BadRequestHttpException(sprintf('Field "%s" is required.', $field));
-                }
-            }
-
-            $content = $payload['content'] ?? $payload['premium_content'];
-            if (!is_string($content) || '' === trim($content)) {
-                $content = (string) $payload['premium_content'];
-            }
-
-            $translationsPayload = [[
-                'locale' => 'en',
-                'title' => $payload['title'],
-                'slug' => $payload['slug'],
-                'content' => $content,
-                'premium_content' => $payload['premium_content'],
-            ]];
+            throw new BadRequestHttpException('Field "translations" must be a non-empty array.');
         }
 
         $existing = $this->articles->findOneByGenerationId((string) $payload['generation_id']);
