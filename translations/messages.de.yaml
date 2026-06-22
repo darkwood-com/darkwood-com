@@ -281,15 +281,15 @@ blog:
   menu:
     blog: Blog
     articles: Artikel
-    auto: Auto
+    watch: Watch
     release: Releases
   home:
     article_on: vom
     show_more: Weiterlesen
     news_heading: Artikel
-    automation_heading: Letzter automatisierter Artikel
-    automation_read: Artikel lesen
-    automation_all: Alle automatisierten Artikel
+    watch_heading: Letzter Watch-Artikel
+    watch_read: Artikel lesen
+    watch_all: Alle Watch-Artikel
     release_heading: Neuestes Release
     release_read: Release lesen
     release_all: Alle Releases

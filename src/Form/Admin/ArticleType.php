@@ -36,7 +36,7 @@ class ArticleType extends AbstractType
             'class' => ArticleTypeEnum::class,
             'choice_label' => static fn (ArticleTypeEnum $type): string => match ($type) {
                 ArticleTypeEnum::Manual => 'Articles',
-                ArticleTypeEnum::Auto => 'Auto',
+                ArticleTypeEnum::Watch => 'Watch',
                 ArticleTypeEnum::Release => 'Release',
             },
         ]);

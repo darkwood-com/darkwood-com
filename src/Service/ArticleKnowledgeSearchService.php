@@ -43,7 +43,7 @@ final readonly class ArticleKnowledgeSearchService
 
             $translation = $article->getOneTranslation($locale);
             $title = (string) $translation->getTitle();
-            $content = $article->getType() === ArticleType::Auto
+            $content = $article->getType() === ArticleType::Watch
                 ? ($article->isPremium() && !$canReadPremium ? '' : (string) ($translation->getPremiumContent() ?? $translation->getContent() ?? ''))
                 : (string) ($translation->getContent() ?? '');
 

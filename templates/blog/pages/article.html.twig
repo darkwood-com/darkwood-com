@@ -46,10 +46,10 @@
     compact: false,
 }) }}
 
-{% set isAuto = article.type is defined and article.type.value is defined and article.type.value == 'auto' %}
-{% if isAuto and article.isPremium and not isPremiumUser %}
+{% set isWatch = article.type is defined and article.type.value is defined and article.type.value == 'watch' %}
+{% if isWatch and article.isPremium and not isPremiumUser %}
     {{ (articleTranslation.content|default(''))|markdown_to_html }}
-{% elseif isAuto and articleTranslation.premiumContent %}
+{% elseif isWatch and articleTranslation.premiumContent %}
     {{ articleTranslation.premiumContent|markdown_to_html }}
 {% else %}
     {{ include(template_from_string(articleTranslation.content))|markdown_to_html }}

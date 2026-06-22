@@ -69,9 +69,9 @@ class BlogController extends AbstractController
         $request->query->set('sort', $pagination?->sort ?? '');
 
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
-        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
+        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
         $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastAutoArticle, $lastReleaseArticle]));
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle]));
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -79,7 +79,7 @@ class BlogController extends AbstractController
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
-            'lastAutoArticle' => $lastAutoArticle,
+            'lastWatchArticle' => $lastWatchArticle,
             'lastReleaseArticle' => $lastReleaseArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
@@ -87,17 +87,17 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route(path: ['fr' => '/fr/auto', 'en' => '/auto', 'de' => '/de/auto'], name: 'blog_auto', defaults: ['ref' => 'auto'])]
-    public function auto(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
+    #[Route(path: ['fr' => '/fr/watch', 'en' => '/watch', 'de' => '/de/watch'], name: 'blog_watch', defaults: ['ref' => 'watch'])]
+    public function watch(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
-        $query = $this->articleService->findAutoActivesQueryBuilder($request->getLocale());
+        $query = $this->articleService->findWatchActivesQueryBuilder($request->getLocale());
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
 
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
-            'lastAutoArticle' => null,
+            'lastWatchArticle' => null,
             'lastReleaseArticle' => null,
             'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
@@ -115,7 +115,7 @@ class BlogController extends AbstractController
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
-            'lastAutoArticle' => null,
+            'lastWatchArticle' => null,
             'lastReleaseArticle' => null,
             'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),

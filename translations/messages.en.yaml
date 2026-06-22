@@ -284,15 +284,15 @@ blog:
   menu:
     blog: Blog
     articles: Articles
-    auto: Auto
+    watch: Watch
     release: Releases
   home:
     article_on: on
     show_more: Read more...
     news_heading: Articles
-    automation_heading: Latest automated article
-    automation_read: Read the article
-    automation_all: All automated articles
+    watch_heading: Latest watch article
+    watch_read: Read the article
+    watch_all: All watch articles
     release_heading: Latest release
     release_read: Read the release
     release_all: All releases

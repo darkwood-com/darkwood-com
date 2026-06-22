@@ -7,14 +7,14 @@ namespace App\Enum;
 enum ArticleType: string
 {
     case Manual = 'manual';
-    case Auto = 'auto';
+    case Watch = 'watch';
     case Release = 'release';
 
     public function blogListRouteName(): string
     {
         return match ($this) {
             self::Manual => 'blog_home',
-            self::Auto => 'blog_auto',
+            self::Watch => 'blog_watch',
             self::Release => 'blog_release',
         };
     }

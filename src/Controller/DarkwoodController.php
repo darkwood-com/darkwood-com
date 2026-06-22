@@ -62,9 +62,9 @@ class DarkwoodController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findManualActives($request->getLocale(), 5);
-        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
+        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
         $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastAutoArticle, $lastReleaseArticle]));
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle]));
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -72,7 +72,7 @@ class DarkwoodController extends AbstractController
         return $this->render('darkwood/pages/home.html.twig', [
             'page' => $page,
             'news' => $articles,
-            'lastAutoArticle' => $lastAutoArticle,
+            'lastWatchArticle' => $lastWatchArticle,
             'lastReleaseArticle' => $lastReleaseArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),

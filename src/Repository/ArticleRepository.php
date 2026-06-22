@@ -120,13 +120,13 @@ class ArticleRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findAutoActivesQueryBuilder($locale = null, $limit = null)
+    public function findWatchActivesQueryBuilder($locale = null, $limit = null)
     {
         $qb = $this->createQueryBuilder('n')
             ->select('n', 'nts')
             ->leftJoin('n.translations', 'nts')
             ->andWhere('n.type = :type')
-            ->setParameter('type', ArticleType::Auto)
+            ->setParameter('type', ArticleType::Watch)
             ->addOrderBy('n.created', 'desc')
         ;
 
@@ -188,9 +188,9 @@ class ArticleRepository extends ServiceEntityRepository
         return new Paginator($qb->getQuery());
     }
 
-    public function findLatestAutoArticle(?string $locale): ?Article
+    public function findLatestWatchArticle(?string $locale): ?Article
     {
-        $qb = $this->findAutoActivesQueryBuilder($locale, 1);
+        $qb = $this->findWatchActivesQueryBuilder($locale, 1);
         $result = $qb->getQuery()->getOneOrNullResult();
 
         return $result instanceof Article ? $result : null;
