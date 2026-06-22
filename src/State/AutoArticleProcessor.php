@@ -84,16 +84,16 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].title" is required.', $index));
             }
 
-            if (!is_string($slug) || '' === trim($slug)) {
-                throw new BadRequestHttpException(sprintf('Field "translations[%d].slug" is required.', $index));
-            }
-
             if (!is_string($content) || '' === trim($content)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].content" is required.', $index));
             }
 
             if (!is_string($premiumContent) || '' === trim($premiumContent)) {
                 throw new BadRequestHttpException(sprintf('Field "translations[%d].premium_content" is required.', $index));
+            }
+
+            if (null !== $slug && (!is_string($slug) || '' === trim($slug))) {
+                throw new BadRequestHttpException(sprintf('Field "translations[%d].slug" must be a non-empty string when provided.', $index));
             }
 
             $translation = null;
@@ -113,7 +113,9 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
             }
 
             $translation->setTitle($title);
-            $translation->setSlug($slug);
+            if (is_string($slug) && '' !== trim($slug)) {
+                $translation->setSlug(trim($slug));
+            }
             $translation->setContent($content);
             $translation->setPremiumContent($premiumContent);
         }
@@ -124,10 +126,16 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
             $primaryTranslation = $article->getTranslations()->first();
         }
 
+        $translationSlugs = [];
+        foreach ($article->getTranslations() as $translation) {
+            $translationSlugs[$translation->getLocale()] = $translation->getSlug();
+        }
+
         return [
             'id' => $article->getId(),
             'generation_id' => $article->getGenerationId(),
             'slug' => $primaryTranslation instanceof ArticleTranslation ? $primaryTranslation->getSlug() : null,
+            'translation_slugs' => $translationSlugs,
             'status' => $existing instanceof Article ? 'updated' : 'created',
         ];
     }
