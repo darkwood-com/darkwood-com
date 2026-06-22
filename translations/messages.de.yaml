@@ -283,6 +283,7 @@ blog:
     articles: Artikel
     watch: Beobachtung
     release: Releases
+    creator: Creator
   home:
     article_on: vom
     show_more: Weiterlesen
@@ -293,6 +294,9 @@ blog:
     release_heading: Neuestes Release
     release_read: Release lesen
     release_all: Alle Releases
+    creator_heading: Neuester Creator-Artikel
+    creator_read: Artikel lesen
+    creator_all: Alle Creator-Artikel
   reactions:
     login: Anmelden
     login_suffix: um auf diesen Beitrag zu reagieren

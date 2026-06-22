@@ -21,6 +21,11 @@
                     {{ 'blog.menu.release'|trans }}
                 </a>
             </li>
+            <li>
+                <a href="{{ path('blog_creator') }}" class="{% if activeRoute == 'blog_creator' %}active{% endif %}">
+                    {{ 'blog.menu.creator'|trans }}
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -77,6 +82,11 @@
     <li>
         <a href="{{ path('blog_release') }}" class="{% if activeRoute == 'blog_release' %}active{% endif %}">
             {{ 'blog.menu.release'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('blog_creator') }}" class="{% if activeRoute == 'blog_creator' %}active{% endif %}">
+            {{ 'blog.menu.creator'|trans }}
         </a>
     </li>
 </ul>

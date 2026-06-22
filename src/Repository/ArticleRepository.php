@@ -224,4 +224,33 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $result instanceof Article ? $result : null;
     }
+
+    public function findCreatorActivesQueryBuilder($locale = null, $limit = null)
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->andWhere('n.type = :type')
+            ->setParameter('type', ArticleType::Creator)
+            ->addOrderBy('n.created', 'desc')
+        ;
+
+        if ($locale) {
+            $qb->andWhere('(nts.locale = :locale OR nts.id IS NULL)')->setParameter('locale', $locale);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
+    }
+
+    public function findLatestCreatorArticle(?string $locale): ?Article
+    {
+        $qb = $this->findCreatorActivesQueryBuilder($locale, 1);
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result instanceof Article ? $result : null;
+    }
 }

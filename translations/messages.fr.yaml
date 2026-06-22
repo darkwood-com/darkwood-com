@@ -285,6 +285,7 @@ blog:
     articles: Articles
     watch: Veille
     release: Releases
+    creator: Créateurs
   home:
     article_on: le
     show_more: Lire la suite...
@@ -295,6 +296,9 @@ blog:
     release_heading: Dernière release
     release_read: Lire la release
     release_all: Toutes les releases
+    creator_heading: Dernier article créateur
+    creator_read: Lire l'article
+    creator_all: Tous les articles créateurs
   reactions:
     login: Connectez-vous
     login_suffix: pour réagir à cet article

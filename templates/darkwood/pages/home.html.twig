@@ -54,6 +54,27 @@
 </ul>
 {% endif %}
 
+{% if lastCreatorArticle %}
+<h2>{{ 'blog.home.creator_heading'|trans }}</h2>
+<ul class="itemlist">
+    {% set creatorTranslation = lastCreatorArticle.getOneTranslation(app.request.locale) %}
+    <li>
+        <h3>{{ creatorTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ creatorTranslation.created|format_date('long') }}</em></h3>
+        <p>{{ creatorTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>
+            <a href="{{ path('blog_article', {'slug': creatorTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>
+        </p>
+        {{ include('blog/partials/article-reactions.html.twig', {
+            article: lastCreatorArticle,
+            slug: creatorTranslation.slug,
+            summary: reactionSummaries[lastCreatorArticle.id]|default({counts: {}, userReactions: []}),
+            reactionEmojis: reactionEmojis,
+            compact: true,
+        }) }}
+    </li>
+</ul>
+{% endif %}
+
 <h2>{{ 'darkwood.home.news'|trans }}</h2>
 <ul class="itemlist">
     {% for article in news %}

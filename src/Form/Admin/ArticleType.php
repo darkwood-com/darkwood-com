@@ -38,6 +38,7 @@ class ArticleType extends AbstractType
                 ArticleTypeEnum::Manual => 'Articles',
                 ArticleTypeEnum::Watch => 'Watch',
                 ArticleTypeEnum::Release => 'Release',
+                ArticleTypeEnum::Creator => 'Creator',
             },
         ]);
         $builder->add($builder->create('tags', TextType::class)->addModelTransformer($this->tagTransformer));

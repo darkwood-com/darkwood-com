@@ -71,7 +71,8 @@ class BlogController extends AbstractController
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
         $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
         $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle]));
+        $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle]));
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -81,6 +82,7 @@ class BlogController extends AbstractController
             'articles' => $articles,
             'lastWatchArticle' => $lastWatchArticle,
             'lastReleaseArticle' => $lastReleaseArticle,
+            'lastCreatorArticle' => $lastCreatorArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
@@ -99,6 +101,7 @@ class BlogController extends AbstractController
             'articles' => $articles,
             'lastWatchArticle' => null,
             'lastReleaseArticle' => null,
+            'lastCreatorArticle' => null,
             'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
@@ -117,6 +120,26 @@ class BlogController extends AbstractController
             'articles' => $articles,
             'lastWatchArticle' => null,
             'lastReleaseArticle' => null,
+            'lastCreatorArticle' => null,
+            'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
+            'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
+            'showLinks' => true,
+        ]);
+    }
+
+    #[Route(path: ['fr' => '/fr/creator', 'en' => '/creator', 'de' => '/de/creator'], name: 'blog_creator', defaults: ['ref' => 'creator'])]
+    public function creator(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
+    {
+        $page = $this->commonController->getPage($request, $ref);
+        $query = $this->articleService->findCreatorActivesQueryBuilder($request->getLocale());
+        $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
+
+        return $this->render('blog/pages/home.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'lastWatchArticle' => null,
+            'lastReleaseArticle' => null,
+            'lastCreatorArticle' => null,
             'reactionSummaries' => $this->buildReactionSummaries(iterator_to_array($articles)),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,

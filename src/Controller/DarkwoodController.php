@@ -64,7 +64,8 @@ class DarkwoodController extends AbstractController
         $articles = $this->articleService->findManualActives($request->getLocale(), 5);
         $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
         $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle]));
+        $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle]));
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -74,6 +75,7 @@ class DarkwoodController extends AbstractController
             'news' => $articles,
             'lastWatchArticle' => $lastWatchArticle,
             'lastReleaseArticle' => $lastReleaseArticle,
+            'lastCreatorArticle' => $lastCreatorArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,

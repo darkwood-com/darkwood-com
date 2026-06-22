@@ -230,4 +230,14 @@ class BlogArticleService
     {
         return $this->articleRepository->findLatestReleaseArticle($locale);
     }
+
+    public function findCreatorActivesQueryBuilder($locale = null, $limit = null)
+    {
+        return $this->articleRepository->findCreatorActivesQueryBuilder($locale, $limit);
+    }
+
+    public function findLatestCreatorArticle(?string $locale): ?Article
+    {
+        return $this->articleRepository->findLatestCreatorArticle($locale);
+    }
 }

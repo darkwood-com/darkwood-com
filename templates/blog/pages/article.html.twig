@@ -47,9 +47,11 @@
 }) }}
 
 {% set isWatch = article.type is defined and article.type.value is defined and article.type.value == 'watch' %}
-{% if isWatch and article.isPremium and not isPremiumUser %}
+{% set isCreator = article.type is defined and article.type.value is defined and article.type.value == 'creator' %}
+{% set isPremiumArticle = isWatch or isCreator %}
+{% if isPremiumArticle and article.isPremium and not isPremiumUser %}
     {{ (articleTranslation.content|default(''))|markdown_to_html }}
-{% elseif isWatch and articleTranslation.premiumContent %}
+{% elseif isPremiumArticle and articleTranslation.premiumContent %}
     {{ articleTranslation.premiumContent|markdown_to_html }}
 {% else %}
     {{ include(template_from_string(articleTranslation.content))|markdown_to_html }}

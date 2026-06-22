@@ -286,6 +286,7 @@ blog:
     articles: Articles
     watch: Watch
     release: Releases
+    creator: Creators
   home:
     article_on: on
     show_more: Read more...
@@ -296,6 +297,9 @@ blog:
     release_heading: Latest release
     release_read: Read the release
     release_all: All releases
+    creator_heading: Latest creator article
+    creator_read: Read the article
+    creator_all: All creator articles
   reactions:
     login: Log in
     login_suffix: to add a reaction to this post

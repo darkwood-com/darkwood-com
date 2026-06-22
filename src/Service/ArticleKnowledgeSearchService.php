@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use function count;
+use function in_array;
 
 final readonly class ArticleKnowledgeSearchService
 {
@@ -43,7 +44,7 @@ final readonly class ArticleKnowledgeSearchService
 
             $translation = $article->getOneTranslation($locale);
             $title = (string) $translation->getTitle();
-            $content = $article->getType() === ArticleType::Watch
+            $content = in_array($article->getType(), [ArticleType::Watch, ArticleType::Creator], true)
                 ? ($article->isPremium() && !$canReadPremium ? '' : (string) ($translation->getPremiumContent() ?? $translation->getContent() ?? ''))
                 : (string) ($translation->getContent() ?? '');
 
