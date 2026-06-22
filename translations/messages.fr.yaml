@@ -283,15 +283,15 @@ blog:
   menu:
     blog: Blog
     articles: Articles
-    watch: Watch
+    watch: Veille
     release: Releases
   home:
     article_on: le
     show_more: Lire la suite...
     news_heading: Articles
-    watch_heading: Dernier article watch
+    watch_heading: Dernier article de veille
     watch_read: Lire l'article
-    watch_all: Tous les articles watch
+    watch_all: Tous les articles de veille
     release_heading: Dernière release
     release_read: Lire la release
     release_all: Toutes les releases

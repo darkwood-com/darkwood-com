@@ -281,15 +281,15 @@ blog:
   menu:
     blog: Blog
     articles: Artikel
-    watch: Watch
+    watch: Beobachtung
     release: Releases
   home:
     article_on: vom
     show_more: Weiterlesen
     news_heading: Artikel
-    watch_heading: Letzter Watch-Artikel
+    watch_heading: Neuester Beobachtungsartikel
     watch_read: Artikel lesen
-    watch_all: Alle Watch-Artikel
+    watch_all: Alle Beobachtungsartikel
     release_heading: Neuestes Release
     release_read: Release lesen
     release_all: Alle Releases
