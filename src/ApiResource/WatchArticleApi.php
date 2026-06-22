@@ -6,17 +6,17 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
-use App\State\AutoArticleProcessor;
+use App\State\WatchArticleProcessor;
 
 #[ApiResource(
     operations: [
         new Post(
-            uriTemplate: '/auto-articles',
+            uriTemplate: '/watch-articles',
             security: "is_granted('ROLE_ADMIN')",
             read: false,
-            name: 'api_auto_articles_create',
-            processor: AutoArticleProcessor::class,
+            name: 'api_watch_articles_create',
+            processor: WatchArticleProcessor::class,
         ),
     ],
 )]
-final class AutoArticleApi {}
+final class WatchArticleApi {}

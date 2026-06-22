@@ -63,7 +63,7 @@ class HelloController extends AbstractController
 
         $hello = $this->helloHomepageDataFactory->build();
         $articles = $this->articleService->findManualActives($request->getLocale(), 3);
-        $lastAutoArticle = $this->articleService->findLatestAutoArticle($request->getLocale());
+        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
 
         return $this->render('hello/pages/home.html.twig', [
             'form' => $form,
@@ -71,7 +71,7 @@ class HelloController extends AbstractController
             'showLinks' => true,
             'hello' => $hello,
             'articles' => $articles,
-            'lastAutoArticle' => $lastAutoArticle,
+            'lastWatchArticle' => $lastWatchArticle,
         ]);
     }
 

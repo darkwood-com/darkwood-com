@@ -192,9 +192,9 @@ class BlogArticleService
         return $this->articleRepository->findActivesQueryBuilder($locale, $limit);
     }
 
-    public function findAutoActivesQueryBuilder($locale = null, $limit = null)
+    public function findWatchActivesQueryBuilder($locale = null, $limit = null)
     {
-        return $this->articleRepository->findAutoActivesQueryBuilder($locale, $limit);
+        return $this->articleRepository->findWatchActivesQueryBuilder($locale, $limit);
     }
 
     /**
@@ -216,9 +216,9 @@ class BlogArticleService
         return $this->articleRepository->findManualActives($locale, $limit);
     }
 
-    public function findLatestAutoArticle(?string $locale): ?Article
+    public function findLatestWatchArticle(?string $locale): ?Article
     {
-        return $this->articleRepository->findLatestAutoArticle($locale);
+        return $this->articleRepository->findLatestWatchArticle($locale);
     }
 
     public function findReleaseActivesQueryBuilder($locale = null, $limit = null)

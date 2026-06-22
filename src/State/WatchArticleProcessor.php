@@ -22,7 +22,7 @@ use function is_string;
 use function sprintf;
 use function trim;
 
-final readonly class AutoArticleProcessor implements ProcessorInterface
+final readonly class WatchArticleProcessor implements ProcessorInterface
 {
     public function __construct(
         private ArticleRepository $articles,
@@ -54,7 +54,7 @@ final readonly class AutoArticleProcessor implements ProcessorInterface
 
         $existing = $this->articles->findOneByGenerationId((string) $payload['generation_id']);
         $article = $existing ?? new Article();
-        $article->setType(ArticleType::Auto);
+        $article->setType(ArticleType::Watch);
 
         $isPremium = $payload['is_premium'] ?? true;
         if (!is_bool($isPremium)) {
