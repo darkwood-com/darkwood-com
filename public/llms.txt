@@ -1,4 +1,4 @@
-# Darkwood (darkwood.com) — LLM / Agent Access
+# Darkwood (darkwood.com) - LLM / Agent Access
 
 ## Summary
 Darkwood is a technical blog and maker hub by Mathieu Ledru (PHP/Symfony, automation, AI agents),

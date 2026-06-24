@@ -475,7 +475,7 @@
                 <div class="col-lg-8 col-md-10">
                     <div class="text-center mb-3">
                         <h3 class="text-white h5 mb-2">{{ 'blog.home.watch_heading'|trans }}</h3>
-                        <p class="text-white-50 small mb-0">{{ watchTranslation.title }} — {{ watchTranslation.created|format_date('long') }}</p>
+                        <p class="text-white-50 small mb-0">{{ watchTranslation.title }} - {{ watchTranslation.created|format_date('long') }}</p>
                     </div>
                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 gap-sm-3 align-items-center">
                         {#<a href="{{ path('blog_article', {'slug': watchTranslation.slug}) }}" target="_blank" rel="noreferrer" class="btn btn-outline-light btn-sm">{{ 'blog.home.watch_read'|trans }}</a>#}
@@ -490,7 +490,7 @@
                 <div class="col-lg-8 col-md-10">
                     <div class="text-center mb-3">
                         <h3 class="text-white h5 mb-2">{{ 'blog.home.creator_heading'|trans }}</h3>
-                        <p class="text-white-50 small mb-0">{{ creatorTranslation.title }} — {{ creatorTranslation.created|format_date('long') }}</p>
+                        <p class="text-white-50 small mb-0">{{ creatorTranslation.title }} - {{ creatorTranslation.created|format_date('long') }}</p>
                     </div>
                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 gap-sm-3 align-items-center">
                         <a href="{{ path('blog_creator') }}" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">{{ 'hello.blog.cta_more'|trans }}</a>

@@ -4,11 +4,11 @@
 
 Darkwood API uses **two separate mechanisms**:
 
-1. **API access** — Every request must include your API key in the header:  
+1. **API access** - Every request must include your API key in the header:  
    `X-API-Key: <your-key>`  
    This controls whether you can call the API at all, and (for premium keys) access to archives and quota.
 
-2. **Player authentication** — To play as a specific game account (persistent progression, combat, etc.), you must authenticate the **player** using a **JWT (JSON Web Token)**. The JWT is obtained from `POST /auth` and then sent on Darkwood gameplay requests.
+2. **Player authentication** - To play as a specific game account (persistent progression, combat, etc.), you must authenticate the **player** using a **JWT (JSON Web Token)**. The JWT is obtained from `POST /auth` and then sent on Darkwood gameplay requests.
 
 **For normal authenticated gameplay**, send **both** headers:
 

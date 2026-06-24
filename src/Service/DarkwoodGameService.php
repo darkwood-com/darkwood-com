@@ -1044,7 +1044,7 @@ class DarkwoodGameService
                         $this->previousEnemy($user);
                     } elseif ($this->getRequestInput($request, 'actionBeginFight')) {
                         if ($player->getLastFight() instanceof Enemy) {
-                            // Already in a fight — do not allow starting a new one; return current fight state
+                            // Already in a fight - do not allow starting a new one; return current fight state
                             $parameters['mode'] = 'combat';
                             $parameters['data']['info'] = $this->getInfo($user);
                             $parameters['data']['session'] = $this->getSession($user);

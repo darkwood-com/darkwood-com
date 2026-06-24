@@ -1,4 +1,4 @@
-# MCP server config — see https://api-platform.com/docs/core/mcp/
+# MCP server config - see https://api-platform.com/docs/core/mcp/
 mcp:
     client_transports:
         http: true

@@ -8,30 +8,30 @@ Reverse-engineered from `GameService::play()` and related code. No rules invente
 
 ### 1.1 State and mode source
 
-- **State**: `$request->get('state', 'main')` — default is `'main'` (GameService.php:876).
-- **Mode**: `$request->get('mode')` — can be `null` or any string; meaning depends on `state`.
+- **State**: `$request->get('state', 'main')` - default is `'main'` (GameService.php:876).
+- **Mode**: `$request->get('mode')` - can be `null` or any string; meaning depends on `state`.
 
 ### 1.2 All states handled (in evaluation order)
 
 | State | When entered | Data returned | Request params that matter | Next transitions |
 |-------|----------------|---------------|----------------------------|------------------|
 | **login** | Request has `state=login` | `user`, `state`, `mode`, `display`; if not logging in: `last_username`, `csrf_token`. On logout: redirect. On successful login: redirect to `darkwood_play`. | `mode` (logout / login), `_username`, `_password` | Redirect (logout/success) or stay with login form data |
-| **eula** | Request has `state=eula` | `user`, `state`, `mode`, `display` | — | Unclear from code (no transitions) |
-| **profile** | Request has `state=profile` | `user` (from `username` or token), `state`, `mode`, `display` | `username` (optional; else current user) | — |
-| **report** | Request has `state=report` | Same as profile + `confirm` (true iff `request->get('confirm') === 'true'`) | `username`, `confirm` | — |
-| **users** | Request has `state=users` | `user`, `state`, `mode`, `display`, `users` (paginated, 56 per page) | `page`, `sort` (via PaginationDTO) | — |
-| **rank** | Request has `state=rank` | `user`, `state`, `mode`, `display`, `players` (paginated, 56 per page; ordering depends on `mode`) | `mode` (rank filter), `page`, `sort` | — |
+| **eula** | Request has `state=eula` | `user`, `state`, `mode`, `display` | - | Unclear from code (no transitions) |
+| **profile** | Request has `state=profile` | `user` (from `username` or token), `state`, `mode`, `display` | `username` (optional; else current user) | - |
+| **report** | Request has `state=report` | Same as profile + `confirm` (true iff `request->get('confirm') === 'true'`) | `username`, `confirm` | - |
+| **users** | Request has `state=users` | `user`, `state`, `mode`, `display`, `users` (paginated, 56 per page) | `page`, `sort` (via PaginationDTO) | - |
+| **rank** | Request has `state=rank` | `user`, `state`, `mode`, `display`, `players` (paginated, 56 per page; ordering depends on `mode`) | `mode` (rank filter), `page`, `sort` | - |
 | **chat** / **guestbook** | Request has `state=chat` or `state=guestbook` | `user`, `state`, `mode`, `display`, `form`, `comments` (paginated, 10 per page). On valid POST form: redirect to `darkwood_play`. | POST body for comment form, `page`, `sort` | Redirect on submit or stay |
 | **combat** | (1) Request has `state=combat`, or (2) user has `lastFight` and request had `state !== 'combat'` and `mode !== 'combat'` → then **forced** to `state=combat`, `mode=fight_not_ended` (671–672) | See “Combat state data” below | Many; see §3 | Forced to combat when unfinished fight; combat → win/death or back to enemy choice |
 | **daily-battle** | Request has `state=daily-battle` | See “Daily-battle data” below | `actionBeginFight`, `actionFight`, `actionEndFight` | combat mode → player_win / player_death or stay combat |
-| **info** | Request has `state=info` | `data.info`, `data.classes` | `actionChooseClasse`, `actionAddPoint` | — |
-| **equipment** | Request has `state=equipment` | `data.info` | `actionEquipGem`, `actionThrowGem` | — |
-| **hostel** | Request has `state=hostel` | `data.info`, `data.regenerations` | `actionRegeneration` | — |
-| **armor** | Request has `state=armor` | `data.info`, `data.armor`, `data.currentArmor` | `actionArmorNext`, `actionArmorPrevious`, `actionArmorBuy`, `actionArmorSell` | — |
-| **potion** | Request has `state=potion` | `data.info`, `data.potion`, `data.currentPotion` | `actionPotionNext`, `actionPotionPrevious`, `actionPotionBuy` | — |
-| **sword** | Request has `state=sword` | `data.info`, `data.sword`, `data.currentSword` | `actionSwordNext`, `actionSwordPrevious`, `actionSwordBuy`, `actionSwordSell` | — |
-| **main** | Request has `state=main` or any other **unrecognized** state (when user is logged in) | `user`, `state` (set to `'main'`), `mode`, `display` (798–799) | — | — |
-| **not-logged** | `$user` is not an `User` instance | `user`, `state` (set to `'not-logged'`), `mode`, `display` (801–802) | — | — |
+| **info** | Request has `state=info` | `data.info`, `data.classes` | `actionChooseClasse`, `actionAddPoint` | - |
+| **equipment** | Request has `state=equipment` | `data.info` | `actionEquipGem`, `actionThrowGem` | - |
+| **hostel** | Request has `state=hostel` | `data.info`, `data.regenerations` | `actionRegeneration` | - |
+| **armor** | Request has `state=armor` | `data.info`, `data.armor`, `data.currentArmor` | `actionArmorNext`, `actionArmorPrevious`, `actionArmorBuy`, `actionArmorSell` | - |
+| **potion** | Request has `state=potion` | `data.info`, `data.potion`, `data.currentPotion` | `actionPotionNext`, `actionPotionPrevious`, `actionPotionBuy` | - |
+| **sword** | Request has `state=sword` | `data.info`, `data.sword`, `data.currentSword` | `actionSwordNext`, `actionSwordPrevious`, `actionSwordBuy`, `actionSwordSell` | - |
+| **main** | Request has `state=main` or any other **unrecognized** state (when user is logged in) | `user`, `state` (set to `'main'`), `mode`, `display` (798–799) | - | - |
+| **not-logged** | `$user` is not an `User` instance | `user`, `state` (set to `'not-logged'`), `mode`, `display` (801–802) | - | - |
 
 ### 1.3 Combat state data (state = combat)
 
@@ -40,7 +40,7 @@ Reverse-engineered from `GameService::play()` and related code. No rules invente
   - **Session** (from `getSession`, 418–426): `player_life_lose`, `enemy_current_life`, `enemy_life_lose`; initialized from `lastFight` enemy life if not already an array.
   - **Actions**: `actionFight`, `actionUsePotion`, `actionEndFight` (see §3). After an action, same data is returned (updated).
 
-- **When in combat but not in active fight** (e.g. `mode !== 'combat'` or no `lastFight` — enemy selection):
+- **When in combat but not in active fight** (e.g. `mode !== 'combat'` or no `lastFight` - enemy selection):
   - **Returned**: `parameters['data']['info']`, `parameters['data']['currentEnemy']` = `getEnemyInfo(currentEnemy ?? default)` (1058–1059).
   - **Actions**: `actionEnemyNext`, `actionEnemyPrevious`, `actionBeginFight`. On valid `actionBeginFight`, `setLastFight` is called, `mode` is set to `'combat'` in request attributes, and `play()` is **recursively** called (1051–1054); the recursive call then returns combat data with `mode === 'combat'` and session.
 
@@ -70,7 +70,7 @@ Reverse-engineered from `GameService::play()` and related code. No rules invente
 
 ## 3. Request parameters and effects
 
-Actions are detected with `$request->get('actionX')` — any present value is truthy; only one action is processed per branch (first matching in the if/elseif chain).
+Actions are detected with `$request->get('actionX')` - any present value is truthy; only one action is processed per branch (first matching in the if/elseif chain).
 
 ### 3.1 Combat (state = combat)
 
@@ -102,8 +102,8 @@ Actions are detected with `$request->get('actionX')` — any present value is tr
 
 | State | Parameters | Methods |
 |-------|-------------|--------|
-| **equipment** | actionEquipGem, actionThrowGem | `equipGem($user, index)`, `throwGem($user, index)` — index 1–3; equip only if slot has gem (339–354, 356–369). |
-| **hostel** | actionRegeneration | `regen($user, key)` — key must be in getRegenerations (e.g. regeneration0…3); fails silently if not or not enough gold (369–392). |
+| **equipment** | actionEquipGem, actionThrowGem | `equipGem($user, index)`, `throwGem($user, index)` - index 1–3; equip only if slot has gem (339–354, 356–369). |
+| **hostel** | actionRegeneration | `regen($user, key)` - key must be in getRegenerations (e.g. regeneration0…3); fails silently if not or not enough gold (369–392). |
 | **armor** | actionArmorNext, actionArmorPrevious, actionArmorBuy, actionArmorSell | next/previous/buy/sell (393–416, 418–441); buy/sell can add flash on validation failure. |
 | **potion** | actionPotionNext, actionPotionPrevious, actionPotionBuy | next/previous/buy (402–424, 438–458). |
 | **sword** | actionSwordNext, actionSwordPrevious, actionSwordBuy, actionSwordSell | next/previous/buy/sell (461–523); buy clears all gem slots. |
@@ -125,9 +125,9 @@ Actions are detected with `$request->get('actionX')` — any present value is tr
    - **Action**: If an action parameter is present, the corresponding service method is called (e.g. `fight`, `endFight`, `nextEnemy`). That method may change DB and session. Then the same state block still builds and returns `$parameters` (with updated `data`).
 
 6. **Combat progression** (state = combat, mode = combat):
-   - **actionFight**: `fight($user, 'fight')` — player damage roll, enemy damage roll, hit luck check; session and player life updated (428–449).
-   - **actionUsePotion**: `fight($user, 'potion')` — heal then enemy attack; no player damage this turn (430–439, 448).
-   - **actionEndFight**: `endFight($user)` — if player dead: apply death penalties, clear lastFight/session, return `mode=player_death`; if enemy dead: apply rewards, gem chance, clear lastFight/session, return `mode=player_win`; else return `mode=null` and play() keeps `mode=combat` (1023–1030, 446–489).
+   - **actionFight**: `fight($user, 'fight')` - player damage roll, enemy damage roll, hit luck check; session and player life updated (428–449).
+   - **actionUsePotion**: `fight($user, 'potion')` - heal then enemy attack; no player damage this turn (430–439, 448).
+   - **actionEndFight**: `endFight($user)` - if player dead: apply death penalties, clear lastFight/session, return `mode=player_death`; if enemy dead: apply rewards, gem chance, clear lastFight/session, return `mode=player_win`; else return `mode=null` and play() keeps `mode=combat` (1023–1030, 446–489).
 
 7. **Recursive re-entry**: `actionBeginFight` (combat or daily-battle) and successful validation set `mode=combat` on the request and `return $this->play($request, null, $user)` (1052–1054, 1078–1080). The second call then runs with the same request (and attributes) and returns the “in combat” response.
 
@@ -157,7 +157,7 @@ Actions are detected with `$request->get('actionX')` — any present value is tr
 
 - **Daily-battle**: No `actionUsePotion`; potion action is not implemented in daily combat (only `actionFight` and `actionEndFight`).
 
-- **Silent fallback**: If user is logged in and state is any string that is not one of the explicit states (e.g. typo), code falls through to `else { $parameters['state'] = 'main'; }` (798–799) — response looks like main menu with `state=main`.
+- **Silent fallback**: If user is logged in and state is any string that is not one of the explicit states (e.g. typo), code falls through to `else { $parameters['state'] = 'main'; }` (798–799) - response looks like main menu with `state=main`.
 
 ---
 
@@ -184,7 +184,7 @@ Actions are detected with `$request->get('actionX')` — any present value is tr
 
 - **eula**: No transitions or side effects; intent (e.g. “must accept before play”) not visible in this flow.
 - **Exact action parameter semantics**: Code only checks presence (`$request->get('actionX')`); value (e.g. `"1"` vs `"true"`) is not documented; both would trigger the action.
-- **Redirect vs JSON**: Login and chat can return `RedirectResponse`; API controllers would need to handle that (e.g. 33–34 in DarkwoodGetStateController) — behavior when client expects JSON is unclear from code.
+- **Redirect vs JSON**: Login and chat can return `RedirectResponse`; API controllers would need to handle that (e.g. 33–34 in DarkwoodGetStateController) - behavior when client expects JSON is unclear from code.
 - **Flash messages**: Many failures only call `addFlash()`; API normalization does not show flash bag, so clients may see success-like state with no indication of failure.
 - **Session storage**: Combat and daily combat depend on server session (`getSession` / `getSessionDaily`); session key is per player ID. Behavior with multiple tabs or no cookies is unclear from code.
 - **actionEndFight when fight not over**: Code allows calling “end fight” even when both are alive; it’s a no-op (mode stays combat). Whether this is “check for death” vs “forfeit” is not distinguished in code.

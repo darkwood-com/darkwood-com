@@ -18,16 +18,16 @@ Replace `<your-key>` with the key you received. Use the API host you were given 
 
 There are **two separate things**:
 
-- **API access** — Your **API key** (`X-API-Key`). Every Darkwood API request needs it. It controls whether you can call the API at all, and (for premium keys) access to archives and quota. Without a valid API key, requests are rejected (401 or 403).
-- **Player login** — The **JWT (token)** identifies which **game account** is playing. Without it, the API may still respond, but the request is not tied to a player: you get `"user": null` and `"state": "not-logged"` and cannot play. For persistent player progression, you get a JWT from `POST /auth` and then send it on every Darkwood request.
+- **API access** - Your **API key** (`X-API-Key`). Every Darkwood API request needs it. It controls whether you can call the API at all, and (for premium keys) access to archives and quota. Without a valid API key, requests are rejected (401 or 403).
+- **Player login** - The **JWT (token)** identifies which **game account** is playing. Without it, the API may still respond, but the request is not tied to a player: you get `"user": null` and `"state": "not-logged"` and cannot play. For persistent player progression, you get a JWT from `POST /auth` and then send it on every Darkwood request.
 
 So: **API key** = access to the API and premium features. **JWT** = which player account you are. For normal gameplay you need **both**.
 
 ### When each is needed
 
-- **Without `X-API-Key`** — Darkwood API requests are rejected. You always need this header.
-- **Without JWT** — You can still call the endpoints (e.g. `GET /api/darkwood/state`), but the server does not know which player you are. The response will have `"user": null` and `"state": "not-logged"` and you cannot play.
-- **With both** — Send `X-API-Key: <your-key>` and `Authorization: Bearer <jwt-token>`. Then the server knows your API key and your player account; you get a proper game state and can play.
+- **Without `X-API-Key`** - Darkwood API requests are rejected. You always need this header.
+- **Without JWT** - You can still call the endpoints (e.g. `GET /api/darkwood/state`), but the server does not know which player you are. The response will have `"user": null` and `"state": "not-logged"` and you cannot play.
+- **With both** - Send `X-API-Key: <your-key>` and `Authorization: Bearer <jwt-token>`. Then the server knows your API key and your player account; you get a proper game state and can play.
 
 ### Get a JWT token
 
@@ -89,8 +89,8 @@ curl -s -X POST \
 
 **Difference in plain terms:**
 
-- **`GET /api/darkwood/state`** — “What’s my situation right now?” Use it to see your current screen, stats, and combat info.
-- **`POST /api/darkwood/action`** — “I’m doing this next.” Use it to attack, use a potion, open a menu, start a fight, or go to another screen.
+- **`GET /api/darkwood/state`** - “What’s my situation right now?” Use it to see your current screen, stats, and combat info.
+- **`POST /api/darkwood/action`** - “I’m doing this next.” Use it to attack, use a potion, open a menu, start a fight, or go to another screen.
 
 You can also pass the same parameters as query string on the GET request (e.g. `?state=combat`) to both read state and ask for a specific screen in one call.
 
@@ -102,10 +102,10 @@ If you get `"state": "not-logged"` and `"user": null`, you are not authenticated
 
 The flow is a loop:
 
-1. **Ask for the current state** — Call `GET /api/darkwood/state` (optionally with `?state=...` to request a screen).
-2. **Look at the response** — Check `state`, `mode`, and `data` to see where you are and what numbers matter (e.g. life, enemy life, gold).
-3. **Send your next action** — Call `POST /api/darkwood/action` with a JSON body that includes a `query` object. In `query` you put the same kind of parameters: which screen you’re on, and which action you’re taking (e.g. attack, use potion, end fight).
-4. **Repeat** — Use the new response as the new “current state” and decide the next action.
+1. **Ask for the current state** - Call `GET /api/darkwood/state` (optionally with `?state=...` to request a screen).
+2. **Look at the response** - Check `state`, `mode`, and `data` to see where you are and what numbers matter (e.g. life, enemy life, gold).
+3. **Send your next action** - Call `POST /api/darkwood/action` with a JSON body that includes a `query` object. In `query` you put the same kind of parameters: which screen you’re on, and which action you’re taking (e.g. attack, use potion, end fight).
+4. **Repeat** - Use the new response as the new “current state” and decide the next action.
 
 **Important:** What you’re allowed to do depends on the **current** `state` and `mode` in the response. For example, “attack” only works when you’re already in an active fight (`state=combat`, `mode=combat`). If you send an action that doesn’t match the current situation, the API will ignore it and just return the current state again. So always use the latest response to decide the next step.
 
@@ -119,7 +119,7 @@ Below are the main situations you’ll run into and how to drive them with the A
 
 When you’re on the main menu, the response has `"state": "main"` and usually no `data`. You can go to other screens by asking for them in the next request.
 
-**Example — see main menu:**
+**Example - see main menu:**
 
 ```bash
 curl -s \
@@ -128,7 +128,7 @@ curl -s \
   "https://YOUR_API_HOST/api/darkwood/state?state=main"
 ```
 
-**Example — go to the combat screen (enemy selection):**
+**Example - go to the combat screen (enemy selection):**
 
 ```bash
 curl -s \
@@ -145,7 +145,7 @@ You should get `"state": "combat"` and a `data` object with `info` (your stats) 
 
 From the combat screen, you first choose an enemy (with next/previous if you want), then start the fight.
 
-**Example — open combat and start a fight in one go:**
+**Example - open combat and start a fight in one go:**
 
 ```bash
 curl -s -X POST \
@@ -164,7 +164,7 @@ curl -s -X POST \
 
 When you’re in an active fight (`state=combat`, `mode=combat`), you can attack once per request.
 
-**Example — perform one attack:**
+**Example - perform one attack:**
 
 ```bash
 curl -s -X POST \
@@ -183,7 +183,7 @@ curl -s -X POST \
 
 During the same active fight, you can use a potion instead of attacking. You heal; then the enemy still attacks once. Potions are **not** available in daily battles—only in normal PvE combat.
 
-**Example — use a potion:**
+**Example - use a potion:**
 
 ```bash
 curl -s -X POST \
@@ -202,7 +202,7 @@ curl -s -X POST \
 
 When you think someone has died (you or the enemy), you send “end fight.” The server then checks and applies win or loss.
 
-**Example — end the fight:**
+**Example - end the fight:**
 
 ```bash
 curl -s -X POST \
@@ -242,7 +242,7 @@ You change screen by sending the state you want. The response then shows that sc
 - Go to sword shop:
   `{"query":{"state":"sword"}}`
 
-**Example — open the info screen:**
+**Example - open the info screen:**
 
 ```bash
 curl -s -X POST \
@@ -263,7 +263,7 @@ The response will have `data.info` (your stats) and, for the info screen, `data.
 
 Daily battle is a separate mode. You go there with `state=daily-battle`, start the fight with `actionBeginFight`, then use only `actionFight` (one exchange) and `actionEndFight` (resolve or keep fighting). There is **no potion** in daily battle—only fight and end fight.
 
-**Example — start a daily fight:**
+**Example - start a daily fight:**
 
 ```bash
 curl -s -X POST \
@@ -284,17 +284,17 @@ Responses are JSON. These are the fields that matter for playing.
 
 **Always present:**
 
-- **`state`** — The screen or situation you’re in (e.g. `main`, `combat`, `info`, `armor`). Use it to know where you are and what actions are valid.
-- **`mode`** — A sub-phase. In combat, for example: no active fight vs fight in progress vs just won/lost. So you need both `state` and `mode` to know if you can attack or end the fight.
-- **`user`** — Your user ID (a number), or `null` if you’re not authenticated as a player. When it’s `null`, you’ll see `state: "not-logged"` and you can’t play until you send a valid JWT in the `Authorization: Bearer ...` header.
-- **`display`** — Device type (e.g. `web`). You can usually ignore it.
+- **`state`** - The screen or situation you’re in (e.g. `main`, `combat`, `info`, `armor`). Use it to know where you are and what actions are valid.
+- **`mode`** - A sub-phase. In combat, for example: no active fight vs fight in progress vs just won/lost. So you need both `state` and `mode` to know if you can attack or end the fight.
+- **`user`** - Your user ID (a number), or `null` if you’re not authenticated as a player. When it’s `null`, you’ll see `state: "not-logged"` and you can’t play until you send a valid JWT in the `Authorization: Bearer ...` header.
+- **`display`** - Device type (e.g. `web`). You can usually ignore it.
 
 **When present, `data` holds the details for that screen:**
 
-- **`data.info`** — Your character summary: life (`life.min`, `life.max`), damage range (`damage.min`, `damage.max`), points, armor, etc. Shown in combat, menus, and daily battle.
-- **`data.session`** — During an active fight (PvE or daily): current life values and how much damage was done last turn (e.g. `enemy_current_life`, `player_life_lose`, `enemy_life_lose`). Lets you see fight progress.
-- **`data.currentEnemy`** — On the combat screen when you’re **not** in a fight: the enemy you have selected and next/previous (as IDs). Lets you browse and then start a fight.
-- **`data.result`** — Only right after a fight ends (win or loss). Tells you what you gained or lost: e.g. `lose_xp`, `lose_gold` on death; `gem`, `level_up`, `enemy` on win.
+- **`data.info`** - Your character summary: life (`life.min`, `life.max`), damage range (`damage.min`, `damage.max`), points, armor, etc. Shown in combat, menus, and daily battle.
+- **`data.session`** - During an active fight (PvE or daily): current life values and how much damage was done last turn (e.g. `enemy_current_life`, `player_life_lose`, `enemy_life_lose`). Lets you see fight progress.
+- **`data.currentEnemy`** - On the combat screen when you’re **not** in a fight: the enemy you have selected and next/previous (as IDs). Lets you browse and then start a fight.
+- **`data.result`** - Only right after a fight ends (win or loss). Tells you what you gained or lost: e.g. `lose_xp`, `lose_gold` on death; `gem`, `level_up`, `enemy` on win.
 
 The API returns many IDs (user, player, enemy, armor, etc.) rather than names. So you’ll see numbers where you might expect labels; that’s how the API is built.
 
@@ -345,7 +345,7 @@ If your key is not premium, these endpoints respond with **403** and a message t
 
 When something goes wrong, the API returns an HTTP status code and a JSON body. Common cases:
 
-**401 Unauthorized — Missing or invalid API key**
+**401 Unauthorized - Missing or invalid API key**
 
 - You didn’t send `X-API-Key`, or the key is wrong.
 - Response example: `{"error": "A valid API key is required"}`
@@ -359,18 +359,18 @@ When something goes wrong, the API returns an HTTP status code and a JSON body. 
 - **Premium required:** You called an archives endpoint without a premium key.
   Example: `{"error": "premium_required", "message": "Premium access required"}`
 
-**429 Too many requests — Daily action limit**
+**429 Too many requests - Daily action limit**
 
 - You’ve hit the daily limit for **POST /api/darkwood/action** (non-premium keys may have a limit). Premium keys are not limited.
 - Response example: `{"error": "rate_limited", "message": "Daily action limit reached"}`
 - The response may include a `Retry-After` header (in seconds) telling you when you can try again (typically after midnight UTC).
 
-**400 Bad request — Invalid JSON**
+**400 Bad request - Invalid JSON**
 
 - You sent a POST to `/api/darkwood/action` with a body that isn’t valid JSON.
 - Response example: `{"error": "invalid_json", "message": "Request body must be valid JSON"}`
 
-**404 Not found — Archive**
+**404 Not found - Archive**
 
 - You requested an archive that doesn’t exist (e.g. wrong date).
   Example: `{"error": "archive_not_found", "message": "Archive not found"}`

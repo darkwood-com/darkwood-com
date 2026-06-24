@@ -929,7 +929,7 @@
                                     _single =
                                         settings.prefix +
                                         settings.values[numbers.fromNumber] +
-                                        " — " + settings.prefix +
+                                        " - " + settings.prefix +
                                         settings.values[numbers.toNumber] +
                                         maxPostfix +
                                         settings.postfix;
@@ -956,7 +956,7 @@
                                     _single =
                                         settings.prefix +
                                         prettify(numbers.fromNumber) +
-                                        " — " + settings.prefix +
+                                        " - " + settings.prefix +
                                         prettify(numbers.toNumber) +
                                         maxPostfix +
                                         settings.postfix;

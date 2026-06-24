@@ -192,7 +192,7 @@ To cancel a tag from being added, simply return `false` in your event callback t
 ### afterTagAdded (function, Callback)
 
 Behaves the same as **beforeTagAdded** except that it fires after the tag has been added to the DOM.
-It too receives the `duringInitialization` parameter — see **beforeTagAdded** for details.
+It too receives the `duringInitialization` parameter - see **beforeTagAdded** for details.
 
 ### beforeTagRemoved (function, Callback)
 
@@ -269,7 +269,7 @@ Finds the tag with the label `tagLabel` and removes it. If no such tag is found,
     $("#myTags").tagit("removeTagByLabel", "my-tag");
 
 ### removeAll()
-Clears the widget of all tags — removes each tag it contains, so the **beforeTagRemoved** / **afterTagRemoved** event callbacks (if set) will be called for each.
+Clears the widget of all tags - removes each tag it contains, so the **beforeTagRemoved** / **afterTagRemoved** event callbacks (if set) will be called for each.
 
     $("#myTags").tagit("removeAll");
 

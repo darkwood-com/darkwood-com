@@ -107,7 +107,7 @@ final readonly class HelloHomepageDataFactoryService
             'id' => $exp->id,
             'company' => $exp->company,
             'role' => $exp->role,
-            'period' => $exp->startDate . ' — ' . $end,
+            'period' => $exp->startDate . ' - ' . $end,
             'description' => $exp->description,
             'highlights' => array_slice($exp->highlights, 0, 4),
         ];
