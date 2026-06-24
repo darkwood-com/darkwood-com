@@ -285,7 +285,7 @@ blog:
     articles: Articles
     watch: Veille
     release: Releases
-    creator: Créateur
+    creator: Créateurs
   home:
     article_on: le
     show_more: Lire la suite...

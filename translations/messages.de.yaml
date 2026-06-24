@@ -283,7 +283,7 @@ blog:
     articles: Artikel
     watch: Beobachtung
     release: Releases
-    creator: Creator
+    creator: Creators
   home:
     article_on: vom
     show_more: Weiterlesen

@@ -286,7 +286,7 @@ blog:
     articles: Articles
     watch: Watch
     release: Releases
-    creator: Creator
+    creator: Creators
   home:
     article_on: on
     show_more: Read more...
