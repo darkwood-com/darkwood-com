@@ -32,6 +32,7 @@ class RegistrationController extends AbstractController
         $page = $this->commonController->getPage($request, $ref);
         $siteRef = $page->getPage()->getSite()->getRef();
         $user = new User();
+        $user->setNewsletterEnabled(true);
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
