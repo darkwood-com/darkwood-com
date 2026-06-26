@@ -99,6 +99,30 @@ class BlogArticleService
     }
 
     /**
+     * Download a remote image and attach it to an article translation cover.
+     */
+    public function applyTranslationImageFromUrl(ArticleTranslation $articleTranslation, string $imageUrl): bool
+    {
+        $imageUrl = trim($imageUrl);
+        if ('' === $imageUrl) {
+            return false;
+        }
+
+        $imageContent = @file_get_contents($imageUrl);
+        if (!is_string($imageContent) || '' === $imageContent) {
+            return false;
+        }
+
+        $imageName = basename(md5((string) time()) . preg_replace('/\?.*$/', '', $imageUrl));
+        $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
+        file_put_contents($tmpFile, $imageContent);
+        $image = new UploadedFile($tmpFile, $imageName, null, null, true);
+        $articleTranslation->setImage($image);
+
+        return true;
+    }
+
+    /**
      * Update a articleTranslation.
      */
     public function saveTranslation(ArticleTranslation $articleTranslation, $exportLocales = false): ArticleTranslation

@@ -120,6 +120,17 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
             $translation->setPremiumContent($premiumContent);
         }
 
+        $coverImageUrl = $payload['cover_image_url'] ?? null;
+        if (is_string($coverImageUrl) && '' !== trim($coverImageUrl)) {
+            foreach ($article->getTranslations() as $translation) {
+                if (!$translation instanceof ArticleTranslation) {
+                    continue;
+                }
+
+                $this->articleService->applyTranslationImageFromUrl($translation, trim($coverImageUrl));
+            }
+        }
+
         $this->articleService->save($article);
         $primaryTranslation = $article->getOneTranslation('en');
         if (!$primaryTranslation instanceof ArticleTranslation) {
