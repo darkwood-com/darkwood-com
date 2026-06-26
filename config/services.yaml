@@ -21,6 +21,8 @@ parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app.supported_locales: ['fr', 'en', 'de']
     app_locales: ['en', 'fr', 'de']
+    newsletter.unsubscribe_secret_default: '%kernel.secret%'
+    newsletter.unsubscribe_secret: '%env(default:newsletter.unsubscribe_secret_default:NEWSLETTER_UNSUBSCRIBE_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -52,6 +54,10 @@ services:
             $providerRegistry: '@scheb_two_factor.provider_registry'
             $twoFactorFirewallContext: '@scheb_two_factor.firewall_context'
             $logoutUrlGenerator: '@security.logout_url_generator'
+
+    App\Service\Newsletter\NewsletterUnsubscribeTokenService:
+        arguments:
+            $secret: '%newsletter.unsubscribe_secret%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
