@@ -121,7 +121,7 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
         }
 
         $coverImageUrl = $payload['cover_image_url'] ?? null;
-        if (is_string($coverImageUrl) && '' !== trim($coverImageUrl)) {
+        if (is_string($coverImageUrl) && '' !== trim($coverImageUrl) && $this->shouldApplyCoverImageUrl(trim($coverImageUrl))) {
             foreach ($article->getTranslations() as $translation) {
                 if (!$translation instanceof ArticleTranslation) {
                     continue;
@@ -149,5 +149,12 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
             'translation_slugs' => $translationSlugs,
             'status' => $existing instanceof Article ? 'updated' : 'created',
         ];
+    }
+
+    private function shouldApplyCoverImageUrl(string $url): bool
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+
+        return !is_string($path) || !str_ends_with(rtrim($path, '/'), '/common/images/site/cover.png');
     }
 }

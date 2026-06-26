@@ -108,6 +108,11 @@ class BlogArticleService
             return false;
         }
 
+        $path = parse_url($imageUrl, PHP_URL_PATH);
+        if (is_string($path) && str_ends_with(rtrim($path, '/'), '/common/images/site/cover.png')) {
+            return false;
+        }
+
         $imageContent = @file_get_contents($imageUrl);
         if (!is_string($imageContent) || '' === $imageContent) {
             return false;
