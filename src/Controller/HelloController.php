@@ -8,6 +8,7 @@ use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Service\BlogArticleService;
 use App\Service\ContactService;
+use App\Service\ContactSubmissionNotifier;
 use App\Service\HelloHomepageDataFactoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,7 @@ class HelloController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly CommonController $commonController,
         private readonly ContactService $contactService,
+        private readonly ContactSubmissionNotifier $contactSubmissionNotifier,
         private readonly HelloHomepageDataFactoryService $helloHomepageDataFactory,
         private readonly BlogArticleService $articleService,
         private readonly CsrfTokenManagerInterface $tokenManager
@@ -46,6 +48,7 @@ class HelloController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
+                $this->contactSubmissionNotifier->notify($contact, 'hello');
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
 
                 try {

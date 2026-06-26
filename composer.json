@@ -55,6 +55,7 @@
 		"symfony/security-bundle": "^8.1",
 		"symfony/serializer": "^8.1",
 		"symfony/string": "^8.1",
+		"symfony/telegram-notifier": "^8.1",
 		"symfony/translation": "^8.1",
 		"symfony/twig-bundle": "^8.1",
 		"symfony/validator": "^8.1",

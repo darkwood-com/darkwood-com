@@ -23,6 +23,7 @@ parameters:
     app_locales: ['en', 'fr', 'de']
     newsletter.unsubscribe_secret_default: '%kernel.secret%'
     newsletter.unsubscribe_secret: '%env(default:newsletter.unsubscribe_secret_default:NEWSLETTER_UNSUBSCRIBE_SECRET)%'
+    notifier.null_dsn: 'null://null'
 
 services:
     # default configuration for services in *this* file
@@ -58,6 +59,10 @@ services:
     App\Service\Newsletter\NewsletterUnsubscribeTokenService:
         arguments:
             $secret: '%newsletter.unsubscribe_secret%'
+
+    App\Notification\TelegramNotifier:
+        arguments:
+            $telegramDsn: '%env(default:notifier.null_dsn:TELEGRAM_DSN)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -11,6 +11,7 @@ use App\Entity\PageTranslation;
 use App\Entity\Site;
 use App\Form\ContactType;
 use App\Service\ContactService;
+use App\Service\ContactSubmissionNotifier;
 use App\Service\PageService;
 use App\Service\SeoService;
 use App\Service\SiteService;
@@ -39,6 +40,7 @@ class CommonController extends AbstractController
         private readonly PageService $pageService,
         private readonly SiteService $siteService,
         private readonly ContactService $contactService,
+        private readonly ContactSubmissionNotifier $contactSubmissionNotifier,
         private readonly SeoService $seoService,
         private readonly HtmlErrorRenderer $errorRenderer,
         private readonly ManagerRegistry $managerRegistry,
@@ -196,6 +198,7 @@ class CommonController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $contact->setUser($this->getUser());
                 $this->contactService->save($contact);
+                $this->contactSubmissionNotifier->notify($contact, $siteRef);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.contact.submited'));
 
                 try {
