@@ -12,11 +12,16 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use finfo;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 use function count;
+use function is_dir;
+use function is_string;
+use function mkdir;
+use function uniqid;
 
 /**
  * Class BlogArticleService.
@@ -86,12 +91,10 @@ class BlogArticleService
         if ($articleTranslation->getImageName() !== null) {
             $imageUrl = $this->storage->resolvePath($articleTranslation, 'image');
             $imageContent = file_get_contents($imageUrl);
-            if ($imageContent) {
-                $imageName = basename(md5((string) time()) . preg_replace('/\?.*$/', '', $imageUrl));
-                $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
-                file_put_contents($tmpFile, $imageContent);
-                $image = new UploadedFile($tmpFile, $imageName, null, null, true);
-                $duplicateArticleTranslation->setImage($image);
+            if (is_string($imageContent) && '' !== $imageContent) {
+                $duplicateArticleTranslation->setImage(
+                    $this->createUploadedFileFromBinaryContent($imageContent, $imageUrl)
+                );
             }
         }
 
@@ -113,13 +116,63 @@ class BlogArticleService
             return false;
         }
 
-        $imageName = basename(md5((string) time()) . preg_replace('/\?.*$/', '', $imageUrl));
-        $tmpFile = sys_get_temp_dir() . '/pt-' . $imageName;
-        file_put_contents($tmpFile, $imageContent);
-        $image = new UploadedFile($tmpFile, $imageName, null, null, true);
-        $articleTranslation->setImage($image);
+        return $this->applyTranslationImageFromContent($articleTranslation, $imageContent, $imageUrl);
+    }
+
+    public function applyTranslationImageFromContent(
+        ArticleTranslation $articleTranslation,
+        string $imageContent,
+        string $sourceUrl,
+    ): bool {
+        if ('' === $imageContent) {
+            return false;
+        }
+
+        $articleTranslation->setImage(
+            $this->createUploadedFileFromBinaryContent($imageContent, $sourceUrl)
+        );
 
         return true;
+    }
+
+    private function createUploadedFileFromBinaryContent(string $content, string $sourceUrl): UploadedFile
+    {
+        $extension = $this->guessImageExtensionFromUrl($sourceUrl);
+        $imageName = uniqid('article-cover-', true) . '.' . $extension;
+        $tmpFile = $this->getTempDirectory() . '/' . $imageName;
+        file_put_contents($tmpFile, $content);
+
+        $mimeType = null;
+        if (class_exists(finfo::class)) {
+            $detectedMimeType = (new finfo(FILEINFO_MIME_TYPE))->file($tmpFile);
+            if (is_string($detectedMimeType) && '' !== $detectedMimeType) {
+                $mimeType = $detectedMimeType;
+            }
+        }
+
+        return new UploadedFile($tmpFile, $imageName, $mimeType, null, true);
+    }
+
+    private function getTempDirectory(): string
+    {
+        $tmpDir = $this->parameterBagInterface->get('kernel.project_dir') . '/var/tmp';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0775, true);
+        }
+
+        return $tmpDir;
+    }
+
+    private function guessImageExtensionFromUrl(string $url): string
+    {
+        $path = (string) parse_url($url, PHP_URL_PATH);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (is_string($extension) && '' !== $extension) {
+            return $extension;
+        }
+
+        return 'png';
     }
 
     /**
