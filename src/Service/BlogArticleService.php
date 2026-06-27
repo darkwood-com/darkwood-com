@@ -135,46 +135,6 @@ class BlogArticleService
         return true;
     }
 
-    private function createUploadedFileFromBinaryContent(string $content, string $sourceUrl): UploadedFile
-    {
-        $extension = $this->guessImageExtensionFromUrl($sourceUrl);
-        $imageName = uniqid('article-cover-', true) . '.' . $extension;
-        $tmpFile = $this->getTempDirectory() . '/' . $imageName;
-        file_put_contents($tmpFile, $content);
-
-        $mimeType = null;
-        if (class_exists(finfo::class)) {
-            $detectedMimeType = (new finfo(FILEINFO_MIME_TYPE))->file($tmpFile);
-            if (is_string($detectedMimeType) && '' !== $detectedMimeType) {
-                $mimeType = $detectedMimeType;
-            }
-        }
-
-        return new UploadedFile($tmpFile, $imageName, $mimeType, null, true);
-    }
-
-    private function getTempDirectory(): string
-    {
-        $tmpDir = $this->parameterBagInterface->get('kernel.project_dir') . '/var/tmp';
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0775, true);
-        }
-
-        return $tmpDir;
-    }
-
-    private function guessImageExtensionFromUrl(string $url): string
-    {
-        $path = (string) parse_url($url, PHP_URL_PATH);
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-
-        if (is_string($extension) && '' !== $extension) {
-            return $extension;
-        }
-
-        return 'png';
-    }
-
     /**
      * Update a articleTranslation.
      */
@@ -316,5 +276,45 @@ class BlogArticleService
     public function findLatestCreatorArticle(?string $locale): ?Article
     {
         return $this->articleRepository->findLatestCreatorArticle($locale);
+    }
+
+    private function createUploadedFileFromBinaryContent(string $content, string $sourceUrl): UploadedFile
+    {
+        $extension = $this->guessImageExtensionFromUrl($sourceUrl);
+        $imageName = uniqid('article-cover-', true) . '.' . $extension;
+        $tmpFile = $this->getTempDirectory() . '/' . $imageName;
+        file_put_contents($tmpFile, $content);
+
+        $mimeType = null;
+        if (class_exists(finfo::class)) {
+            $detectedMimeType = (new finfo(FILEINFO_MIME_TYPE))->file($tmpFile);
+            if (is_string($detectedMimeType) && '' !== $detectedMimeType) {
+                $mimeType = $detectedMimeType;
+            }
+        }
+
+        return new UploadedFile($tmpFile, $imageName, $mimeType, null, true);
+    }
+
+    private function getTempDirectory(): string
+    {
+        $tmpDir = $this->parameterBagInterface->get('kernel.project_dir') . '/var/tmp';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0o775, true);
+        }
+
+        return $tmpDir;
+    }
+
+    private function guessImageExtensionFromUrl(string $url): string
+    {
+        $path = (string) parse_url($url, PHP_URL_PATH);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (is_string($extension) && '' !== $extension) {
+            return $extension;
+        }
+
+        return 'png';
     }
 }

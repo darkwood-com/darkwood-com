@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Newsletter;
 
+use function strlen;
+
 /**
  * @author Mathieu
  */
