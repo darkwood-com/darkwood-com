@@ -3,7 +3,7 @@ api_platform:
         enabled: true
         format: jsonld
     title: Darkwood API Platform
-    version: 1.0.0
+    version: 1.0.7
     formats:
         jsonld: ['application/ld+json']
         json: ['application/json']

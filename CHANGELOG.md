@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.0.7
+
+- Add creator blog section with cover image upload and article translations.
+- Add newsletter unsubscribe flow and register new users to the newsletter.
+- Send Telegram notification when a contact form is submitted (optional `TELEGRAM_DSN`).
+- Enforce non-empty article slugs; remove legacy backward-compatibility code and watermark.
+- Rename auto-article integration to watch; fix uploaded files for translated content.
+- Upgrade to Symfony **8.1.1**, `darkwood/*` **^8.1**, and Symfony AI / MCP **^0.10.0**.
+- Dependency and security updates (Dompurify, Twig, PHPUnit, and related tooling).
+
+## v1.0.6
+
+- Add blog release section, premium content, Mermaid integration, and markdown table rendering.
+- Highlight latest article post; add API article reactions.
+- Internal API integration for auto articles and newsletter subscribers.
+- Add Navi to the project section; production and reCAPTCHA fixes; Rector pass.
+
+## v1.0.5
+
+- Add two-factor authentication (TOTP) with QR code.
+- Add hello showreel landing page with soundtrack visualiser.
+- Expose CV security as API and MCP tools; harden hello landing security.
+
 ## v1.0.4
 
 - Migrate app to Symfony 8 and PHP 8.5 (runtime, Nix, and CI).

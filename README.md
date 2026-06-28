@@ -75,8 +75,13 @@ vendor/bin/bref-local my-function.php '{"name": "Jane"}'
 
 ## Requirements
 
-- **PHP 8.4+** (required by Symfony 8)
+- **PHP 8.5+** (required by Symfony 8.1)
 - reCAPTCHA: set `GOOGLE_RECAPTCHA_SITE_KEY` and `GOOGLE_RECAPTCHA_SECRET` in `.env` (in-app implementation; excelwebzone/recaptcha-bundle was removed for Symfony 8 compatibility).
+- Telegram contact notifications (optional): set `TELEGRAM_DSN` in `.env.local` (see `UPGRADE-1.0.md`).
+
+## Releasing
+
+See [`RELEASING.md`](RELEASING.md) and [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Update packages
 
