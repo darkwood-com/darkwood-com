@@ -91,7 +91,7 @@ class ArticleTranslation implements Stringable
     #[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
     protected $image;
 
-    #[Groups(['article_translation:read', 'article_translation:write'])]
+    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $imageName = null;
 
