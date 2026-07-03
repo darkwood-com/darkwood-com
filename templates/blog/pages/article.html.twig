@@ -49,7 +49,13 @@
 {% set isWatch = article.type is defined and article.type.value is defined and article.type.value == 'watch' %}
 {% set isCreator = article.type is defined and article.type.value is defined and article.type.value == 'creator' %}
 {% set isPremiumArticle = isWatch or isCreator %}
-{% if isPremiumArticle and article.isPremium and not isPremiumUser %}
+{% if is_granted('ROLE_SUPER_ADMIN') and isPremiumArticle %}
+    {{ (articleTranslation.content|default(''))|markdown_to_html }}
+    {% if articleTranslation.premiumContent|default('') %}
+        <hr>
+        {{ articleTranslation.premiumContent|markdown_to_html }}
+    {% endif %}
+{% elseif isPremiumArticle and article.isPremium and not isPremiumUser %}
     {{ (articleTranslation.content|default(''))|markdown_to_html }}
 {% elseif isPremiumArticle and articleTranslation.premiumContent %}
     {{ articleTranslation.premiumContent|markdown_to_html }}
