@@ -71,7 +71,7 @@ class ResettingController extends AbstractController
             try {
                 $this->mailer->send(
                     (new TemplatedEmail())
-                        ->from(new Address('no-reply@darkwood.com', 'Darkwood'))
+                        ->from(new Address('no-reply@darkwood.fr', 'Darkwood NoReply'))
                         ->to($user->getEmail())
                         ->subject('[Darkwood] Réinitialisation de votre mot de passe')
                         ->htmlTemplate('common/mails/resetting.html.twig')
