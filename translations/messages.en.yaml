@@ -8,6 +8,9 @@ common:
     login: Login
     no_account_intro: "If you do not have an account yet, you need to"
     no_account_end: "."
+    forgot_password_intro: "If you forgot your password,"
+    forgot_password_link: reset it
+    forgot_password_end: "."
   action:
     register: Register
   register:
@@ -470,3 +473,9 @@ hello:
     lede: Technical correspondence only.
   footer:
     credit: Theme by <a href="https://github.com/StartBootstrap/startbootstrap-grayscale" target="_blank" rel="nofollow noopener noreferrer">Startbootstrap</a>
+
+resetting:
+  request:
+    email: Email address
+    submit: Reset password
+  check_email: An email containing a reset link has been sent to %email%. Follow the instructions to choose a new password.

@@ -1,17 +1,16 @@
 {% extends ""~ site_ref ~"/base.html.twig" %}
-{% trans_default_domain 'FOSUserBundle' %}
 
 {% block content %}
 
 <h1>{{ page.title }}</h1>
 <form id="resetting_form"  action="{{ path('common_resetting_send_email') }}" method="POST" novalidate="novalidate">
     <ul>
-        {% if invalid_username is defined %}
-        <li><div class="alert_error">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</div></li>
+        {% if invalid_email is defined %}
+        <li><div class="alert_error">{{ 'resetting.request.invalid_email'|trans({'%email%': invalid_email}) }}</div></li>
         {% endif %}
         <li>
-            <label for="resetting_username">{{ 'resetting.request.username'|trans }}</label>
-            <input type="text" id="resetting_username" name="username" autocomplete="username" required="required" />
+            <label for="resetting_email">{{ 'resetting.request.email'|trans }}</label>
+            <input type="email" id="resetting_email" name="email" autocomplete="email" required="required" />
         </li>
     </ul>
     <ul>

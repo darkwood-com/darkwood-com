@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ResettingType;
 use App\Repository\UserRepository;
 use DateInterval;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -57,13 +58,13 @@ class ResettingController extends AbstractController
     #[Route(path: ['fr' => '/fr/resetting/send-email', 'en' => '/resetting/send-email', 'de' => '/de/resetting/send-email'], name: 'common_resetting_send_email', defaults: ['ref' => 'resetting'], methods: ['POST'])]
     public function sendEmail(Request $request, $ref): RedirectResponse
     {
-        $username = (string) $request->request->get('username', '');
-        $user = $this->userRepository->loadUserByIdentifier($username);
+        $email = (string) $request->request->get('email', '');
+        $user = $this->userRepository->loadUserByIdentifier($email);
 
         if ($user instanceof User) {
             $token = bin2hex(random_bytes(32));
             $user->setResetToken($token);
-            $user->setResetRequestedAt(new DateTimeImmutable());
+            $user->setResetRequestedAt(new DateTime());
             $this->entityManager->flush();
 
             $confirmationUrl = $this->generateUrl('common_resetting_reset', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -85,7 +86,7 @@ class ResettingController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('common_resetting_check_email', ['email' => $username]);
+        return $this->redirectToRoute('common_resetting_check_email', ['email' => $email]);
     }
 
     /**

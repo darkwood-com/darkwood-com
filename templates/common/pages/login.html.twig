@@ -47,4 +47,9 @@
     <a href="{{ path('common_register') }}">{{ 'common.action.register'|trans|lower }}</a>{{ 'common.login.no_account_end'|trans }}
 </p>
 
+<p>
+    {{ 'common.login.forgot_password_intro'|trans }}
+    <a href="{{ path('common_resetting_request') }}">{{ 'common.login.forgot_password_link'|trans }}</a>{{ 'common.login.forgot_password_end'|trans }}
+</p>
+
 {% endblock %}
