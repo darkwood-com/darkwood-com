@@ -320,3 +320,4 @@ resetting:
   check_email: Eine E-Mail mit einem Link zum Zurücksetzen wurde an %email% gesendet. Folgen Sie den Anweisungen, um ein neues Passwort zu wählen.
   reset:
     submit: Passwort ändern
+  password_already_requested: Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen. Bitte fordern Sie ein neues Passwort an.

@@ -479,3 +479,4 @@ resetting:
   check_email: Un e-mail contenant un lien de réinitialisation a été envoyé à %email%. Suivez les instructions pour choisir un nouveau mot de passe.
   reset:
     submit: Changer le mot de passe
+  password_already_requested: Ce lien de réinitialisation est invalide ou a expiré. Veuillez refaire une demande de réinitialisation.

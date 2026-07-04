@@ -481,3 +481,4 @@ resetting:
   check_email: An email containing a reset link has been sent to %email%. Follow the instructions to choose a new password.
   reset:
     submit: Change password
+  password_already_requested: This password reset link is invalid or has expired. Please request a new password reset.
