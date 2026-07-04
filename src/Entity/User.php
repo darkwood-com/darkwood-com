@@ -144,6 +144,12 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $customPrompt = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $resetToken = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DateTimeInterface $resetRequestedAt = null;
+
     /**
      * Constructor.
      */
@@ -560,6 +566,30 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function setCustomPrompt(?string $customPrompt): self
     {
         $this->customPrompt = $customPrompt;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getResetRequestedAt(): ?DateTimeInterface
+    {
+        return $this->resetRequestedAt;
+    }
+
+    public function setResetRequestedAt(?DateTimeInterface $resetRequestedAt): self
+    {
+        $this->resetRequestedAt = $resetRequestedAt;
 
         return $this;
     }
