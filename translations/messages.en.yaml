@@ -479,3 +479,5 @@ resetting:
     email: Email address
     submit: Reset password
   check_email: An email containing a reset link has been sent to %email%. Follow the instructions to choose a new password.
+  reset:
+    submit: Change password

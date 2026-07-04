@@ -318,3 +318,5 @@ resetting:
     email: E-Mail-Adresse
     submit: Passwort zurücksetzen
   check_email: Eine E-Mail mit einem Link zum Zurücksetzen wurde an %email% gesendet. Folgen Sie den Anweisungen, um ein neues Passwort zu wählen.
+  reset:
+    submit: Passwort ändern

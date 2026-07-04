@@ -477,3 +477,5 @@ resetting:
     email: Adresse e-mail
     submit: Réinitialiser le mot de passe
   check_email: Un e-mail contenant un lien de réinitialisation a été envoyé à %email%. Suivez les instructions pour choisir un nouveau mot de passe.
+  reset:
+    submit: Changer le mot de passe
