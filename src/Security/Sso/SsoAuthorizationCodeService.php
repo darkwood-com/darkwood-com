@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security\Sso;
 
-use Psr\Cache\CacheItemPoolInterface;
-
-use function sprintf;
+use App\Entity\SsoAuthorizationCode;
+use App\Repository\SsoAuthorizationCodeRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Mathieu Ledru
@@ -16,7 +17,8 @@ final readonly class SsoAuthorizationCodeService
     private const int TTL_SECONDS = 300;
 
     public function __construct(
-        private CacheItemPoolInterface $cache,
+        private EntityManagerInterface $entityManager,
+        private SsoAuthorizationCodeRepository $authorizationCodes,
     ) {}
 
     /**
@@ -25,15 +27,22 @@ final readonly class SsoAuthorizationCodeService
     public function issueCode(array $user, string $clientId, string $redirectUri, string $audience): string
     {
         $code = bin2hex(random_bytes(32));
-        $item = $this->cache->getItem($this->cacheKey($code));
-        $item->set([
-            'user' => $user,
-            'client_id' => $clientId,
-            'redirect_uri' => $redirectUri,
-            'audience' => $audience,
-        ]);
-        $item->expiresAfter(self::TTL_SECONDS);
-        $this->cache->save($item);
+        $now = new DateTimeImmutable();
+        $expiresAt = $now->modify(sprintf('+%d seconds', self::TTL_SECONDS));
+
+        $authorizationCode = (new SsoAuthorizationCode())
+            ->setCode($code)
+            ->setPayload([
+                'user' => $user,
+                'client_id' => $clientId,
+                'redirect_uri' => $redirectUri,
+                'audience' => $audience,
+            ])
+            ->setExpiresAt($expiresAt)
+            ->setCreatedAt($now);
+
+        $this->entityManager->persist($authorizationCode);
+        $this->entityManager->flush();
 
         return $code;
     }
@@ -48,19 +57,20 @@ final readonly class SsoAuthorizationCodeService
      */
     public function consumeCode(string $code): ?array
     {
-        $item = $this->cache->getItem($this->cacheKey($code));
-        if (!$item->isHit()) {
-            return null;
-        }
+        $now = new DateTimeImmutable();
 
-        $payload = $item->get();
-        $this->cache->deleteItem($item->getKey());
+        return $this->entityManager->wrapInTransaction(function () use ($code, $now): ?array {
+            $authorizationCode = $this->authorizationCodes->findOneValidForUpdate($code, $now);
+            if (null === $authorizationCode) {
+                return null;
+            }
 
-        return is_array($payload) ? $payload : null;
-    }
+            $payload = $authorizationCode->getPayload();
 
-    private function cacheKey(string $code): string
-    {
-        return sprintf('sso_auth_code.%s', $code);
+            $this->entityManager->remove($authorizationCode);
+            $this->entityManager->flush();
+
+            return $payload;
+        });
     }
 }

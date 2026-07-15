@@ -51,7 +51,7 @@ security:
                 # target: app_any_route
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 3600
+                lifetime: 604800 # 1 week
                 path: /
                 domain: '%env(COOKIE_DOMAIN)%'
                 secure: auto

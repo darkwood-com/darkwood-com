@@ -19,6 +19,8 @@ use function sprintf;
  */
 final readonly class WebAuthenticationHostResolver
 {
+    private const string SSO_AUTHORIZE_PATH = '/sso/authorize';
+
     private const array AUTH_PATHS = [
         '/login',
         '/logout',
@@ -54,20 +56,66 @@ final readonly class WebAuthenticationHostResolver
         return in_array($pathInfo, self::AUTH_PATHS, true);
     }
 
+    public function isSsoAuthorizePath(string $pathInfo): bool
+    {
+        return self::SSO_AUTHORIZE_PATH === $pathInfo;
+    }
+
     public function shouldMirrorToAuthenticationHost(Request $request): bool
     {
-        return $this->isApiHost($request->getHost())
-            && $this->isAuthenticationPath($request->getPathInfo());
+        if (!$this->isApiHost($request->getHost())) {
+            return false;
+        }
+
+        $pathInfo = $request->getPathInfo();
+
+        return $this->isAuthenticationPath($pathInfo) || $this->isSsoAuthorizePath($pathInfo);
     }
 
     public function mirrorUrl(Request $request): string
     {
-        return sprintf(
-            '%s://%s%s',
-            $request->getScheme(),
-            $this->authenticationHostFor($request->getHost()),
-            $request->getRequestUri(),
-        );
+        return $this->mirrorAuthenticationUri($request->getScheme() . '://' . $request->getHttpHost() . $request->getRequestUri());
+    }
+
+    public function mirrorAuthenticationUri(string $uri): string
+    {
+        $parts = parse_url($uri);
+        if (!is_array($parts) || !isset($parts['host']) || !$this->isApiHost($parts['host'])) {
+            return $uri;
+        }
+
+        $path = $parts['path'] ?? '';
+        if (!$this->isAuthenticationPath($path) && !$this->isSsoAuthorizePath($path)) {
+            return $uri;
+        }
+
+        $parts['host'] = $this->darkwoodHost;
+
+        return $this->buildUri($parts);
+    }
+
+    /**
+     * @param array{scheme?: string, host?: string, port?: int, path?: string, query?: string, fragment?: string} $parts
+     */
+    private function buildUri(array $parts): string
+    {
+        $uri = ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? $this->darkwoodHost);
+
+        if (isset($parts['port'])) {
+            $uri .= ':' . $parts['port'];
+        }
+
+        $uri .= $parts['path'] ?? '';
+
+        if (isset($parts['query']) && '' !== $parts['query']) {
+            $uri .= '?' . $parts['query'];
+        }
+
+        if (isset($parts['fragment']) && '' !== $parts['fragment']) {
+            $uri .= '#' . $parts['fragment'];
+        }
+
+        return $uri;
     }
 
     public function loginUrl(Request $request): string

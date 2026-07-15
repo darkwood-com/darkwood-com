@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Security\Sso\SsoAccessTokenFactory;
 use App\Security\Sso\SsoAuthorizationCodeService;
 use App\Security\Sso\SsoClientRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -29,6 +30,7 @@ final class SsoAuthController extends AbstractController
         private readonly SsoClientRegistry $clients,
         private readonly SsoAuthorizationCodeService $authorizationCodes,
         private readonly SsoAccessTokenFactory $accessTokens,
+        private readonly LoggerInterface $logger,
     ) {}
 
     #[Route('/sso/authorize', name: 'sso_authorize')]
@@ -81,12 +83,31 @@ final class SsoAuthController extends AbstractController
         }
 
         $stored = $this->authorizationCodes->consumeCode($code);
+        if (null === $stored) {
+            $this->logger->warning('sso.token.invalid_grant', [
+                'reason' => 'code_missing_or_expired',
+                'client_id' => $clientId,
+                'redirect_uri' => $redirectUri,
+            ]);
+
+            return new JsonResponse(['error' => 'invalid_grant'], Response::HTTP_BAD_REQUEST);
+        }
+
         if (
-            null === $stored
-            || $stored['client_id'] !== $clientId
+            $stored['client_id'] !== $clientId
             || $stored['redirect_uri'] !== $redirectUri
             || $stored['audience'] !== $client->audience
         ) {
+            $this->logger->warning('sso.token.invalid_grant', [
+                'reason' => 'code_mismatch',
+                'client_id' => $clientId,
+                'redirect_uri' => $redirectUri,
+                'stored_client_id' => $stored['client_id'],
+                'stored_redirect_uri' => $stored['redirect_uri'],
+                'stored_audience' => $stored['audience'],
+                'expected_audience' => $client->audience,
+            ]);
+
             return new JsonResponse(['error' => 'invalid_grant'], Response::HTTP_BAD_REQUEST);
         }
 

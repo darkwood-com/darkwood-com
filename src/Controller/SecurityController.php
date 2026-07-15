@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Security\WebAuthenticationHostResolver;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,12 +20,23 @@ class SecurityController extends AbstractController
     public function __construct(
         private readonly CommonController $commonController,
         private readonly AuthenticationUtils $authenticationUtils,
-        private readonly ParameterBagInterface $parameterBag
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly WebAuthenticationHostResolver $authenticationHostResolver,
     ) {}
 
     #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'login'], priority: 10)]
     public function login(Request $request, $ref): Response
     {
+        if ($this->getUser()) {
+            $session = $request->getSession();
+            $targetPath = $session->get('_security.main.target_path');
+            if (is_string($targetPath) && '' !== $targetPath) {
+                $session->remove('_security.main.target_path');
+
+                return new RedirectResponse($this->authenticationHostResolver->mirrorAuthenticationUri($targetPath));
+            }
+        }
+
         if ($request->getHost() === $this->parameterBag->get('admin_host')) {
             // get the login error if there is one
             $error = $this->authenticationUtils->getLastAuthenticationError();

@@ -8,6 +8,8 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
         cookie_httponly: true
+        cookie_lifetime: 604800 # 1 week
+        gc_maxlifetime: 604800 # 1 week
 
     #esi: true
     #fragments: true
