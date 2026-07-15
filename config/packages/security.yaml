@@ -18,6 +18,9 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+        sso_token:
+            pattern: ^/api/sso/token$
+            security: false
         # Darkwood API: stateful so DarkwoodGameService can use session (flash, combat state)
         darkwood_api:
             pattern: ^/api/darkwood
@@ -68,6 +71,9 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        - { path: ^/api/sso/token, roles: PUBLIC_ACCESS }
+        - { path: ^/sso/authorize, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/sso/me, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/login$, role: PUBLIC_ACCESS }
         - { path: ^/en/login$, role: PUBLIC_ACCESS }
         - { path: ^/de/login$, role: PUBLIC_ACCESS }

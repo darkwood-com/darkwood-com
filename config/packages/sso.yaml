@@ -1,0 +1,8 @@
+parameters:
+    sso.clients:
+        navi:
+            audience: navi
+            redirect_uris:
+                - '%env(default:sso_navi_callback_default:SSO_NAVI_CALLBACK_URL)%'
+
+    sso_navi_callback_default: 'http://127.0.0.1:8000/admin/auth/callback'
