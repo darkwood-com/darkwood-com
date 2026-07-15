@@ -43,7 +43,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         private readonly SiteService $siteService,
         private readonly ParameterBagInterface $parameterBag,
         private readonly UserRepository $userRepository,
-        private readonly UserProviderInterface $userProvider
+        private readonly UserProviderInterface $userProvider,
+        private readonly WebAuthenticationHostResolver $authenticationHostResolver,
     ) {}
 
     #[Override]
@@ -127,6 +128,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->authenticationHostResolver->loginUrl($request);
     }
 }
