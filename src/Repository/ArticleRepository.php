@@ -253,4 +253,41 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $result instanceof Article ? $result : null;
     }
+
+    /**
+     * @return list<Article>
+     */
+    public function findRelatedBySharedTags(Article $article, ?string $locale = null, int $limit = 4): array
+    {
+        $tagIds = [];
+        foreach ($article->getTags() as $tag) {
+            $tagIds[] = $tag->getId();
+        }
+
+        if ([] === $tagIds) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->innerJoin('n.tags', 't')
+            ->andWhere('t.id IN (:tagIds)')
+            ->andWhere('n.id != :articleId')
+            ->andWhere('nts.active = true')
+            ->setParameter('tagIds', $tagIds)
+            ->setParameter('articleId', $article->getId())
+            ->addOrderBy('n.created', 'desc')
+            ->setMaxResults(max(1, $limit))
+        ;
+
+        if ($locale) {
+            $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
+        }
+
+        /** @var list<Article> $articles */
+        $articles = $qb->getQuery()->getResult();
+
+        return $articles;
+    }
 }

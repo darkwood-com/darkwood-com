@@ -202,6 +202,18 @@ class SiteService
             $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
         }
 
+        foreach ($this->articleService->findActives($locale) as $article) {
+            $articleTranslation = $article->getOneTranslation($locale);
+            if (null === $articleTranslation) {
+                continue;
+            }
+
+            $urls[] = [
+                'loc' => $this->pageService->getUrl($articleTranslation, UrlGeneratorInterface::ABSOLUTE_URL),
+                'date' => $articleTranslation->getUpdated() ?? $article->getCreated(),
+            ];
+        }
+
         return $this->templating->render('common/partials/sitemapXml.html.twig', ['urls' => $urls]);
     }
 
@@ -213,7 +225,8 @@ class SiteService
             $feed[] = ['type' => 'article', 'date' => $article->getCreated(), 'item' => $article];
         }
 
-        usort($feed, static fn ($item1, $item2) => $item1['date'] <=> $item2['date']);
+        // Newest first for feed readers and channel pubDate.
+        usort($feed, static fn ($item1, $item2) => $item2['date'] <=> $item1['date']);
 
         return $feed;
     }
@@ -221,7 +234,19 @@ class SiteService
     public function getRssXml($host, $locale)
     {
         $feed = $this->getFeed($host, $locale);
+        $siteName = 'Darkwood Blog';
+        if (str_contains((string) $host, 'blog')) {
+            $siteName = 'Darkwood Blog';
+        } elseif (str_contains((string) $host, 'darkwood')) {
+            $siteName = 'Darkwood';
+        }
 
-        return $this->templating->render('common/partials/rssXml.html.twig', ['feed' => $feed, 'locale' => $locale, 'host' => $host]);
+        return $this->templating->render('common/partials/rssXml.html.twig', [
+            'feed' => $feed,
+            'locale' => $locale,
+            'host' => $host,
+            'siteName' => $siteName,
+            'rssRoute' => str_contains((string) $host, 'blog') ? 'blog_rss' : 'darkwood_rss',
+        ]);
     }
 }

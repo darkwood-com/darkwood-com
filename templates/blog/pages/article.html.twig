@@ -6,11 +6,14 @@
 {% set excerpt = (articleTranslation.content|default('')|striptags|replace({"\n": " ", "\r": " "})|trim)|slice(0, 160) %}
 {% set description = excerpt|default(articleTranslation.title)|slice(0, 160) %}
 {% set inLanguage = app.request.locale == 'fr' ? 'fr-FR' : (app.request.locale == 'de' ? 'de-DE' : 'en-US') %}
+{% set coverImage = absolute_url(asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))) %}
 {% set schema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     'headline': articleTranslation.title,
     'description': description,
+    'image': [coverImage],
+    'url': canonicalUrl,
     'datePublished': articleTranslation.created|date('c'),
     'dateModified': (articleTranslation.updated|default(articleTranslation.created))|date('c'),
     'inLanguage': inLanguage,
@@ -61,6 +64,20 @@
     {{ articleTranslation.premiumContent|markdown_to_html }}
 {% else %}
     {{ include(template_from_string(articleTranslation.content))|markdown_to_html }}
+{% endif %}
+
+{% if relatedArticles is defined and relatedArticles|length > 0 %}
+<section class="related-articles mt-4">
+    <h2>{{ 'blog.article.related'|default('Related articles')|trans }}</h2>
+    <ul>
+        {% for related in relatedArticles %}
+            {% set relatedTranslation = related.getOneTranslation(app.request.locale) %}
+            {% if relatedTranslation %}
+                <li><a href="{{ url('blog_article', {slug: relatedTranslation.slug}) }}">{{ relatedTranslation.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
 {% endif %}
 
 {{ include('blog/partials/article-reactions.html.twig', {

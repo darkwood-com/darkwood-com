@@ -2,26 +2,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Darkwood Blog</title>
-        <link>http://{{ host }}</link>
-        <description>Venez affronter le monde et devenez celebre sur le site</description>
-        <copyright>Copyright 2005, tous droits reserves</copyright>
+        <title>{{ siteName|default('Darkwood Blog') }}</title>
+        <link>https://{{ host }}</link>
+        <description>{{ siteName|default('Darkwood Blog') }} — technical articles, watch digests and creator spotlights</description>
+        <copyright>Copyright {{ 'now'|date('Y') }}, Darkwood</copyright>
         <language>{{ locale }}</language>
-        <pubDate>Mon, 09 Nov 2015 08:50:06 +0000</pubDate>
-        <atom:link href="{{ url('darkwood_rss', {'_locale': locale}) }}" rel="self" type="application/rss+xml"/>
+        {% if feed|length > 0 %}
+        <pubDate>{{ feed|first.date|date('r') }}</pubDate>
+        {% else %}
+        <pubDate>{{ 'now'|date('r') }}</pubDate>
+        {% endif %}
+        <atom:link href="{{ url(rssRoute|default('blog_rss'), {'_locale': locale}) }}" rel="self" type="application/rss+xml"/>
 
         {% for item in feed %}
         {% if item.type == 'article' %}
         {% set articleTranslation = item.item.getOneTranslation(locale) %}
+        {% if articleTranslation %}
         <item>
             <title>{{ articleTranslation.title }}</title>
             <pubDate>{{ item.date|date('r') }}</pubDate>
             <description><![CDATA[{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}]]></description>
-            <content:encoded><![CDATA[<p><img src="{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('rss_cover') }}" /></p>{{ articleTranslation.content|markdown_to_html }}]]></content:encoded>
+            <content:encoded><![CDATA[<p><img src="{{ absolute_url(asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))|imagine_filter('rss_cover')) }}" /></p>{{ articleTranslation.content|markdown_to_html }}]]></content:encoded>
             <link>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</link>
-            <guid>{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
-            <enclosure url="http://{{ host }}{{ asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png')) }}" />
+            <guid isPermaLink="true">{{ url('blog_article', {'slug': articleTranslation.slug}) }}</guid>
+            <enclosure url="{{ absolute_url(asset(vich_uploader_asset(articleTranslation, 'image')|default('/common/images/site/cover.png'))) }}" />
         </item>
+        {% endif %}
         {% endif %}
         {% endfor %}
     </channel>

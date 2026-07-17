@@ -22,7 +22,8 @@ class SeoService
     public function __construct(
         protected CacheInterface $appCache,
         protected RouterInterface $router,
-        protected UploaderHelper $uploaderHelper
+        protected UploaderHelper $uploaderHelper,
+        protected PageService $pageService,
     ) {}
 
     public function getSeo($context, $force = false)
@@ -39,6 +40,7 @@ class SeoService
             $item->expiresAfter(43200); // 12 hours
             /** @var PageTranslation $pageTranslation */
             $pageTranslation = $context['page'];
+            $canonicalUrl = $this->pageService->getUrl($pageTranslation, RouterInterface::ABSOLUTE_URL) ?? '';
             $data = [
                 'title' => $pageTranslation->getSeoTitle() ?? $pageTranslation->getTitle(),
                 'description' => $pageTranslation->getSeoDescription() ?? $pageTranslation->getDescription(),
@@ -47,7 +49,7 @@ class SeoService
                     'title' => $pageTranslation->getOgTitle() ?? $pageTranslation->getTitle(),
                     'description' => $pageTranslation->getOgDescription() ?? $pageTranslation->getDescription(),
                     'type' => $pageTranslation->getOgType() ?? 'article',
-                    'url' => '',
+                    'url' => $canonicalUrl,
                     'site_name' => $pageTranslation->getPage()->getSite()->getName(),
                     'src' => $this->uploaderHelper->asset($pageTranslation, 'ogImage') ?? $this->uploaderHelper->asset($pageTranslation, 'image'),
                 ],
@@ -66,7 +68,19 @@ class SeoService
 
             if (isset($context['article']) && $context['article'] instanceof Article) {
                 $articleTranslation = $context['article']->getOneTranslation($pageTranslation->getLocale());
-                $data = array_replace_recursive($data, ['title' => $articleTranslation->getTitle(), 'facebook' => ['src' => $this->uploaderHelper->asset($articleTranslation, 'image'), 'title' => $articleTranslation->getTitle()], 'twitter' => ['src' => $this->uploaderHelper->asset($articleTranslation, 'image'), 'title' => $articleTranslation->getTitle()]]);
+                $articleUrl = $this->pageService->getUrl($articleTranslation, RouterInterface::ABSOLUTE_URL) ?? '';
+                $data = array_replace_recursive($data, [
+                    'title' => $articleTranslation->getTitle(),
+                    'facebook' => [
+                        'src' => $this->uploaderHelper->asset($articleTranslation, 'image'),
+                        'title' => $articleTranslation->getTitle(),
+                        'url' => $articleUrl,
+                    ],
+                    'twitter' => [
+                        'src' => $this->uploaderHelper->asset($articleTranslation, 'image'),
+                        'title' => $articleTranslation->getTitle(),
+                    ],
+                ]);
             }
 
             return $data;

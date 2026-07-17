@@ -220,6 +220,7 @@ class BlogController extends AbstractController
             'isPremiumUser' => $isPremiumUser,
             'reactionSummary' => $this->articleReactionService->getSummary($article, $this->getUser()),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
+            'relatedArticles' => $this->articleService->findRelatedArticles($article, $request->getLocale(), 4),
         ]);
     }
 

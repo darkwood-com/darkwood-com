@@ -246,6 +246,14 @@ class BlogArticleService
     }
 
     /**
+     * @return list<Article>
+     */
+    public function findRelatedArticles(Article $article, ?string $locale = null, int $limit = 4): array
+    {
+        return $this->articleRepository->findRelatedBySharedTags($article, $locale, $limit);
+    }
+
+    /**
      * @return Paginator<Article>
      */
     public function findManualActives(?string $locale = null, ?int $limit = null): Paginator
