@@ -62,10 +62,10 @@ class DarkwoodController extends AbstractController
     {
         $page = $this->commonController->getPage($request, $ref);
         $articles = $this->articleService->findManualActives($request->getLocale(), 5);
-        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
-        $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle]));
+        // $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
+        // $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
+        // $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
+        $reactionArticles = [];
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -73,9 +73,9 @@ class DarkwoodController extends AbstractController
         return $this->render('darkwood/pages/home.html.twig', [
             'page' => $page,
             'news' => $articles,
-            'lastWatchArticle' => $lastWatchArticle,
-            'lastReleaseArticle' => $lastReleaseArticle,
-            'lastCreatorArticle' => $lastCreatorArticle,
+            'lastWatchArticle' => null, // $lastWatchArticle,
+            'lastReleaseArticle' => null, // $lastReleaseArticle,
+            'lastCreatorArticle' => null, // $lastCreatorArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,

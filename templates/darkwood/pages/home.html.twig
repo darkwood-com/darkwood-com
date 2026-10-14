@@ -12,6 +12,7 @@
 </ul>
 </a>
 
+{#
 {% if lastWatchArticle %}
 <h2>{{ 'blog.home.watch_heading'|trans }}</h2>
 <ul class="itemlist">
@@ -20,7 +21,7 @@
         <h3>{{ watchTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ watchTranslation.created|format_date('long') }}</em></h3>
         <p>{{ watchTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
         <p>
-            <a href="{{ path('blog_article', {'slug': watchTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a>{#<a href="{{ path('blog_watch') }}">{{ 'blog.home.watch_all'|trans }}</a>#}
+            <a href="{{ path('blog_article', {'slug': watchTranslation.slug}) }}">{{ 'darkwood.home.show_more'|trans }}</a><a href="{{ path('blog_watch') }}">{{ 'blog.home.watch_all'|trans }}</a>
         </p>
         {{ include('blog/partials/article-reactions.html.twig', {
             article: lastWatchArticle,
@@ -74,6 +75,7 @@
     </li>
 </ul>
 {% endif %}
+#}
 
 <h2>{{ 'darkwood.home.news'|trans }}</h2>
 <ul class="itemlist">

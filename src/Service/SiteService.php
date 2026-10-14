@@ -198,8 +198,21 @@ class SiteService
         $pages = $this->pageService->findActives($locale, null, $host);
         $urls = [];
         foreach ($pages as $page) {
+            if (in_array($page->getRef(), ['watch', 'release', 'creator'], true)) {
+                continue;
+            }
+
             $pageTranslation = $page->getOneTranslation();
-            $urls[] = ['loc' => $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL), 'date' => $pageTranslation->getUpdated()];
+            if (null === $pageTranslation) {
+                continue;
+            }
+
+            $loc = $this->pageService->getUrl($pageTranslation, UrlGeneratorInterface::ABSOLUTE_URL);
+            if (null === $loc || '' === $loc) {
+                continue;
+            }
+
+            $urls[] = ['loc' => $loc, 'date' => $pageTranslation->getUpdated()];
         }
 
         foreach ($this->articleService->findActives($locale) as $article) {
