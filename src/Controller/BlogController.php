@@ -69,10 +69,10 @@ class BlogController extends AbstractController
         $request->query->set('sort', $pagination?->sort ?? '');
 
         $articles = $this->paginator->paginate($query, $pagination?->page ?? 1, 10);
-        // $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
-        // $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        // $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
-        $reactionArticles = [];
+        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
+        $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
+        $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle]));
         foreach ($articles as $article) {
             $reactionArticles[] = $article;
         }
@@ -80,16 +80,15 @@ class BlogController extends AbstractController
         return $this->render('blog/pages/home.html.twig', [
             'page' => $page,
             'articles' => $articles,
-            'lastWatchArticle' => null, // $lastWatchArticle,
-            'lastReleaseArticle' => null, // $lastReleaseArticle,
-            'lastCreatorArticle' => null, // $lastCreatorArticle,
+            'lastWatchArticle' => $lastWatchArticle,
+            'lastReleaseArticle' => $lastReleaseArticle,
+            'lastCreatorArticle' => $lastCreatorArticle,
             'reactionSummaries' => $this->buildReactionSummaries($reactionArticles),
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
         ]);
     }
 
-    /*
     #[Route(path: ['fr' => '/fr/watch', 'en' => '/watch', 'de' => '/de/watch'], name: 'blog_watch', defaults: ['ref' => 'watch'])]
     public function watch(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response
     {
@@ -146,7 +145,6 @@ class BlogController extends AbstractController
             'showLinks' => true,
         ]);
     }
-    */
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'blog_legal_mention', defaults: ['ref' => 'legal_mention'])]
     public function legalMention(Request $request, $ref)

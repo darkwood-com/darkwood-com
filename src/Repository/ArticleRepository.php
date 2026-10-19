@@ -163,7 +163,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findActives($locale = null, $limit = null): Paginator
     {
-        $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc')->andWhere('nts.active = true')->andWhere('n.type = :manualType')->setParameter('manualType', ArticleType::Manual);
+        $qb = $this->createQueryBuilder('n')->select('n', 'nts')->leftJoin('n.translations', 'nts')->addOrderBy('n.created', 'desc')->andWhere('nts.active = true');
         if ($locale) {
             $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         }
@@ -275,8 +275,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('t.id IN (:tagIds)')
             ->andWhere('n.id != :articleId')
             ->andWhere('nts.active = true')
-            ->andWhere('n.type = :manualType')
-            ->setParameter('manualType', ArticleType::Manual)
             ->setParameter('tagIds', $tagIds)
             ->setParameter('articleId', $article->getId())
             ->addOrderBy('n.created', 'desc')
