@@ -17,7 +17,6 @@ use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterface;
 use Stringable;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -114,9 +113,10 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     /**
      * Stable, immutable public identity for cross-application references (OIDC sub).
+     * Stored as RFC 4122 text (e.g. "018f…") for readability across apps/SQL.
      */
-    #[ORM\Column(type: UuidType::NAME, unique: true)]
-    private ?Uuid $uuid = null;
+    #[ORM\Column(type: Types::STRING, length: 36, unique: true)]
+    private ?string $uuid = null;
 
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
     #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
@@ -163,7 +163,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     public function __construct()
     {
-        $this->uuid = Uuid::v7();
+        $this->uuid = Uuid::v7()->toRfc4122();
         $this->comments = new ArrayCollection();
         $this->contacts = new ArrayCollection();
     }
@@ -171,8 +171,8 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\PrePersist]
     public function ensureUuid(): void
     {
-        if (null === $this->uuid) {
-            $this->uuid = Uuid::v7();
+        if (null === $this->uuid || '' === $this->uuid) {
+            $this->uuid = Uuid::v7()->toRfc4122();
         }
     }
 
@@ -209,16 +209,16 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         return $this->id;
     }
 
-    public function getUuid(): Uuid
+    public function getUuid(): string
     {
-        if (null === $this->uuid) {
-            $this->uuid = Uuid::v7();
+        if (null === $this->uuid || '' === $this->uuid) {
+            $this->uuid = Uuid::v7()->toRfc4122();
         }
 
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): self
+    public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
 

@@ -37,7 +37,7 @@ final readonly class OidcUserClaimsSubscriber implements EventSubscriberInterfac
             return;
         }
 
-        $user = $this->users->findOneByUuid(Uuid::fromString($identifier));
+        $user = $this->users->findOneByUuid($identifier);
         if (null === $user) {
             return;
         }

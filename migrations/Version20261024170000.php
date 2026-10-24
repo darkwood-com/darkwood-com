@@ -18,19 +18,19 @@ final class Version20261024170000 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->connection->executeStatement(
-            'ALTER TABLE user ADD uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid)\''
+            'ALTER TABLE user ADD uuid VARCHAR(36) DEFAULT NULL'
         );
 
         $ids = $this->connection->fetchFirstColumn('SELECT id FROM user WHERE uuid IS NULL');
         foreach ($ids as $id) {
             $this->connection->executeStatement(
                 'UPDATE user SET uuid = ? WHERE id = ?',
-                [Uuid::v7()->toBinary(), $id],
+                [Uuid::v7()->toRfc4122(), $id],
             );
         }
 
         $this->connection->executeStatement(
-            'ALTER TABLE user MODIFY uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\''
+            'ALTER TABLE user MODIFY uuid VARCHAR(36) NOT NULL'
         );
         $this->connection->executeStatement(
             'CREATE UNIQUE INDEX UNIQ_8D93D649D17F50A6 ON user (uuid)'

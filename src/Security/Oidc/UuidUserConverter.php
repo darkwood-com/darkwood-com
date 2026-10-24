@@ -28,7 +28,7 @@ final class UuidUserConverter implements UserConverterInterface
         }
 
         $userEntity = new LeagueUser();
-        $userEntity->setIdentifier($user->getUuid()->toRfc4122());
+        $userEntity->setIdentifier($user->getUuid());
 
         return $userEntity;
     }
