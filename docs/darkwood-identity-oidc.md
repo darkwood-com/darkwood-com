@@ -49,7 +49,14 @@ php bin/console league:oauth2-server:create-client "Navi" navi \
   --scope="openid" --scope="profile" --scope="email" --scope="roles"
 ```
 
-Store the generated client secret only in deployment secrets / `.env.local`.
+```bash
+php bin/console league:oauth2-server:create-client "Darkwaar" darkwaar \
+  --redirect-uri="https://darkwaar.com/auth/callback" \
+  --redirect-uri="http://127.0.0.1:8017/auth/callback" \
+  --grant-type="authorization_code" \
+  --grant-type="refresh_token" \
+  --scope="openid" --scope="profile" --scope="email" --scope="roles"
+```
 
 ## Identity model
 
