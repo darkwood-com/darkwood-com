@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Security\OidcLoginThemeResolver;
 use App\Security\WebAuthenticationHostResolver;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,7 @@ class SecurityController extends AbstractController
         private readonly AuthenticationUtils $authenticationUtils,
         private readonly ParameterBagInterface $parameterBag,
         private readonly WebAuthenticationHostResolver $authenticationHostResolver,
+        private readonly OidcLoginThemeResolver $loginThemeResolver,
     ) {}
 
     #[Route(path: ['fr' => '/fr/login', 'en' => '/login', 'de' => '/de/login'], name: 'security_login', defaults: ['ref' => 'login'], priority: 10)]
@@ -56,7 +58,14 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
-        return $this->render('common/pages/login.html.twig', ['page' => $page, 'site_ref' => $siteRef, 'last_username' => $lastUsername, 'error' => $error, 'showLinks' => true]);
+        return $this->render('common/pages/login.html.twig', [
+            'page' => $page,
+            'site_ref' => $siteRef,
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'showLinks' => true,
+            'login_theme' => $this->loginThemeResolver->resolve($request),
+        ]);
     }
 
     #[Route(path: ['fr' => '/fr/logout', 'en' => '/logout', 'de' => '/de/logout'], name: 'security_logout', priority: 10)]

@@ -1,0 +1,141 @@
+/* OIDC contextual login / TOTP themes (presentation only). */
+
+.login-shell.login-theme-darkwaar {
+	--login-bg: #091a28;
+	--login-surface: #0e2233;
+	--login-border: #0f2b3d;
+	--login-text: #ebf4f1;
+	--login-muted: rgba(235, 244, 241, 0.72);
+	--login-primary: #0066cc;
+	--login-primary-hover: #004080;
+	--login-error-bg: #3a1a18;
+	--login-error-text: #f5b4ae;
+	max-width: 28rem;
+	margin: 2rem auto 3rem;
+	padding: 2rem 1.75rem;
+	background: var(--login-surface);
+	border: 1px solid var(--login-border);
+	color: var(--login-text);
+	border-radius: 0.35rem;
+	box-sizing: border-box;
+}
+
+.login-shell.login-theme-darkwaar .login-brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+	text-align: center;
+}
+
+.login-shell.login-theme-darkwaar .login-brand img {
+	width: 56px;
+	height: 56px;
+	display: block;
+}
+
+.login-shell.login-theme-darkwaar .login-brand h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: var(--login-text);
+}
+
+.login-shell.login-theme-darkwaar .login-brand .login-subcopy {
+	margin: 0;
+	color: var(--login-muted);
+	font-size: 0.95rem;
+}
+
+.login-shell.login-theme-darkwaar .login-footer {
+	margin: 1.5rem 0 0;
+	text-align: center;
+	font-size: 0.8rem;
+	color: var(--login-muted);
+}
+
+.login-shell.login-theme-darkwaar label {
+	color: var(--login-muted);
+}
+
+.login-shell.login-theme-darkwaar input[type="text"],
+.login-shell.login-theme-darkwaar input[type="password"] {
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0.35rem 0 0.85rem;
+	padding: 0.75rem;
+	background: var(--login-bg);
+	border: 1px solid var(--login-border);
+	color: var(--login-text);
+	font-size: 1rem;
+	line-height: 1.25;
+}
+
+.login-shell.login-theme-darkwaar input[type="submit"],
+.login-shell.login-theme-darkwaar button[type="submit"] {
+	display: inline-block;
+	width: 100%;
+	margin-top: 0.5rem;
+	padding: 0.75rem 1rem;
+	border: 0;
+	background: var(--login-primary);
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.login-shell.login-theme-darkwaar input[type="submit"]:hover,
+.login-shell.login-theme-darkwaar button[type="submit"]:hover {
+	background: var(--login-primary-hover);
+}
+
+.login-shell.login-theme-darkwaar .alert_error,
+.login-shell.login-theme-darkwaar .error {
+	background: var(--login-error-bg);
+	color: var(--login-error-text);
+	border: 1px solid #5c2a26;
+	padding: 0.75rem 1rem;
+	margin-bottom: 1rem;
+}
+
+.login-shell.login-theme-darkwaar .actions {
+	margin-top: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.login-shell.login-theme-darkwaar .actions .btn-outline-secondary,
+.login-shell.login-theme-darkwaar .actions a.btn {
+	display: inline-block;
+	padding: 0.65rem 1rem;
+	border: 1px solid var(--login-border);
+	color: var(--login-text);
+	text-decoration: none;
+	background: transparent;
+}
+
+.login-shell.login-theme-darkwaar .login-links {
+	margin-top: 1.25rem;
+	font-size: 0.9rem;
+	color: var(--login-muted);
+}
+
+.login-shell.login-theme-darkwaar .login-links a {
+	color: var(--login-primary);
+}
+
+/* Soften surrounding page chrome when Darkwaar OIDC login is active */
+.theme-darkwood:has(.login-theme-darkwaar) .theme-content-top,
+.theme-body:has(.login-theme-darkwaar) {
+	background: #091a28;
+}
+
+@media (max-width: 575.98px) {
+	.login-shell.login-theme-darkwaar {
+		margin: 1rem 0.75rem 2rem;
+		padding: 1.5rem 1.15rem;
+	}
+}

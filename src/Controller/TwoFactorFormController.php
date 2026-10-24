@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Security\OidcLoginThemeResolver;
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorTokenInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Exception\UnknownTwoFactorProviderException;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderRegistry;
@@ -30,6 +31,7 @@ class TwoFactorFormController extends AbstractController
         private readonly LogoutUrlGenerator $logoutUrlGenerator,
         private readonly CommonController $commonController,
         private readonly ParameterBagInterface $parameterBag,
+        private readonly OidcLoginThemeResolver $loginThemeResolver,
     ) {}
 
     public function form(Request $request): Response
@@ -72,6 +74,7 @@ class TwoFactorFormController extends AbstractController
             'checkPathUrl' => $isRoute ? null : $checkPath,
             'logoutPath' => $this->logoutUrlGenerator->getLogoutPath(),
             'site_ref' => $siteRef,
+            'login_theme' => $this->loginThemeResolver->resolve($request),
         ];
 
         if ('admin' !== $siteRef) {
