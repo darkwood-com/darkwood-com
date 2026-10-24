@@ -78,7 +78,7 @@
                 {{ form_widget(form.totpEnabled) }}
                 {{ form_label(form.totpEnabled) }}
             </li>
-            <li>
+            {#<li>
                 <small>
                     Optional. Disabled by default.
                     {% if app.user and app.user.totpAuthenticationEnabled %}
@@ -88,7 +88,7 @@
                         Check and save to configure an authenticator app.
                     {% endif %}
                 </small>
-            </li>
+            </li>#}
         </ul>
     </fieldset>
     <ul>
