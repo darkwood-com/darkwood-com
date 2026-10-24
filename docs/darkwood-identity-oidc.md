@@ -58,6 +58,50 @@ php bin/console league:oauth2-server:create-client "Darkwaar" darkwaar \
   --scope="openid" --scope="profile" --scope="email" --scope="roles"
 ```
 
+## Relying parties
+
+| App | Role | Notes |
+|-----|------|-------|
+| Navi | Admin RP | `ROLE_ADMIN` gate; local logout; default login theme |
+| Darkwaar | Public consumer RP | Any authenticated user; local logout; **Darkwaar login theme** |
+
+## Contextual login themes
+
+When an unauthenticated browser hits `/authorize`, Symfony stores the full authorize URI in `_security.main.target_path` and redirects to `/login` (then optional `/2fa`).
+
+The login/TOTP **visual theme** is derived only from a **validated** OAuth2 `client_id` in that authorize target:
+
+1. Parse `client_id` from `_security.main.target_path` (path must be `/authorize`; host must be Darkwood or API host).
+2. Look up the client with `ClientManagerInterface::find()` and require it active.
+3. Map via server allowlist `oidc_login_themes` in `config/packages/oidc_login_themes.yaml`.
+
+| OIDC client | Login theme |
+|-------------|-------------|
+| `darkwaar` | `darkwaar` |
+| `navi` / unknown / missing | `default` (Darkwood) |
+| Direct `/login` | `default` |
+
+**Do not** trust `?theme=darkwaar` or any unvalidated query parameter for branding.
+
+Resolved themes are stored in session key `app.oidc.login_theme` so the TOTP challenge keeps the same look. Direct login without an authorize target clears that key.
+
+Presentation lives in `templates/common/pages/login.html.twig` and `two_factor_form.html.twig` plus `assets/styles/login-themes.css`. Authentication (password, TOTP, CSRF, sessions) is unchanged.
+
+### Adding a future application theme
+
+1. Register the OAuth2 client.
+2. Add `client_id: theme_id` to `oidc_login_themes`.
+3. Add CSS under `.login-theme-{theme_id}` and Twig branches as needed.
+4. Place a logo under `public/common/images/oidc/` if required.
+
+### Theme verification
+
+1. Darkwaar OIDC login shows Darkwaar-branded login (and TOTP if enabled).
+2. Direct Darkwood `/login` stays default.
+3. Navi OIDC stays default.
+4. `?theme=darkwaar` on `/login` without a valid authorize target does **not** switch branding.
+5. Existing SSO session skips the login page and resumes `/authorize`.
+
 ## Identity model
 
 - Internal PK: integer `user.id` (unchanged)

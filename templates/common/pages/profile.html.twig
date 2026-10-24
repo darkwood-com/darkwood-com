@@ -75,21 +75,19 @@
         <legend>Two-factor authentication</legend>
         <ul>
             <li>
-                Status:
-                {% if app.user and app.user.totpAuthenticationEnabled %}
-                    Enabled
-                {% else %}
-                    Not configured
-                {% endif %}
+                {{ form_widget(form.totpEnabled) }}
+                {{ form_label(form.totpEnabled) }}
             </li>
             <li>
-                <a href="{{ path('app_2fa_setup') }}">
+                <small>
+                    Optional. Disabled by default.
                     {% if app.user and app.user.totpAuthenticationEnabled %}
-                        Review 2FA setup
+                        Uncheck and save to turn it off.
+                        <a href="{{ path('app_2fa_setup') }}">Review setup</a>
                     {% else %}
-                        Configure TOTP 2FA
+                        Check and save to configure an authenticator app.
                     {% endif %}
-                </a>
+                </small>
             </li>
         </ul>
     </fieldset>

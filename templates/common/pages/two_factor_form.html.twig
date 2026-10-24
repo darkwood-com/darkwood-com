@@ -1,6 +1,9 @@
 {% extends ""~ site_ref ~"/base.html.twig" %}
 
+{% set login_theme = login_theme|default('default') %}
+
 {% block content %}
+{% if login_theme != 'darkwaar' %}
 <style>
     .two-factor-shell { max-width: 32rem; margin: 2rem auto; background: #fff; border: 1px solid #ddd; padding: 2rem; }
     .two-factor-shell h1 { margin-top: 0; }
@@ -11,15 +14,23 @@
     .two-factor-shell .actions { margin-top: 1rem; }
     .two-factor-shell .actions .btn { margin-right: .5rem; margin-bottom: .5rem; }
 </style>
+{% endif %}
 
-<div class="two-factor-shell">
-    <h1>Two-factor authentication</h1>
+<div class="login-shell login-theme-{{ login_theme }}{% if login_theme != 'darkwaar' %} two-factor-shell{% endif %}">
+    {% if login_theme == 'darkwaar' %}
+        <div class="login-brand">
+            <img src="{{ asset('/common/images/oidc/darkwaar-logo.svg') }}" width="56" height="56" alt="Darkwaar">
+            <h1>Sign in to Darkwaar</h1>
+            <p class="login-subcopy">Enter the 6-digit code from your authenticator app.</p>
+        </div>
+    {% else %}
+        <h1>Two-factor authentication</h1>
+        <p>Enter the 6-digit code from your authenticator app to complete sign-in.</p>
+    {% endif %}
 
     {% if authenticationError %}
         <div class="error">{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</div>
     {% endif %}
-
-    <p>Enter the 6-digit code from your authenticator app to complete sign-in.</p>
 
     <form action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post">
         <label for="_auth_code">Authentication code</label>
@@ -43,5 +54,9 @@
             <a class="btn btn-outline-secondary" href="{{ logoutPath }}">Cancel</a>
         </div>
     </form>
+
+    {% if login_theme == 'darkwaar' %}
+        <p class="login-footer">Authentication secured by Darkwood Identity.</p>
+    {% endif %}
 </div>
 {% endblock %}

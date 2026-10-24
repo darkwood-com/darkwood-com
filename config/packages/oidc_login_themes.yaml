@@ -1,0 +1,6 @@
+parameters:
+    # Maps validated OAuth2 client identifiers to login/TOTP visual themes.
+    # Unknown clients and direct /login use "default" (Darkwood chrome).
+    # Never derive themes from a ?theme= query parameter.
+    oidc_login_themes:
+        darkwaar: darkwaar

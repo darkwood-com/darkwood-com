@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -48,12 +49,20 @@ class ProfileType extends AbstractType
             'required' => false,
             'mapped' => false,
         ]);
+        $builder->add('totpEnabled', CheckboxType::class, [
+            'mapped' => false,
+            'required' => false,
+            'label' => 'Enable two-factor authentication (TOTP)',
+            'data' => (bool) $options['totp_enabled'],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'totp_enabled' => false,
         ]);
+        $resolver->setAllowedTypes('totp_enabled', 'bool');
     }
 }
