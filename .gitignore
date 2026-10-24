@@ -40,6 +40,15 @@ yarn-error.log
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
+###> league/oauth2-server-bundle ###
+/config/oidc/private.key
+/config/oidc/public.key
+###< league/oauth2-server-bundle ###
+
 ###> Custom ignores ###
 /public/blog/images/articles/
 ###< Custom ignores ###
+
+###> league/oauth2-server-bundle ###
+/config/jwt/*.pem
+###< league/oauth2-server-bundle ###

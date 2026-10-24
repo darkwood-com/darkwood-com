@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function in_array;
-use function sprintf;
 
 /**
  * Authentication UI (login, 2FA) only exists on the main Darkwood site host.
@@ -19,7 +18,7 @@ use function sprintf;
  */
 final readonly class WebAuthenticationHostResolver
 {
-    private const string SSO_AUTHORIZE_PATH = '/sso/authorize';
+    private const string OIDC_AUTHORIZE_PATH = '/authorize';
 
     private const array AUTH_PATHS = [
         '/login',
@@ -56,9 +55,9 @@ final readonly class WebAuthenticationHostResolver
         return in_array($pathInfo, self::AUTH_PATHS, true);
     }
 
-    public function isSsoAuthorizePath(string $pathInfo): bool
+    public function isOidcAuthorizePath(string $pathInfo): bool
     {
-        return self::SSO_AUTHORIZE_PATH === $pathInfo;
+        return self::OIDC_AUTHORIZE_PATH === $pathInfo;
     }
 
     public function shouldMirrorToAuthenticationHost(Request $request): bool
@@ -69,7 +68,7 @@ final readonly class WebAuthenticationHostResolver
 
         $pathInfo = $request->getPathInfo();
 
-        return $this->isAuthenticationPath($pathInfo) || $this->isSsoAuthorizePath($pathInfo);
+        return $this->isAuthenticationPath($pathInfo) || $this->isOidcAuthorizePath($pathInfo);
     }
 
     public function mirrorUrl(Request $request): string
@@ -85,7 +84,7 @@ final readonly class WebAuthenticationHostResolver
         }
 
         $path = $parts['path'] ?? '';
-        if (!$this->isAuthenticationPath($path) && !$this->isSsoAuthorizePath($path)) {
+        if (!$this->isAuthenticationPath($path) && !$this->isOidcAuthorizePath($path)) {
             return $uri;
         }
 

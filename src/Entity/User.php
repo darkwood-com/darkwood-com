@@ -17,11 +17,13 @@ use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterface;
 use Stringable;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
@@ -110,6 +112,12 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
+    /**
+     * Stable, immutable public identity for cross-application references (OIDC sub).
+     */
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private ?Uuid $uuid = null;
+
     #[Assert\Length(min: 2, max: 32, minMessage: 'The username must be at least {{ limit }} characters long', maxMessage: 'The username cannot be longer than {{ limit }} characters')]
     #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private ?string $username = null;
@@ -155,8 +163,17 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
      */
     public function __construct()
     {
+        $this->uuid = Uuid::v7();
         $this->comments = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function ensureUuid(): void
+    {
+        if (null === $this->uuid) {
+            $this->uuid = Uuid::v7();
+        }
     }
 
     public function __toString(): string
@@ -190,6 +207,22 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): Uuid
+    {
+        if (null === $this->uuid) {
+            $this->uuid = Uuid::v7();
+        }
+
+        return $this->uuid;
+    }
+
+    public function setUuid(Uuid $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 
     /**

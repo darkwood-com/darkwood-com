@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 use function sprintf;
 
@@ -50,6 +51,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb->where($qb->expr()->orX('u.username = :query', 'u.email = :query'))->setParameter('query', $usernameOrEmail);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findOneByUuid(Uuid $uuid): ?User
+    {
+        return $this->findOneBy(['uuid' => $uuid]);
     }
 
     /**

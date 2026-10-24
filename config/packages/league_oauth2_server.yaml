@@ -1,0 +1,33 @@
+league_oauth2_server:
+    authorization_server:
+        private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'
+        private_key_passphrase: '%env(default::OAUTH_PASSPHRASE)%'
+        encryption_key: '%env(resolve:OAUTH_ENCRYPTION_KEY)%'
+        access_token_ttl: PT1H
+        refresh_token_ttl: P1M
+        auth_code_ttl: PT10M
+        enable_password_grant: false
+        enable_implicit_grant: false
+        enable_client_credentials_grant: false
+        enable_device_code_grant: false
+        require_code_challenge_for_public_clients: true
+    resource_server:
+        public_key: '%env(resolve:OAUTH_PUBLIC_KEY)%'
+    scopes:
+        available: ['openid', 'profile', 'email', 'roles']
+        default: ['openid', 'profile', 'email']
+    persistence:
+        doctrine: null
+    client:
+        allow_plaintext_secrets: false
+
+when@test:
+    league_oauth2_server:
+        persistence:
+            in_memory: null
+
+    services:
+        league.oauth2_server.password_hasher:
+            class: Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher
+            arguments:
+                $cost: 4

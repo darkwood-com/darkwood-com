@@ -1,4 +1,7 @@
 {
+    "ajgarlag/openid-connect-provider-bundle": {
+        "version": "0.3.0"
+    },
     "api-platform/core": {
         "version": "4.1",
         "recipe": {
@@ -178,6 +181,19 @@
     },
     "league/oauth2-facebook": {
         "version": "2.0.5"
+    },
+    "league/oauth2-server-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.2",
+            "ref": "374de24b3639ca6802e0b4f000fe2a56428f95a3"
+        },
+        "files": [
+            "config/packages/league_oauth2_server.yaml",
+            "config/routes/league_oauth2_server.yaml"
+        ]
     },
     "lexik/jwt-authentication-bundle": {
         "version": "3.1",

@@ -79,3 +79,9 @@ services:
     App\Markdown\MermaidExtension:
         tags:
             - { name: twig.markdown.league_extension }
+
+    League\Bundle\OAuth2ServerBundle\Converter\UserConverterInterface: '@App\Security\Oidc\UuidUserConverter'
+
+    App\Security\Oidc\RolesClaimSetConfigurator:
+        arguments:
+            $claimExtractor: '@ajgarlag.openid_connect_provider.openid_connect.claim_extractor'

@@ -10,11 +10,11 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * SSO authorize target paths saved on the API host must be replayed on darkwood.com.
+ * Auth target paths saved on the API host must be replayed on the Darkwood site host.
  *
  * @author Mathieu Ledru
  */
-final readonly class SsoTargetPathSubscriber implements EventSubscriberInterface
+final readonly class AuthenticationTargetPathSubscriber implements EventSubscriberInterface
 {
     private const string TARGET_PATH_KEY = '_security.main.target_path';
 
