@@ -145,7 +145,7 @@ class TwoFactorController extends AbstractController
             return $this->urlGenerator->generate('admin_home', ['_locale' => $locale]);
         }
 
-        return $this->urlGenerator->generate($siteRef . '_home', ['_locale' => $locale]);
+        return $this->urlGenerator->generate('common_profile', ['_locale' => $locale]);
     }
 
     private function buildSiteRef(Request $request): string

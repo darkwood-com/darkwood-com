@@ -48,12 +48,26 @@ class ProfileController extends AbstractController
             throw $this->createNotFoundException('User not found !');
         }
 
-        $form = $this->createForm(ProfileType::class, $user, ['validation_groups' => ['Profile', 'Default']]);
+        $totpWasEnabled = $user->isTotpAuthenticationEnabled();
+        $form = $this->createForm(ProfileType::class, $user, [
+            'validation_groups' => ['Profile', 'Default'],
+            'totp_enabled' => $totpWasEnabled,
+        ]);
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $wantTotp = (bool) $form->get('totpEnabled')->getData();
+
+                if (!$wantTotp && $totpWasEnabled) {
+                    $user->setTotpSecret(null);
+                }
+
                 $this->userService->save($user);
                 $this->container->get('request_stack')->getSession()->getFlashBag()->add('success', $this->translator->trans('common.profile.submit_valid'));
+
+                if ($wantTotp && !$totpWasEnabled) {
+                    return $this->redirectToRoute('app_2fa_setup');
+                }
 
                 return $this->redirectToRoute('common_profile');
             }

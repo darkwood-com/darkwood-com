@@ -30,7 +30,7 @@
             <a class="link" href="{{ path('security_logout') }}">Logout</a>
         </div>
     {% else %}
-        <p>Authenticated areas now require TOTP. Save this secret in an authenticator app, then enter the current 6-digit code to finish setup.</p>
+        <p>Two-factor authentication is optional. Save this secret in an authenticator app, then enter the current 6-digit code to finish setup.</p>
 
         <h2>QR code</h2>
         <p>Scan this QR code with your authenticator app.</p>
@@ -50,7 +50,7 @@
 
             <div class="actions">
                 <button type="submit" class="btn btn-dark">Enable 2FA</button>
-                <a class="btn btn-outline-secondary" href="{{ path('security_logout') }}">Logout</a>
+                <a class="btn btn-outline-secondary" href="{{ backUrl }}">Cancel</a>
             </div>
         </form>
     {% endif %}
