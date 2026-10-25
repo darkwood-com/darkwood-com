@@ -168,14 +168,6 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
         $this->contacts = new ArrayCollection();
     }
 
-    #[ORM\PrePersist]
-    public function ensureUuid(): void
-    {
-        if (null === $this->uuid || '' === $this->uuid) {
-            $this->uuid = Uuid::v7()->toRfc4122();
-        }
-    }
-
     public function __toString(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -202,6 +194,14 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function __unserialize(array $data): void
     {
         [$this->id, $this->username, $this->email, $this->password] = $data;
+    }
+
+    #[ORM\PrePersist]
+    public function ensureUuid(): void
+    {
+        if (null === $this->uuid || '' === $this->uuid) {
+            $this->uuid = Uuid::v7()->toRfc4122();
+        }
     }
 
     public function getId(): ?int

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function in_array;
+use function is_array;
 
 /**
  * Authentication UI (login, 2FA) only exists on the main Darkwood site host.
@@ -93,6 +94,27 @@ final readonly class WebAuthenticationHostResolver
         return $this->buildUri($parts);
     }
 
+    public function loginUrl(Request $request): string
+    {
+        if (!$this->isApiHost($request->getHost())) {
+            return $this->urlGenerator->generate(LoginFormAuthenticator::LOGIN_ROUTE);
+        }
+
+        $context = $this->urlGenerator->getContext();
+        $previousHost = $context->getHost();
+        $context->setHost($this->darkwoodHost);
+
+        try {
+            return $this->urlGenerator->generate(
+                LoginFormAuthenticator::LOGIN_ROUTE,
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL,
+            );
+        } finally {
+            $context->setHost($previousHost);
+        }
+    }
+
     /**
      * @param array{scheme?: string, host?: string, port?: int, path?: string, query?: string, fragment?: string} $parts
      */
@@ -115,26 +137,5 @@ final readonly class WebAuthenticationHostResolver
         }
 
         return $uri;
-    }
-
-    public function loginUrl(Request $request): string
-    {
-        if (!$this->isApiHost($request->getHost())) {
-            return $this->urlGenerator->generate(LoginFormAuthenticator::LOGIN_ROUTE);
-        }
-
-        $context = $this->urlGenerator->getContext();
-        $previousHost = $context->getHost();
-        $context->setHost($this->darkwoodHost);
-
-        try {
-            return $this->urlGenerator->generate(
-                LoginFormAuthenticator::LOGIN_ROUTE,
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL,
-            );
-        } finally {
-            $context->setHost($previousHost);
-        }
     }
 }

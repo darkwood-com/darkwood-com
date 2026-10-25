@@ -9,6 +9,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+use function is_string;
+
 /**
  * Auth target paths saved on the API host must be replayed on the Darkwood site host.
  *

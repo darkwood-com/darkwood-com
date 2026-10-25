@@ -10,6 +10,8 @@ use App\Security\Oidc\RolesClaimSetConfigurator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Uid\Uuid;
 
+use function sprintf;
+
 /**
  * Resolves OIDC ID-token claims from the Darkwood User identified by UUID subject.
  *
