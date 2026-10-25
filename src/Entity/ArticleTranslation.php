@@ -81,7 +81,7 @@ class ArticleTranslation implements Stringable
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
-    #[Groups(['article_translation:read', 'article_translation:write', 'article:read'])]
+    #[Groups(['article_translation:write'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $premiumContent = null;
 
