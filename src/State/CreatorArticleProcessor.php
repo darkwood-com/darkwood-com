@@ -12,6 +12,7 @@ use App\Enum\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\BlogArticleService;
 use JsonException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -28,6 +29,7 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
         private ArticleRepository $articles,
         private BlogArticleService $articleService,
         private RequestStack $requestStack,
+        private LoggerInterface $logger,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): array
@@ -123,19 +125,22 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
         $coverImageUrl = $payload['cover_image_url'] ?? null;
         if (is_string($coverImageUrl) && '' !== trim($coverImageUrl)) {
             $coverImageUrl = trim($coverImageUrl);
-            $coverImageContent = @file_get_contents($coverImageUrl);
-            if (is_string($coverImageContent) && '' !== $coverImageContent) {
-                foreach ($article->getTranslations() as $translation) {
-                    if (!$translation instanceof ArticleTranslation) {
-                        continue;
-                    }
-
-                    $this->articleService->applyTranslationImageFromContent(
-                        $translation,
-                        $coverImageContent,
-                        $coverImageUrl,
-                    );
+            $applied = 0;
+            foreach ($article->getTranslations() as $translation) {
+                if (!$translation instanceof ArticleTranslation) {
+                    continue;
                 }
+
+                if ($this->articleService->applyTranslationImageFromUrl($translation, $coverImageUrl)) {
+                    ++$applied;
+                }
+            }
+
+            if (0 === $applied) {
+                $this->logger->warning('creator_article.cover_image_failed', [
+                    'generation_id' => $article->getGenerationId(),
+                    'cover_image_url' => $coverImageUrl,
+                ]);
             }
         }
 
