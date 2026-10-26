@@ -4,35 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route(host: '%photos_host%')]
 class PhotosController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
-        private readonly AuthenticationUtils $authenticationUtils,
-        private readonly PageService $pageService,
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly RequestStack $requestStack
     ) {}
-
-    public function menu(Request $request, $ref, $entity)
-    {
-        $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
-        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-        $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
-
-        return $this->render('photos/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
-    }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'photos_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): Response

@@ -11,7 +11,7 @@
     {% set watchTranslation = lastWatchArticle.getOneTranslation(app.request.locale) %}
     <li>
         <h3>{{ watchTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ watchTranslation.created|format_date('long') }}</em></h3>
-        <p>{{ watchTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>{{ watchTranslation.content|article_excerpt(260) }}</p>
         <p>
             {#<a href="{{ path('blog_article', {'slug': watchTranslation.slug}) }}">{{ 'blog.home.watch_read'|trans }}</a>
             ·
@@ -35,7 +35,7 @@
     {% set releaseTranslation = lastReleaseArticle.getOneTranslation(app.request.locale) %}
     <li>
         <h3>{{ releaseTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ releaseTranslation.created|format_date('long') }}</em></h3>
-        <p>{{ releaseTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>{{ releaseTranslation.content|article_excerpt(260) }}</p>
         <p>
             <a href="{{ path('blog_article', {'slug': releaseTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a>
         </p>
@@ -56,7 +56,7 @@
     {% set creatorTranslation = lastCreatorArticle.getOneTranslation(app.request.locale) %}
     <li>
         <h3>{{ creatorTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ creatorTranslation.created|format_date('long') }}</em></h3>
-        <p>{{ creatorTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+        <p>{{ creatorTranslation.content|article_excerpt(260) }}</p>
         <p>
             <a href="{{ path('blog_article', {'slug': creatorTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a>
         </p>
@@ -78,7 +78,7 @@
         {% set articleTranslation = article.getOneTranslation(app.request.locale) %}
         <li>
             <h3>{{ articleTranslation.title }} <em>{{ 'blog.home.article_on'|trans }} {{ articleTranslation.created|format_date('long') }}</em></h3>
-            <p>{{ articleTranslation.content|markdown_to_html|striptags|u.truncate(260, '...') }}</p>
+            <p>{{ articleTranslation.content|article_excerpt(260) }}</p>
             <p><a href="{{ path('blog_article', {'slug': articleTranslation.slug}) }}">{{ 'blog.home.show_more'|trans }}</a></p>
             {{ include('blog/partials/article-reactions.html.twig', {
                 article: article,

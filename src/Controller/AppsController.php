@@ -9,15 +9,11 @@ use App\Entity\AppContent;
 use App\Entity\CommentPage;
 use App\Form\CommentType;
 use App\Service\CommentService;
-use App\Service\PageService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(host: '%apps_host%')]
@@ -25,30 +21,10 @@ class AppsController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
-        private readonly AuthenticationUtils $authenticationUtils,
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
-        private readonly PageService $pageService,
         private readonly CommentService $commentService,
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly RequestStack $requestStack
     ) {}
-
-    public function menu(Request $request, $ref, $entity)
-    {
-        $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
-        $apps = $this->pageService->findActives($request->getLocale(), 'app');
-        $appLinks = [];
-        foreach ($apps as $app) {
-            $appLinks[] = ['label' => $app->getOneTranslation()->getTitle(), 'link' => $this->pageService->getUrl($app->getOneTranslation())];
-        }
-
-        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-        $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
-
-        return $this->render('apps/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'appLinks' => $appLinks, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute]);
-    }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'apps_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): Response

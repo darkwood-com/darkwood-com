@@ -11,18 +11,14 @@ use App\Service\ArticleReactionService;
 use App\Service\BlogArticleService;
 use App\Service\CommentService;
 use App\Service\DarkwoodGameService;
-use App\Service\PageService;
 use App\Service\UserService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function in_array;
@@ -34,28 +30,12 @@ class DarkwoodController extends AbstractController
         private readonly CommonController $commonController,
         private readonly BlogArticleService $articleService,
         private readonly ArticleReactionService $articleReactionService,
-        private readonly AuthenticationUtils $authenticationUtils,
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
-        private readonly PageService $pageService,
         private readonly CommentService $commentService,
         private readonly UserService $userService,
         private readonly DarkwoodGameService $gameService,
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly RequestStack $requestStack
     ) {}
-
-    public function menu(Request $request, $ref, $entity)
-    {
-        $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
-        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-        $mainRequest = $this->requestStack->getMainRequest();
-        $currentRoute = $mainRequest?->attributes->get('_route');
-        $currentMode = $mainRequest?->query->get('mode');
-
-        return $this->render('darkwood/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute, 'currentMode' => $currentMode]);
-    }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'darkwood_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, $ref): Response

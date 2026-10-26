@@ -14,7 +14,9 @@
     <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png"/>
     <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png"/>
 
-    {{ render(controller('App\\Controller\\CommonController::seo', { 'pageId': page.id, 'articleId': (article is defined and article) ? article.id : null })) }}
+    {{ include('common/partials/seo.html.twig', {
+        data: seo_data(page, article|default(null))
+    }) }}
 
     <link rel="author" href="{{ asset('/humans.txt') }}" />
     <meta name="Owner" content="Mathieu Ledru"/>
@@ -29,7 +31,8 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ path(page.page.site.ref ~ '_sitemap_xml') }}" />
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://feeds.feedburner.com/darkwood-com/blog" />
 
-    {{ render(controller('App\\Controller\\CommonController::hreflangs', { 'ref': page.page.ref, entity: entity | default(null) })) }}
+    {% set hreflang = hreflang_data(page.page.ref, entity|default(null)) %}
+    {{ include('common/partials/hreflangs.html.twig', hreflang) }}
 
     {% block css -%}
         {{ encore_entry_link_tags('app') }}

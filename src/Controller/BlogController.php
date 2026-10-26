@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\ArticleTranslation;
 use App\Entity\CommentArticle;
 use App\Entity\User;
 use App\Enum\ArticleReactionEmoji;
@@ -14,19 +13,15 @@ use App\Service\ArticleReactionService;
 use App\Service\BlogArticleService;
 use App\Service\CommentService;
 use App\Service\DarkwoodEntitlementService;
-use App\Service\PageService;
 use App\Validator\Constraints\PaginationDTO;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(host: '%blog_host%')]
@@ -34,32 +29,13 @@ class BlogController extends AbstractController
 {
     public function __construct(
         private readonly CommonController $commonController,
-        private readonly AuthenticationUtils $authenticationUtils,
         private readonly TranslatorInterface $translator,
         private readonly PaginatorInterface $paginator,
-        private readonly PageService $pageService,
         private readonly BlogArticleService $articleService,
         private readonly CommentService $commentService,
         private readonly DarkwoodEntitlementService $entitlementService,
         private readonly ArticleReactionService $articleReactionService,
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly RequestStack $requestStack
     ) {}
-
-    public function menu(Request $request, $ref, $entity)
-    {
-        $lastUsername = $this->authenticationUtils->getLastUsername();
-        $csrfToken = $this->tokenManager->getToken('authenticate')->getValue();
-        $pageLinks = $this->pageService->getPageLinks($ref, $entity, $request->getHost(), $request->getLocale());
-        $currentRoute = $this->requestStack->getMainRequest()?->attributes->get('_route');
-        $activeRoute = $currentRoute;
-
-        if ('blog_article' === $currentRoute && $entity instanceof ArticleTranslation) {
-            $activeRoute = $entity->getArticle()->getType()->blogListRouteName();
-        }
-
-        return $this->render('blog/partials/menu.html.twig', ['last_username' => $lastUsername, 'csrf_token' => $csrfToken, 'pageLinks' => $pageLinks, 'currentRoute' => $currentRoute, 'activeRoute' => $activeRoute]);
-    }
 
     #[Route(path: ['fr' => '/fr', 'en' => '/', 'de' => '/de'], name: 'blog_home', defaults: ['ref' => 'home'])]
     public function home(Request $request, #[MapQueryString] ?PaginationDTO $pagination, $ref): Response

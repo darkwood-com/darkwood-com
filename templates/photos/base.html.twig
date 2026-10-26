@@ -14,7 +14,10 @@
                     <div class="col-md-12">
                         <div class="row theme-menu">
                             <div class="col-md-12">
-                                {{ render(controller('App\\Controller\\PhotosController::menu', { 'ref': page.page.ref, entity: entity | default(null) })) }}
+                                {{ include('photos/partials/menu.html.twig', {
+                                    pageLinks: page_links(page.page.ref, entity|default(null)),
+                                    currentRoute: app.request.attributes.get('_route'),
+                                }) }}
                             </div>
                         </div>
 

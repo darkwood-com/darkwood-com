@@ -12,7 +12,16 @@
             <div class="col-md-12">
                 <div class="row theme-menu">
                     <div class="col-md-12">
-                        {{ render(controller('App\\Controller\\BlogController::menu', { 'ref': page.page.ref, entity: entity | default(null) })) }}
+                        {% set currentRoute = app.request.attributes.get('_route') %}
+                        {% set activeRoute = currentRoute %}
+                        {% if currentRoute == 'blog_article' and entity is defined and entity %}
+                            {% set activeRoute = entity.article.type.blogListRouteName %}
+                        {% endif %}
+                        {{ include('blog/partials/menu.html.twig', {
+                            pageLinks: page_links(page.page.ref, entity|default(null)),
+                            currentRoute: currentRoute,
+                            activeRoute: activeRoute,
+                        }) }}
                     </div>
                 </div>
 

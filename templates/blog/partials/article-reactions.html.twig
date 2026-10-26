@@ -9,7 +9,7 @@
     class="article-reactions{% if compact|default(false) %} article-reactions--compact{% endif %}"
     data-article-reactions
     data-toggle-url="{{ path('blog_article_reaction', { slug: slug }) }}"
-    data-csrf-token="{{ csrf_token('article_reaction') }}"
+    {% if app.user %}data-csrf-token="{{ csrf_token('article_reaction') }}"{% endif %}
     data-login-url="{{ path('security_login') }}"
     data-emoji-glyphs="{{ emojiGlyphs|json_encode }}"
 >

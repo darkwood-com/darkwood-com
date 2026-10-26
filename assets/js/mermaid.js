@@ -1,17 +1,17 @@
-import mermaid from 'mermaid';
-
 function initMermaid() {
     const nodes = document.querySelectorAll('pre.mermaid');
     if (nodes.length === 0) {
         return;
     }
 
-    mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: 'strict',
-    });
+    import('mermaid').then(({ default: mermaid }) => {
+        mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'strict',
+        });
 
-    void mermaid.run({ nodes: [...nodes] });
+        void mermaid.run({ nodes: [...nodes] });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initMermaid);
