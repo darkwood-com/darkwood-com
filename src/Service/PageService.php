@@ -279,7 +279,7 @@ class PageService
 
                             break;
                         }
-                    } elseif (str_starts_with((string) $route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
+                    } elseif (is_string($route->getDefault('_controller')) && str_starts_with($route->getDefault('_controller'), 'App\Controller') && $route->getDefault('ref') === $entity->getPage()->getRef()) {
                         $routeLocale = $route->getDefault('_locale');
                         $host = $site?->getHost();
                         if ($route->getHost() && $route->getHost() !== $host) {

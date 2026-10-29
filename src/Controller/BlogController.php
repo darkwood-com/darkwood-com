@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -123,9 +124,26 @@ class BlogController extends AbstractController
     }
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'blog_legal_mention', defaults: ['ref' => 'legal_mention'])]
-    public function legalMention(Request $request, $ref)
+    public function legalMention(Request $request, $ref): Response
     {
-        return $this->commonController->legalMention($request, $ref);
+        $response = $this->commonController->legalMention($request, $ref);
+        $sessionCookieName = $request->hasSession() ? $request->getSession()->getName() : session_name();
+        $hasPrivateContext = $request->headers->has('Authorization')
+            || $request->cookies->has($sessionCookieName)
+            || $request->cookies->has('REMEMBERME');
+
+        if ($hasPrivateContext) {
+            $response->headers->set('Cache-Control', 'private, max-age=0, must-revalidate');
+
+            return $response;
+        }
+
+        $response->headers->set(AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, '1');
+
+        return $response
+            ->setPublic()
+            ->setMaxAge(0)
+            ->setSharedMaxAge(300);
     }
 
     #[Route(path: ['fr' => '/fr/plan-du-site', 'en' => '/sitemap', 'de' => '/de/sitemap'], name: 'blog_sitemap', defaults: ['ref' => 'sitemap'])]
