@@ -18,8 +18,6 @@ league_oauth2_server:
         default: ['openid', 'profile', 'email']
     persistence:
         doctrine: null
-    client:
-        allow_plaintext_secrets: false
 
 when@test:
     league_oauth2_server:

@@ -1,6 +1,6 @@
 {
     "name": "@darkwood-com/darkwood-com",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Darkwood website",
     "author": {
         "name": "Mathieu Ledru",
@@ -26,6 +26,7 @@
         "@babel/core": "^8.0.1",
         "@babel/preset-env": "^8.0.2",
         "@symfony/webpack-encore": "^7.1.0",
+        "browserslist": "^4.28.8",
         "core-js": "^3.41.0",
         "regenerator-runtime": "^0.14.1",
         "webpack": "^5.105.0",

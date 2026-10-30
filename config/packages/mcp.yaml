@@ -1,11 +1,16 @@
-# MCP server config - see https://api-platform.com/docs/core/mcp/
+# MCP server — Symfony MCP Bundle 0.13+ (named servers)
+# https://symfony.com/doc/current/ai/bundles/mcp-bundle.html
 mcp:
-    client_transports:
-        http: true
-        stdio: false
-    http:
-        path: '/mcp'
-        session:
-            store: 'file'
-            directory: '%kernel.cache_dir%/mcp'
-            ttl: 3600
+    servers:
+        default:
+            transports:
+                http: true
+                stdio: false
+            http:
+                path: /mcp
+            session:
+                store: file
+                directory: '%kernel.cache_dir%/mcp'
+                ttl: 3600
+            # Expose every registered MCP capability (API Platform tools, #[AsTool], …)
+            registry: '*'

@@ -285,7 +285,7 @@ class ArticleRepository extends ServiceEntityRepository
             $qb->andWhere('nts.locale = :locale')->setParameter('locale', $locale);
         }
 
-        /** @var list<Article> $articles */
+        /** @var list<Article> */
         return $qb->getQuery()->getResult();
     }
 }

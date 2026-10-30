@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.8
+
+- Upgrade Symfony components to **8.1.10**, `darkwood/*` to **8.1.6**, Doctrine ORM **3.7**, Twig **3.30**.
+- Bump Symfony AI / MCP to **0.12** / mcp-bundle **0.14.1** (mcp/sdk pinned **0.8.1** for API Platform MCP).
+- Migrate MCP config to named `servers.default` (mcp-bundle ≥ 0.13).
+- Sync Flex recipes; remove deprecated OAuth2 `allow_plaintext_secrets`; npm update (Encore 7.2, Babel 8.0.x).
+- Clean unused admin plugin Dependabot manifests (bower/Grunt/tests).
+
 ## v1.0.7
 
 - Add creator blog section with cover image upload and article translations.
