@@ -2,10 +2,26 @@
 
 {% block layout %}layout layout-darkwood{% endblock %}
 
+{% block head_extra %}
+    <link rel="preload" as="image" type="image/webp" href="{{ asset('common/images/components/theme-dark/site/header/darkwood.webp') }}" fetchpriority="high">
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid theme theme-darkwood">
         <div class="row theme-header">
-            <div class="theme-header-logo"></div>
+            <div class="theme-header-logo">
+                <picture>
+                    <source type="image/webp" srcset="{{ asset('common/images/components/theme-dark/site/header/darkwood.webp') }}">
+                    <img
+                        src="{{ asset('common/images/components/theme-dark/site/header/darkwood.png') }}"
+                        width="1800"
+                        height="250"
+                        alt="Darkwood"
+                        decoding="async"
+                        fetchpriority="high"
+                    >
+                </picture>
+            </div>
         </div>
 
         <div class="row theme-body">

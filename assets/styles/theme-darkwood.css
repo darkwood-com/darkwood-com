@@ -16,8 +16,20 @@
 	{
 		height: 250px;
 		width: 100%;
-		background: transparent url('../../public/common/images/components/theme-dark/site/header/darkwood.png') no-repeat center top;
-		background-size: auto 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		overflow: hidden;
+	}
+
+	.theme-darkwood .theme-header-logo picture,
+	.theme-darkwood .theme-header-logo img
+	{
+		display: block;
+		height: 100%;
+		width: auto;
+		max-width: none;
+		flex-shrink: 0;
 	}
 
 	@media(max-width:767px) {
