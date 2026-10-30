@@ -279,7 +279,7 @@ class BlogArticleService
     public function getDarkwoodHomeArticles(string $locale): array
     {
         /** @var array{newsIds: list<int>, watchId: ?int, releaseId: ?int, creatorId: ?int} $ids */
-        $ids = $this->cache->get('darkwood.home.articles.'.$locale, function (ItemInterface $item) use ($locale): array {
+        $ids = $this->cache->get('darkwood.home.articles.' . $locale, function (ItemInterface $item) use ($locale): array {
             $item->expiresAfter(120);
 
             $newsIds = [];
@@ -363,7 +363,8 @@ class BlogArticleService
             ->andWhere('n.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         $byId = [];
         foreach ($articles as $article) {

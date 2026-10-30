@@ -286,8 +286,6 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         /** @var list<Article> $articles */
-        $articles = $qb->getQuery()->getResult();
-
-        return $articles;
+        return $qb->getQuery()->getResult();
     }
 }

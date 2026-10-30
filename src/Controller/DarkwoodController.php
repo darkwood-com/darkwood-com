@@ -258,6 +258,7 @@ class DarkwoodController extends AbstractController
         return $response
             ->setPublic()
             ->setMaxAge(0)
-            ->setSharedMaxAge($sharedMaxAge);
+            ->setSharedMaxAge($sharedMaxAge)
+        ;
     }
 }

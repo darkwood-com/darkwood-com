@@ -132,7 +132,7 @@ final readonly class CreatorArticleProcessor implements ProcessorInterface
                 }
 
                 if ($this->articleService->applyTranslationImageFromUrl($translation, $coverImageUrl)) {
-                    ++$applied;
+                    $applied++;
                 }
             }
 

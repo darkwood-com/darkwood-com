@@ -28,6 +28,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 use function count;
+use function is_string;
 
 /**
  * Class PageService.
