@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -41,16 +42,14 @@ class DarkwoodController extends AbstractController
     public function home(Request $request, $ref): Response
     {
         $page = $this->commonController->getPage($request, $ref);
-        $articles = $this->articleService->findManualActives($request->getLocale(), 5);
-        $lastWatchArticle = $this->articleService->findLatestWatchArticle($request->getLocale());
-        $lastReleaseArticle = $this->articleService->findLatestReleaseArticle($request->getLocale());
-        $lastCreatorArticle = $this->articleService->findLatestCreatorArticle($request->getLocale());
-        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle]));
-        foreach ($articles as $article) {
-            $reactionArticles[] = $article;
-        }
+        $homeArticles = $this->articleService->getDarkwoodHomeArticles($request->getLocale());
+        $articles = $homeArticles['news'];
+        $lastWatchArticle = $homeArticles['lastWatchArticle'];
+        $lastReleaseArticle = $homeArticles['lastReleaseArticle'];
+        $lastCreatorArticle = $homeArticles['lastCreatorArticle'];
+        $reactionArticles = array_values(array_filter([$lastWatchArticle, $lastReleaseArticle, $lastCreatorArticle, ...$articles]));
 
-        return $this->render('darkwood/pages/home.html.twig', [
+        $response = $this->render('darkwood/pages/home.html.twig', [
             'page' => $page,
             'news' => $articles,
             'lastWatchArticle' => $lastWatchArticle,
@@ -60,6 +59,8 @@ class DarkwoodController extends AbstractController
             'reactionEmojis' => $this->articleReactionService->getAvailableEmojis(),
             'showLinks' => true,
         ]);
+
+        return $this->withAnonymousSharedCache($request, $response, 120);
     }
 
     #[Route(path: ['fr' => '/fr/mentions-legales', 'en' => '/legal-mentions', 'de' => '/de/impressum'], name: 'darkwood_legal_mention', defaults: ['ref' => 'legal_mention'])]
@@ -101,7 +102,9 @@ class DarkwoodController extends AbstractController
             throw $this->createNotFoundException('News not found !');
         }
 
-        return $this->render('darkwood/pages/news.html.twig', ['page' => $page, 'news' => $news, 'showLinks' => true]);
+        $response = $this->render('darkwood/pages/news.html.twig', ['page' => $page, 'news' => $news, 'showLinks' => true]);
+
+        return $this->withAnonymousSharedCache($request, $response, 120);
     }
 
     #[Route(path: ['fr' => '/fr/jouer/{display}', 'en' => '/play/{display}', 'de' => '/de/spiel/{display}'], name: 'darkwood_play', defaults: ['ref' => 'play', 'display' => null])]
@@ -230,5 +233,31 @@ class DarkwoodController extends AbstractController
     private function buildReactionSummaries(array $articles): array
     {
         return $this->articleReactionService->getSummariesForArticles($articles, $this->getUser());
+    }
+
+    /**
+     * Allow shared HTTP caching for anonymous traffic (same pattern as BlogController::legalMention).
+     * Keep private when a session, remember-me cookie, Authorization header, or authenticated user is present.
+     */
+    private function withAnonymousSharedCache(Request $request, Response $response, int $sharedMaxAge): Response
+    {
+        $sessionCookieName = $request->hasSession() ? $request->getSession()->getName() : session_name();
+        $hasPrivateContext = $request->headers->has('Authorization')
+            || $request->cookies->has($sessionCookieName)
+            || $request->cookies->has('REMEMBERME')
+            || $this->getUser();
+
+        if ($hasPrivateContext) {
+            $response->headers->set('Cache-Control', 'private, max-age=0, must-revalidate');
+
+            return $response;
+        }
+
+        $response->headers->set(AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, '1');
+
+        return $response
+            ->setPublic()
+            ->setMaxAge(0)
+            ->setSharedMaxAge($sharedMaxAge);
     }
 }

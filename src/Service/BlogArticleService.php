@@ -15,10 +15,14 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use finfo;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
+use function array_values;
 use function count;
 use function is_dir;
+use function is_int;
 use function is_string;
 use function mkdir;
 use function uniqid;
@@ -37,7 +41,8 @@ class BlogArticleService
     public function __construct(
         protected EntityManagerInterface $em,
         protected ParameterBagInterface $parameterBagInterface,
-        protected StorageInterface $storage
+        protected StorageInterface $storage,
+        private readonly CacheInterface $cache,
     ) {
         /** @var ArticleRepository $repository */
         $repository = $em->getRepository(Article::class);
@@ -261,6 +266,60 @@ class BlogArticleService
         return $this->articleRepository->findManualActives($locale, $limit);
     }
 
+    /**
+     * Home page articles for a locale, with a short-lived application cache on article IDs.
+     *
+     * @return array{
+     *     news: list<Article>,
+     *     lastWatchArticle: ?Article,
+     *     lastReleaseArticle: ?Article,
+     *     lastCreatorArticle: ?Article
+     * }
+     */
+    public function getDarkwoodHomeArticles(string $locale): array
+    {
+        /** @var array{newsIds: list<int>, watchId: ?int, releaseId: ?int, creatorId: ?int} $ids */
+        $ids = $this->cache->get('darkwood.home.articles.'.$locale, function (ItemInterface $item) use ($locale): array {
+            $item->expiresAfter(120);
+
+            $newsIds = [];
+            foreach ($this->articleRepository->findManualActives($locale, 5) as $article) {
+                $id = $article->getId();
+                if (is_int($id)) {
+                    $newsIds[] = $id;
+                }
+            }
+
+            return [
+                'newsIds' => $newsIds,
+                'watchId' => $this->articleRepository->findLatestWatchArticle($locale)?->getId(),
+                'releaseId' => $this->articleRepository->findLatestReleaseArticle($locale)?->getId(),
+                'creatorId' => $this->articleRepository->findLatestCreatorArticle($locale)?->getId(),
+            ];
+        });
+
+        $byId = $this->findArticlesByIdsWithTranslations(array_values(array_filter([
+            ...$ids['newsIds'],
+            $ids['watchId'],
+            $ids['releaseId'],
+            $ids['creatorId'],
+        ], static fn ($id): bool => is_int($id))));
+
+        $news = [];
+        foreach ($ids['newsIds'] as $newsId) {
+            if (isset($byId[$newsId])) {
+                $news[] = $byId[$newsId];
+            }
+        }
+
+        return [
+            'news' => $news,
+            'lastWatchArticle' => null !== $ids['watchId'] ? ($byId[$ids['watchId']] ?? null) : null,
+            'lastReleaseArticle' => null !== $ids['releaseId'] ? ($byId[$ids['releaseId']] ?? null) : null,
+            'lastCreatorArticle' => null !== $ids['creatorId'] ? ($byId[$ids['creatorId']] ?? null) : null,
+        ];
+    }
+
     public function findLatestWatchArticle(?string $locale): ?Article
     {
         return $this->articleRepository->findLatestWatchArticle($locale);
@@ -284,6 +343,37 @@ class BlogArticleService
     public function findLatestCreatorArticle(?string $locale): ?Article
     {
         return $this->articleRepository->findLatestCreatorArticle($locale);
+    }
+
+    /**
+     * @param list<int> $ids
+     *
+     * @return array<int, Article>
+     */
+    private function findArticlesByIdsWithTranslations(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+
+        /** @var list<Article> $articles */
+        $articles = $this->articleRepository->createQueryBuilder('n')
+            ->select('n', 'nts')
+            ->leftJoin('n.translations', 'nts')
+            ->andWhere('n.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
+        $byId = [];
+        foreach ($articles as $article) {
+            $id = $article->getId();
+            if (is_int($id)) {
+                $byId[$id] = $article;
+            }
+        }
+
+        return $byId;
     }
 
     private function createUploadedFileFromBinaryContent(string $content, string $sourceUrl): UploadedFile
