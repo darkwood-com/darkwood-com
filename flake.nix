@@ -12,10 +12,20 @@
 
     perSystem = { config, self', inputs', pkgs, system, lib, ... }:
       let
+        phpBase = pkgs.php85.buildEnv {
+          extensions = ({ enabled, all }: enabled ++ [
+            all.apcu
+          ]);
+        };
+
         php = pkgs.api.buildPhpFromComposer {
           src = inputs.self;
-          php = pkgs.php85;
+          php = phpBase;
         };
+
+        phpCliIni = pkgs.writeTextDir "lib/php-cli.ini" ''
+          apc.enable_cli = 1
+        '';
       in
       {
         _module.args.pkgs = import self.inputs.nixpkgs {
@@ -28,6 +38,7 @@
 
         devShells.default = pkgs.mkShellNoCC {
           name = "php-devshell";
+          PHP_INI_SCAN_DIR = "${php}/lib:${phpCliIni}/lib";
           buildInputs = [
             php
             php.packages.composer
