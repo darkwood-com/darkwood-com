@@ -31,7 +31,7 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 #[UniqueEntity('username', message: "The username '{{ value }}' is already taken.")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Table(name: 'user')]
+#[ORM\Table(name: '`user`')]
 class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface, TotpTwoFactorInterface
 {
     use TimestampTrait;

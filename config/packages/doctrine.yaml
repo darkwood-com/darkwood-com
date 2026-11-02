@@ -5,10 +5,7 @@ doctrine:
         # Set server version to avoid DBAL 5 deprecation (MySQL < 8). Use 8 for MySQL 8+, 16 for PostgreSQL.
         server_version: '%env(DATABASE_SERVER_VERSION)%'
         profiling_collect_backtrace: '%kernel.debug%'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+        charset: '%env(DATABASE_CHARSET)%'
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

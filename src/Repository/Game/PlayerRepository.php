@@ -22,9 +22,23 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    public function findRand()
+    public function findRand(): ?Player
     {
-        $qb = $this->createQueryBuilder('p')->select('p')->addSelect('RAND() as HIDDEN rand')->orderBy('rand')->andWhere('p.user IS NOT NULL')->setMaxResults(1);
+        $count = (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.user IS NOT NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        if ($count === 0) {
+            return null;
+        }
+
+        $qb = $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.user IS NOT NULL')
+            ->setFirstResult(random_int(0, $count - 1))
+            ->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
     }

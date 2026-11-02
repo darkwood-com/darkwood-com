@@ -33,7 +33,7 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PageTranslationRepository::class)]
 #[ORM\Table(name: 'page_translation')]
-#[ORM\Index(name: 'index_search', columns: ['active'])]
+#[ORM\Index(name: 'idx_darkwood_page_translation_search', columns: ['active'])]
 #[ORM\UniqueConstraint(name: 'locale_page_unique', columns: ['locale', 'page_id'])]
 class PageTranslation implements Stringable
 {

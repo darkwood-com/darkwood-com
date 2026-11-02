@@ -12,7 +12,7 @@ use Stringable;
 
 #[ORM\Entity(repositoryClass: TagTranslationRepository::class)]
 #[ORM\Table(name: 'tag_translation')]
-#[ORM\Index(name: 'index_search', columns: ['title'])]
+#[ORM\Index(name: 'idx_darkwood_tag_translation_search', columns: ['title'])]
 #[ORM\UniqueConstraint(name: 'locale_tag_unique', columns: ['locale', 'tag_id'])]
 class TagTranslation implements Stringable
 {
