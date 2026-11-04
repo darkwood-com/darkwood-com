@@ -78,7 +78,9 @@ security:
         - { path: ^/jwks, roles: PUBLIC_ACCESS }
         - { path: ^/token$, roles: PUBLIC_ACCESS }
         - { path: ^/authorize, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/$, host: '%admin_host%', roles: PUBLIC_ACCESS }
         - { path: ^/login$, role: PUBLIC_ACCESS }
+        - { path: ^/fr/login$, role: PUBLIC_ACCESS }
         - { path: ^/en/login$, role: PUBLIC_ACCESS }
         - { path: ^/de/login$, role: PUBLIC_ACCESS }
         - { path: ^/logout$, role: PUBLIC_ACCESS }

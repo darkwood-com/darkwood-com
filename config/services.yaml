@@ -11,6 +11,8 @@ parameters:
     baserow_username: '%env(default::BASEROW_USERNAME)%'
     baserow_password: '%env(default::BASEROW_PASSWORD)%'
     darkwood_host: '%env(DARKWOOD_HOST)%'
+    www_host_fallback: 'redirect-disabled.invalid'
+    www_host: '%env(default:www_host_fallback:WWW_HOST)%'
     apps_host: '%env(APPS_HOST)%'
     photos_host: '%env(PHOTOS_HOST)%'
     blog_host: '%env(BLOG_HOST)%'
